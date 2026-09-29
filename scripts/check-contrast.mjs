@@ -41,7 +41,9 @@ for (const [name, fg, bg, min] of pairs) {
 
 // Yellow must never be text on white
 const yellowOnWhite = ratio(c.accent["400"], "#FFFFFF");
-console.log(`${yellowOnWhite < 4.5 ? "PASS" : "FAIL"}  accent-400 must NOT be used as text on white (${yellowOnWhite.toFixed(2)}:1)`);
+console.log(
+  `${yellowOnWhite < 4.5 ? "PASS" : "FAIL"}  accent-400 must NOT be used as text on white (${yellowOnWhite.toFixed(2)}:1)`,
+);
 if (yellowOnWhite >= 4.5) failed++;
 
 if (failed) {

@@ -3,14 +3,17 @@
     "pnpm-lock.yaml",
     "docs/08-project/tasks/**",
     "docs/08-project/reviews/**",
-    "docs/08-project/blockers/**"
+    "docs/08-project/blockers/**",
+    "docs/08-project/backlog.md",
+    "docs/08-project/status.md"
   ],
   "docs": [
     "docs/01-product/**",
     "docs/02-design/**",
     "docs/06-quality/**",
     "docs/07-ops/**",
-    "docs/09-course/**"
+    "docs/09-course/**",
+    "docs/_source/proposal-extract.md"
   ],
   "arch": ["docs/03-architecture/**", "docs/05-workflow/**"],
   "contracts": ["packages/contracts/**", "docs/04-contracts/**"],
@@ -22,6 +25,14 @@
     "**/*.test.ts"
   ],
   "fe": [
+    "apps/web/package.json",
+    "apps/web/tsconfig.json",
+    "apps/web/next.config.ts",
+    "apps/web/postcss.config.mjs",
+    "apps/web/vitest.config.ts",
+    "apps/web/public/**",
+    "apps/web/src/app/*.tsx",
+    "apps/web/src/app/*.css",
     "apps/web/src/app/(app)/**",
     "apps/web/src/app/(admin)/**",
     "apps/web/src/app/(public)/**",
@@ -30,6 +41,8 @@
     "apps/web/src/hooks/**",
     "apps/web/src/i18n/**",
     "apps/web/src/lib/**",
+    "apps/web/src/middleware.ts",
+    "apps/web/src/styles/**",
     "**/*.test.tsx"
   ],
   "ml": [
@@ -48,7 +61,15 @@
     ".agent/lanes.json",
     "package.json",
     "turbo.json",
+    "pnpm-workspace.yaml",
+    ".npmrc",
+    "tsconfig*.json",
     "*.config.*",
+    ".prettierrc.json",
+    ".prettierignore",
+    ".editorconfig",
+    ".gitattributes",
+    "packages/config/**",
     ".env.example",
     "docs/05-workflow/**",
     "docs/07-ops/**"

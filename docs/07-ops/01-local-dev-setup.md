@@ -16,9 +16,10 @@ source_refs: ["Blueprint §4.8"]
 |---|---|---|
 | Node.js | 24 LTS | `node -v` |
 | pnpm | 10.x | `corepack enable` then `corepack prepare pnpm@latest --activate` |
+| Bash | 5.x | **Required by the gate.** `pnpm gate` runs `scripts/gate.sh`. On Linux/macOS use the system shell; on Windows install Git for Windows and ensure `bash.exe` is on `PATH` (`C:\Program Files\Git\bin`), because `cmd`/PowerShell cannot execute it |
 | Docker Desktop | current | for postgres+pgvector, minio, mailpit, ml |
 | uv | latest | Python ML service (`pip install uv` or the installer) |
-| gitleaks | latest | pre-commit hook |
+| gitleaks | latest | pre-commit hook and the gate's `full` mode secret scan |
 | lefthook | via pnpm | `pnpm dlx lefthook install` |
 
 ## First run
@@ -34,6 +35,10 @@ pnpm seed                       # synthetic demo data
 pnpm dev                        # web on :3000
 pnpm dev:worker                 # worker in a second terminal
 ```
+
+> **M0 note:** `pnpm dev` and `pnpm dev:worker` exit 1 with a "does not exist yet" message until
+> `apps/web` (TMU-OPS-003) and `apps/worker` (TMU-OPS-007) land. That is expected — the scaffold
+> only guarantees `pnpm gate` at M0. The commands above describe the steady state from M3 on.
 
 ## Ports
 
@@ -78,7 +83,8 @@ pnpm dev:worker                 # worker in a second terminal
 
 | Symptom | Fix |
 |---|---|
-| `pnpm` not found | `corepack enable` |
+| `pnpm` not found | `corepack enable` (or `npm i -g pnpm@10`) |
+| `bash: command not found` when running `pnpm gate` | Windows only: install Git for Windows and add `C:\Program Files\Git\bin` to `PATH` |
 | Postgres port busy | stop the other instance or change the port in `.env` + compose |
 | Migrations fail on a fresh DB | ensure the pgvector image is used (`pgvector/pgvector:pg16`) |
 | Uploads fail | check MinIO is up and `S3_*` in `.env` matches compose credentials |

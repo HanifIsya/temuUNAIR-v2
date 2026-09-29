@@ -1,0 +1,52 @@
+# Prettier scope (TMU-OPS-001).
+#
+# This repository is documentation-first: ~230 hand-authored docs carry deliberate line wrapping,
+# table alignment and ASCII diagrams that a formatter would rewrite wholesale. Reformatting them
+# would be a drive-by change touching every open doc task, so prose is excluded here and code is
+# not. A later task may opt individual directories in.
+
+# Dependencies and build output
+node_modules/
+.pnpm-store/
+.next/
+out/
+dist/
+build/
+.turbo/
+coverage/
+playwright-report/
+test-results/
+blob-report/
+
+# Hand-authored prose and agent instructions
+docs/
+.opencode/
+AGENTS.md
+README.md
+.github/*.md
+.github/ISSUE_TEMPLATE/
+
+# Generated files (never hand-edited — docs/04-contracts/README.md)
+packages/contracts/generated/
+docs/04-contracts/backend/BE-02-openapi.yaml
+docs/04-contracts/backend/ml-openapi.json
+
+# Python (ruff owns this tree)
+services/ml/
+
+# Local state
+.agent/
+infra/docker/data/
+
+# Lockfiles and binary assets
+pnpm-lock.yaml
+uv.lock
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.ico
+*.pdf
+*.woff
+*.woff2

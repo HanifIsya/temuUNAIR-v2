@@ -1,0 +1,198 @@
+// Repo scaffold invariants (TMU-OPS-001).
+//
+// These tests guard the M0 bootstrap itself: the gate must only call scripts that exist, and the
+// lane map must stay non-overlapping. Both are cheap to check here and expensive to debug later
+// (a gate step pointing at a missing script makes every task fail at step 7 of the loop).
+import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+
+const readJson = (path) => JSON.parse(readFileSync(path, "utf8"));
+
+describe("gate wiring", () => {
+  it("defines every pnpm script that scripts/gate.sh invokes", () => {
+    const gate = readFileSync("scripts/gate.sh", "utf8");
+    const pkg = readJson("package.json");
+
+    // `pnpm -s <name>` and `pnpm -s run <name>` both address a package.json script; the `run`
+    // keyword is optional and must not be mistaken for the script name.
+    const invoked = [...gate.matchAll(/pnpm -s (?:run )?([\w:-]+)/g)].map((m) => m[1]);
+    expect(invoked.length).toBeGreaterThan(0);
+
+    // `pnpm audit` / `pnpm add` style built-ins have no package.json script and are not errors.
+    const BUILTINS = new Set(["audit", "add", "remove", "install", "exec", "dlx"]);
+    const missing = [...new Set(invoked)].filter(
+      (name) => !(name in pkg.scripts) && !BUILTINS.has(name),
+    );
+    expect(missing).toEqual([]);
+  });
+
+  it("exposes gate, gate:quick and gate:full as the documented entry points", () => {
+    const pkg = readJson("package.json");
+    for (const name of ["gate", "gate:quick", "gate:full"]) {
+      expect(pkg.scripts[name]).toContain("scripts/gate.sh");
+    }
+  });
+
+  it("only skips the ML gate step when the ML package is absent", () => {
+    const gate = readFileSync("scripts/gate.sh", "utf8");
+    expect(gate).toContain("services/ml/pyproject.toml");
+  });
+});
+
+describe("lane map", () => {
+  const lanes = readJson(".agent/lanes.json");
+  const laneNames = Object.keys(lanes).filter((k) => k !== "_common");
+
+  const globToRe = (g) => {
+    // Same translation as scripts/check-lane.sh: ** spans directories, * stays within one.
+    const sentinel = String.fromCharCode(0);
+    return new RegExp(
+      "^" +
+        g
+          .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+          .replace(/\*\*/g, sentinel)
+          .replace(/\*/g, "[^/]*")
+          .split(sentinel)
+          .join(".*") +
+        "$",
+    );
+  };
+
+  it("declares the eleven lanes from docs/05-workflow/10-parallel-lanes-and-ownership.md", () => {
+    expect(laneNames.sort()).toEqual(
+      ["arch", "be", "contracts", "db", "docs", "fe", "meta", "ml", "ops", "qa", "sec"].sort(),
+    );
+  });
+
+  it("covers the workspace scaffold this task adds", () => {
+    const scaffold = [
+      "package.json",
+      "pnpm-workspace.yaml",
+      "turbo.json",
+      "tsconfig.json",
+      "tsconfig.base.json",
+      ".npmrc",
+      ".prettierrc.json",
+      ".prettierignore",
+      "eslint.config.mjs",
+      "vitest.config.ts",
+      ".agent/lanes.json",
+      "scripts/gate.sh",
+      "scripts/checks/pending.mjs",
+      "docs/08-project/backlog.md",
+      "docs/08-project/status.md",
+      "docs/08-project/tasks/TMU-OPS-001.md",
+    ];
+    const allowed = [...(lanes.ops ?? []), ...lanes._common].map(globToRe);
+    const uncovered = scaffold.filter((f) => !allowed.some((re) => re.test(f)));
+    expect(uncovered).toEqual([]);
+  });
+
+  it("keeps contract paths out of every non-contract lane", () => {
+    const contractPaths = [
+      "packages/contracts/src/index.ts",
+      "docs/04-contracts/backend/BE-03-endpoint-catalog.md",
+    ];
+    // `meta` is the one documented exception: Blueprint §7.5 grants it
+    // docs/04-contracts/CHANGELOG.md so the docs-keeper can log accepted contract changes.
+    // Everything else under docs/04-contracts/** stays with the contracts lane.
+    const allowedExceptions = ["docs/04-contracts/CHANGELOG.md"];
+    for (const lane of laneNames) {
+      if (lane === "contracts" || lane === "meta") continue;
+      const allowed = [...(lanes[lane] ?? []), ...lanes._common].map(globToRe);
+      const leaked = contractPaths.filter(
+        (f) => !allowedExceptions.includes(f) && allowed.some((re) => re.test(f)),
+      );
+      expect(leaked, `lane ${lane} must not own contract paths`).toEqual([]);
+    }
+  });
+
+  it("keeps the meta lane's contract exception limited to the changelog", () => {
+    const allowed = [...(lanes.meta ?? []), ...lanes._common].map(globToRe);
+    const reachable = [
+      "docs/04-contracts/CHANGELOG.md",
+      "docs/04-contracts/backend/BE-03-endpoint-catalog.md",
+      "docs/04-contracts/CONTRACT_VERSION",
+      "packages/contracts/src/index.ts",
+    ].filter((f) => allowed.some((re) => re.test(f)));
+    expect(reachable).toEqual(["docs/04-contracts/CHANGELOG.md"]);
+  });
+
+  it("keeps db migration paths exclusive to the db lane", () => {
+    const migration = "packages/db/migrations/0001_init.sql";
+    for (const lane of laneNames) {
+      if (lane === "db") continue;
+      const allowed = [...(lanes[lane] ?? []), ...lanes._common].map(globToRe);
+      expect(
+        allowed.some((re) => re.test(migration)),
+        `lane ${lane}`,
+      ).toBe(false);
+    }
+  });
+});
+
+describe("task backlog", () => {
+  const taskDir = "docs/08-project/tasks";
+
+  it("gives every M0 task file the front-matter the scheduler requires", () => {
+    const required = ["id", "title", "status", "lane", "slug", "milestone", "priority", "deps"];
+    const files = readdirSync(taskDir).filter((f) => f.endsWith(".md"));
+    expect(files.length).toBeGreaterThan(0);
+
+    for (const file of files) {
+      const text = readFileSync(`${taskDir}/${file}`, "utf8");
+      const block = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+      expect(block, `${file} has front-matter`).not.toBeNull();
+
+      const keys = block[1]
+        .split(/\r?\n/)
+        .map((line) => line.match(/^([A-Za-z_][A-Za-z0-9_]*):/)?.[1])
+        .filter(Boolean);
+      for (const key of required) {
+        expect(keys, `${file} declares ${key}`).toContain(key);
+      }
+      expect(block[1]).toMatch(/^deps: \[.*\]$/m);
+    }
+  });
+
+  it("keeps task ids unique and matching their filenames", () => {
+    const files = readdirSync(taskDir).filter((f) => f.endsWith(".md"));
+    const ids = files.map((f) => ({
+      file: f,
+      id: readFileSync(`${taskDir}/${f}`, "utf8").match(/^id: (TMU-[A-Z]+-\d+)$/m)?.[1],
+    }));
+
+    expect(
+      ids.every((entry) => entry.id),
+      "every task file declares an id",
+    ).toBe(true);
+
+    const unique = new Set(ids.map((entry) => entry.id));
+    expect(unique.size, "task ids are unique").toBe(ids.length);
+
+    // The scheduler addresses tasks by both filename and id, so they must agree.
+    const mismatched = ids
+      .filter((entry) => `${entry.id}.md` !== entry.file)
+      .map((entry) => `${entry.file} declares ${entry.id}`);
+    expect(mismatched).toEqual([]);
+  });
+});
+
+describe("workspace manifests", () => {
+  it("pins the package manager so CI and local runs agree", () => {
+    const pkg = readJson("package.json");
+    expect(pkg.packageManager).toMatch(/^pnpm@10\./);
+    expect(pkg.engines.node).toBe(">=24");
+  });
+
+  it("registers apps/* and packages/* as the only workspace globs", () => {
+    const workspace = readFileSync("pnpm-workspace.yaml", "utf8");
+    const globs = [...workspace.matchAll(/^\s*-\s*"([^"]+)"/gm)].map((m) => m[1]);
+    expect(globs).toEqual(["apps/*", "packages/*"]);
+  });
+
+  it("ships a dev-only env template and never a real .env", () => {
+    expect(existsSync(".env.example")).toBe(true);
+    expect(existsSync(".env")).toBe(false);
+  });
+});
