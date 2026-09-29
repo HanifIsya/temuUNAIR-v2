@@ -77,6 +77,8 @@ that make this scaffold out-of-lane today.
 | 2026-09-29 | orchestrator | 6 REFACTOR | lane-coverage probe found `apps/web/package.json`, `next.config.ts`, `src/app/layout.tsx`, `src/middleware.ts` and `src/styles/**` owned by **no lane** → would block TMU-OPS-003; added to `fe`, and retagged TMU-OPS-003 from `ops` to `fe` |
 | 2026-09-29 | reviewer | 9 REVIEW | verdict **APPROVE**, 8 MINOR, 0 BLOCKER/MAJOR → `docs/08-project/reviews/TMU-OPS-001.md` |
 | 2026-09-29 | orchestrator | 9 REVIEW fix | F1 meta/contracts exception now codified in a test; F2 hard-coded id list replaced with a filename↔id invariant; F3 `.npmrc` comments corrected; F5 M0 caveat added to the setup doc; F6 evidence claim corrected; F7 Node globals scoped, browser globals added; F8 `audit` invoked once via the script. F4 (Windows bash shim) filed as a follow-up |
+| 2026-09-29 | git-steward | 10 SHIP | pushed `5e000e3`, draft PR https://github.com/HanifIsya/temuUNAIR-v2/pull/1 |
+| 2026-09-29 | orchestrator | 11 CI fix (1/3) | CI red: 8 jobs failed with "Multiple versions of pnpm specified" — root `packageManager` now conflicts with `version:` on `pnpm/action-setup@v4`. Dropped the explicit version (pin lives in one place), removed the now-unused `PNPM_VERSION` env, made the `ml` and `e2e` jobs skip honestly until TMU-OPS-006/TMU-OPS-003 land, and routed the `audit` job through the same script as the gate. Added 3 tests asserting the CI/gate wiring |
 
 ### Plan
 

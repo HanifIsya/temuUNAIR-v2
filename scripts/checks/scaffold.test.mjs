@@ -37,6 +37,28 @@ describe("gate wiring", () => {
     const gate = readFileSync("scripts/gate.sh", "utf8");
     expect(gate).toContain("services/ml/pyproject.toml");
   });
+
+  it("lets pnpm/action-setup read the version from packageManager alone", () => {
+    // Setting `version:` on the action while package.json declares `packageManager` makes the
+    // action fail with "Multiple versions of pnpm specified", so the pin lives in one place.
+    const ci = readFileSync(".github/workflows/ci.yml", "utf8");
+    const withVersion = [...ci.matchAll(/action-setup@v4\s*\n\s*with:/g)];
+    expect(withVersion, "action-setup must not pass an explicit version").toEqual([]);
+    expect(ci).not.toContain("PNPM_VERSION");
+  });
+
+  it("skips the ML and e2e CI jobs until their packages exist", () => {
+    // Both jobs used to fail on a fresh clone because services/ml and apps/web do not exist yet.
+    const ci = readFileSync(".github/workflows/ci.yml", "utf8");
+    expect(ci).toContain("services/ml/pyproject.toml");
+    expect(ci).toContain("apps/web/package.json");
+  });
+
+  it("routes the CI audit job through the same script as the gate", () => {
+    const ci = readFileSync(".github/workflows/ci.yml", "utf8");
+    expect(ci).toContain("pnpm -s run audit");
+    expect(ci).not.toMatch(/pnpm -s audit --prod/);
+  });
 });
 
 describe("lane map", () => {
