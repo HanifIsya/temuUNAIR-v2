@@ -1,0 +1,66 @@
+{
+  "_common": [
+    "pnpm-lock.yaml",
+    "docs/08-project/tasks/**",
+    "docs/08-project/reviews/**",
+    "docs/08-project/blockers/**"
+  ],
+  "docs": [
+    "docs/01-product/**",
+    "docs/02-design/**",
+    "docs/06-quality/**",
+    "docs/07-ops/**",
+    "docs/09-course/**"
+  ],
+  "arch": ["docs/03-architecture/**", "docs/05-workflow/**"],
+  "contracts": ["packages/contracts/**", "docs/04-contracts/**"],
+  "db": ["packages/db/**", "tests/db/**"],
+  "be": [
+    "apps/web/src/server/**",
+    "apps/web/src/app/api/**",
+    "apps/worker/**",
+    "**/*.test.ts"
+  ],
+  "fe": [
+    "apps/web/src/app/(app)/**",
+    "apps/web/src/app/(admin)/**",
+    "apps/web/src/app/(public)/**",
+    "apps/web/src/components/**",
+    "apps/web/src/features/**",
+    "apps/web/src/hooks/**",
+    "apps/web/src/i18n/**",
+    "apps/web/src/lib/**",
+    "**/*.test.tsx"
+  ],
+  "ml": [
+    "services/ml/**",
+    "tests/fixtures/ml/**",
+    "docs/06-quality/10-ml-eval-report-*.md"
+  ],
+  "qa": ["tests/**", "**/*.test.ts", "**/*.test.tsx", "docs/06-quality/**"],
+  "ops": [
+    "scripts/**",
+    "infra/**",
+    ".github/**",
+    ".opencode/**",
+    "AGENTS.md",
+    "opencode.json",
+    ".agent/lanes.json",
+    "package.json",
+    "turbo.json",
+    "*.config.*",
+    ".env.example",
+    "docs/05-workflow/**",
+    "docs/07-ops/**"
+  ],
+  "sec": [
+    "docs/03-architecture/14-*.md",
+    "docs/03-architecture/15-*.md",
+    "docs/06-quality/07-*.md"
+  ],
+  "meta": [
+    "docs/08-project/**",
+    "docs/04-contracts/CHANGELOG.md",
+    "docs/01-product/12-*.md"
+  ]
+}

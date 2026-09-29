@@ -1,0 +1,110 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+.turbo/
+*.tsbuildinfo
+
+# Environment — NEVER commit real env files
+.env
+.env.*
+!.env.example
+
+# Secrets and credentials (never commit these)
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+*.jks
+*.keystore
+secrets/
+secret/
+credentials*.json
+credential*.json
+service-account*.json
+*-service-account.json
+gcloud*.json
+*.gpg
+*.age
+
+# Database dumps and backups
+backups/
+*.dump
+*.sql.gz
+*.sql.bak
+pgpass
+.pgpass
+my.cnf
+.psql_history
+
+# Local overrides
+docker-compose.override.yml
+docker-compose.local.yml
+*.local
+*.local.*
+!.env.example
+
+# Agent loop state (lanes.json is committed)
+.agent/*
+!.agent/lanes.json
+!.agent/.gitkeep
+
+# Local AI tooling / editor state
+.claude/
+.agents/
+.cursor/
+.windsurf/
+.aider*
+.continue/
+
+# Orca worktrees kept inside the repo
+.orca/
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+.nyc_output/
+blob-report/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+services/ml/models/
+!services/ml/models.lock.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+*.pid
+
+# Misc
+*.bak
+*.tmp
+*.orig
+*.rej

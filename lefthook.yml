@@ -1,0 +1,22 @@
+# Git hooks (Blueprint §7.9). Install with: pnpm dlx lefthook install
+pre-commit:
+  parallel: true
+  commands:
+    secrets:
+      run: gitleaks protect --staged --no-banner
+    format:
+      glob: "*.{ts,tsx,js,json,md,yml,yaml}"
+      run: pnpm exec prettier --check {staged_files}
+    lint:
+      glob: "*.{ts,tsx}"
+      run: pnpm exec eslint --max-warnings 0 {staged_files}
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm exec commitlint --edit {1}
+pre-push:
+  commands:
+    protected-branch:
+      run: bash scripts/hooks/no-protected-push.sh
+    gate-quick:
+      run: pnpm gate:quick

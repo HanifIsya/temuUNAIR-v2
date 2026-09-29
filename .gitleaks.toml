@@ -1,0 +1,30 @@
+# gitleaks configuration (docs/05-workflow/12-secrets-and-env-handling.md).
+# The repo is documentation-first, so a few well-known dev-only placeholder values appear in
+# examples. Everything else must be caught.
+title = "TemuUNAIR"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Dev-only placeholder values in examples, docs and test fixtures"
+paths = [
+  '''\.env\.example$''',
+  '''^docs/04-contracts/backend/BE-11-env-config-contract\.md$''',
+  '''^docs/05-workflow/12-secrets-and-env-handling\.md$''',
+  '''^tests/fixtures/''',
+  '''^services/ml/models\.lock\.json$''',
+  '''^docs/00-BLUEPRINT\.md$''',
+  '''^\.github/workflows/ci\.yml$''',
+  '''^infra/docker-compose\.yml$''',
+  '''^infra/docker/''',
+]
+regexes = [
+  '''dev-only-change-me''',
+  '''dev-google-client-id''',
+  '''dev-google-client-secret''',
+  '''dev-ml-token''',
+  '''dev-only-32byte-key-change-me''',
+  '''minioadmin''',
+  '''no-reply@temuunair\.local''',
+]

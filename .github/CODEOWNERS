@@ -1,0 +1,27 @@
+# Ownership (Blueprint §7.5). Replace placeholder handles with real GitHub logins.
+# Default owner: repo maintainer (Hanif Isya Annafi — @HanifIsya)
+*                                   @HanifIsya
+
+# Contracts need BOTH a backend and a frontend reviewer (Blueprint §5C.5)
+/packages/contracts/                @HanifIsya
+/docs/04-contracts/                 @HanifIsya
+
+# Database migrations: one open at a time, careful review
+/packages/db/migrations/            @HanifIsya
+
+# Agent configuration and CI
+/.opencode/                         @HanifIsya
+/AGENTS.md                          @HanifIsya
+/opencode.json                      @HanifIsya
+/.github/                           @HanifIsya
+/scripts/                           @HanifIsya
+
+# Security & privacy docs
+/docs/03-architecture/14-security-threat-model.md        @HanifIsya
+/docs/03-architecture/15-privacy-and-data-retention.md   @HanifIsya
+
+# Lanes (per the PDF member roles: Rizaldi=product/F1, Hanif=API/comms,
+# Abdul=DB/visual/management, Maysha=AI/ML) — map to real handles before M3.
+# /docs/01-product/     @<rizaldi-handle>
+# /apps/web/src/features/  @<abdul-handle>
+# /services/ml/         @<maysha-handle>

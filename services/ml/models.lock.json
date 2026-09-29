@@ -1,0 +1,42 @@
+{
+  "$comment": "Pinned model registry for services/ml. PLACEHOLDER — the ml-dev agent replaces versions/sha256 with the real values in TMU-ML-001 and verifies licences. Startup verifies every sha256; a mismatch makes /ready report degraded and /v1/* return 503. See docs/07-ops/07-model-management.md.",
+  "registryVersion": "0.1.0",
+  "models": [
+    {
+      "name": "yolov8n",
+      "role": "object-detection (crop helper only)",
+      "version": "TODO-pin-at-M5",
+      "sha256": "TODO",
+      "licence": "AGPL-3.0",
+      "source": "ultralytics",
+      "note": "RISK-006: replace or licence before public deployment (ADR-0009, DEC-016)"
+    },
+    {
+      "name": "open_clip-ViT-B-32",
+      "role": "image embedding (512-d, L2-normalised)",
+      "version": "TODO-pin-at-M5",
+      "sha256": "TODO",
+      "licence": "TODO-verify",
+      "source": "open_clip",
+      "note": "image space that text embeddings must align to"
+    },
+    {
+      "name": "clip-ViT-B-32-multilingual",
+      "role": "text-to-image embedding (512-d, aligned to CLIP space)",
+      "version": "TODO-pin-at-M5",
+      "sha256": "TODO",
+      "licence": "TODO-verify",
+      "source": "sentence-transformers",
+      "note": "DEC-003 / ADR-0004 — verify alignment quality on the eval set"
+    },
+    {
+      "name": "multilingual-MiniLM",
+      "role": "text-to-text embedding (384-d)",
+      "version": "TODO-pin-at-M5",
+      "sha256": "TODO",
+      "licence": "TODO-verify",
+      "source": "sentence-transformers",
+      "note": "sentence similarity signal S_tt"
+    }
+  ]
+}

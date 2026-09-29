@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security / privacy report
+    url: https://github.com/HanifIsya/temuUNAIR-v2/security/advisories/new
+    about: Report vulnerabilities privately. Never open a public issue for a PII leak.
+  - name: Blueprint
+    url: https://github.com/HanifIsya/temuUNAIR-v2/blob/main/docs/00-BLUEPRINT.md
+    about: The single source of truth for how this repo is built.
