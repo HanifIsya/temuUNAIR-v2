@@ -51,13 +51,17 @@ holds merge authority at loop step 12).
 
 ## Files expected to change
 
-- `.opencode/agents/ops-dev.md` (new)
+- `.opencode/agents/ops-dev.md` (new), `backend-dev.md`, `frontend-dev.md`, `orchestrator.md`
 - `scripts/checks/step.mjs` (new), `scripts/checks/scaffold.test.mjs`, `scripts/checks/pending.mjs`
 - `package.json`, `.agent/lanes.json`
 - `.github/workflows/ci.yml`
 - `opencode.json`, `AGENTS.md`
-- `docs/05-workflow/01-git-workflow.md`, `02-agent-loop.md`, `10-parallel-lanes-and-ownership.md`
-- `docs/08-project/tasks/TMU-OPS-002..010.md` (rewrites), `docs/08-project/tasks/TMU-OPS-011.md`
+- `docs/05-workflow/01-git-workflow.md`, `02-agent-loop.md`, `08-ci-cd.md`,
+  `10-parallel-lanes-and-ownership.md`
+- `docs/08-project/tasks/TMU-OPS-002..011.md` (rewrites), `TMU-OPS-012..014.md` (new),
+  `TMU-META-001.md` (new)
+- `docs/08-project/reviews/TMU-OPS-011.md`, `docs/08-project/backlog.md`,
+  `docs/08-project/status.md`
 
 ## Out of scope
 
@@ -70,26 +74,32 @@ holds merge authority at loop step 12).
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-30 | orchestrator | task filed | user approved merge-authority change; loop blocked at step 0 |
-| 2026-09-30 | orchestrator | 4 RED | `pnpm test:unit` → 3 failed / 18 passed; failing: docker-build guard, ops-dev agent, merge-gate docs (the owner-agent test passed because the pre-rewrite owners already existed; the dispatcher test was added with the implementation in review cycle 1) |
+| 2026-09-30 | orchestrator | 4 RED | `pnpm test:unit` → 4 failed / 17 passed (corrected at review cycle 1; the original "3 failed / 18 passed" was mis-recorded — see Evidence) |
 | 2026-09-30 | ops-dev | 5 GREEN | ops-dev agent, `step.mjs` dispatcher, CI guard, DEC-019 docs, lane map |
 | 2026-09-30 | ops-dev | 6 REFACTOR | OPS-002..010 rewritten to name existing owners and in-lane criteria; DEC-019 table rows moved to TMU-META-001 (meta lane, caught by the lane check) |
+| 2026-09-30 | ops-dev | 9 REVIEW c1 fix | OPS-012 (Dockerfile, ops) + OPS-013 (test packages, qa) + OPS-014 (workspace glob, ops) split out; agent allowlists widened; dispatcher behaviour tests added; `gh pr merge*` moved to orchestrator agent; red evidence re-run (see Evidence) |
+| 2026-09-30 | ops-dev | 9 REVIEW c1 fix 2 | Remaining c1 findings: global `gh pr*` deny restored (was `ask`), owner-agent test now asserts path coverage, lane-table + blank-line, OPS-002 typecheck include note, OPS-013 TC path alignment, review-file CRLF→LF |
 
 ### Plan
 
 1. Write red tests for the four fixes (guard, agent, dispatcher, DEC-019 + owner check).
 2. Add `ops-dev` agent and `scripts/checks/step.mjs`; rewire the root scripts. The two decision
    tables are `meta` lane and land in TMU-META-001.
-3. Guard `docker-build`; record DEC-019 in the two decision tables and the three workflow docs.
+3. Guard `docker-build`; record DEC-019 in the three workflow docs (the two decision tables are
+   `meta` lane and land in TMU-META-001).
 4. Rewrite OPS-002..010 so each is executable by its owner in its lane.
 5. `pnpm gate`.
 
 ## Evidence
 
-- Red: `pnpm test:unit` → 3 failed / 18 passed; failures: "guards the docker-build CI job until
-  the web Dockerfile exists", "ships an ops-dev agent that can edit the ops lane", "codifies the
-  orchestrator merge gate (DEC-019)". The dispatcher behaviour tests (real script, failure
-  propagation) were added in review cycle 1 and are covered by the green run.
-- Green: `pnpm gate` → OK gate(quick) passed (see PR body).
+- Red (re-run, review cycle 1 MAJOR 2): `pnpm test:unit` on a pre-implementation tree
+  (`origin/main` + this branch's final test file) → **6 failed / 17 passed** of 23; failing:
+  "guards the docker-build CI job until the web Dockerfile exists", "gives every M0 owner agent
+  the paths its tasks need", "routes package gate steps through the dispatcher", "dispatches to
+  the package when it exists and to the placeholder when it does not", "runs the real command and
+  propagates a failing child exit", "codifies the orchestrator merge gate (DEC-019)". The earlier
+  "3 failed / 18 passed" was mis-recorded.
+- Green: `pnpm gate` → OK gate(quick) passed, 23/23 unit tests (see PR body).
 - PR: (pending)
 - Review: (pending)
 

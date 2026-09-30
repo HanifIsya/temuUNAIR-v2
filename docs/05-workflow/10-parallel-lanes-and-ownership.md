@@ -44,6 +44,7 @@ Three rules keep every task runnable by its own lane (added after M0 stalled on 
 3. **Acceptance criteria must be satisfiable inside the task's lane.** If a criterion needs
    another lane's file, it is a `deps` entry or an explicit follow-up task, never a hidden
    requirement on the branch.
+
 ## Lane semantics
 
 1. `_common` paths (task files, reviews, blockers, lockfile) are allowed for every lane.

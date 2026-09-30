@@ -45,6 +45,8 @@ the CI `integration`/`contract-fuzz`/`e2e` jobs stop being no-ops.
 - [ ] Each package has its own `package.json` with the script names the dispatcher expects
       (`test`).
 - [ ] The gate's `test:*` steps no longer print the placeholder notice.
+- [ ] `docs/06-quality/02-test-cases/TC-ADM.md` TC-I18N-001's automated path is aligned with the
+      dispatcher's `tests/contract/` directory (review MINOR; both paths are `qa` lane).
 - [ ] `pnpm gate` green.
 
 ## Files expected to change

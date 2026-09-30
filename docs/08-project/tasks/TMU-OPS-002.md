@@ -41,7 +41,8 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
 - [ ] `packages/config/vitest.base.ts` exports the shared Vitest defaults; the root
       `vitest.config.ts` consumes it.
 - [ ] A deliberately bad fixture under `scripts/tooling/**` fails `pnpm lint` and `pnpm typecheck`
-      (red evidence), then is removed.
+      (extend `tsconfig.json`'s `include` to cover the fixture first — `ops-dev` owns
+      `tsconfig*.json`; red evidence), then is removed.
 - [ ] `pnpm lint`, `pnpm typecheck` and `pnpm test:unit` still exit 0 on the clean tree.
 - [ ] No dependency is added outside `packages/config`'s own `package.json` (root devDependencies
       keep only what the root configs themselves import).

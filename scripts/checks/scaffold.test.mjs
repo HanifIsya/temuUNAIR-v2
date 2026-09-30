@@ -232,10 +232,22 @@ describe("loop runnability (TMU-OPS-011)", () => {
     expect(block).toContain("docker build -f infra/docker/web.Dockerfile .");
   });
 
-  it("ships an ops-dev agent that can edit the ops lane", () => {
-    const agent = readFileSync(".opencode/agents/ops-dev.md", "utf8");
-    for (const p of ["scripts/**", "package.json", ".github/**", ".opencode/**"]) {
-      expect(agent, `ops-dev may edit ${p}`).toContain(`"${p}": allow`);
+  it("gives every M0 owner agent the paths its tasks need", () => {
+    // Review cycle 1 (MAJOR): asserting the agent file exists is not enough. Assert the
+    // allowlists cover the files the rewritten M0 tasks list, so a lane gap fails here.
+    const required = {
+      "ops-dev": ["scripts/**", "package.json", ".github/**", ".opencode/**", "infra/**"],
+      "backend-dev": ["tests/db/**"],
+      "frontend-dev": ["apps/web/**"],
+      "qa-engineer": ["tests/**"],
+      "ml-dev": ["services/ml/**"],
+      architect: ["packages/contracts/**"],
+    };
+    for (const [agent, paths] of Object.entries(required)) {
+      const text = readFileSync(`.opencode/agents/${agent}.md`, "utf8");
+      for (const p of paths) {
+        expect(text, `${agent} may edit ${p}`).toContain(`"${p}": allow`);
+      }
     }
   });
 

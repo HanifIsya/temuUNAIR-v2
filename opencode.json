@@ -37,10 +37,9 @@
       "node scripts/*": "allow",
       "scripts/*": "allow",
       "gh run*": "allow",
+      "gh pr*": "deny",
       "gh pr view*": "allow",
-      "gh pr checks*": "allow",
-      "gh pr merge*": "allow",
-      "gh pr*": "ask"
+      "gh pr checks*": "allow"
     }
   },
   "mcp": {
