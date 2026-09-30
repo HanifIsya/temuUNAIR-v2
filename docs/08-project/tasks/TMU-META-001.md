@@ -1,7 +1,7 @@
 ---
 id: TMU-META-001
 title: Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables
-status: IN_PROGRESS
+status: DONE
 lane: meta
 slug: post-merge-bookkeeping
 milestone: M0
@@ -70,6 +70,8 @@ not be edited on the `ops` branch (the lane check enforced this).
 | 2026-09-30 | docs-keeper | 5 GREEN | statuses `DONE`, DEC-019 rows added, indexes regenerated (see Evidence) |
 | 2026-09-30 | reviewer | 9 REVIEW c1 | verdict **APPROVE** — 0 BLOCKER/MAJOR, 6 MINOR (bookkeeping hygiene) → `docs/08-project/reviews/TMU-META-001.md` |
 | 2026-09-30 | docs-keeper | 9 REVIEW c1 fix | all 6 MINORs fixed in this PR: stale PR evidence (OPS-001/015), criteria ticked (OPS-001/011/015), front-matter dates bumped, META-001 file list + red-evidence command |
+| 2026-09-30 | orchestrator | 12 MERGE GATE | squash-merged as `5d1f9e1` (DEC-019; review verdict + CI green on record) |
+| 2026-09-30 | docs-keeper | 13 POST-MERGE | status → `DONE`; PR #4 merged as `5d1f9e1`; backlog/status regenerated (TMU-META-002) |
 
 ### Plan
 
@@ -87,8 +89,9 @@ not be edited on the `ops` branch (the lane check enforced this).
 - Green: same probe after the edits → all 4 PASS; `node scripts/backlog-index.mjs` →
   `Wrote backlog.md (16 tasks) and status.md`, M0 `DONE: 3` (OPS-001, OPS-011, OPS-015);
   `pnpm gate` → `OK gate(quick) passed` (26/26 unit).
-- PR: (pending)
-- Review: (pending)
+- PR: [#4](https://github.com/HanifIsya/temuUNAIR-v2/pull/4) — merged to `main` as `5d1f9e1`
+  (squash, 2026-09-30); CI all green on `e4fc457` (10 pass, `docker-build` skipped by design)
+- Review: `docs/08-project/reviews/TMU-META-001.md` — APPROVE (0 BLOCKER/MAJOR, 6 MINOR fixed in cycle 1)
 
 ## Blockers
 
