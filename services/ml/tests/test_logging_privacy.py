@@ -36,8 +36,26 @@ def test_request_payloads_never_reach_logs_or_std_streams(caplog, capsys):
     with TestClient(app) as client:
         client.get("/health")
         client.get("/ready")
-        client.post("/v1/embed-text", json=_EMBED_TEXT_BODY)
-        client.post("/v1/analyze-image", json=_ANALYZE_IMAGE_BODY)
+        embed_response = client.post("/v1/embed-text", json=_EMBED_TEXT_BODY)
+        image_response = client.post("/v1/analyze-image", json=_ANALYZE_IMAGE_BODY)
+
+    # Positive control (m2): the lifespan emits "ml service starting" through the
+    # `app.main` logger. If this line is missing, log capture is misconfigured and
+    # the sentinel assertions below would pass vacuously.
+    assert "ml service starting" in caplog.text, (
+        "positive control failed: the lifespan startup log was not captured, so "
+        "the sentinel-absence assertions cannot be trusted"
+    )
+
+    # Skeleton state (M1): `app.main` registers only `/health` and `/ready`, so the
+    # `/v1/*` payloads cannot reach any handler and both POSTs 404. Asserting the
+    # status keeps this test non-vacuous today: it fails loudly if a route is added
+    # without this test being upgraded.
+    # M5 obligation: when `/v1/*` lands (TMU-ML-*), replace these 404 assertions
+    # with the authenticated happy path (bearer token from env, assert 2xx) so the
+    # payload actually flows through a handler and the privacy claim stays real.
+    assert embed_response.status_code == 404
+    assert image_response.status_code == 404
 
     captured = capsys.readouterr()
     streams = {

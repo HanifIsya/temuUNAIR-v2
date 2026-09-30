@@ -59,8 +59,10 @@ def load_model_states(path: Path = MODELS_LOCK_PATH) -> list[ModelState]:
 
 
 def readiness_payload(states: list[ModelState]) -> dict[str, object]:
-    """BE-06: `ok` only when every model is loaded and every checksum is pinned."""
-    ready = all(state.loaded and state.checksum_pinned for state in states)
+    """BE-06: `ok` only when the registry is non-empty and every model is loaded and pinned."""
+    # An empty registry is never ready (`all([])` is True); M5 keeps this guard when
+    # `loaded` becomes real.
+    ready = bool(states) and all(state.loaded and state.checksum_pinned for state in states)
     return {
         "status": "ok" if ready else "degraded",
         "models": [

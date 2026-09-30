@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from app.main import app
+from app.main import ModelState, app, readiness_payload
 
 MODELS_LOCK = Path(__file__).resolve().parents[1] / "models.lock.json"
 
@@ -49,11 +49,14 @@ def test_ready_lists_every_model_from_the_lockfile(client):
 
     assert response.status_code == 200
     models = response.json()["models"]
-    lockfile_names = [entry["name"] for entry in _lockfile_models()]
+    lockfile = {entry["name"]: entry["version"] for entry in _lockfile_models()}
 
     assert isinstance(models, list)
-    assert {entry["name"] for entry in models} == set(lockfile_names)
-    assert len(models) == len(lockfile_names)
+    assert {entry["name"] for entry in models} == set(lockfile)
+    assert len(models) == len(lockfile)
+    # m4: names alone are not enough; the response must carry the lockfile's
+    # exact name -> version mapping.
+    assert {entry["name"]: entry["version"] for entry in models} == lockfile
 
 
 def test_ready_models_expose_name_version_loaded_and_are_unloaded(client):
@@ -64,3 +67,30 @@ def test_ready_models_expose_name_version_loaded_and_are_unloaded(client):
         assert isinstance(entry.get("name"), str) and entry["name"]
         assert isinstance(entry.get("version"), str) and entry["version"]
         assert entry.get("loaded") is False
+
+
+def test_readiness_payload_empty_registry_is_degraded_not_ok():
+    # m1: `all([])` is True, so an empty registry must be guarded explicitly;
+    # a service with zero registered models can never be ready.
+    payload = readiness_payload([])
+
+    assert payload["status"] == "degraded"
+    assert payload["models"] == []
+
+
+def test_readiness_payload_all_models_loaded_and_pinned_is_ok():
+    # m1: the `ok` branch is currently unreachable (startup hard-codes
+    # loaded=False); this unit test pins the M5 handoff condition so the fix
+    # cannot silently break it.
+    states = [
+        ModelState(name="model-a", version="1.2.3", loaded=True, checksum_pinned=True),
+        ModelState(name="model-b", version="4.5.6", loaded=True, checksum_pinned=True),
+    ]
+
+    payload = readiness_payload(states)
+
+    assert payload["status"] == "ok"
+    assert payload["models"] == [
+        {"name": "model-a", "version": "1.2.3", "loaded": True},
+        {"name": "model-b", "version": "4.5.6", "loaded": True},
+    ]

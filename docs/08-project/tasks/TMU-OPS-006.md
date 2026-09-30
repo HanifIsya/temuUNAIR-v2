@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-006
 title: ML service skeleton with uv, FastAPI health and pytest
-status: IN_PROGRESS
+status: REVIEW
 lane: ml
 slug: ml-service-skeleton
 milestone: M0
@@ -10,7 +10,7 @@ owner: ml-dev
 deps: [TMU-OPS-002]
 refs: [ARCH-STACK, BE-06, DEC-011]
 created: 2026-09-29
-updated: 2026-09-30
+updated: 2026-10-01
 ---
 
 # TMU-OPS-006 — ML service skeleton with uv, FastAPI health and pytest
@@ -33,12 +33,12 @@ that report model state from `models.lock.json`.
 
 ## Acceptance criteria
 
-- [ ] `uv sync --frozen` succeeds and commits `uv.lock`.
-- [ ] `uv run ruff check .` and `uv run pytest -q -m "not slow"` exit 0.
-- [ ] `GET /health` returns 200; `GET /ready` returns 200 with `degraded` while the model
+- [x] `uv sync --frozen` succeeds and commits `uv.lock`.
+- [x] `uv run ruff check .` and `uv run pytest -q -m "not slow"` exit 0.
+- [x] `GET /health` returns 200; `GET /ready` returns 200 with `degraded` while the model
       checksums are unpinned.
-- [ ] No image bytes, text bodies, or embeddings are logged (asserted by a test).
-- [ ] `pnpm gate` green, including the ML step.
+- [x] No image bytes, text bodies, or embeddings are logged (asserted by a test).
+- [x] `pnpm gate` green, including the ML step.
 
 ## Files expected to change
 
@@ -63,8 +63,13 @@ that report model state from `models.lock.json`.
 | 2026-09-30 | orchestrator | 3 PLAN | plan below |
 | 2026-09-30 | qa-engineer | 4 RED | wrote 5 tests in `services/ml/tests/` (4 health + 1 privacy); `uv run pytest -q -m "not slow"` and `python -m pytest -q -m "not slow"` both → `ModuleNotFoundError: No module named 'app'` (2 collection errors, exit 2) — no `pyproject.toml`/`app/` yet, as expected |
 | 2026-09-30 | ml-dev | 5 GREEN | `uv lock` + `uv sync --frozen` OK (25 packages); `uv run ruff check .` → "All checks passed!" (exit 0); `uv run pytest -q -m "not slow"` → 5 passed (privacy test included, no sentinel leakage); files: `pyproject.toml`, `uv.lock`, `app/__init__.py`, `app/main.py` |
-| 2026-09-30 | ml-dev | 6 REFACTOR | `services/ml/README.md` status line → "skeleton (TMU-OPS-006)"; no other changes; minimal diff (5 new files, 2 modified) |
+| 2026-09-30 | ml-dev | 6 REFACTOR | `services/ml/README.md` status line → "skeleton (TMU-OPS-006)"; no other changes; minimal diff (6 new files: `pyproject.toml`, `uv.lock`, `app/__init__.py`, `app/main.py`, `tests/test_health.py`, `tests/test_logging_privacy.py`; 2 modified) |
 | 2026-09-30 | orchestrator | 7 GATE | verified independently: `uv sync --frozen` exit 0; `uv run ruff check .` → "All checks passed!"; `uv run pytest -q -m "not slow"` → 5 passed; `bash scripts/gate.sh quick` → `OK gate(quick) passed` (36/36 unit, real `ml lint+tests` step now active) |
+| 2026-09-30 | qa-engineer | 5b RED (review fix) | M1/m2/m4/m1 tests strengthened; new empty-registry test fails: `tests/test_health.py:77 assert payload["status"] == "degraded"` -> `AssertionError: assert 'ok' == 'degraded'` |
+| 2026-09-30 | ml-dev | 5c GREEN (review fix) | empty-registry guard; .python-version 3.11; status → REVIEW |
+| 2026-10-01 | reviewer | 9 REVIEW | cycle 2 verdict **APPROVE** (0 BLOCKER / 0 MAJOR; 5 MINOR deferred: m3 uvicorn logging coverage → first `/v1/*` task, m6 httpx deprecation → TMU-OPS-008, m8 mixed-state predicate test + m9 capsys control → M5, m10 bookkeeping fixed here); gate re-run green (`7 passed`) |
+| 2026-10-01 | orchestrator | 9 REVIEW (sec) | `security-reviewer` verdict **APPROVE** (0 BLOCKER / 0 MAJOR; F1 uvicorn coverage → M5, F2 python advisory job + F4 dependency bounds → TMU-OPS-008, F3 hatchling lock gap → M5) |
+| 2026-10-01 | orchestrator | 10 SHIP | gate tail updated below; commit/push/PR-ready via `git-steward` |
 
 ### Plan
 
@@ -95,6 +100,32 @@ that report model state from `models.lock.json`.
   # Note: uv 0.12.21 has no pyproject.toml to sync yet, so it falls back to the
   # system Python and still collects the tests; the failure signature is the import.
   ```
+- Red (review fix for M1/m2/m4/m1, 2026-09-30): `uv run pytest -q -m "not slow"` from `services/ml` -> exactly one failure, the new empty-registry unit test; the other 6 tests pass:
+
+  ```
+  $ uv run pytest -q -m "not slow"
+  ....F..                                                                  [100%]
+  ================================== FAILURES ===================================
+  __________ test_readiness_payload_empty_registry_is_degraded_not_ok ___________
+
+      def test_readiness_payload_empty_registry_is_degraded_not_ok():
+          # m1: `all([])` is True, so an empty registry must be guarded explicitly;
+          # a service with zero registered models can never be ready.
+          payload = readiness_payload([])
+
+  >       assert payload["status"] == "degraded"
+  E       AssertionError: assert 'ok' == 'degraded'
+  E
+  E         - degraded
+  E         + ok
+
+  tests\test_health.py:77: AssertionError
+  =========================== short test summary info ===========================
+  FAILED tests/test_health.py::test_readiness_payload_empty_registry_is_degraded_not_ok
+  1 failed, 6 passed, 1 warning in 1.00s
+  ```
+
+  M5 obligation (from M1): when `/v1/*` lands (TMU-ML-*), `test_logging_privacy.py` must replace its two `status_code == 404` assertions with the authenticated happy path (bearer token from env, assert 2xx) so the payload actually flows through a handler.
 - Green: all commands run from `services/ml`:
 
   ```
@@ -116,18 +147,18 @@ that report model state from `models.lock.json`.
   $ uv run pytest -q tests/test_logging_privacy.py
   1 passed, 1 warning in 1.81s
   ```
-- Gate tail (`bash scripts/gate.sh quick`, worktree `E:\wt\TMU-OPS-006`):
+- Gate tail (`bash scripts/gate.sh quick`, worktree `E:\wt\TMU-OPS-006`, post review-fix):
 
   ```
   > ml lint+tests
   All checks passed!
-  .....                                                                    [100%]
-  5 passed, 1 warning in 0.82s
+  .......                                                                  [100%]
+  7 passed, 1 warning in 0.86s
 
   OK gate(quick) passed
   ```
 - PR: (pending)
-- Review: (pending)
+- Review: [docs/08-project/reviews/TMU-OPS-006.md](../reviews/TMU-OPS-006.md) — cycle 1 CHANGES (M1 test vacuity, M2 security artifact), cycle 2 **APPROVE**; security review [TMU-OPS-006-security.md](../reviews/TMU-OPS-006-security.md) **APPROVE**
 
 ## Blockers
 
