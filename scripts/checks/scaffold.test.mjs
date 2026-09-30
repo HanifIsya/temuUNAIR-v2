@@ -218,3 +218,68 @@ describe("workspace manifests", () => {
     expect(existsSync(".env")).toBe(false);
   });
 });
+describe("loop runnability (TMU-OPS-011)", () => {
+  it("guards the docker-build CI job until the web Dockerfile exists", () => {
+    // The job only runs on main, so a missing Dockerfile used to make main permanently red.
+    const ci = readFileSync(".github/workflows/ci.yml", "utf8");
+    const idx = ci.indexOf("\n  docker-build:");
+    expect(idx, "ci.yml declares a docker-build job").toBeGreaterThan(-1);
+    const block = ci.slice(idx);
+    expect(block).toContain("infra/docker/web.Dockerfile");
+    expect(block).toContain("exists == 'no'");
+    expect(block).toContain("TMU-OPS-003");
+  });
+
+  it("ships an ops-dev agent that can edit the ops lane", () => {
+    const agent = readFileSync(".opencode/agents/ops-dev.md", "utf8");
+    for (const p of ["scripts/**", "package.json", ".github/**", ".opencode/**"]) {
+      expect(agent, `ops-dev may edit ${p}`).toContain(`"${p}": allow`);
+    }
+  });
+
+  it("routes package gate steps through the dispatcher", () => {
+    const pkg = readJson("package.json");
+    const dispatched = [
+      "contracts:build",
+      "contracts:check",
+      "contracts:lint",
+      "contracts:breaking",
+      "db:check",
+      "db:generate",
+      "db:migrate",
+      "seed",
+      "test:integration",
+      "test:contract",
+      "test:e2e",
+    ];
+    for (const name of dispatched) {
+      expect(pkg.scripts[name], `${name} uses the dispatcher`).toContain("scripts/checks/step.mjs");
+    }
+    const step = readFileSync("scripts/checks/step.mjs", "utf8");
+    expect(step).toContain("packages/contracts");
+    expect(step).toContain("packages/db");
+    expect(step).toContain("scripts/checks/pending.mjs");
+  });
+
+  it("codifies the orchestrator merge gate (DEC-019)", () => {
+    const loop = readFileSync("docs/05-workflow/02-agent-loop.md", "utf8");
+    expect(loop).toContain("MERGE GATE");
+    const git = readFileSync("docs/05-workflow/01-git-workflow.md", "utf8");
+    expect(git).toContain("Orchestrator squash-merges");
+  });
+
+  it("gives every task an owner agent that exists", () => {
+    const taskDir = "docs/08-project/tasks";
+    const files = readdirSync(taskDir).filter((f) => f.endsWith(".md"));
+    const agents = readdirSync(".opencode/agents")
+      .filter((f) => f.endsWith(".md"))
+      .map((f) => f.replace(/\.md$/, ""));
+    for (const file of files) {
+      const owner = readFileSync(`${taskDir}/${file}`, "utf8")
+        .match(/^owner: (.+)$/m)?.[1]
+        ?.trim();
+      expect(owner, `${file} declares an owner`).toBeTruthy();
+      expect(agents, `${file} owner "${owner}" is an agent file`).toContain(owner);
+    }
+  });
+});

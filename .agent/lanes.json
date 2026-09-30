@@ -69,7 +69,11 @@
     ".prettierignore",
     ".editorconfig",
     ".gitattributes",
+    ".gitignore",
+    ".gitleaks.toml",
+    "lefthook.yml",
     "packages/config/**",
+    "tests/tooling/**",
     ".env.example",
     "docs/05-workflow/**",
     "docs/07-ops/**"
