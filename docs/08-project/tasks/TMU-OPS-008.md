@@ -25,6 +25,9 @@ the gate depends on.
 ## Context
 
 - `docs/05-workflow/08-ci-cd.md` lists the required jobs and says `pnpm gate` mirrors them.
+- Follow-ups filed here (2026-09-30, from REV-TMU-META-002 MINOR 2/3): the config-presets ESLint
+  guard can exceed Vitest's default 5 s timeout on a cold cache (5409 ms observed), and the
+  commit-scope list in `docs/05-workflow/07-commit-and-pr-conventions.md:28` needs `meta`.
 - `scripts/gate.sh` already calls the full-mode steps; the scripts they invoke are placeholders
   until this task.
 - TMU-OPS-011 added `scripts/checks/step.mjs`, which routes each package step to
@@ -68,6 +71,8 @@ the gate depends on.
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
 | 2026-09-30 | orchestrator | rewritten | owner → `ops-dev`; `tests/**` moved to TMU-OPS-013 (qa — review BLOCKER 2); dispatcher dependency recorded |
+| 2026-09-30 | docs-keeper | follow-up filed | from REV-TMU-META-002 MINOR 2: the ESLint guard `scripts/checks/config-presets.test.mjs` uses Vitest's default 5000 ms timeout and took 5409 ms on a cold cache (ESLint + typescript-eslint cold load) — latent flake on cold CI runners; raise the timeout or warm the cache in this task's gate/CI parity scope |
+| 2026-09-30 | docs-keeper | follow-up filed | from REV-TMU-META-002 MINOR 3: commit scope `meta` (used by `5d1f9e1`, `e4fc457`, `25234ef`) is not in the allowed list in `docs/05-workflow/07-commit-and-pr-conventions.md:28`; add `meta` (same precedent as TMU-OPS-002 review F7 adding `tasks`) |
 
 ### Plan
 

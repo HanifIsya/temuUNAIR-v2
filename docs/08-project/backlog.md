@@ -4,7 +4,7 @@
 | ID | Milestone | Lane | Status | Priority | Title | Deps |
 |---|---|---|---|---|---|---|
 | [TMU-META-001](tasks/TMU-META-001.md) | M0 | meta | DONE | P1 | Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables | TMU-OPS-001, TMU-OPS-011 |
-| [TMU-META-002](tasks/TMU-META-002.md) | M0 | meta | IN_PROGRESS | P1 | Post-merge bookkeeping — OPS-002 DONE and META-001 close-out | TMU-OPS-002, TMU-META-001 |
+| [TMU-META-002](tasks/TMU-META-002.md) | M0 | meta | REVIEW | P1 | Post-merge bookkeeping — OPS-002 DONE and META-001 close-out | TMU-OPS-002, TMU-META-001 |
 | [TMU-OPS-001](tasks/TMU-OPS-001.md) | M0 | ops | DONE | P0 | Root workspace scaffold, gate scripts and lane-map gaps |  |
 | [TMU-OPS-002](tasks/TMU-OPS-002.md) | M0 | ops | DONE | P1 | Shared config presets in packages/config | TMU-OPS-001 |
 | [TMU-OPS-003](tasks/TMU-OPS-003.md) | M0 | fe | TODO | P1 | Next.js web app shell with i18n and unit test harness | TMU-OPS-002 |
