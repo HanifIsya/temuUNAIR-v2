@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-002
 title: Shared config presets in packages/config
-status: REVIEW
+status: DONE
 lane: ops
 slug: shared-config-presets
 milestone: M0
@@ -77,6 +77,8 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
 | 2026-09-30 | reviewer | 9 REVIEW | verdict **APPROVE**, 9 MINOR, 0 BLOCKER/MAJOR → `docs/08-project/reviews/TMU-OPS-002.md` |
 | 2026-09-30 | ops-dev | 9 REVIEW fix | F1 preset header reworded; F3 guard now asserts severity 2 (mutation-checked); F4 `turbo.json` globalDependencies += `packages/config/**`; F7 `tasks` added to the allowed commit scopes |
 | 2026-09-30 | orchestrator | 9 REVIEW fix | F2 evidence → `origin/main:` blobs; F6 trailing newline restored; F9 `basePath` note corrected; F5 accepted (codify later); F8 deferred to TMU-OPS-003+ |
+| 2026-09-30 | orchestrator | 12 MERGE GATE | squash-merged as `b9d6ba6` (DEC-019; review verdict + CI green on record) |
+| 2026-09-30 | docs-keeper | 13 POST-MERGE | status → `DONE`; PR #5 merged as `b9d6ba6`; backlog/status regenerated (TMU-META-002) |
 
 ### Plan
 
@@ -228,7 +230,8 @@ the implementation and captured red first. The reviewer accepted this as structu
 
 - Red: captured above.
 - Green: captured above.
-- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/5 (draft)
+- PR: [#5](https://github.com/HanifIsya/temuUNAIR-v2/pull/5) — merged to `main` as `b9d6ba6`
+  (squash, 2026-09-30); CI all green on `9cbefaf` (10 pass, `docker-build` skipped by design)
 - Review: `docs/08-project/reviews/TMU-OPS-002.md` — APPROVE (9 MINOR, F1/F2/F3/F4/F6/F7/F9 fixed, F5 accepted, F8 deferred)
 
 ## Blockers
