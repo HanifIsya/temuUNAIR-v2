@@ -2,25 +2,53 @@
 id: REV-TMU-OPS-015
 task: TMU-OPS-015
 reviewer: reviewer
-verdict: CHANGES
+verdict: APPROVE
 date: 2026-09-30
-cycle: 1
+cycle: 2
 ---
 
-# TMU-OPS-015 — Review cycle 1
+# TMU-OPS-015 — Review cycle 2
 
-Diff reviewed: `origin/main...7c5ca14` (one commit, `7c5ca14`; five files, +134/−1). Scope matches
-the task's file list exactly.
+Diff reviewed: `origin/main...eda2bf6` (two commits, `7c5ca14` + `eda2bf6`; seven files,
++282/−3). Scope matches the task's file list plus the cycle-1 review artefact; every path is
+ops-lane or `_common`. Cycle-1 fix commit: `eda2bf6` (playbook, review, task file, test).
 
 ## Summary
 
-The permission change is correct: `gh pr edit*: allow` is appended after the global `gh pr*: deny`
-catch-all (`opencode.json:40-43`), git-steward and orchestrator each allow it after their own
-catch-alls, `view`/`checks` are untouched, and merge stays orchestrator-only. Lane check, gate and
-all 26 unit tests are green. However, the new guard is only partly real: the test helper reads
-every quoted rule in the agent front-matter, so the orchestrator's `task: "*": allow` (and its
-`edit` map) leak into the bash rule list and make the two orchestrator assertions pass for any
-command. One MAJOR; verdict CHANGES.
+The cycle-1 MAJOR is fixed and I reproduced it independently: `agentRules` now slices only the
+`bash:` map, so the orchestrator's `task: "*": allow` no longer leaks in. Deleting the
+orchestrator `"gh pr edit*"` grant (in memory) resolves `gh pr edit 2 --add-label ops` to `ask`
+(catch-all) and fails `scaffold.test.mjs:395` — the mutation check the commit message claims.
+The new non-grantee assertions are meaningful (backend-dev → `ask`, docs-keeper → `deny`), the
+`?` wildcard is translated, and the playbook is current. Gate green, unit 26/26. The two deferred
+MINORs are accepted with rationale (blueprint is out of every lane; indexes are TMU-META-001's
+acceptance criterion). Verdict **APPROVE**, with three non-blocking open MINORs recorded below.
+
+## Cycle-1 resolution
+
+| # | Cycle-1 finding | Status | Evidence |
+|---|---|---|---|
+| MAJOR | `agentRules` scanned the whole front-matter; orchestrator assertions were vacuous | **FIXED** | `scripts/checks/scaffold.test.mjs:367-382` slices the `^ {2}bash:` map only; mutation reproduction below |
+| MINOR 1 | `?` wildcard left as a regex quantifier | **FIXED** | `scaffold.test.mjs:355` — `.replace(/\?/g, ".")` after escaping (`?` is not in the escape class) |
+| MINOR 2 | no negative assertion for a non-grantee agent | **FIXED** | `scaffold.test.mjs:398` backend-dev → `ask` (its `*: ask`, `backend-dev.md:15`); `:399` docs-keeper → `deny` (`docs-keeper.md:12`) |
+| MINOR 3 | playbook stale on the `gh pr` allows | **FIXED** | `docs/05-workflow/04-opencode-playbook.md:47-50` now names `view*`/`checks*`/`edit*` and orchestrator-only `merge*` |
+| MINOR 4 | `docs/00-BLUEPRINT.md` reference configs drift further | **DEFERRED (accepted)** | File matches no lane (`.agent/lanes.json:10-17` docs lane excludes `00-BLUEPRINT.md`); needs a follow-up task or DEC — see MINOR below |
+| MINOR 5 | generated indexes stale on the branch | **DEFERRED (accepted)** | `backlog.md`/`status.md` regeneration is explicitly TMU-META-001's acceptance criterion — see MINOR below |
+
+### MAJOR reproduction (read-only, no repo mutation)
+
+Using the new helper and the documented last-match-wins engine against the current tree:
+
+- Parsed orchestrator `bash:` rules: `*:ask`, `git status*`, `git log*`, `git diff*`,
+  `node scripts/*`, `pnpm gate*`, `gh pr view*`, `gh pr checks*`, `gh pr edit*`, `gh pr merge*` —
+  the `edit:`/`task:` mappings no longer appear.
+- `resolve(orchestrator, "gh pr edit 2 --add-label ops")` → `allow` (line 395 passes).
+- Mutation (remove `"gh pr edit*": allow` from `.opencode/agents/orchestrator.md:18`) →
+  the same resolve returns `ask` → line 395 would fail. Merge stays `allow` (independent grant).
+- The old helper on the same file returned `allow` for a destructive probe (`rm -rf /`); the
+  new helper returns `ask` for an unmatched command — the vacuity is gone.
+- `git-steward` edit → `allow`, merge → `deny`; global edit/view/checks → `allow`,
+  merge → `deny` (`opencode.json:40-43`).
 
 ## BLOCKER
 
@@ -28,53 +56,29 @@ command. One MAJOR; verdict CHANGES.
 
 ## MAJOR
 
-- [ ] `scripts/checks/scaffold.test.mjs:360-365` — `agentRules` matches
-      `/^\s+"([^"]+)":\s*(allow|deny|ask)\s*$/gm` over the whole front-matter, so the `edit` and
-      `task` mappings are concatenated with `bash` in file order. For `orchestrator.md` the last
-      extracted rule is the task map's `"*": allow` (`.opencode/agents/orchestrator.md:20-21`);
-      `resolve()` then returns `"allow"` for *any* command. Verified with a standalone reproduction
-      of the helper:
-      - `resolve(agentRules("orchestrator"), "rm -rf /")` → `"allow"` (opencode would ask/deny);
-      - removing `"gh pr edit*"` / `"gh pr merge*"` from the orchestrator front-matter still yields
-        `"allow"` for both — i.e. `scaffold.test.mjs:378` and `:384` cannot fail, and both already
-        pass on the pre-change tree.
-      Consequence: acceptance criterion 4 ("a test asserts merge authority stays orchestrator-only
-      (… orchestrator allow)") is not actually tested, and the M4 regression guard is only half
-      effective (the global and git-steward deny assertions at `:373` and `:382-383` are faithful).
-      Fix: extract only the `bash:` block before matching (indentation-aware slice or a YAML
-      parse), then re-run the red check — with a bash-scoped helper the pre-change orchestrator
-      `gh pr edit` resolves to `ask` (catch-all) and test 2 fails for the right reason.
+(none)
 
 ## MINOR
 
-- [ ] `scripts/checks/scaffold.test.mjs:347-356` — the wildcard translation handles `*` but not
-      `?`; opencode documents `?` as "exactly one character" while the helper leaves it as a regex
-      quantifier. No current pattern uses `?`, so no wrong result today; translate it or state that
-      the helper supports `*` only.
-- [ ] `scripts/checks/scaffold.test.mjs:367-385` — no negative assertion for a non-grantee agent.
-      With `gh pr edit*` now allowed globally, containment of the grant to git-steward/orchestrator
-      rests on each agent's own catch-all; add e.g.
-      `expect(resolve(agentRules("reviewer"), "gh pr edit 2")).toBe("deny")`. Related: the helper
-      evaluates agent rules standalone, while opencode documents agent permissions as *merged with
-      the global config*; the two models agree only if agent catch-alls override merged global
-      allows. Worth one live-session check after restart (the task file already notes the restart
-      requirement).
-- [ ] `docs/05-workflow/04-opencode-playbook.md:47` — still says the global config "denies
-      `gh pr*`" without the `view`/`checks`/`edit` allows (stale since TMU-OPS-011 for
-      view/checks). This file is in the ops lane, so the update could have shipped in this task.
-- [ ] `docs/00-BLUEPRINT.md:1164-1165`, `:1202-1208`, `:1467-1470` — the embedded reference configs
-      drift further (no `gh pr view*`/`checks*`/`edit*`). Not editable here: `docs/00-BLUEPRINT.md`
-      matches no lane in `.agent/lanes.json` (the docs lane `:10-17` covers `docs/01|02|06|07|09`),
-      so this needs an ops lane-map change or an explicit "blueprint frozen" decision.
-- [ ] `docs/08-project/backlog.md:6-20` / `docs/08-project/status.md:4-22` — generated indexes are
-      stale on the branch (15 rows / `TODO: 13 · REVIEW: 2` for 16 task files; OPS-015 missing).
-      Regenerate with `node scripts/backlog-index.mjs` or let TMU-META-001 pick it up after merge;
-      never hand-edit.
+- [ ] (open, carried from cycle 1) The helper evaluates agent rules standalone; opencode
+      documents agent permissions as *merged with the global config, agent rules take
+      precedence*. The new `backend-dev` → `ask` / `docs-keeper` → `deny` assertions encode the
+      standalone interpretation. The docs example (each agent block carries its own `*` rule)
+      supports it, so this is expected to hold, but one live-session check after restart is still
+      worth doing (the task file already notes the restart requirement).
+- [ ] (open, deferred) `docs/00-BLUEPRINT.md:1164-1165`, `:1202-1208`, `:1467-1470` still carry
+      reference configs without `gh pr view*`/`checks*`/`edit*`. Accepted as deferred because no
+      lane covers the file, but a follow-up task (ops lane-map + blueprint edit) or an explicit
+      "blueprint frozen" decision must be filed before M0 exit so the drift is not lost.
+- [ ] (open, deferred) `docs/08-project/backlog.md` / `docs/08-project/status.md` are stale on the
+      branch (15 rows / `TODO: 13 · REVIEW: 2` for 16 task files). Accepted: regenerating is
+      TMU-META-001's acceptance criterion (`node scripts/backlog-index.mjs`); never hand-edit.
 
 ## Checks run
 
-- `pnpm gate` (workdir `E:\wt\TMU-OPS-015`) → **OK gate(quick) passed**; lane check clean, format /
-  lint / typecheck green, i18n skipped (M3), unit **26/26**, contracts/db placeholders exit 0. Tail:
+- `pnpm gate` (workdir `E:\wt\TMU-OPS-015`) → **OK gate(quick) passed**; lane check clean,
+  format/lint/typecheck green, i18n skipped (M3), unit **26/26**, contracts/db placeholders exit 0.
+  Tail:
 
   ```
   > migrations check
@@ -85,34 +89,31 @@ command. One MAJOR; verdict CHANGES.
   OK gate(quick) passed
   ```
 
-- `pnpm test:unit --reporter=verbose` → 26 passed, including the three new tests ("allows gh pr
-  edit globally without reopening the merge gate", "lets git-steward refresh the PR body and the
-  orchestrator edit PR metadata", "keeps gh pr merge orchestrator-only (DEC-019)").
-- Red evidence reproduced (read-only probe over `origin/main` config + the new helper): pre-change
-  test 1 fails on `gh pr edit` (deny), test 2 fails on the git-steward assertion, test 3 passes →
-  2 failed / 24 passed of 26, exactly as recorded in `TMU-OPS-015.md:66,77-79`. The record is
-  truthful; the MAJOR is that test 2/3's orchestrator halves are vacuous, not that the count is
-  wrong.
-- Ordering audit: catch-alls first, allows after, in `opencode.json:40-43`,
-  `.opencode/agents/git-steward.md:8-24` and `.opencode/agents/orchestrator.md:10-19`; last-match
-  semantics match the documented engine (opencode permissions docs; `04-opencode-playbook.md:50-51`).
-  Global `gh pr merge`/`review`/`close`/`create` remain denied; merge allow only in
-  `orchestrator.md:19`.
-- Lane/scope: the five changed paths are ops-lane or `_common` (`.agent/lanes.json:69-94`);
-  `git diff --check` clean; no secrets, no generated file edits, no drive-by changes; commit
-  `7c5ca14` is a Conventional Commit with `Task:` / `Refs:` / `Agent:` trailers.
-- Contract / DB / privacy / i18n / a11y: not applicable (repo-tooling change; no runtime code).
+- `pnpm test:unit --reporter=verbose` → 26 passed (1 file), including the three
+  `gh pr permissions (TMU-OPS-015)` tests.
+- Mutation reproduction above (read-only; no file in the worktree was modified except this
+  review). `git status --porcelain` clean at HEAD `eda2bf6` before the review edit.
+- Scope/lane: the four paths changed by `eda2bf6` are ops-lane (`scripts/**`,
+  `docs/05-workflow/**`) or `_common` (task/review); the cycle-1 playbook MINOR is the only
+  doc change and was explicitly recommended. No drive-by edits, no generated file edits, no
+  secrets; both commits are Conventional with `Task:` trailers; `git diff --check` clean.
+- Ordering audit: catch-all first, narrow allows after, in `opencode.json:40-43`,
+  `git-steward.md:9-23`, `orchestrator.md:10-19`; the new parser preserves file order and the
+  last-match-wins engine, so no ordering regression.
+- Tests: no assertion weakened or removed; the fix only tightens the helper and adds assertions
+  (`?` translation, non-grantees). No `skip`/`only`.
+- Contract / DB / privacy / i18n / a11y / N+1 / unbounded lists: not applicable (repo-tooling
+  change; no runtime code, no user data).
 
 ## Notes for the human
 
-- The shipped behaviour is exactly the owner's grant and I found no security regression in it; only
-  the guard test needs tightening. After the fix, re-run the red check and expect test 2 to fail
-  pre-change on the orchestrator `ask`.
-- `deps: [TMU-OPS-011]` is merged (`c066330`) but its task status is still `REVIEW`, so the
-  scheduler (`scripts/next-task.mjs:104-107`) would not pick OPS-015 yet; the manual start is
-  documented and follows the accepted TMU-META-001 deferral pattern.
-- `gh pr edit` also permits retitle/base-branch changes, not just body/labels; that is inside the
-  owner's grant and bounded to the two ship agents by their catch-alls.
-- The PR body should paste the gate tail and the review link (DoD 2/12); the task file records the
-  result but not the tail.
+- DoD 12 (PR ready) is still pending: the task file says `PR: (pending)`. That is the
+  git-steward/orchestrator step, not a code finding; the PR body should paste the gate tail and
+  link this review.
+- The shipped behaviour is exactly the owner's grant: `gh pr edit` allowed to git-steward and the
+  orchestrator only, merge still orchestrator-only per DEC-019.
+- Deferred MINOR 4 needs a filed follow-up (or a DEC) so the blueprint drift is tracked; MINOR 5
+  is covered by TMU-META-001.
+- `deps: [TMU-OPS-011]` is merged (`c066330`) but its task status is still `REVIEW`; the manual
+  start is documented and follows the accepted TMU-META-001 deferral pattern.
 - I ran the gate and read every hunk; I modified no file except this review.

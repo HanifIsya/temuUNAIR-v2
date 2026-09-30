@@ -67,6 +67,7 @@ not reopened.
 | 2026-09-30 | ops-dev | 5 GREEN | `gh pr edit*: allow` added after the global deny and to git-steward/orchestrator; same run → **26 passed** |
 | 2026-09-30 | reviewer | 9 REVIEW c1 | verdict **CHANGES** — 1 MAJOR (test helper scanned the whole front-matter, so orchestrator assertions were vacuous), 5 MINOR → `docs/08-project/reviews/TMU-OPS-015.md` |
 | 2026-09-30 | ops-dev | 9 REVIEW c1 fix | `agentRules` now slices the `bash:` block only; added non-grantee assertions (backend-dev → `ask`, docs-keeper → `deny`); `?` translation; playbook updated. Mutation check: removing the orchestrator grant now fails the test (was vacuous) |
+| 2026-09-30 | reviewer | 9 REVIEW c2 | verdict **APPROVE** — MAJOR verified fixed by independent reproduction; 3 MINOR open (1 live-session note, 2 accepted deferrals). `pnpm gate` green 26/26 |
 
 ### Plan
 
@@ -84,7 +85,8 @@ not reopened.
   (last rule extracted was `task: "*": allow`). After scoping `agentRules` to the `bash:` block,
   removing the orchestrator grant fails the suite (mutation check), restoring it passes.
 - PR: (pending)
-- Review: cycle 1 **CHANGES** (1 MAJOR, 5 MINOR) → fixed; cycle 2 pending.
+- Review: cycle 1 **CHANGES** (1 MAJOR, 5 MINOR) → fixed; cycle 2 **APPROVE**
+  (`docs/08-project/reviews/TMU-OPS-015.md`).
 
 ## Blockers
 
