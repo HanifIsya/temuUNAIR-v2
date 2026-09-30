@@ -2,8 +2,8 @@
 
 FastAPI service for YOLO detection, CLIP/multilingual embeddings and NLP attribute extraction.
 
-**Status: not implemented yet.** This README and `models.lock.json` are the M0/M2 scaffolding;
-the service itself is built in milestone **M5** (`TMU-ML-001..`).
+**Status: skeleton (TMU-OPS-006).** `GET /health` and `GET /ready` are live and read `models.lock.json`;
+real model loading, checksum verification and the `/v1/*` endpoints are built in milestone **M5** (`TMU-ML-001..`).
 
 ## Contract (do not deviate)
 

@@ -61,6 +61,10 @@ that report model state from `models.lock.json`.
 | 2026-09-30 | orchestrator | 1 PICK | human-assigned task; dep `TMU-OPS-002` merged to `main` (`b9d6ba6`, PR #5); status → `IN_PROGRESS`; no remote `agent/ml/TMU-OPS-006-*` branch (claim valid). Note: OPS-002's task-file flip to `DONE` rides in draft PR #6 (META-002); code dependency is on `main` |
 | 2026-09-30 | orchestrator | 2 READ | BE-06 (`/health` → `{status:"ok"}`; `/ready` → `{status, models:[{name,version,loaded}]}`, degraded while checksums unpinned; 503 only on `/v1/*`), ARCH-ML, `services/ml/README.md`, `models.lock.json` placeholder; lane `ml` covers `services/ml/**`; no contract change needed |
 | 2026-09-30 | orchestrator | 3 PLAN | plan below |
+| 2026-09-30 | qa-engineer | 4 RED | wrote 5 tests in `services/ml/tests/` (4 health + 1 privacy); `uv run pytest -q -m "not slow"` and `python -m pytest -q -m "not slow"` both → `ModuleNotFoundError: No module named 'app'` (2 collection errors, exit 2) — no `pyproject.toml`/`app/` yet, as expected |
+| 2026-09-30 | ml-dev | 5 GREEN | `uv lock` + `uv sync --frozen` OK (25 packages); `uv run ruff check .` → "All checks passed!" (exit 0); `uv run pytest -q -m "not slow"` → 5 passed (privacy test included, no sentinel leakage); files: `pyproject.toml`, `uv.lock`, `app/__init__.py`, `app/main.py` |
+| 2026-09-30 | ml-dev | 6 REFACTOR | `services/ml/README.md` status line → "skeleton (TMU-OPS-006)"; no other changes; minimal diff (5 new files, 2 modified) |
+| 2026-09-30 | orchestrator | 7 GATE | verified independently: `uv sync --frozen` exit 0; `uv run ruff check .` → "All checks passed!"; `uv run pytest -q -m "not slow"` → 5 passed; `bash scripts/gate.sh quick` → `OK gate(quick) passed` (36/36 unit, real `ml lint+tests` step now active) |
 
 ### Plan
 
@@ -72,8 +76,56 @@ that report model state from `models.lock.json`.
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
+- Red: tests written first in `services/ml/tests/` (`test_health.py`: 4 tests; `test_logging_privacy.py`: 1 test). Both commands run from `services/ml` fail at collection because the skeleton does not exist yet:
+
+  ```
+  $ uv run pytest -q -m "not slow"
+  tests/test_health.py:15: in <module>
+      from app.main import app
+  E   ModuleNotFoundError: No module named 'app'
+  ERROR tests/test_health.py
+  ERROR tests/test_logging_privacy.py
+  !!! Interrupted: 2 errors during collection !!!
+  2 errors in 1.11s   (exit 2)
+
+  $ python -m pytest -q -m "not slow"
+  E   ModuleNotFoundError: No module named 'app'
+  2 errors in 0.82s   (exit 2)
+
+  # Note: uv 0.12.21 has no pyproject.toml to sync yet, so it falls back to the
+  # system Python and still collects the tests; the failure signature is the import.
+  ```
+- Green: all commands run from `services/ml`:
+
+  ```
+  $ uv lock
+  Resolved 25 packages in 1.75s
+
+  $ uv sync --frozen
+  Downloaded 3 packages
+  Installed 25 packages in 5.13s
+
+  $ uv run ruff check .
+  All checks passed!
+
+  $ uv run pytest -q -m "not slow"
+  .....                                                                    [100%]
+  5 passed, 1 warning in 6.61s
+
+  # Privacy test run separately (no sentinel leakage in caplog/stdout/stderr):
+  $ uv run pytest -q tests/test_logging_privacy.py
+  1 passed, 1 warning in 1.81s
+  ```
+- Gate tail (`bash scripts/gate.sh quick`, worktree `E:\wt\TMU-OPS-006`):
+
+  ```
+  > ml lint+tests
+  All checks passed!
+  .....                                                                    [100%]
+  5 passed, 1 warning in 0.82s
+
+  OK gate(quick) passed
+  ```
 - PR: (pending)
 - Review: (pending)
 
