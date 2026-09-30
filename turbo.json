@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["tsconfig.base.json", ".env.example"],
+  "globalDependencies": ["tsconfig.base.json", "packages/config/**", ".env.example"],
   "globalEnv": ["NODE_ENV", "ML_MODE", "NEXT_PUBLIC_API_MOCKING"],
   "tasks": {
     "build": {

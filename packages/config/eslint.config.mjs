@@ -1,5 +1,5 @@
-// ESLint flat config (TMU-OPS-001). The shared presets live in packages/config (TMU-OPS-002);
-// this file is the workspace entry point that the gate's `lint` step executes.
+// Shared ESLint flat config preset (TMU-OPS-002). The workspace entry point is the root
+// `eslint.config.mjs`, which re-exports this file.
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";

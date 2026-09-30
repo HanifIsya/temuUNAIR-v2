@@ -69,11 +69,14 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
 | 2026-09-30 | orchestrator | rewritten | owner → `ops-dev` (created in TMU-OPS-011); criteria made satisfiable in-lane |
 | 2026-09-30 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-002`, branch `agent/ops/TMU-OPS-002-shared-config-presets` from `origin/main` @ 5d1f9e1; `pnpm i --frozen-lockfile` OK; baseline `pnpm gate` green (26/26 tests) |
 | 2026-09-30 | orchestrator | 1 PICK | `node scripts/next-task.mjs` → `TMU-OPS-002`; status → `IN_PROGRESS` |
-| 2026-09-30 | orchestrator | 2 READ | contracts/configs read; noted: ESLint 9.39.5 has no `basePath` (v10-only) so preset `files` patterns resolve relative to the consuming root config; Prettier shares configs only via a package string reference; `qa-engineer` cannot edit `scripts/**` (`.test.mjs`/fixture are ops-lane) so red fixture + guard tests are written by `ops-dev` — deviation noted in Evidence |
+| 2026-09-30 | orchestrator | 2 READ | contracts/configs read; noted: `basePath` exists in the installed ESLint 9.39.5 meta fields (review F9 corrected the earlier v10-only claim) but is unnecessary today since preset `files` patterns resolve relative to the consuming root config; Prettier shares configs only via a package string reference; `qa-engineer` cannot edit `scripts/**` (`.test.mjs`/fixture are ops-lane) so red fixture + guard tests are written by `ops-dev` — deviation noted in Evidence |
 | 2026-09-30 | orchestrator | 3 PLAN | plan below |
 | 2026-09-30 | ops-dev | 4 RED | `tsconfig.json` include + `scripts/tooling/bad-fixture.ts`; `pnpm lint` 3 errors (no-explicit-any, ban-ts-comment, no-console), `pnpm typecheck` TS2322; `pnpm test:unit` 8 failed / 28 passed (packages/config absent); tails in Evidence |
 | 2026-09-30 | ops-dev | 5 GREEN | presets + delegation implemented; `pnpm install` OK (lockfile updated); `pnpm test:unit` 36/36; fixture still fails lint+typecheck through the delegated presets; fixture removed; lint/typecheck/test:unit exit 0; `pnpm gate` → `OK gate(quick) passed` |
-| 2026-09-30 | orchestrator | 6 REFACTOR | verified independently: `pnpm install --frozen-lockfile` OK; fixture re-created → lint exit 1 (same 3 errors) / typecheck exit 2 (TS2322), removed → both exit 0; preset blobs byte-identical to `HEAD` (`git hash-object`); `pnpm gate` re-run green (36/36); backlog/status regenerated; status → `REVIEW` |
+| 2026-09-30 | orchestrator | 6 REFACTOR | verified independently: `pnpm install --frozen-lockfile` OK; fixture re-created → lint exit 1 (same 3 errors) / typecheck exit 2 (TS2322), removed → both exit 0; preset blobs byte-identical to `origin/main` (`git hash-object`); `pnpm gate` re-run green (36/36); backlog/status regenerated; status → `REVIEW` |
+| 2026-09-30 | reviewer | 9 REVIEW | verdict **APPROVE**, 9 MINOR, 0 BLOCKER/MAJOR → `docs/08-project/reviews/TMU-OPS-002.md` |
+| 2026-09-30 | ops-dev | 9 REVIEW fix | F1 preset header reworded; F3 guard now asserts severity 2 (mutation-checked); F4 `turbo.json` globalDependencies += `packages/config/**`; F7 `tasks` added to the allowed commit scopes |
+| 2026-09-30 | orchestrator | 9 REVIEW fix | F2 evidence → `origin/main:` blobs; F6 trailing newline restored; F9 `basePath` note corrected; F5 accepted (codify later); F8 deferred to TMU-OPS-003+ |
 
 ### Plan
 
@@ -194,22 +197,39 @@ OK gate(quick) passed
 
 ### Move fidelity (verbatim preset moves)
 
-`git hash-object` of each preset equals the original committed blob:
+`git hash-object` of each preset equals the blob it replaced on `origin/main`:
 
-- `packages/config/tsconfig.base.json` = `HEAD:tsconfig.base.json` → `5324e425a56855d85c41e1ecd9fb215af26cf59a`
-- `packages/config/eslint.config.mjs` = `HEAD:eslint.config.mjs` → `d638015bb5ba369d65205f3b9bbf673fbfc34674`
-- `packages/config/prettier.json` = `HEAD:.prettierrc.json` → `1770cecfe394fa59cf1e3a8db110cdfbec43086a`
+- `packages/config/tsconfig.base.json` = `origin/main:tsconfig.base.json` → `5324e425a56855d85c41e1ecd9fb215af26cf59a`
+- `packages/config/eslint.config.mjs` = `origin/main:eslint.config.mjs` → `d638015bb5ba369d65205f3b9bbf673fbfc34674`
+- `packages/config/prettier.json` = `origin/main:.prettierrc.json` → `1770cecfe394fa59cf1e3a8db110cdfbec43086a`
+
+(The root paths now hold thin delegating stubs, so compare against `origin/main`, not `HEAD`.)
 
 ### Deviation note (from orchestrator 2 READ)
 
 `qa-engineer` cannot edit `scripts/**`, so the red fixture and the guard test
 (`scripts/checks/config-presets.test.mjs`) were authored by `ops-dev`; both were written before
-the implementation and captured red first.
+the implementation and captured red first. The reviewer accepted this as structurally forced
+(review F5) and suggested codifying the exception for future guard tests.
+
+### Review follow-ups (cycle 1 — verdict APPROVE, 9 MINOR)
+
+| Finding | Action |
+|---|---|
+| F1 preset header comment stale | Fixed in `packages/config/eslint.config.mjs` |
+| F2 fidelity evidence cited `HEAD:` | Fixed above → `origin/main:` |
+| F3 guard asserted rule ids, not severity | Fixed — asserts `severity === 2`, mutation-checked (warn downgrade fails the test) |
+| F4 turbo `globalDependencies` missed the preset | Fixed — added `packages/config/**` |
+| F5 qa-engineer→ops-dev test deviation | Accepted; codify in a later ops/meta task |
+| F6 task file lost trailing newline | Fixed |
+| F7 claim-commit scope `tasks` undocumented | Fixed — added to the allowed scopes in `docs/05-workflow/07-commit-and-pr-conventions.md` |
+| F8 `vitest.base.ts` not typechecked | Deferred — revisit when `packages/*` get tsconfigs (TMU-OPS-003+) |
+| F9 `basePath` note inaccurate | Fixed — note corrected in the Progress log |
 
 - Red: captured above.
 - Green: captured above.
-- PR: (pending — orchestrator commits via git-steward)
-- Review: (pending)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/5 (draft)
+- Review: `docs/08-project/reviews/TMU-OPS-002.md` — APPROVE (9 MINOR, F1/F2/F3/F4/F6/F7/F9 fixed, F5 accepted, F8 deferred)
 
 ## Blockers
 

@@ -95,9 +95,9 @@ describe("delegated ESLint enforcement", () => {
       "export function bad(value: any): number { console.log(value); return value; }",
       { filePath: "scripts/tooling/sample.ts" },
     );
-    const ruleIds = result.messages.map((m) => m.ruleId);
-    expect(ruleIds).toContain("@typescript-eslint/no-explicit-any");
-    expect(ruleIds).toContain("no-console");
+    const severityOf = (ruleId) => result.messages.find((m) => m.ruleId === ruleId)?.severity;
+    expect(severityOf("@typescript-eslint/no-explicit-any")).toBe(2);
+    expect(severityOf("no-console")).toBe(2);
   });
 
   it("accepts a clean snippet through the real root config", async () => {
