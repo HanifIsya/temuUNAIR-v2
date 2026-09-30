@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-002
 title: Shared config presets in packages/config
-status: TODO
+status: IN_PROGRESS
 lane: ops
 slug: shared-config-presets
 milestone: M0
@@ -67,15 +67,26 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
 | 2026-09-30 | orchestrator | rewritten | owner → `ops-dev` (created in TMU-OPS-011); criteria made satisfiable in-lane |
+| 2026-09-30 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-002`, branch `agent/ops/TMU-OPS-002-shared-config-presets` from `origin/main` @ 5d1f9e1; `pnpm i --frozen-lockfile` OK; baseline `pnpm gate` green (26/26 tests) |
+| 2026-09-30 | orchestrator | 1 PICK | `node scripts/next-task.mjs` → `TMU-OPS-002`; status → `IN_PROGRESS` |
+| 2026-09-30 | orchestrator | 2 READ | contracts/configs read; noted: ESLint 9.39.5 has no `basePath` (v10-only) so preset `files` patterns resolve relative to the consuming root config; Prettier shares configs only via a package string reference; `qa-engineer` cannot edit `scripts/**` (`.test.mjs`/fixture are ops-lane) so red fixture + guard tests are written by `ops-dev` — deviation noted in Evidence |
+| 2026-09-30 | orchestrator | 3 PLAN | plan below |
 
 ### Plan
 
-1. Create `packages/config` with `package.json`, `tsconfig.base.json`, `eslint.config.mjs`,
-   `prettier.json`, `vitest.base.ts`.
-2. Point the root configs at the presets (ops-lane files, same branch).
-3. Add a temporary bad fixture under `scripts/tooling/`, capture the red lint/typecheck output,
-   delete it.
-4. Re-run `pnpm gate`; capture the tail.
+1. Extend root `tsconfig.json` `include` with `scripts/**/*.ts` (covers the fixture and future
+   tooling TS).
+2. Add `scripts/tooling/bad-fixture.ts`; capture red `pnpm lint` + `pnpm typecheck`; delete it.
+3. Create `packages/config`: `package.json` (exports: tsconfig/eslint/prettier/vitest; deps
+   `@eslint/js`, `globals`, `typescript-eslint`), `tsconfig.base.json` (strict trio),
+   `eslint.config.mjs` (root config moved verbatim), `prettier.json`, `vitest.base.ts`.
+4. Delegate the root configs: `tsconfig.base.json` extends the preset; `eslint.config.mjs`
+   re-exports it; `vitest.config.ts` spreads `testDefaults`; `.prettierrc.json` string-references
+   `@temuunair/config/prettier`.
+5. Move preset-only devDeps root → `packages/config`; add `@temuunair/config` workspace dep to
+   root; `pnpm install` to update the lockfile.
+6. Add `scripts/checks/config-presets.test.mjs` guard tests (red first, then green).
+7. `pnpm gate`; update task file evidence; commit + PR via git-steward; reviewer + CI; merge gate.
 
 ## Evidence
 
