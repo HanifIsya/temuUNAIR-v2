@@ -80,6 +80,13 @@ the worktree/remote notes so every later task inherits a protected trunk.
 - PR: (pending)
 - Review: (pending)
 
+## Open questions
+
+- Branch-protection approval count: DEC-019 grants the orchestrator merge authority and no agent
+  can post a GitHub approval, so this task applies protection **without** a required approval
+  count. If the human wants a review gate anyway, keep 1 approval and reword DEC-019 accordingly
+  (see the acceptance criterion above).
+
 ## Blockers
 
 (none)

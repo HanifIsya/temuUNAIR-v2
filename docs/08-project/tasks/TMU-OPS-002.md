@@ -73,7 +73,7 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
 1. Create `packages/config` with `package.json`, `tsconfig.base.json`, `eslint.config.mjs`,
    `prettier.json`, `vitest.base.ts`.
 2. Point the root configs at the presets (ops-lane files, same branch).
-3. Add a temporary bad fixture under `tests/tooling/`, capture the red lint/typecheck output,
+3. Add a temporary bad fixture under `scripts/tooling/`, capture the red lint/typecheck output,
    delete it.
 4. Re-run `pnpm gate`; capture the tail.
 

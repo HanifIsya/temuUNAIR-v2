@@ -2,205 +2,97 @@
 id: REV-TMU-OPS-011
 task: TMU-OPS-011
 reviewer: reviewer
-verdict: CHANGES
+verdict: APPROVE
 date: 2026-09-30
+cycle: 2
 ---
 
-# TMU-OPS-011 — Review
+# TMU-OPS-011 — Review cycle 2
 
-## Summary
+Diff reviewed: `origin/main...558e3ba` (fix commits `3553585`, `558e3ba`). The cycle-1 report is
+overwritten by this file; closed items are recorded and still-open findings are carried forward.
 
-The four headline fixes are present and mostly sound:
+## Cycle-1 finding resolution
 
-- `.opencode/agents/ops-dev.md` exists with ops-lane edit rights (`:6-31`) and the owner-agent
-  test reads real files (`scripts/checks/scaffold.test.mjs:271-284`).
-- `scripts/checks/step.mjs` is a fail-closed dispatcher: unknown steps exit 1 (`:31-34`), the
-  placeholder is only taken when the owning `package.json` is absent (`:38-42`), and a failing
-  package script propagates a non-zero exit through `execSync` (`:44`, verified empirically).
-- The `docker-build` job is presence-guarded correctly (`.github/workflows/ci.yml:167-179`) and
-  still builds when the Dockerfile is present (`:176-177`).
-- The MERGE GATE is written into `AGENTS.md:24`, `docs/05-workflow/02-agent-loop.md:55` and
-  `docs/05-workflow/01-git-workflow.md:21,25,57`, and the deferral of the two decision tables to
-  TMU-META-001 is stated (`TMU-OPS-011.md:45-46`, `TMU-META-001.md:28-32,39-42`).
+| # | Finding | Status |
+|---|---|---|
+| B1 | OPS-003 owned `infra/docker/web.Dockerfile` (ops lane) | **Resolved.** Dockerfile split to TMU-OPS-012 (`ops-dev`); OPS-003:33-35 now explicitly excludes `infra/**`; `.agent/lanes.json:56` adds `apps/web/eslint.config.mjs` to `fe`. Lane probe: Dockerfile → ops only, web ESLint → fe only. |
+| B2 | OPS-008 owned `tests/**` (qa lane) | **Resolved.** Test packages split to TMU-OPS-013 (`qa-engineer`); workspace glob to TMU-OPS-014 (`ops-dev`); OPS-008:10 now deps on OPS-012/013 and owns only wiring. OPS-013:10 deps on OPS-003/005/007; OPS-014:10 deps on OPS-013. |
+| M1 | Owner-agent test asserted existence, not path coverage | **Resolved.** `scaffold.test.mjs:235-252` now asserts the allowlists contain `infra/**`, `tests/db/**`, `apps/web/**`, `tests/**`, `services/ml/**`, `packages/contracts/**`; `backend-dev:12` and `frontend-dev:8` widened accordingly. |
+| M2 | Red evidence arithmetically impossible | **Resolved.** `TMU-OPS-011.md:95-101` records 6 failed/17 passed of 23 on `origin/main` + final test file, names all six, and discloses the earlier mis-recording. Verified: origin/main scaffold test has 16 it(), HEAD 23 (+7); the six named tests fail pre-change, the 7th owner-existence test passes because every origin/main owner exists (including orchestrator). 6+17=23 is consistent. |
+| M3 | DEC-019 vs "1 approval" deadlock | **Resolved.** `08-ci-cd.md:51-52` now "review verdict on record (DEC-019; no approval count…)"; `TMU-OPS-009.md:39-44` drops the count and records the human choice; `TMU-OPS-011.md:106-110` keeps it as an open question. |
+| M4 | global `gh pr merge*: allow`, `gh pr*: ask` | **Resolved.** `opencode.json:40-42` is back to `"gh pr*": "deny"` + read-only `view*`/`checks*`; `"gh pr merge*": "allow"` now lives only in `.opencode/agents/orchestrator.md:18`. `git-steward`/`reviewer` inherit the global deny. |
+| m1 | OPS-005 criterion named a docs-lane file | Resolved (`TMU-OPS-005.md:41-42,58-62`). |
+| m2 | OPS-002 typecheck include | Resolved (`TMU-OPS-002.md:43-45`; `tsconfig.json:9` confirmed to omit the fixture path). |
+| m3 | OPS-008 missing `tests/*` glob | Resolved via TMU-OPS-014 (`pnpm-workspace.yaml`, `scaffold.test.mjs:210-214`). |
+| m4 | Docker guard test never asserted the build step | Resolved (`scaffold.test.mjs:232`). |
+| m5 | Dispatcher behaviour untested | Resolved (`scaffold.test.mjs:274-319`; fail-closed verified: bogus step exits 1, `test:integration` placeholder exits 0). |
+| m6 | `tests/tooling/**` overlap | Carried (see MINOR). |
+| m7 | MERGE GATE caveat wording | Resolved (`AGENTS.md:24`, `01-git-workflow.md:57`). |
+| m8 | DEC-019 dangling references | Accepted; deferral to TMU-META-001 is explicit and that task is filed (`TMU-META-001.md:39-42`). |
+| m9 | lane table / blank line | Resolved (`10-parallel-lanes-and-ownership.md:27,47`). |
+| m10 | missing final newlines | Resolved (all task files and `ops-dev.md` end with LF; review file CRLF→LF, no CRLF remain). |
+| m11 | TC-ADM path vs `tests/contract` | Resolved as an OPS-013 criterion (`TMU-OPS-013.md:48-49`). |
 
-However the task's central promise — "All M0 task files name an existing owner agent and have
-in-lane, satisfiable criteria" (`TMU-OPS-011.md:47`) — is not met. Two rewritten task files
-require files owned by another lane (or by no lane at all), so the first `fe`/`ops` task that
-follows them stalls at `scripts/check-lane.sh`, which is gate step 0 of the very loop this task
-exists to unblock. The recorded red evidence also does not reconcile with the final test count.
+## Still-open findings (carried forward)
 
-Verdict: **CHANGES**.
+- [ ] MINOR — `.agent/lanes.json:53` `qa: ["tests/**"]` still overlaps `db: ["tests/db/**"]`
+      (`:28`) and `ml: ["tests/fixtures/ml/**"]` (`:60`); two lanes can edit the same path and
+      the lane-map test does not detect overlaps. Pre-existing, now the only instance.
+- [ ] MINOR — `docs/08-project/tasks/TMU-OPS-005.md:51` — `tests/db/**` is listed directly
+      under `## Files expected to change` with no blank line before `## Out of scope` (`:52`).
+- [ ] MINOR — `docs/08-project/tasks/TMU-OPS-002.md:76` — plan step says the fixture goes under
+      `tests/tooling/` while criterion `:43` and file list `:57` say `scripts/tooling/**` (ops
+      lane). Pick one.
+- [ ] MINOR — `docs/08-project/tasks/TMU-OPS-009.md:39-44` refers to "an open question in this
+      task" but the file has no `## Open questions` section (only OPS-011 has one).
+- [ ] MINOR — `docs/08-project/tasks/TMU-OPS-008.md:70` — Progress-log cell contains a stray
+      backslash (`` `\tests/**` ``); cosmetic.
 
-## BLOCKER
+## New findings (commits 3553585, 558e3ba)
 
-- [ ] `docs/08-project/tasks/TMU-OPS-003.md:33-35,43-44,50-52` — the task claims
-      `infra/docker/web.Dockerfile` "stays in the `fe` lane", but `infra/**` is `ops`-only
-      (`.agent/lanes.json:56`) and the `fe` list (`.agent/lanes.json:27-47`) does not include it.
-      The same file list also includes `apps/web/eslint.config.mjs`, which matches no lane at all
-      (`ops`'s `*.config.*` only matches single-segment names like the root `eslint.config.mjs`,
-      `.agent/lanes.json:67`; `fe` lists `apps/web/vitest.config.ts` but not the ESLint config).
-      A branch `agent/fe/TMU-OPS-003-*` adding either file fails `scripts/check-lane.sh`
-      (gate step 0), so the task is not runnable as written — exactly the failure mode OPS-011
-      claims to have removed. Fix direction: move the Dockerfile into a small `ops` task (or add
-      it to the `fe` lane deliberately), and add `apps/web/eslint.config.mjs` to a lane; do not
-      restate a lane fact that the map contradicts.
-
-- [ ] `docs/08-project/tasks/TMU-OPS-008.md:52-55` — the file list requires
-      `tests/integration/**`, `tests/contract/**`, `tests/e2e/**`, but `tests/**` is the `qa`
-      lane (`.agent/lanes.json:53`); the `ops` lane only gained `tests/tooling/**` (`:76`). The
-      dispatcher's routes are hard-coded to those directories
-      (`scripts/checks/step.mjs:23-25`), so an `ops` branch cannot make `test:*` real without
-      either a lane-map change (unmentioned in the task file) or a split into a `qa` task. As
-      written the task is out-of-lane.
-
-## MAJOR
-
-- [ ] **Owner-agent permissions are not covered by the test that claims to cover them.**
-      `scripts/checks/scaffold.test.mjs:271-284` only asserts the owner's agent file *exists*;
-      it does not assert the agent's edit allowlist covers the task's files, so it cannot catch
-      the gaps this task set out to fix. Concrete mismatches:
-      `ops-dev` (`.opencode/agents/ops-dev.md:7-31`) has no `tests/**`, but OPS-008 needs
-      `tests/**` and OPS-002 needs `tests/tooling/**` (`TMU-OPS-002.md:43,56`);
-      `backend-dev` (`.opencode/agents/backend-dev.md:7-13`) has no `tests/db/**`, needed by
-      OPS-005 (`TMU-OPS-005.md:50`); `frontend-dev` (`.opencode/agents/frontend-dev.md:7-15`)
-      cannot edit `apps/web/package.json`, `apps/web/next.config.ts`,
-      `apps/web/postcss.config.mjs` or `apps/web/src/styles/**`, all listed by OPS-003
-      (`TMU-OPS-003.md:50-51`). Acceptance criteria 1 and 5 of `TMU-OPS-011.md:39-47` are
-      therefore only partly true. Direction: widen the agent allowlists (ops-lane change),
-      re-owner/split the tasks, and extend the test to assert path coverage, not just existence.
-
-- [ ] **Red evidence is inconsistent and not reproducible.**
-      `docs/08-project/tasks/TMU-OPS-011.md:74` records "3 failed / 18 passed" but names four
-      failing tests; `:90` lists three names and omits the dispatcher test. The suite went from
-      16 `it(` on `origin/main` to 21 here (5 new tests). Four of the five fail on a
-      pre-implementation tree (docker guard, ops-dev agent, dispatcher, merge-gate); the
-      owner-agent test passes pre-change because all old owners existed. A truthful red run is
-      4 failed/17 passed (pre-rewrite) or 5/16 (post-rewrite) — 3/18 is arithmetically impossible.
-      DoD #1 (`docs/05-workflow/05-definition-of-ready-done.md`) requires red evidence that
-      failed for the right reason; re-run and record it accurately.
-
-- [ ] **DEC-019 conflicts with the branch-protection approval requirement.**
-      `docs/08-project/tasks/TMU-OPS-009.md:39` (rewritten here) requires branch protection with
-      "1 approval", and `docs/05-workflow/08-ci-cd.md:51` still says "≥1 approval", while
-      `docs/05-workflow/01-git-workflow.md:21` was changed to "review verdict + CI green" and
-      `:57` says the orchestrator merges. No agent can approve a PR, so with "1 approval"
-      required the orchestrator cannot actually exercise the merge authority DEC-019 grants —
-      the rule is not operational. Needs a human decision: drop the approval requirement for
-      agent PRs, or keep it and reword DEC-019 to "orchestrator merges after human approval".
-
-- [ ] **`opencode.json` widens merge/PR permissions globally, not just for the orchestrator.**
-      `opencode.json:42` adds `"gh pr merge*": "allow"` to the *global* `permission.bash` map;
-      `git-steward` (`.opencode/agents/git-steward.md:7-24`) and `reviewer`
-      (`.opencode/agents/reviewer.md:9-16`) deny `*` but do not deny `gh pr merge*`, and opencode
-      merges agent rules with global rules ("last matching rule winning"), so the global allow
-      can win. `:43` also downgrades `"gh pr*": "deny"` to `"ask"`, so every other `gh pr`
-      subcommand (create/close/edit/review) moves from blocked to promptable for all agents.
-      That is broader than DEC-019's intent. Direction: move `gh pr merge*: allow` into
-      `.opencode/agents/orchestrator.md` (currently only `"*": ask`, `:9-15`), keep the read-only
-      `view`/`checks` allows, and leave `"gh pr*": "deny"` or add explicit denies to the other
-      agents. (Nothing else in the diff widens permissions; `ops-dev`'s `gh api*`/`gh run*`
-      allows are consistent with OPS-009's stated `gh api` use.)
-
-## MINOR
-
-- [ ] `docs/08-project/tasks/TMU-OPS-005.md:40-41,51-52` — the criterion still names
-      `docs/07-ops/01-local-dev-setup.md` (docs lane) and the file list still says to add it "in
-      the same PR as a `docs`-tagged hunk"; there is no such mechanism and `check-lane.sh` will
-      reject it. The Notes at `:60-64` offer a README alternative, but the acceptance criterion
-      is not reworded to match.
-- [ ] `docs/08-project/tasks/TMU-OPS-002.md:43` — the criterion says a `tests/tooling/**`
-      fixture must fail `pnpm typecheck`, but `tsconfig.json:9` includes only
-      `scripts/**/*.mjs` and `eslint.config.mjs`, so typecheck never sees the fixture. The task
-      must extend the include (in-lane, `ops-dev` may edit `tsconfig*.json`) or reword.
-- [ ] `docs/08-project/tasks/TMU-OPS-008.md:52-57` — the dispatcher resolves `test:*` via
-      `pnpm --filter` (`scripts/checks/step.mjs:23-25`), which only works for pnpm workspace
-      projects; `pnpm-workspace.yaml:2-4` globs only `apps/*` and `packages/*`, and
-      `scripts/checks/scaffold.test.mjs:210-214` asserts exactly that. OPS-008 must add a
-      `tests/*` glob and update that test; neither file is in its list.
-- [ ] `scripts/checks/scaffold.test.mjs:228-230` — the docker guard test asserts the path
-      string, `exists == 'no'` and `TMU-OPS-003`, but never asserts the `docker build` step
-      exists, so a guard that always skips would still pass. Add an assertion for
-      `docker build -f infra/docker/web.Dockerfile`.
-- [ ] `scripts/checks/scaffold.test.mjs:240-262` — the dispatcher test asserts wiring only;
-      nothing covers "real script when the package exists" or "non-zero propagates". The code is
-      correct (`step.mjs:38-44`) but the behaviour is untested.
-- [ ] `.agent/lanes.json:76` — `tests/tooling/**` overlaps the broad `qa: ["tests/**"]` (`:53`),
-      so two lanes can edit the same path. Pre-existing precedent (`tests/db/**` vs `tests/**`)
-      but the new entry adds another instance; the lane-map test does not detect overlaps.
-- [ ] `docs/05-workflow/01-git-workflow.md:57` and `AGENTS.md:24` — the
-      "contract/migration PRs stop for a human when breaking or irreversible" caveat exists only
-      in `docs/05-workflow/02-agent-loop.md:55`; the other two state unconditional orchestrator
-      merges. Align the wording.
-- [ ] `AGENTS.md:24`, `docs/05-workflow/01-git-workflow.md:21,57` cite DEC-019, but no DEC-019
-      row exists yet (`docs/08-project/decisions-log.md` ends at DEC-018;
-      `docs/01-product/12-assumptions-and-decisions.md` ends at DEC-018). The deferral to
-      TMU-META-001 is stated, but until it lands the references are dangling. Relatedly,
-      `TMU-OPS-011.md:60,82` still list the two decision tables / plan step as if this task edits
-      them — stale after the deferral.
-- [ ] `docs/05-workflow/10-parallel-lanes-and-ownership.md:27` — the lane table still lists the
-      ops agent as "orchestrator/backend-dev"; the new `ops-dev` agent is not added. `:46-47` is
-      also missing the blank line before `## Lane semantics`.
-- [ ] `.opencode/agents/ops-dev.md:51` and all rewritten task files lack a final newline
-      (`.editorconfig:6` sets `insert_final_newline = true`; last byte is `)` on
-      `TMU-OPS-002..011.md`).
-- [ ] `docs/06-quality/02-test-cases/TC-ADM.md:53` references
-      `tests/contracts/i18n-keys.spec.ts` while the dispatcher routes `test:contract` to
-      `tests/contract` (`step.mjs:24`); pick one name when OPS-008 lands.
+- [ ] MINOR — `docs/08-project/tasks/TMU-OPS-013.md:31-34` offers "or have this task's reviewer
+      accept a one-line `ops` hunk", which contradicts the lane rules (`10-parallel-lanes-and-
+      ownership.md:44-46,54-55`) and the split it was created by. Reword to "TMU-OPS-014 adds
+      the glob" only.
+- [ ] MINOR — `TMU-OPS-013`/`TMU-OPS-014` deps are circular in time: OPS-013:10 deps on
+      OPS-003/005/007 while OPS-014:10 deps on OPS-013, yet OPS-013:33 declares "this task
+      depends on it" (OPS-014). Neither can be marked DONE before the other. Keep the filed
+      order (013 then 014) or state that 013's packages are not workspace members until 014.
+- [ ] MINOR — `scripts/checks/scaffold.test.mjs:239` pins `infra/**` as a required `ops-dev`
+      allow (fine, and `ops-dev.md:28` has it), but the test is a fixed literal list: a future
+      task whose owner needs a new path must edit this test, not the agent. Consider deriving
+      the required paths from the task files (the mechanism M1 asked for); the current form
+      still catches the cycle-1 gaps.
+- [ ] MINOR — `docs/08-project/reviews/TMU-OPS-011.md` is added by commit `3553585` and not
+      updated by `558e3ba`; the reviewer-owned file is being committed by the implementer. Not a
+      correctness issue (the cycle-1 verdict stays on record in git), but the next reviewer file
+      should be committed by the reviewer step.
 
 ## Checks run
 
-- `pnpm gate` → **OK gate(quick) passed** (lane check, format, lint, typecheck, i18n keys, unit
-  tests 21/21, contracts:check, contracts:lint, db:check placeholders exit 0).
-- `node scripts/checks/step.mjs bogus-step` → `Unknown dispatched step: bogus-step`, exit 1.
-- `node scripts/checks/step.mjs test:integration` → pending notice (TMU-OPS-008), exit 0.
-- Failure propagation: `execSync` throws on a non-zero child (verified with
-  `node -e` + `cmd /c exit 3` → node exit 1), so `step.mjs:44` cannot silently pass a failing
-  package script; the placeholder at `:38-42` is only reachable when `dir/package.json` is
-  absent. If the package exists but is not a workspace member, `pnpm --filter` fails loudly.
-- Lane overlap probe (same glob translation as `scripts/check-lane.sh`):
-  `infra/docker/web.Dockerfile` → ops only; `apps/web/eslint.config.mjs` → **no lane**;
-  `tests/integration|contract|e2e/package.json` → qa only; `.gitignore`, `.gitleaks.toml`,
-  `lefthook.yml`, `tests/tooling/**` → ops only.
-- Generated indexes: re-rendered in memory from task front-matter → `backlog.md`/`status.md`
-  byte-identical (in sync, not hand-edited).
-- Test count: `origin/main` `scaffold.test.mjs` has 16 `it(`; HEAD has 21 (5 new).
-- Root scripts: no `pending.mjs` reference remains except `step.mjs:40` and the tests; the
-  `contracts:*`/`db:*`/`seed`/`test:*` routes match OPS-004's (`build/check/lint/breaking`) and
-  OPS-005's (`check/generate/migrate/seed`) planned package scripts.
-
-Gate tail:
-
-```
-> contracts in sync
-pending: contracts:check — not implemented until TMU-OPS-004
-         fails when a generated contract artefact is out of sync or hand-edited
-         contract set in docs: v1.0.0
-         M0 exit criteria allow this step to be a no-op; it exits 0.
-
-> openapi lint
-pending: contracts:lint — not implemented until TMU-OPS-004
-         validates the emitted OpenAPI against the BE-01 conventions
-         contract set in docs: v1.0.0
-         M0 exit criteria allow this step to be a no-op; it exits 0.
-
-> migrations check
-pending: db:check — not implemented until TMU-OPS-005
-         applies migrations to an empty pgvector database and diffs the result
-         M0 exit criteria allow this step to be a no-op; it exits 0.
-
-OK gate(quick) passed
-```
+- `pnpm gate` (workdir `E:\wt\TMU-OPS-011`) → **OK gate(quick) passed**; lane check, format,
+  lint, typecheck, i18n (skip), unit **23/23**, contracts/db placeholders exit 0.
+- `node scripts/checks/step.mjs bogus-step` → exit 1 "Unknown dispatched step"; `test:integration`
+  → placeholder exit 0.
+- Lane probe (same glob translation as `scripts/check-lane.sh`): `infra/docker/web.Dockerfile`
+  → ops; `apps/web/eslint.config.mjs` → fe; `tests/{integration,contract,e2e}/package.json` → qa;
+  `.gitignore`/`.gitleaks.toml`/`lefthook.yml` → ops. No uncovered path among the task-set files.
+- Red-evidence reproduction: origin/main scaffold test 16 it() → HEAD 23; the six named tests
+  fail pre-implementation, the owner-existence test passes; arithmetic 6+17=23 holds.
+- Generated indexes: re-rendered `backlog.md`/`status.md` from front-matter → structurally
+  identical; `backlog.md:18-20`, `status.md:20-22` include OPS-012/013/014, `META-001` at 100% TODO.
+- `git diff origin/main...HEAD` touches only `ops`/`meta` paths plus the new task files; no
+  runtime code, no auth/PII/upload surface. Privacy review: N/A.
 
 ## Notes for the human
 
-- Both BLOCKERs are the same pattern: a rewritten task claims in-lane execution but the lane map
-  disagrees. The cheapest fix is a small ops follow-up (or an amendment to this PR): decide the
-  owner of `infra/docker/web.Dockerfile` and of `tests/integration|contract|e2e`, and give
-  `apps/web/eslint.config.mjs` a lane.
-- Nothing in the diff touches runtime code, PII, auth, uploads or analytics; privacy review is
-  N/A. `gh pr view*`/`gh pr checks*` allows are read-only; the merge allow is the only
-  permission concern (see MAJOR).
-- The merge-gate change is a process decision (DEC-019); reconcile it with the OPS-009
-  branch-protection "1 approval" requirement before OPS-009 runs, or the orchestrator will not be
-  able to merge.
+- All cycle-1 BLOCKERs/MAJORs are fixed with evidence; the remaining items are MINOR and can be
+  follow-up tasks (`TMU-OPS-014`/`TMU-META-001` are already filed). The merge gate is now
+  consistent across `AGENTS.md`, `01-git-workflow.md`, `02-agent-loop.md`, `08-ci-cd.md` and
+  `opencode.json`.
+- One process point before OPS-009: the branch-protection "review verdict on record" is only
+  enforced by convention; DEC-019's merge authority still rests on the orchestrator reading the
+  review file. Consider requiring the review file path as a required check artifact when OPS-009
+  runs.
 - I ran the gate and read the diff; I did not modify any file except this review.

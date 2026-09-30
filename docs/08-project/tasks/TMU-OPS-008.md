@@ -67,7 +67,7 @@ the gate depends on.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| 2026-09-30 | orchestrator | rewritten | owner → `ops-dev`; 	ests/** moved to TMU-OPS-013 (qa — review BLOCKER 2); dispatcher dependency recorded |
+| 2026-09-30 | orchestrator | rewritten | owner → `ops-dev`; `tests/**` moved to TMU-OPS-013 (qa — review BLOCKER 2); dispatcher dependency recorded |
 
 ### Plan
 

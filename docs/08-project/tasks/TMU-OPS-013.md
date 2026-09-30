@@ -29,9 +29,10 @@ the CI `integration`/`contract-fuzz`/`e2e` jobs stop being no-ops.
 - `tests/**` is the `qa` lane (`.agent/lanes.json`); this task is `qa`-owned and `qa-engineer`
   may edit it.
 - `pnpm-workspace.yaml` currently globs only `apps/*` and `packages/*`; adding the test packages
-  needs the `tests/*` glob — a root file, so request it from the `ops` lane (TMU-OPS-014) or have
-  this task's reviewer accept a one-line `ops` hunk. **Planned: TMU-OPS-014 adds the glob and the
-  workspace-manifest test update; this task depends on it.**
+  needs the `tests/*` glob — a root file owned by the `ops` lane. **TMU-OPS-014 adds the glob and
+  the workspace-manifest test update; this task's packages are not workspace members until it
+  lands.** The filed order is 013 → 014 even though OPS-014's dependency runs the other way;
+  OPS-014 is merged first only for the glob, and this task rebases on it.
 - E2E uses Playwright with `ML_MODE=stub`; integration uses testcontainers; contract uses
   Schemathesis against the emitted OpenAPI (available after TMU-OPS-004).
 

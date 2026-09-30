@@ -49,6 +49,7 @@ verifies the schema instead of printing a placeholder.
 
 - `packages/db/**` (package.json, drizzle.config.ts, src/, migrations/)
 - `tests/db/**`
+
 ## Out of scope
 
 - Domain schema for reports, claims, matches (M3, `TMU-DB-001..005`).
