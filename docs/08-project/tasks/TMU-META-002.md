@@ -1,7 +1,7 @@
 ---
 id: TMU-META-002
 title: Post-merge bookkeeping — OPS-002 DONE and META-001 close-out
-status: REVIEW
+status: DONE
 lane: meta
 slug: post-merge-bookkeeping
 milestone: M0
@@ -10,7 +10,7 @@ owner: docs-keeper
 deps: [TMU-OPS-002, TMU-META-001]
 refs: [WF-GIT, DEC-019]
 created: 2026-09-30
-updated: 2026-09-30
+updated: 2026-10-01
 ---
 
 # TMU-META-002 — Post-merge bookkeeping: OPS-002 DONE and META-001 close-out
@@ -79,6 +79,9 @@ the generated indexes so the M0 chain unblocks: TMU-OPS-003..007 depend on TMU-O
 | 2026-09-30 | docs-keeper | 9 REVIEW c1 fix | MAJOR: `node scripts/backlog-index.mjs` re-run after the status flip → indexes match front-matter (probe check 7); MINOR 1: red evidence re-cited against `b9d6ba6` (`--ref`); MINOR 2 filed to TMU-OPS-008 (cold Vitest timeout); MINOR 3 filed to TMU-OPS-008 (`meta` scope list) and fix commit/PR title use the allowed `tasks` scope |
 | 2026-10-01 | reviewer | 9 REVIEW c2 | verdict **APPROVE** — 0 BLOCKER/MAJOR; 1 new wording MINOR ("6/6 FAIL" vs 6 FAIL + 1 PASS at `b9d6ba6`); all cycle-1 findings verified fixed → `docs/08-project/reviews/TMU-META-002.md` |
 | 2026-10-01 | docs-keeper | 9 REVIEW c2 fix | cycle-2 MINOR fixed: red evidence now reads "6 FAIL + 1 PASS" with the check-7 explanation |
+| 2026-10-01 | git-steward | 10 SHIP | pushed `28469d9`; PR [#6](https://github.com/HanifIsya/temuUNAIR-v2/pull/6) marked ready; CI all green (10 pass, `docker-build` skipped by design) |
+| 2026-10-01 | orchestrator | 12 MERGE GATE | squash-merged as `5203d12` (DEC-019; review verdict + CI green on record) |
+| 2026-10-01 | docs-keeper | 13 POST-MERGE | status → `DONE`; PR #6 merged as `5203d12`; indexes regenerated (TMU-META-002 close-out) |
 
 ### Plan
 
@@ -162,7 +165,8 @@ the generated indexes so the M0 chain unblocks: TMU-OPS-003..007 depend on TMU-O
   process.exit(fail ? 1 : 0);
   ```
 
-- PR: (pending)
+- PR: [#6](https://github.com/HanifIsya/temuUNAIR-v2/pull/6) — merged to `main` as `5203d12`
+  (squash, 2026-10-01); CI all green on `28469d9` (10 pass, `docker-build` skipped by design)
 - Review: cycle 1 **CHANGES** (1 MAJOR, 3 MINOR) → fixed; cycle 2 **APPROVE** (0 BLOCKER/MAJOR,
   1 MINOR fixed) (`docs/08-project/reviews/TMU-META-002.md`)
 
