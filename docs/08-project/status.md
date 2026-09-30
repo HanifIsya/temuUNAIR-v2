@@ -3,7 +3,7 @@
 
 ## M0 — 19%
 
-TODO: 12 · IN_PROGRESS: 1 · BLOCKED: 0 · REVIEW: 0 · DONE: 3 · CANCELLED: 0
+TODO: 11 · IN_PROGRESS: 1 · BLOCKED: 0 · REVIEW: 1 · DONE: 3 · CANCELLED: 0
 
 - [ ] TMU-META-001 — Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables
 - [x] TMU-OPS-001 — Root workspace scaffold, gate scripts and lane-map gaps
