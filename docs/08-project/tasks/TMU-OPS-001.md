@@ -35,16 +35,16 @@ that make this scaffold out-of-lane today.
 
 ## Acceptance criteria
 
-- [ ] `pnpm install` succeeds from a clean clone with `--frozen-lockfile` and produces a lockfile.
-- [ ] `pnpm gate` (quick) exits 0 on `main`-equivalent tree; every step in `scripts/gate.sh`
+- [x] `pnpm install` succeeds from a clean clone with `--frozen-lockfile` and produces a lockfile.
+- [x] `pnpm gate` (quick) exits 0 on `main`-equivalent tree; every step in `scripts/gate.sh`
       reports a result (real or an explicit "pending M2/M3" notice that still exits 0).
-- [ ] `pnpm -s format:check`, `lint`, `typecheck`, `i18n:check`, `test:unit`, `contracts:check`,
+- [x] `pnpm -s format:check`, `lint`, `typecheck`, `i18n:check`, `test:unit`, `contracts:check`,
       `contracts:lint`, `db:check` are all defined and callable.
-- [ ] `scripts/check-lane.sh` passes for this branch (no out-of-lane edits).
-- [ ] `.agent/lanes.json` covers every file this task adds; no glob overlaps another lane's paths.
-- [ ] `scripts/gate.sh` skips the ML step when `services/ml/pyproject.toml` is absent, and runs it
+- [x] `scripts/check-lane.sh` passes for this branch (no out-of-lane edits).
+- [x] `.agent/lanes.json` covers every file this task adds; no glob overlaps another lane's paths.
+- [x] `scripts/gate.sh` skips the ML step when `services/ml/pyproject.toml` is absent, and runs it
       when present (so the ML skeleton task can enable it without touching `scripts/`).
-- [ ] `docs/07-ops/01-local-dev-setup.md` documents the Windows prerequisite for `bash`.
+- [x] `docs/07-ops/01-local-dev-setup.md` documents the Windows prerequisite for `bash`.
 
 ## Files expected to change
 
@@ -157,7 +157,8 @@ OK gate(quick) passed
   `src/styles/**`). Without this, TMU-OPS-003 fails `check-lane.sh` on its first commit.
   `apps/web/src/app/api/**` stays with `be`, matching the route-handler ownership split.
 
-- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/1 - OPEN, not draft, mergeable/CLEAN, CI green on `bedf703`
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/1 - merged to `main` as `44d2ce9` (squash,
+  2026-09-30T00:32Z); CI green on `bedf703`
 - Review: `docs/08-project/reviews/TMU-OPS-001.md` — APPROVE (8 MINOR, all addressed except F4)
 
 ### Review follow-ups

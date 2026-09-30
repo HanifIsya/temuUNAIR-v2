@@ -36,18 +36,18 @@ holds merge authority at loop step 12).
 
 ## Acceptance criteria
 
-- [ ] `.opencode/agents/ops-dev.md` exists with edit rights for the ops lane, and the repo has an
+- [x] `.opencode/agents/ops-dev.md` exists with edit rights for the ops lane, and the repo has an
       agent that can execute every task's `owner:` field.
-- [ ] `scripts/checks/step.mjs` routes `contracts:*`, `db:*`, `seed`, `test:integration`,
+- [x] `scripts/checks/step.mjs` routes `contracts:*`, `db:*`, `seed`, `test:integration`,
       `test:contract`, `test:e2e` to the owning package when present, else the named placeholder.
-- [ ] `docker-build` in `ci.yml` skips with a named notice until `infra/docker/web.Dockerfile`
+- [x] `docker-build` in `ci.yml` skips with a named notice until `infra/docker/web.Dockerfile`
       exists; `main` CI is green after merge.
-- [ ] `AGENTS.md`, the agent-loop and git workflow docs describe the MERGE GATE (DEC-019); the
+- [x] `AGENTS.md`, the agent-loop and git workflow docs describe the MERGE GATE (DEC-019); the
       two decision tables are `meta` lane and are updated by TMU-META-001 in the same PR series.
-- [ ] All M0 task files name an existing owner agent and have in-lane, satisfiable criteria.
-- [ ] `.agent/lanes.json` covers every file this task adds (`.gitignore`, `.gitleaks.toml`,
+- [x] All M0 task files name an existing owner agent and have in-lane, satisfiable criteria.
+- [x] `.agent/lanes.json` covers every file this task adds (`.gitignore`, `.gitleaks.toml`,
       `lefthook.yml`, `apps/web/eslint.config.mjs`).
-- [ ] `pnpm gate` green.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 

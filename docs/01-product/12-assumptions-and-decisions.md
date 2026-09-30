@@ -3,7 +3,7 @@ id: DECISIONS
 title: Assumptions and decisions (DEC table)
 status: draft
 owner: DK
-updated: 2026-09-29
+updated: 2026-09-30
 depends_on: ["BLUEPRINT", "PRD"]
 source_refs: ["Blueprint §1.3", "docs/08-project/decisions-log.md"]
 ---

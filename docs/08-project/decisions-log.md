@@ -3,7 +3,7 @@ id: DECISIONS-LOG
 title: Decisions log
 status: draft
 owner: DK
-updated: 2026-09-29
+updated: 2026-09-30
 depends_on: ["DECISIONS", "ADR-README"]
 source_refs: ["Blueprint §1.3, §4.9"]
 ---
