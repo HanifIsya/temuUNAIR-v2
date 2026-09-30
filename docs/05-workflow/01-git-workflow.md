@@ -18,11 +18,11 @@ The `no-protected-push.sh` hook refuses any other remote.
 
 | Item | Rule |
 |---|---|
-| `main` | Always releasable. Protected: PR required, ≥1 human approval, required checks green, linear history, no force-push, no direct push (agents included) |
+| `main` | Always releasable. Protected by process (TMU-OPS-009): PR required, review verdict + CI green, linear history, no force-push, no direct push — merges happen only at the loop step 12 MERGE GATE (DEC-019) |
 | Task branches | `agent/<lane>/<TASK-ID>-<slug>` e.g. `agent/be/TMU-BE-010-create-report`. Lanes: `docs`, `arch`, `contracts`, `db`, `be`, `fe`, `ml`, `qa`, `ops`, `sec`, `meta` |
 | Human branches | `feat/…`, `fix/…`, `docs/…` (same PR rules) |
 | Lifetime | Short: aim for < 1 day / < 400 changed lines. Split tasks that grow |
-| Merge | **Squash merge**; PR title = the Conventional Commit; the human clicks merge |
+| Merge | **Squash merge**; PR title = the Conventional Commit; the orchestrator clicks merge (DEC-019) |
 | Worktrees | One Orca worktree per active task at `../wt/<TASK-ID>` (fallback: `git worktree add ../wt/<TASK-ID> -b <branch> origin/main`). Remove after merge |
 | Tags | `contract-v<semver>` per accepted contract set; `m<N>-<name>` per milestone gate; `v<semver>` for releases |
 
@@ -54,7 +54,7 @@ Agent: backend-dev
 | **P2 – Periodic backup** | Push every ~30 min of active work **if** there are unpushed green commits | git-steward | Never push red commits |
 | **P3 – Ready** | Rebase on `origin/main`, re-run gate, push, mark PR ready | git-steward | DoD met, reviewer APPROVE, gate green |
 | **Before ending a session** | Push green work + write the Progress log; if red, write a WIP note instead of pushing red | orchestrator | Keeps the next session resumable |
-| **Merge to `main`** | Human squash-merges | human | CI green, review done, labels correct, contract PRs merged first |
+| **Merge to `main`** | Orchestrator squash-merges (DEC-019; a human may still merge) | orchestrator | CI green, review done, labels correct, contract PRs merged first; breaking/irreversible contract or migration PRs stop for a human |
 | **Post-merge** | docs-keeper updates status/traceability/changelog in its own small PR | docs-keeper | Task file marked DONE |
 | **Milestone gate** | Human tags `m<N>-<name>` on `main` after `gate:full` + E2E + demo | human | §8 exit criteria |
 

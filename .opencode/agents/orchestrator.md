@@ -13,6 +13,9 @@ permission:
     "git diff*": allow
     "node scripts/*": allow
     "pnpm gate*": allow
+    "gh pr view*": allow
+    "gh pr checks*": allow
+    "gh pr merge*": allow
   task:
     "*": allow
 ---

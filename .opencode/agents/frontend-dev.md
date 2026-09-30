@@ -5,7 +5,7 @@ temperature: 0.2
 permission:
   edit:
     "*": deny
-    "apps/web/src/app/**": allow
+    "apps/web/**": allow
     "apps/web/src/app/api/**": deny
     "apps/web/src/components/**": allow
     "apps/web/src/features/**": allow

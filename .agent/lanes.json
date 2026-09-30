@@ -15,9 +15,18 @@
     "docs/09-course/**",
     "docs/_source/proposal-extract.md"
   ],
-  "arch": ["docs/03-architecture/**", "docs/05-workflow/**"],
-  "contracts": ["packages/contracts/**", "docs/04-contracts/**"],
-  "db": ["packages/db/**", "tests/db/**"],
+  "arch": [
+    "docs/03-architecture/**",
+    "docs/05-workflow/**"
+  ],
+  "contracts": [
+    "packages/contracts/**",
+    "docs/04-contracts/**"
+  ],
+  "db": [
+    "packages/db/**",
+    "tests/db/**"
+  ],
   "be": [
     "apps/web/src/server/**",
     "apps/web/src/app/api/**",
@@ -43,14 +52,20 @@
     "apps/web/src/lib/**",
     "apps/web/src/middleware.ts",
     "apps/web/src/styles/**",
-    "**/*.test.tsx"
+    "**/*.test.tsx",
+    "apps/web/eslint.config.mjs"
   ],
   "ml": [
     "services/ml/**",
     "tests/fixtures/ml/**",
     "docs/06-quality/10-ml-eval-report-*.md"
   ],
-  "qa": ["tests/**", "**/*.test.ts", "**/*.test.tsx", "docs/06-quality/**"],
+  "qa": [
+    "tests/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "docs/06-quality/**"
+  ],
   "ops": [
     "scripts/**",
     "infra/**",
@@ -69,6 +84,9 @@
     ".prettierignore",
     ".editorconfig",
     ".gitattributes",
+    ".gitignore",
+    ".gitleaks.toml",
+    "lefthook.yml",
     "packages/config/**",
     ".env.example",
     "docs/05-workflow/**",

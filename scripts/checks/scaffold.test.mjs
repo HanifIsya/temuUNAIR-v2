@@ -218,3 +218,125 @@ describe("workspace manifests", () => {
     expect(existsSync(".env")).toBe(false);
   });
 });
+describe("loop runnability (TMU-OPS-011)", () => {
+  it("guards the docker-build CI job until the web Dockerfile exists", () => {
+    // The job only runs on main, so a missing Dockerfile used to make main permanently red.
+    const ci = readFileSync(".github/workflows/ci.yml", "utf8");
+    const idx = ci.indexOf("\n  docker-build:");
+    expect(idx, "ci.yml declares a docker-build job").toBeGreaterThan(-1);
+    const block = ci.slice(idx);
+    expect(block).toContain("infra/docker/web.Dockerfile");
+    expect(block).toContain("exists == 'no'");
+    expect(block).toContain("TMU-OPS-003");
+    // A guard that always skips would pass the checks above; assert the build step exists.
+    expect(block).toContain("docker build -f infra/docker/web.Dockerfile .");
+  });
+
+  it("gives every M0 owner agent the paths its tasks need", () => {
+    // Review cycle 1 (MAJOR): asserting the agent file exists is not enough. Assert the
+    // allowlists cover the files the rewritten M0 tasks list, so a lane gap fails here.
+    const required = {
+      "ops-dev": ["scripts/**", "package.json", ".github/**", ".opencode/**", "infra/**"],
+      "backend-dev": ["tests/db/**"],
+      "frontend-dev": ["apps/web/**"],
+      "qa-engineer": ["tests/**"],
+      "ml-dev": ["services/ml/**"],
+      architect: ["packages/contracts/**"],
+    };
+    for (const [agent, paths] of Object.entries(required)) {
+      const text = readFileSync(`.opencode/agents/${agent}.md`, "utf8");
+      for (const p of paths) {
+        expect(text, `${agent} may edit ${p}`).toContain(`"${p}": allow`);
+      }
+    }
+  });
+
+  it("routes package gate steps through the dispatcher", () => {
+    const pkg = readJson("package.json");
+    const dispatched = [
+      "contracts:build",
+      "contracts:check",
+      "contracts:lint",
+      "contracts:breaking",
+      "db:check",
+      "db:generate",
+      "db:migrate",
+      "seed",
+      "test:integration",
+      "test:contract",
+      "test:e2e",
+    ];
+    for (const name of dispatched) {
+      expect(pkg.scripts[name], `${name} uses the dispatcher`).toContain("scripts/checks/step.mjs");
+    }
+  });
+
+  it("dispatches to the package when it exists and to the placeholder when it does not", async () => {
+    const { planStep, ROUTES } = await import("./step.mjs");
+    const absent = () => false;
+    const present = () => true;
+
+    // Fail-closed: a package that exists runs its real script; a failing script propagates.
+    const real = planStep("contracts:check", present);
+    expect(real.kind).toBe("real");
+    expect(real.command).toContain("@temuunair/contracts");
+
+    // Placeholder only when the owning package is absent, and it names the step.
+    const pending = planStep("db:check", absent);
+    expect(pending.kind).toBe("pending");
+    expect(pending.command).toContain("pending.mjs db:check");
+
+    // Unknown steps must not silently pass.
+    expect(() => planStep("nope", absent)).toThrow(/Unknown dispatched step/);
+
+    // Every dispatched step has a route with a package dir and script.
+    for (const [name, [dir, filter, script]] of Object.entries(ROUTES)) {
+      expect(dir, name).toMatch(/^(packages|tests)\//);
+      expect(filter, name).toMatch(/^@temuunair\//);
+      expect(script, name).toBeTruthy();
+    }
+  });
+
+  it("runs the real command and propagates a failing child exit", async () => {
+    const { runStep } = await import("./step.mjs");
+    const calls = [];
+    const plan = runStep("db:check", {
+      exists: () => true,
+      run: (cmd) => calls.push(cmd),
+    });
+    expect(plan.kind).toBe("real");
+    expect(calls).toEqual(["pnpm --filter @temuunair/db run check"]);
+
+    // A failing child must surface, not be swallowed.
+    expect(() =>
+      runStep("db:check", {
+        exists: () => true,
+        run: () => {
+          throw new Error("child exited 3");
+        },
+      }),
+    ).toThrow(/child exited 3/);
+  });
+
+  it("codifies the orchestrator merge gate (DEC-019)", () => {
+    const loop = readFileSync("docs/05-workflow/02-agent-loop.md", "utf8");
+    expect(loop).toContain("MERGE GATE");
+    const git = readFileSync("docs/05-workflow/01-git-workflow.md", "utf8");
+    expect(git).toContain("Orchestrator squash-merges");
+  });
+
+  it("gives every task an owner agent that exists", () => {
+    const taskDir = "docs/08-project/tasks";
+    const files = readdirSync(taskDir).filter((f) => f.endsWith(".md"));
+    const agents = readdirSync(".opencode/agents")
+      .filter((f) => f.endsWith(".md"))
+      .map((f) => f.replace(/\.md$/, ""));
+    for (const file of files) {
+      const owner = readFileSync(`${taskDir}/${file}`, "utf8")
+        .match(/^owner: (.+)$/m)?.[1]
+        ?.trim();
+      expect(owner, `${file} declares an owner`).toBeTruthy();
+      expect(agents, `${file} owner "${owner}" is an agent file`).toContain(owner);
+    }
+  });
+});

@@ -6,11 +6,11 @@ lane: fe
 slug: web-app-shell
 milestone: M0
 priority: P1
-owner: orchestrator
+owner: frontend-dev
 deps: [TMU-OPS-002]
 refs: [ARCH-STACK, FE-01, FE-08, FE-12]
 created: 2026-09-29
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # TMU-OPS-003 — Next.js web app shell with i18n and unit test harness
@@ -30,6 +30,9 @@ blank directory.
   `notification.<TYPE>.title|body` key exists in both locales.
 - `docs/03-architecture/02-tech-stack-and-versions.md`: Next 15, React 19, Tailwind 4, Zod,
   TanStack Query 5, next-intl 3.
+- `infra/docker/web.Dockerfile` is the `ops` lane (`.agent/lanes.json`), so it is **not** part of
+  this task: TMU-OPS-012 ships it and enables the `docker-build` CI job (guarded in TMU-OPS-011).
+  This task must not add `infra/**` files.
 
 ## Acceptance criteria
 
@@ -42,25 +45,24 @@ blank directory.
 
 ## Files expected to change
 
-- `apps/web/package.json`, `apps/web/tsconfig.json`, `apps/web/next.config.ts`,
-  `apps/web/postcss.config.mjs`, `apps/web/eslint.config.mjs`
-- `apps/web/src/app/**` (root layout, minimal `(public)` page)
-- `apps/web/src/i18n/**` (next-intl config + `messages/id.json`, `messages/en.json`)
-- `apps/web/src/styles/**` (token entry point)
-- `apps/web/src/**/*.test.tsx`
+- `apps/web/**` (package.json, tsconfig.json, next.config.ts, postcss.config.mjs,
+  eslint.config.mjs, src/app/**, src/i18n/**, src/styles/**, src/**/*.test.tsx)
+- `pnpm-lock.yaml` (workspace dependencies)
 
 ## Out of scope
 
 - Real screens, data fetching, auth wiring (M3 tasks TMU-FE-001..006).
 - Design-token values from the real logo (TMU-DSG-001, M1).
 - Server services and route handlers (`apps/web/src/server/**`, be lane).
+- Root file changes: the root dispatcher (TMU-OPS-011) already routes `build`; if a root script is
+  needed, file it as a follow-up `ops` task instead of editing it here.
 
 ## Progress log
 
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| | | | |
+| 2026-09-30 | orchestrator | rewritten | owner → `frontend-dev`; Dockerfile moved to TMU-OPS-012 (ops lane — review BLOCKER 1); folded in (unblocks `docker-build`); root-file edits removed (dispatcher exists) |
 
 ### Plan
 

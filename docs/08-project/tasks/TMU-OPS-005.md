@@ -10,7 +10,7 @@ owner: backend-dev
 deps: [TMU-OPS-002]
 refs: [ARCH-STACK, BE-05, DEC-002]
 created: 2026-09-29
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # TMU-OPS-005 — DB package skeleton with Drizzle and a real `db:check`
@@ -27,16 +27,23 @@ verifies the schema instead of printing a placeholder.
 - `docs/05-workflow/13-coding-standards.md` — `snake_case`, every table has `id`, `created_at`,
   `updated_at`; forward-only migrations; never edit a merged migration.
 - `docs/03-architecture/02-tech-stack-and-versions.md`: Drizzle ORM, PostgreSQL 16 + pgvector.
-- `scripts/gate.sh` runs `db:check`; CI job `migrations` runs it against a pgvector service.
+- The root gate scripts already route here: `scripts/checks/step.mjs` (TMU-OPS-011) runs
+  `pnpm --filter @temuunair/db run <check|generate|migrate|seed>` once the package exists.
+  **No root file needs to change in this task.**
+- `pnpm db:check` must run without Docker when `DATABASE_URL` is set (CI provides a pgvector
+  service; locally use `docker compose up -d postgres` and export the URL from `.env.example`).
 
 ## Acceptance criteria
 
-- [ ] `pnpm db:check` exits 0 against an empty pgvector Postgres (docker compose) and exits
-      non-zero when a migration is syntactically broken (red evidence).
-- [ ] `pnpm db:generate` and `pnpm db:migrate` are defined and documented.
+- [ ] `pnpm db:check` exits 0 against an empty pgvector Postgres and exits non-zero when a
+      migration is syntactically broken (red evidence).
+- [ ] `pnpm db:generate` and `pnpm db:migrate` are implemented in the package and documented in
+      `packages/db/README.md` (one paragraph). The local-dev doc is the `docs` lane, so a pointer
+      there is opened as a separate `TMU-DOC-*` follow-up if the human wants it.
 - [ ] The initial migration creates only what M0 needs; domain tables arrive in TMU-DB-001..005.
 - [ ] No table, column or index is created that BE-05 does not specify.
-- [ ] `pnpm gate` green.
+- [ ] `pnpm gate` green (the `db:check` step is skipped with a named notice when no
+      `DATABASE_URL` is present, so the gate stays runnable on a bare clone).
 
 ## Files expected to change
 
@@ -46,21 +53,28 @@ verifies the schema instead of printing a placeholder.
 ## Out of scope
 
 - Domain schema for reports, claims, matches (M3, `TMU-DB-001..005`).
-- Seed data (`docs/06-quality/05-seed-and-fixture-data.md`, M3).
+- Seed data beyond a no-op `seed` script (`docs/06-quality/05-seed-and-fixture-data.md`, M3).
+- Root `package.json`/`scripts/**` edits.
+
+## Notes on the setup-doc line
+
+`docs/07-ops/01-local-dev-setup.md` is the `docs` lane, not `db`. The criterion above therefore
+documents the scripts in `packages/db/README.md` (in-lane); the local-dev doc pointer is an
+optional `TMU-DOC-*` follow-up, not a requirement of this task.
 
 ## Progress log
 
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| | | | |
+| 2026-09-30 | orchestrator | rewritten | root-script dependency removed; no-DB gate behaviour made explicit; cross-lane doc line flagged |
 
 ### Plan
 
 1. Scaffold `packages/db` with drizzle-kit and the migration runner.
-2. Add the baseline migration and the `check` script (apply on empty DB, then diff).
+2. Add the baseline migration and the package `check` script (apply on empty DB, then diff).
 3. Capture red evidence from a deliberately broken migration; revert it.
-4. `pnpm db:check`, then `pnpm gate`.
+4. `pnpm db:check` (with Postgres up), then `pnpm gate`.
 
 ## Evidence
 

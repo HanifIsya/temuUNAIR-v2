@@ -3,8 +3,9 @@
 
 ## M0 — 0%
 
-TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 1 · DONE: 0 · CANCELLED: 0
+TODO: 13 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 2 · DONE: 0 · CANCELLED: 0
 
+- [ ] TMU-META-001 — Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables
 - [ ] TMU-OPS-001 — Root workspace scaffold, gate scripts and lane-map gaps
 - [ ] TMU-OPS-002 — Shared config presets in packages/config
 - [ ] TMU-OPS-003 — Next.js web app shell with i18n and unit test harness
@@ -15,4 +16,8 @@ TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 1 · DONE: 0 · CANCELLED: 0
 - [ ] TMU-OPS-008 — Full gate wiring, CI parity and toolchain prerequisites
 - [ ] TMU-OPS-009 — Repo hygiene — branch protection, Dependabot and worktree notes
 - [ ] TMU-OPS-010 — M0 exit checklist, gate evidence and milestone handoff
+- [ ] TMU-OPS-011 — Loop runnability — ops executor, step dispatcher and merge authority
+- [ ] TMU-OPS-012 — Web Docker image and real docker-build CI job
+- [ ] TMU-OPS-013 — Integration, contract and E2E test packages
+- [ ] TMU-OPS-014 — Workspace glob for test packages
 

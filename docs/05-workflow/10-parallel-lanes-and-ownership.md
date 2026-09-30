@@ -24,11 +24,26 @@ touch. `scripts/check-lane.sh` fails the gate when a branch touches anything els
 | `fe` | `wt/TMU-FE-…` | frontend-dev | Abdul (visual) / Rizaldi (report UI) | be, ml | needs contract + MSW merged |
 | `ml` | `wt/TMU-ML-…` | ml-dev | Maysha (AI/ML) | be, fe | — |
 | `qa` | `wt/TMU-QA-…` | qa-engineer | any | all | red tests for a task go **inside that task's branch** unless it is a QA task |
-| `ops` | `wt/TMU-OPS-…` | orchestrator/backend-dev | Hanif | docs | touches CI/hooks: merge alone |
+| `ops` | `wt/TMU-OPS-…` | ops-dev | Hanif | docs | touches CI/hooks: merge alone |
 | `sec` / `meta` | `wt/TMU-SEC-…` / post-merge | security-reviewer / docs-keeper | any | all | bookkeeping PRs are tiny and merge fast |
 
 Suggested concurrency: **3–5 worktrees at once**; more multiplies review load and merge
 conflicts.
+
+## Cross-lane execution rules (TMU-OPS-011)
+
+Three rules keep every task runnable by its own lane (added after M0 stalled on them):
+
+1. **Root workspace files are ops-only.** `package.json`, `pnpm-workspace.yaml`, `turbo.json`,
+   `tsconfig*.json`, `*.config.*`, `scripts/**`, `.github/**`, `.opencode/**` and `.agent/**`
+   belong to the `ops` lane. A package task must never need to edit them: it ships its own
+   `package.json` scripts and the root dispatcher (`scripts/checks/step.mjs`) routes to it.
+2. **Every task names an owner agent that exists** in `.opencode/agents/`. If no agent can edit
+   the task's files, the task is not runnable - file it against a lane that has an agent, or
+   create the agent first.
+3. **Acceptance criteria must be satisfiable inside the task's lane.** If a criterion needs
+   another lane's file, it is a `deps` entry or an explicit follow-up task, never a hidden
+   requirement on the branch.
 
 ## Lane semantics
 

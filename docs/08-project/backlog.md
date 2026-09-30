@@ -3,6 +3,7 @@
 
 | ID | Milestone | Lane | Status | Priority | Title | Deps |
 |---|---|---|---|---|---|---|
+| [TMU-META-001](tasks/TMU-META-001.md) | M0 | meta | TODO | P1 | Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables | TMU-OPS-001, TMU-OPS-011 |
 | [TMU-OPS-001](tasks/TMU-OPS-001.md) | M0 | ops | REVIEW | P0 | Root workspace scaffold, gate scripts and lane-map gaps |  |
 | [TMU-OPS-002](tasks/TMU-OPS-002.md) | M0 | ops | TODO | P1 | Shared config presets in packages/config | TMU-OPS-001 |
 | [TMU-OPS-003](tasks/TMU-OPS-003.md) | M0 | fe | TODO | P1 | Next.js web app shell with i18n and unit test harness | TMU-OPS-002 |
@@ -10,6 +11,10 @@
 | [TMU-OPS-005](tasks/TMU-OPS-005.md) | M0 | db | TODO | P1 | DB package skeleton with Drizzle and a real db check | TMU-OPS-002 |
 | [TMU-OPS-006](tasks/TMU-OPS-006.md) | M0 | ml | TODO | P1 | ML service skeleton with uv, FastAPI health and pytest | TMU-OPS-002 |
 | [TMU-OPS-007](tasks/TMU-OPS-007.md) | M0 | be | TODO | P2 | Worker package skeleton with pg-boss bootstrap | TMU-OPS-002 |
-| [TMU-OPS-008](tasks/TMU-OPS-008.md) | M0 | ops | TODO | P1 | Full gate wiring, CI parity and toolchain prerequisites | TMU-OPS-003, TMU-OPS-004, TMU-OPS-005, TMU-OPS-006, TMU-OPS-007 |
+| [TMU-OPS-008](tasks/TMU-OPS-008.md) | M0 | ops | TODO | P1 | Full gate wiring, CI parity and toolchain prerequisites | TMU-OPS-003, TMU-OPS-004, TMU-OPS-005, TMU-OPS-006, TMU-OPS-007, TMU-OPS-012, TMU-OPS-013 |
 | [TMU-OPS-009](tasks/TMU-OPS-009.md) | M0 | ops | TODO | P2 | Repo hygiene — branch protection, Dependabot and worktree notes | TMU-OPS-001 |
 | [TMU-OPS-010](tasks/TMU-OPS-010.md) | M0 | ops | TODO | P2 | M0 exit checklist, gate evidence and milestone handoff | TMU-OPS-008, TMU-OPS-009 |
+| [TMU-OPS-011](tasks/TMU-OPS-011.md) | M0 | ops | REVIEW | P0 | Loop runnability — ops executor, step dispatcher and merge authority | TMU-OPS-001 |
+| [TMU-OPS-012](tasks/TMU-OPS-012.md) | M0 | ops | TODO | P2 | Web Docker image and real docker-build CI job | TMU-OPS-003 |
+| [TMU-OPS-013](tasks/TMU-OPS-013.md) | M0 | qa | TODO | P2 | Integration, contract and E2E test packages | TMU-OPS-003, TMU-OPS-005, TMU-OPS-007 |
+| [TMU-OPS-014](tasks/TMU-OPS-014.md) | M0 | ops | TODO | P2 | Workspace glob for test packages | TMU-OPS-013 |
