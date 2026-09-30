@@ -77,6 +77,8 @@ the generated indexes so the M0 chain unblocks: TMU-OPS-003..007 depend on TMU-O
 | 2026-09-30 | docs-keeper | 6 REFACTOR | evidence probe inlined in this file (temp file removed); gate green (`OK gate(quick) passed`, 36/36); status → `REVIEW` |
 | 2026-09-30 | reviewer | 9 REVIEW c1 | verdict **CHANGES** — 1 MAJOR (indexes generated before the status flip → stale), 3 MINOR → `docs/08-project/reviews/TMU-META-002.md` |
 | 2026-09-30 | docs-keeper | 9 REVIEW c1 fix | MAJOR: `node scripts/backlog-index.mjs` re-run after the status flip → indexes match front-matter (probe check 7); MINOR 1: red evidence re-cited against `b9d6ba6` (`--ref`); MINOR 2 filed to TMU-OPS-008 (cold Vitest timeout); MINOR 3 filed to TMU-OPS-008 (`meta` scope list) and fix commit/PR title use the allowed `tasks` scope |
+| 2026-10-01 | reviewer | 9 REVIEW c2 | verdict **APPROVE** — 0 BLOCKER/MAJOR; 1 new wording MINOR ("6/6 FAIL" vs 6 FAIL + 1 PASS at `b9d6ba6`); all cycle-1 findings verified fixed → `docs/08-project/reviews/TMU-META-002.md` |
+| 2026-10-01 | docs-keeper | 9 REVIEW c2 fix | cycle-2 MINOR fixed: red evidence now reads "6 FAIL + 1 PASS" with the check-7 explanation |
 
 ### Plan
 
@@ -88,7 +90,9 @@ the generated indexes so the M0 chain unblocks: TMU-OPS-003..007 depend on TMU-O
 ## Evidence
 
 - Red: probe run against the pre-edit commit `b9d6ba6` (the reviewed state before this branch's
-  changes) → **6/6 FAIL** (exit 1):
+  changes) → **6 FAIL + 1 PASS** (exit 1; check 7 "indexes match task front-matter" passes at
+  `b9d6ba6` because that tree was internally consistent — its red state is `25234ef`, see the
+  cycle-1 fix note below):
 
   ```
   $ node meta002-probe.mjs --ref b9d6ba6
@@ -159,8 +163,8 @@ the generated indexes so the M0 chain unblocks: TMU-OPS-003..007 depend on TMU-O
   ```
 
 - PR: (pending)
-- Review: cycle 1 **CHANGES** (1 MAJOR, 3 MINOR) → fixed; cycle 2 pending
-  (`docs/08-project/reviews/TMU-META-002.md`)
+- Review: cycle 1 **CHANGES** (1 MAJOR, 3 MINOR) → fixed; cycle 2 **APPROVE** (0 BLOCKER/MAJOR,
+  1 MINOR fixed) (`docs/08-project/reviews/TMU-META-002.md`)
 
 ## Blockers
 
