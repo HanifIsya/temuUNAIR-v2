@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@temuunair/config/tsconfig.base.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src/**/*.ts", "scripts/**/*.ts"],
+  "exclude": ["generated/**"]
+}

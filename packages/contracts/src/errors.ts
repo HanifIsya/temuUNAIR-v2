@@ -1,0 +1,46 @@
+// BE-04 error catalog: the 18 stable API error codes and their HTTP statuses.
+// Adding a code is a contract change (BE-04 rule 5): this table, error.<code> i18n keys in both
+// locales, and the FE-11 mapping ship in the same contract PR.
+export const ERROR_CODES = [
+  "AUTH_REQUIRED",
+  "AUTH_DOMAIN_NOT_ALLOWED",
+  "ACCOUNT_SUSPENDED",
+  "FORBIDDEN",
+  "NOT_FOUND",
+  "VALIDATION_FAILED",
+  "CONFLICT_STATE",
+  "IDEMPOTENCY_CONFLICT",
+  "CLAIM_ALREADY_ACTIVE",
+  "CLAIM_LIMIT_EXCEEDED",
+  "REPORT_NOT_CLAIMABLE",
+  "SELF_CLAIM_NOT_ALLOWED",
+  "UPLOAD_INVALID_TYPE",
+  "UPLOAD_TOO_LARGE",
+  "UPLOAD_LIMIT_REACHED",
+  "RATE_LIMITED",
+  "ML_UNAVAILABLE",
+  "INTERNAL",
+] as const;
+
+export type ErrorCode = (typeof ERROR_CODES)[number];
+
+export const ERROR_STATUS = {
+  AUTH_REQUIRED: 401,
+  AUTH_DOMAIN_NOT_ALLOWED: 403,
+  ACCOUNT_SUSPENDED: 403,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  VALIDATION_FAILED: 422,
+  CONFLICT_STATE: 409,
+  IDEMPOTENCY_CONFLICT: 409,
+  CLAIM_ALREADY_ACTIVE: 409,
+  CLAIM_LIMIT_EXCEEDED: 429,
+  REPORT_NOT_CLAIMABLE: 409,
+  SELF_CLAIM_NOT_ALLOWED: 403,
+  UPLOAD_INVALID_TYPE: 415,
+  UPLOAD_TOO_LARGE: 413,
+  UPLOAD_LIMIT_REACHED: 409,
+  RATE_LIMITED: 429,
+  ML_UNAVAILABLE: 503,
+  INTERNAL: 500,
+} as const satisfies Record<ErrorCode, number>;
