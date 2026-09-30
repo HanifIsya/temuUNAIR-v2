@@ -318,11 +318,11 @@ describe("loop runnability (TMU-OPS-011)", () => {
     ).toThrow(/child exited 3/);
   });
 
-  it("codifies the orchestrator merge gate (DEC-019)", () => {
+  it("codifies the orchestrator merge gate (DEC-020)", () => {
     const loop = readFileSync("docs/05-workflow/02-agent-loop.md", "utf8");
     expect(loop).toContain("MERGE GATE");
     const git = readFileSync("docs/05-workflow/01-git-workflow.md", "utf8");
-    expect(git).toContain("Orchestrator squash-merges");
+    expect(git).toContain("Any agent may squash-merge");
   });
 
   it("gives every task an owner agent that exists", () => {
@@ -386,8 +386,8 @@ describe("gh pr permissions (TMU-OPS-015)", () => {
     expect(resolve(rules, "gh pr edit 2 --body-file body.md")).toBe("allow");
     expect(resolve(rules, "gh pr view 2")).toBe("allow");
     expect(resolve(rules, "gh pr checks 2")).toBe("allow");
-    // Review cycle 1 M4: merge authority must not leak into the global rules.
-    expect(resolve(rules, "gh pr merge 2 --squash")).toBe("deny");
+    // DEC-020 supersedes the orchestrator-only merge gate: any session may merge at step 12.
+    expect(resolve(rules, "gh pr merge 2 --squash")).toBe("allow");
   });
 
   it("lets git-steward refresh the PR body and the orchestrator edit PR metadata", () => {
@@ -399,9 +399,36 @@ describe("gh pr permissions (TMU-OPS-015)", () => {
     expect(resolve(agentRules("docs-keeper"), "gh pr edit 2")).toBe("deny");
   });
 
-  it("keeps gh pr merge orchestrator-only (DEC-019)", () => {
-    expect(resolve(globalRules(), "gh pr merge 2 --squash")).toBe("deny");
-    expect(resolve(agentRules("git-steward"), "gh pr merge 2 --squash")).toBe("deny");
+  it("lets any session merge at step 12 (DEC-020)", () => {
+    expect(resolve(globalRules(), "gh pr merge 2 --squash")).toBe("allow");
+    expect(resolve(agentRules("git-steward"), "gh pr merge 2 --squash")).toBe("allow");
     expect(resolve(agentRules("orchestrator"), "gh pr merge 2 --squash")).toBe("allow");
+  });
+
+  it("keeps merge out of the agents that must not merge (DEC-020)", () => {
+    expect(resolve(agentRules("docs-keeper"), "gh pr merge 2 --squash")).toBe("deny");
+    expect(resolve(agentRules("reviewer"), "gh pr merge 2 --squash")).toBe("deny");
+    // Push stays git-steward-only: the global rules deny every `git push*`.
+    expect(resolve(globalRules(), "git push origin HEAD")).toBe("deny");
+  });
+
+  it("accepts the redirect suffix agents append to push commands (TMU-OPS-016)", () => {
+    expect(resolve(agentRules("git-steward"), "git push origin HEAD 2>&1")).toBe("allow");
+    expect(resolve(agentRules("git-steward"), "git push -u origin HEAD 2>&1")).toBe("allow");
+    expect(resolve(agentRules("git-steward"), "git push origin HEAD")).toBe("allow");
+    // force-with-lease must stay guarded even once the redirect suffix is accepted.
+    expect(resolve(agentRules("git-steward"), "git push --force-with-lease origin HEAD")).toBe(
+      "ask",
+    );
+    expect(resolve(globalRules(), "git push origin HEAD 2>&1")).toBe("deny");
+  });
+});
+
+describe("shared Vitest preset (TMU-OPS-016)", () => {
+  it("raises the shared Vitest timeout for the cold ESLint load (TMU-OPS-016)", () => {
+    const preset = readFileSync("packages/config/vitest.base.ts", "utf8");
+    expect(preset.replace(/\s+/g, "")).toContain("testTimeout:15000");
+    // The root config must keep delegating to the shared preset.
+    expect(readFileSync("vitest.config.ts", "utf8")).toContain("@temuunair/config/vitest");
   });
 });

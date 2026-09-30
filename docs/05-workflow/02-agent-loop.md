@@ -34,7 +34,7 @@ flowchart TD
   S9 -->|APPROVE| S10[10 SHIP: rebase, gate, P3 push, PR ready]
   S10 --> S11{11 CI green?}
   S11 -->|fail| G[FIX-CI ≤3 tries] --> S10
-  S11 -->|pass| H[12 MERGE GATE: orchestrator squash-merge]
+  S11 -->|pass| H[12 MERGE GATE: any agent squash-merge]
   H --> S13[13 POST-MERGE: docs-keeper, delete worktree, next iteration]
 ```
 
@@ -52,7 +52,7 @@ flowchart TD
 | 9 REVIEW | reviewer (fresh context) | Writes `reviews/<ID>.md`. Any BLOCKER/MAJOR → back to step 5 (max **2** review cycles, then `needs-human`). Sensitive tasks (auth, claims, uploads, privacy) also get `security-reviewer` |
 | 10 SHIP | git-steward | Rebase, re-gate, push, mark PR ready with the template filled (evidence links) |
 | 11 CI | git-steward | `gh pr checks --watch`; red → `/fix-ci` (max **3** attempts) then `needs-human` |
-| 12 MERGE GATE | orchestrator | Reviews the diff, labels and the CI result, then squash-merges (DEC-019: the orchestrator holds merge authority; a human may still merge). Contract/migration PRs get extra scrutiny and are stopped for a human when the change is breaking or irreversible |
+| 12 MERGE GATE | any agent | Reviews the diff, labels and the CI result, then squash-merges (DEC-020: any agent may merge at step 12; a human may still merge). Contract/migration PRs get extra scrutiny and are stopped for a human when the change is breaking or irreversible |
 | 13 POST-MERGE | docs-keeper | Task `DONE`, backlog/status/traceability/changelog updated; worktree and branch deleted; loop returns to step 0 |
 
 ## Fix loop rules

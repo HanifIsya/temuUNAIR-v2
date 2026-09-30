@@ -40,7 +40,8 @@
       "gh pr*": "deny",
       "gh pr view*": "allow",
       "gh pr checks*": "allow",
-      "gh pr edit*": "allow"
+      "gh pr edit*": "allow",
+      "gh pr merge*": "allow"
     }
   },
   "mcp": {

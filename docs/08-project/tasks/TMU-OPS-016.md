@@ -41,23 +41,23 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 
 ## Acceptance criteria
 
-- [ ] Red first (ops-dev writes them — `scripts/**` is the ops lane and qa-engineer cannot edit
+- [x] Red first (ops-dev writes them — `scripts/**` is the ops lane and qa-engineer cannot edit
       it): `scripts/checks/scaffold.test.mjs` asserts the new policy and fails before the change.
-- [ ] `opencode.json`: `"gh pr merge*": "allow"` after the `"gh pr*": "deny"` catch-all;
+- [x] `opencode.json`: `"gh pr merge*": "allow"` after the `"gh pr*": "deny"` catch-all;
       `gh pr view*`/`checks*`/`edit*` unchanged.
-- [ ] `.opencode/agents/git-steward.md`: `"gh pr merge*": allow`; push patterns widened to
+- [x] `.opencode/agents/git-steward.md`: `"gh pr merge*": allow`; push patterns widened to
       `"git push origin HEAD*"` and `"git push -u origin HEAD*"`; force-with-lease stays `ask`.
-- [ ] `packages/config/vitest.base.ts`: `testTimeout: 15000`.
-- [ ] `scaffold.test.mjs` merge-policy assertions flipped to DEC-020 (global, git-steward and
+- [x] `packages/config/vitest.base.ts`: `testTimeout: 15000`.
+- [x] `scaffold.test.mjs` merge-policy assertions flipped to DEC-020 (global, git-steward and
       orchestrator resolve merge to `allow`); a discrimination test keeps docs-keeper/reviewer
       resolving merge to `deny` through their own rulesets; a push-with-redirect regression test
       (`git push origin HEAD 2>&1` and `git push -u origin HEAD 2>&1` allow for git-steward; the
       global rules still `deny` every `git push*`).
-- [ ] Wording updated in `docs/05-workflow/04-opencode-playbook.md`,
+- [x] Wording updated in `docs/05-workflow/04-opencode-playbook.md`,
       `docs/05-workflow/01-git-workflow.md` (table), `docs/05-workflow/02-agent-loop.md` (mermaid
       + table) and `AGENTS.md` rule 4: any agent may merge at step 12; a human may still merge;
       breaking/irreversible contract or migration PRs stop for a human.
-- [ ] `pnpm gate` green.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
@@ -84,6 +84,10 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 |---|---|---|---|
 | 2026-09-30 | orchestrator | task filed | owner decision 2026-09-30; DEC-020 row deferred to TMU-META-003 |
 | 2026-09-30 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-016` @ `b9d6ba6` (= `origin/main`); `pnpm i --frozen-lockfile` ok; baseline `pnpm gate` green (36 tests) |
+| 2026-09-30 | git-steward | 1 PICK/P0 | branch claimed; `chore(tasks): claim TMU-OPS-016` `bf0d386` pushed (`-u origin HEAD`); remote branch is the lock |
+| 2026-09-30 | ops-dev | 4 RED | `pnpm vitest run scripts/checks/scaffold.test.mjs` → **5 failed / 24 passed** of 29: "codifies the orchestrator merge gate (DEC-020)", "allows gh pr edit globally without reopening the merge gate", "lets any session merge at step 12 (DEC-020)", "accepts the redirect suffix agents append to push commands (TMU-OPS-016)", "raises the shared Vitest timeout for the cold ESLint load (TMU-OPS-016)" |
+| 2026-09-30 | ops-dev | 5 GREEN | `opencode.json` merge allow; git-steward merge allow + `HEAD*` push patterns; `testTimeout: 15000`; docs/AGENTS wording; focused run **29 passed** |
+| 2026-09-30 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed`; unit **39 passed** (29+10); cold ESLint test 2336 ms under the 15 s timeout |
 
 ### Plan
 
@@ -102,8 +106,13 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
+- Red: `pnpm vitest run scripts/checks/scaffold.test.mjs` on the pre-change tree → **5 failed /
+  24 passed** of 29; failing: "codifies the orchestrator merge gate (DEC-020)",
+  "allows gh pr edit globally without reopening the merge gate", "lets any session merge at step 12
+  (DEC-020)", "accepts the redirect suffix agents append to push commands (TMU-OPS-016)",
+  "raises the shared Vitest timeout for the cold ESLint load (TMU-OPS-016)".
+- Green: focused run **29 passed**; `pnpm gate` → `OK gate(quick) passed` (unit 39 passed:
+  scaffold 29 + config-presets 10; cold ESLint 2336 ms under the 15 s timeout).
 - PR: (pending)
 - Review: (pending)
 
