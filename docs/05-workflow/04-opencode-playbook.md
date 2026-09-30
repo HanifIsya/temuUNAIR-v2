@@ -44,8 +44,10 @@ agent frontmatter (or in `opencode.json`) to pin one.
 
 ## Permission model
 
-- Global `opencode.json` denies `git push*`, `gh pr*`, `rm -rf*`, `curl*`, `wget*`, `sudo*`.
-- Only `git-steward` may push and open PRs (its agent-level block overrides the global deny).
+- Global `opencode.json` denies `git push*`, `gh pr*`, `rm -rf*`, `curl*`, `wget*`, `sudo*`,
+  with read-only `gh pr view*`/`checks*` and `gh pr edit*` allowed after the catch-all.
+- Only `git-steward` may push and open PRs (its agent-level block overrides the global deny);
+  `gh pr merge*` is allowed to the orchestrator alone (DEC-019).
 - Per-agent `edit` rules restrict writes by path; `bash` rules restrict commands.
 - Rules are evaluated as ordered patterns — **last matching rule wins**, so the `"*"` catch-all
   goes first and specific rules after it.
