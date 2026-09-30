@@ -29,7 +29,11 @@ function parseFrontMatter(file) {
     let [, key, value] = kv;
     value = value.replace(/\s+#.*$/, "").trim();
     if (value.startsWith("[") && value.endsWith("]")) {
-      fm[key] = value.slice(1, -1).split(",").map((s) => s.trim().replace(/^["']|["']$/g, "")).filter(Boolean);
+      fm[key] = value
+        .slice(1, -1)
+        .split(",")
+        .map((s) => s.trim().replace(/^["']|["']$/g, ""))
+        .filter(Boolean);
     } else {
       fm[key] = value.replace(/^["']|["']$/g, "");
     }
@@ -39,7 +43,11 @@ function parseFrontMatter(file) {
 
 function loadTasks() {
   let files = [];
-  try { files = readdirSync(TASKS_DIR).filter((f) => f.endsWith(".md")); } catch { return []; }
+  try {
+    files = readdirSync(TASKS_DIR).filter((f) => f.endsWith(".md"));
+  } catch {
+    return [];
+  }
   return files
     .map((f) => {
       const fm = parseFrontMatter(join(TASKS_DIR, f));
@@ -56,7 +64,9 @@ function remoteBranches() {
       .split(/\r?\n/)
       .map((l) => l.split("refs/heads/")[1])
       .filter(Boolean);
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 
 const tasks = loadTasks();
@@ -64,14 +74,24 @@ const tasks = loadTasks();
 if (args.includes("--show")) {
   const id = opt("show");
   const t = tasks.find((x) => x.id === id);
-  if (!t) { console.error(`Task ${id} not found`); process.exit(1); }
+  if (!t) {
+    console.error(`Task ${id} not found`);
+    process.exit(1);
+  }
   const field = opt("field");
-  console.log(field ? (Array.isArray(t[field]) ? t[field].join(",") : t[field] ?? "") : JSON.stringify(t, null, 2));
+  console.log(
+    field
+      ? Array.isArray(t[field])
+        ? t[field].join(",")
+        : (t[field] ?? "")
+      : JSON.stringify(t, null, 2),
+  );
   process.exit(0);
 }
 
 if (flag("all")) {
-  for (const t of tasks) console.log(`${t.id}\t${t.status}\t${t.lane}\t${t.milestone ?? ""}\t${t.title ?? ""}`);
+  for (const t of tasks)
+    console.log(`${t.id}\t${t.status}\t${t.lane}\t${t.milestone ?? ""}\t${t.title ?? ""}`);
   process.exit(0);
 }
 
@@ -91,7 +111,12 @@ const runnable = tasks
     if (t.lane !== "db") return true;
     return !branches.some((b) => b.startsWith("agent/db/"));
   })
-  .sort((a, b) => (a.milestone ?? "").localeCompare(b.milestone ?? "") || (a.priority ?? "P2").localeCompare(b.priority ?? "P2") || a.id.localeCompare(b.id));
+  .sort(
+    (a, b) =>
+      (a.milestone ?? "").localeCompare(b.milestone ?? "") ||
+      (a.priority ?? "P2").localeCompare(b.priority ?? "P2") ||
+      a.id.localeCompare(b.id),
+  );
 
 if (runnable.length === 0) {
   console.error("No runnable task");

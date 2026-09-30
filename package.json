@@ -1,0 +1,54 @@
+{
+  "name": "temuunair",
+  "version": "0.0.0",
+  "private": true,
+  "description": "TemuUNAIR â€” lost-and-found platform for Universitas Airlangga",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.34.6",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "i18n:check": "node scripts/i18n-check.mjs",
+    "test:unit": "vitest run",
+    "test:integration": "node scripts/checks/pending.mjs test:integration",
+    "test:contract": "node scripts/checks/pending.mjs test:contract",
+    "test:e2e": "node scripts/checks/pending.mjs test:e2e",
+    "contracts:build": "node scripts/checks/pending.mjs contracts:build",
+    "contracts:check": "node scripts/checks/pending.mjs contracts:check",
+    "contracts:lint": "node scripts/checks/pending.mjs contracts:lint",
+    "contracts:breaking": "node scripts/checks/pending.mjs contracts:breaking",
+    "db:check": "node scripts/checks/pending.mjs db:check",
+    "db:generate": "node scripts/checks/pending.mjs db:generate",
+    "db:migrate": "node scripts/checks/pending.mjs db:migrate",
+    "seed": "node scripts/checks/pending.mjs seed",
+    "build": "node scripts/checks/build.mjs",
+    "audit": "pnpm audit --prod --audit-level=high",
+    "dev": "node scripts/checks/dev.mjs",
+    "dev:worker": "node scripts/checks/dev.mjs worker",
+    "gate": "bash scripts/gate.sh quick",
+    "gate:quick": "bash scripts/gate.sh quick",
+    "gate:full": "bash scripts/gate.sh full",
+    "backlog:build": "node scripts/backlog-index.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^26.6.3",
+    "eslint": "^9.39.1",
+    "globals": "^17.12.0",
+    "prettier": "^3.6.2",
+    "turbo": "^2.6.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vitest": "^3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

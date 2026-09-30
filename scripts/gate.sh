@@ -13,7 +13,7 @@ step "unit tests";            pnpm -s test:unit
 step "contracts in sync";     pnpm -s contracts:check
 step "openapi lint";          pnpm -s contracts:lint
 step "migrations check";      pnpm -s db:check
-if [ -d services/ml ]; then
+if [ -f services/ml/pyproject.toml ]; then
   step "ml lint+tests";       (cd services/ml && uv run ruff check . && uv run pytest -q -m "not slow")
 fi
 if [ "$MODE" = "full" ]; then
@@ -23,6 +23,6 @@ if [ "$MODE" = "full" ]; then
   step "contract fuzz";       pnpm -s test:contract
   step "e2e";                 pnpm -s test:e2e
   step "secret scan";         gitleaks detect --no-banner
-  step "dependency audit";    pnpm -s audit --prod --audit-level=high
+  step "dependency audit";    pnpm -s run audit
 fi
 echo -e "\nOK gate($MODE) passed"

@@ -16,7 +16,7 @@ const en = JSON.parse(readFileSync(EN, "utf8"));
 
 const flatten = (obj, prefix = "") =>
   Object.entries(obj).flatMap(([k, v]) =>
-    typeof v === "object" && v !== null ? flatten(v, `${prefix}${k}.`) : [`${prefix}${k}`]
+    typeof v === "object" && v !== null ? flatten(v, `${prefix}${k}.`) : [`${prefix}${k}`],
   );
 
 const idKeys = new Set(flatten(id));
@@ -28,10 +28,24 @@ for (const k of enKeys) if (!idKeys.has(k)) errors.push(`missing in id: ${k}`);
 
 // error.<code> keys required for every BE-04 code
 const codes = [
-  "AUTH_REQUIRED", "AUTH_DOMAIN_NOT_ALLOWED", "ACCOUNT_SUSPENDED", "FORBIDDEN", "NOT_FOUND",
-  "VALIDATION_FAILED", "CONFLICT_STATE", "IDEMPOTENCY_CONFLICT", "CLAIM_ALREADY_ACTIVE",
-  "CLAIM_LIMIT_EXCEEDED", "REPORT_NOT_CLAIMABLE", "SELF_CLAIM_NOT_ALLOWED", "UPLOAD_INVALID_TYPE",
-  "UPLOAD_TOO_LARGE", "UPLOAD_LIMIT_REACHED", "RATE_LIMITED", "ML_UNAVAILABLE", "INTERNAL",
+  "AUTH_REQUIRED",
+  "AUTH_DOMAIN_NOT_ALLOWED",
+  "ACCOUNT_SUSPENDED",
+  "FORBIDDEN",
+  "NOT_FOUND",
+  "VALIDATION_FAILED",
+  "CONFLICT_STATE",
+  "IDEMPOTENCY_CONFLICT",
+  "CLAIM_ALREADY_ACTIVE",
+  "CLAIM_LIMIT_EXCEEDED",
+  "REPORT_NOT_CLAIMABLE",
+  "SELF_CLAIM_NOT_ALLOWED",
+  "UPLOAD_INVALID_TYPE",
+  "UPLOAD_TOO_LARGE",
+  "UPLOAD_LIMIT_REACHED",
+  "RATE_LIMITED",
+  "ML_UNAVAILABLE",
+  "INTERNAL",
 ];
 for (const code of codes) {
   if (!idKeys.has(`error.${code}`)) errors.push(`missing error key (id): error.${code}`);
@@ -40,9 +54,20 @@ for (const code of codes) {
 
 // notification.<TYPE>.title|body required for every BE-08 type
 const types = [
-  "MATCH_SUGGESTED", "MATCH_INVITE", "CLAIM_SUBMITTED", "CLAIM_APPROVED", "CLAIM_REJECTED",
-  "CLAIM_REMINDER", "MESSAGE_RECEIVED", "HANDOVER_PLANNED", "HANDOVER_CONFIRMED",
-  "REPORT_RETURNED", "REPORT_EXPIRING", "REPORT_EXPIRED", "REPORT_REMOVED", "REPORT_APPROVED",
+  "MATCH_SUGGESTED",
+  "MATCH_INVITE",
+  "CLAIM_SUBMITTED",
+  "CLAIM_APPROVED",
+  "CLAIM_REJECTED",
+  "CLAIM_REMINDER",
+  "MESSAGE_RECEIVED",
+  "HANDOVER_PLANNED",
+  "HANDOVER_CONFIRMED",
+  "REPORT_RETURNED",
+  "REPORT_EXPIRING",
+  "REPORT_EXPIRED",
+  "REPORT_REMOVED",
+  "REPORT_APPROVED",
   "ADMIN_DISPUTE",
 ];
 for (const t of types) {

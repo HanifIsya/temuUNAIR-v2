@@ -1,0 +1,4 @@
+# pnpm workspace (Blueprint §3, ADR-0001). services/ml is Python (uv), not a pnpm package.
+packages:
+  - "apps/*"
+  - "packages/*"

@@ -12,7 +12,10 @@ if (!process.env.DATABASE_URL) {
   process.exit(1);
 }
 
-const psql = (sql) => execSync(`psql "${process.env.DATABASE_URL}" -v ON_ERROR_STOP=1 -c ${JSON.stringify(sql)}`, { stdio: "inherit" });
+const psql = (sql) =>
+  execSync(`psql "${process.env.DATABASE_URL}" -v ON_ERROR_STOP=1 -c ${JSON.stringify(sql)}`, {
+    stdio: "inherit",
+  });
 
 console.log("Seeding performance dataset (this is synthetic data, never for production)…");
 
