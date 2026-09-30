@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-005
 title: DB package skeleton with Drizzle and a real db check
-status: TODO
+status: IN_PROGRESS
 lane: db
 slug: db-package-skeleton
 milestone: M0
@@ -68,13 +68,23 @@ optional `TMU-DOC-*` follow-up, not a requirement of this task.
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
 | 2026-09-30 | orchestrator | rewritten | root-script dependency removed; no-DB gate behaviour made explicit; cross-lane doc line flagged |
+| 2026-10-01 | orchestrator | 0 SYNC | fresh worktree `E:\wt\TMU-OPS-005`, branch `agent/db/TMU-OPS-005-db-package-skeleton` at `origin/main` b9d6ba6; `pnpm i` ok |
+| 2026-10-01 | orchestrator | 2 READ | BE-05 (DDL + migration rules), ARCH-STACK (Drizzle + PG16/pgvector), WF-STANDARDS, step.mjs routes, CI `migrations` job |
+| 2026-10-01 | orchestrator | 3 PLAN | plan below; Docker absent on this host → empty pgvector PG16 on Render used as the empty-DB target (CI uses the pgvector service); probes: programmatic `migrate` + `pushSchema` diff verified |
+| 2026-10-01 | orchestrator | env note | `DATABASE_URL` for local evidence: Render `temuunair-dev` (PG 16.15, pgvector 0.8.0, citext 1.6, empty). Never committed |
 
 ### Plan
 
-1. Scaffold `packages/db` with drizzle-kit and the migration runner.
-2. Add the baseline migration and the package `check` script (apply on empty DB, then diff).
-3. Capture red evidence from a deliberately broken migration; revert it.
-4. `pnpm db:check` (with Postgres up), then `pnpm gate`.
+1. `packages/db/package.json` (`@temuunair/db`): `check`, `generate`, `migrate`, `seed` scripts; deps `drizzle-orm`, `drizzle-kit`, `pg`, `tsx`.
+2. `packages/db/src/schema.ts` — M0 baseline only: extensions + schema placeholder, no BE-05 tables (those are TMU-DB-001..005, M3).
+3. `packages/db/src/migrate.ts` — programmatic forward-only runner (drizzle `migrate`) over `DATABASE_URL`.
+4. `packages/db/migrations/0001_init.sql` — baseline: `CREATE EXTENSION IF NOT EXISTS vector/citext` only (M0 needs), plus rollback note.
+5. `packages/db/src/check.ts` — `db:check`: skip with a named notice when `DATABASE_URL` unset; else create a scratch DB, apply migrations, `pushSchema` diff → fail non-zero on drift, drop scratch.
+6. `packages/db/src/seed.ts` — no-op guarded seed (prints "nothing to seed at M0").
+7. `packages/db/drizzle.config.ts` + `README.md` (one paragraph: generate/migrate/check).
+8. `tests/db/**` — Vitest: check-skip behaviour, script wiring, migration/journal shape, schema-drift red case.
+9. RED: tests fail first (package absent) → GREEN: implement → `pnpm db:check` (Render DB) exit 0 → broken-migration red evidence.
+10. `pnpm gate` green (no-DB path prints the named skip), then commit/push/PR/review.
 
 ## Evidence
 
