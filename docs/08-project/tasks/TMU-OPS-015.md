@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-015
 title: Grant gh PR-refresh permissions to the ship agents
-status: REVIEW
+status: DONE
 lane: ops
 slug: gh-pr-permissions
 milestone: M0
@@ -37,13 +37,13 @@ not reopened.
 
 ## Acceptance criteria
 
-- [ ] Red first: scaffold tests assert `gh pr edit` is allowed (git-steward + global after the
+- [x] Red first: scaffold tests assert `gh pr edit` is allowed (git-steward + global after the
       catch-all) and fail before the change.
-- [ ] `opencode.json` adds `"gh pr edit*": "allow"` after the `"gh pr*": "deny"` catch-all;
+- [x] `opencode.json` adds `"gh pr edit*": "allow"` after the `"gh pr*": "deny"` catch-all;
       `view`/`checks` unchanged.
-- [ ] `.opencode/agents/git-steward.md` and `.opencode/agents/orchestrator.md` allow `gh pr edit*`.
-- [ ] A test asserts merge authority stays orchestrator-only (global deny, orchestrator allow).
-- [ ] `pnpm gate` green.
+- [x] `.opencode/agents/git-steward.md` and `.opencode/agents/orchestrator.md` allow `gh pr edit*`.
+- [x] A test asserts merge authority stays orchestrator-only (global deny, orchestrator allow).
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
@@ -68,6 +68,9 @@ not reopened.
 | 2026-09-30 | reviewer | 9 REVIEW c1 | verdict **CHANGES** — 1 MAJOR (test helper scanned the whole front-matter, so orchestrator assertions were vacuous), 5 MINOR → `docs/08-project/reviews/TMU-OPS-015.md` |
 | 2026-09-30 | ops-dev | 9 REVIEW c1 fix | `agentRules` now slices the `bash:` block only; added non-grantee assertions (backend-dev → `ask`, docs-keeper → `deny`); `?` translation; playbook updated. Mutation check: removing the orchestrator grant now fails the test (was vacuous) |
 | 2026-09-30 | reviewer | 9 REVIEW c2 | verdict **APPROVE** — MAJOR verified fixed by independent reproduction; 3 MINOR open (1 live-session note, 2 accepted deferrals). `pnpm gate` green 26/26 |
+| 2026-09-30 | git-steward | 10 SHIP | pushed `f8c0278`; PR [#3](https://github.com/HanifIsya/temuUNAIR-v2/pull/3) opened; CI all green (10 pass, docker-build skipped by design) |
+| 2026-09-30 | orchestrator | 12 MERGE GATE | squash-merged as `b7137d3` (DEC-019; review verdict + CI green on record) |
+| 2026-09-30 | docs-keeper | 13 POST-MERGE | status → `DONE`; backlog/status regenerated (TMU-META-001) |
 
 ### Plan
 
@@ -84,7 +87,8 @@ not reopened.
 - Cycle-1 fix: the reviewer reproduced that the helper made orchestrator assertions vacuous
   (last rule extracted was `task: "*": allow`). After scoping `agentRules` to the `bash:` block,
   removing the orchestrator grant fails the suite (mutation check), restoring it passes.
-- PR: (pending)
+- PR: [#3](https://github.com/HanifIsya/temuUNAIR-v2/pull/3) — merged to `main` as `b7137d3`
+  (squash, 2026-09-30); CI all green on `f8c0278` (10 pass, `docker-build` skipped by design).
 - Review: cycle 1 **CHANGES** (1 MAJOR, 5 MINOR) → fixed; cycle 2 **APPROVE**
   (`docs/08-project/reviews/TMU-OPS-015.md`).
 

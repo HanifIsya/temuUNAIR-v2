@@ -3,7 +3,7 @@ id: DECISIONS
 title: Assumptions and decisions (DEC table)
 status: draft
 owner: DK
-updated: 2026-09-29
+updated: 2026-09-30
 depends_on: ["BLUEPRINT", "PRD"]
 source_refs: ["Blueprint §1.3", "docs/08-project/decisions-log.md"]
 ---
@@ -33,6 +33,7 @@ docs-keeper after every merge. Changing a default requires an ADR (`docs/03-arch
 | DEC-016 | Ultralytics YOLO is AGPL-3.0 | Acceptable for coursework; flagged RISK-006; re-evaluate before public deployment | provisional | Advisor |
 | DEC-017 | Personal data law | UU PDP (27/2022) as design constraint; legal review before launch | accepted | UNAIR legal / DPO |
 | DEC-018 | Public browsing | All browsing requires login; landing/help public | accepted | Team |
+| DEC-019 | Who merges a green PR | Orchestrator holds merge authority at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs stop for a human | accepted | Repo owner |
 
 ## How to change a decision
 

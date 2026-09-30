@@ -3,7 +3,7 @@ id: DECISIONS-LOG
 title: Decisions log
 status: draft
 owner: DK
-updated: 2026-09-29
+updated: 2026-09-30
 depends_on: ["DECISIONS", "ADR-README"]
 source_refs: ["Blueprint §1.3, §4.9"]
 ---
@@ -36,6 +36,7 @@ in `docs/03-architecture/adr/`.
 | DEC-016 | Ultralytics AGPL acceptable for coursework, flagged | provisional | Advisor | 2026-09-29 |
 | DEC-017 | UU PDP (27/2022) as a design constraint | accepted | UNAIR legal / DPO | 2026-09-29 |
 | DEC-018 | Login required for all browsing | accepted | Team | 2026-09-29 |
+| DEC-019 | Orchestrator holds merge authority at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs stop for a human | accepted | Repo owner | 2026-09-30 |
 
 ## ADR entries
 
