@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-003
 title: Next.js web app shell with i18n and unit test harness
-status: TODO
+status: IN_PROGRESS
 lane: fe
 slug: web-app-shell
 milestone: M0
@@ -10,7 +10,7 @@ owner: frontend-dev
 deps: [TMU-OPS-002]
 refs: [ARCH-STACK, FE-01, FE-08, FE-12]
 created: 2026-09-29
-updated: 2026-09-30
+updated: 2026-10-01
 ---
 
 # TMU-OPS-003 — Next.js web app shell with i18n and unit test harness
@@ -63,13 +63,25 @@ blank directory.
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
 | 2026-09-30 | orchestrator | rewritten | owner → `frontend-dev`; Dockerfile moved to TMU-OPS-012 (ops lane — review BLOCKER 1); folded in (unblocks `docker-build`); root-file edits removed (dispatcher exists) |
+| 2026-10-01 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-003` rebased onto `origin/main` @ `76124aa`; `pnpm i --frozen-lockfile` ok; baseline `pnpm gate` green (36 tests) |
+| 2026-10-01 | orchestrator | 1 PICK | claim push to `agent/fe/TMU-OPS-003-web-app-shell` |
 
 ### Plan
 
-1. Scaffold `apps/web` with Next 15 + React 19 + Tailwind 4 and the shared config presets.
-2. Wire next-intl with `id` default and `en`; generate the full BE-04/BE-08 key set.
-3. Add a root layout and one smoke test.
-4. `pnpm i18n:check`, `pnpm --filter @temuunair/web build`, `pnpm gate`.
+1. DoR waiver: dep TMU-OPS-002 shows REVIEW in its file but PR #5 is merged (`b9d6ba6`) — proceed.
+2. Scaffold `apps/web` (`@temuunair/web`): Next 15 + React 19 + Tailwind 4 on `@temuunair/config` presets; scripts `build`/`dev`/`start`.
+3. Wire next-intl without i18n routing: `src/i18n/request.ts` (cookie → Accept-Language → `id`), plugin in `next.config.ts`.
+4. Generate `src/i18n/messages/{id,en}.json`: all BE-04 `error.<code>` + BE-08 `notification.<TYPE>.title|body`, copy from DSG microcopy/templates, identical ICU placeholders.
+5. `src/styles/theme.css` from `docs/02-design/tokens.json`; root layout (`<html lang>` + provider) + placeholder home.
+6. RED: `src/i18n/messages.test.ts` + `src/app/layout.test.tsx` (renderToStaticMarkup, mock `next-intl/server`) via qa-engineer.
+7. GREEN via general agent (frontend-dev cannot write worktree paths — permission deviation, precedent OPS-002).
+8. Evidence: `pnpm i18n:check`, `pnpm --filter @temuunair/web build`, smoke test output, `pnpm gate`.
+9. Prerequisite: TMU-OPS-017 (e2e CI guard fix, ops lane) must merge before this PR's CI can be green.
+
+### Notes
+
+- Permission deviation (recorded for review): `frontend-dev` writes are anchored to the main checkout, so GREEN is delegated to a `general` agent running the frontend-dev playbook; the review file is transcribed into this worktree by the orchestrator. Precedent: TMU-OPS-002.
+- e2e CI job guard (`.github/workflows/ci.yml`) flips on when `apps/web/package.json` lands and then fails at root `pnpm exec playwright install` (spike-proven: root `.bin` has no playwright). Fix is ops-lane → filed as TMU-OPS-017; do not edit root/CI files here.
 
 ## Evidence
 
