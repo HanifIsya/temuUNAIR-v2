@@ -1,7 +1,7 @@
 ---
 id: TMU-META-001
 title: Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables
-status: TODO
+status: IN_PROGRESS
 lane: meta
 slug: post-merge-bookkeeping
 milestone: M0
@@ -33,16 +33,18 @@ not be edited on the `ops` branch (the lane check enforced this).
 
 ## Acceptance criteria
 
-- [ ] `docs/08-project/tasks/TMU-OPS-001.md` front-matter status is `DONE` with the merge commit
+- [x] `docs/08-project/tasks/TMU-OPS-001.md` front-matter status is `DONE` with the merge commit
       and PR link in its Progress log.
-- [ ] `docs/08-project/tasks/TMU-OPS-011.md` front-matter status is `DONE` with its PR link.
-- [ ] DEC-019 row exists in both `docs/08-project/decisions-log.md` and
+- [x] `docs/08-project/tasks/TMU-OPS-011.md` front-matter status is `DONE` with its PR link.
+- [x] `docs/08-project/tasks/TMU-OPS-015.md` front-matter status is `DONE` with its PR link
+      (merged in the same series; not in the original criterion list).
+- [x] DEC-019 row exists in both `docs/08-project/decisions-log.md` and
       `docs/01-product/12-assumptions-and-decisions.md`, matching the wording agreed with the
       repo owner: *orchestrator holds merge authority at loop step 12; a human may still merge;
       breaking/irreversible contract or migration PRs stop for a human*.
-- [ ] `node scripts/backlog-index.mjs` regenerates `backlog.md`/`status.md` with M0 showing
+- [x] `node scripts/backlog-index.mjs` regenerates `backlog.md`/`status.md` with M0 showing
       OPS-001 and OPS-011 `DONE`.
-- [ ] `pnpm gate` green.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
@@ -61,7 +63,9 @@ not be edited on the `ops` branch (the lane check enforced this).
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-30 | orchestrator | task filed | created after the ops lane check rejected the meta-lane edits |
-| | | | |
+| 2026-09-30 | docs-keeper | 0 SYNC | worktree `E:\wt\TMU-META-001` fast-forwarded to `origin/main` @ `b7137d3`; OPS-001 merged `44d2ce9` (PR #1), OPS-011 merged `c066330` (PR #2), OPS-015 merged `b7137d3` (PR #3) |
+| 2026-09-30 | docs-keeper | 4 RED | probe → 4 checks fail: DEC-019 missing in both tables; OPS-001/OPS-011 status `REVIEW` |
+| 2026-09-30 | docs-keeper | 5 GREEN | statuses `DONE`, DEC-019 rows added, indexes regenerated (see Evidence) |
 
 ### Plan
 
@@ -72,8 +76,11 @@ not be edited on the `ops` branch (the lane check enforced this).
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
+- Red: node probe over the four checks → 4 fail: `DEC-019 in decisions-log.md` FAIL,
+  `DEC-019 in 12-assumptions` FAIL, `OPS-001 DONE` FAIL, `OPS-011 DONE` FAIL (exit 1).
+- Green: same probe after the edits → all 4 PASS; `node scripts/backlog-index.mjs` →
+  `Wrote backlog.md (16 tasks) and status.md`, M0 `DONE: 3` (OPS-001, OPS-011, OPS-015);
+  `pnpm gate` → `OK gate(quick) passed` (26/26 unit).
 - PR: (pending)
 - Review: (pending)
 

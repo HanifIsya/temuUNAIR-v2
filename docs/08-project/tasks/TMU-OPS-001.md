@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-001
 title: Root workspace scaffold, gate scripts and lane-map gaps
-status: REVIEW
+status: DONE
 lane: ops
 slug: workspace-scaffold
 milestone: M0
@@ -80,6 +80,7 @@ that make this scaffold out-of-lane today.
 | 2026-09-29 | git-steward | 10 SHIP | pushed `5e000e3`, draft PR https://github.com/HanifIsya/temuUNAIR-v2/pull/1 |
 | 2026-09-29 | orchestrator | 11 CI fix (1/3) | CI red: 8 jobs failed with "Multiple versions of pnpm specified" — root `packageManager` now conflicts with `version:` on `pnpm/action-setup@v4`. Dropped the explicit version (pin lives in one place), removed the now-unused `PNPM_VERSION` env, made the `ml` and `e2e` jobs skip honestly until TMU-OPS-006/TMU-OPS-003 land, and routed the `audit` job through the same script as the gate. Added 3 tests asserting the CI/gate wiring |
 | 2026-09-30 | orchestrator | 11 CI green | all 11 checks green on `bedf703` (10 pass, `docker-build` skipped by design until TMU-OPS-003); `pnpm gate` re-verified locally: OK gate(quick) passed, 16/16 unit tests |
+| 2026-09-30 | docs-keeper | 13 POST-MERGE | merged to `main` as `44d2ce9` (PR [#1](https://github.com/HanifIsya/temuUNAIR-v2/pull/1), merged 2026-09-30T00:32Z); status → `DONE` (TMU-META-001) |
 
 ### Plan
 

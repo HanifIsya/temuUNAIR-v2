@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-011
 title: Loop runnability — ops executor, step dispatcher and merge authority
-status: REVIEW
+status: DONE
 lane: ops
 slug: ci-guard-and-merge-authority
 milestone: M0
@@ -80,6 +80,9 @@ holds merge authority at loop step 12).
 | 2026-09-30 | ops-dev | 9 REVIEW c1 fix | OPS-012 (Dockerfile, ops) + OPS-013 (test packages, qa) + OPS-014 (workspace glob, ops) split out; agent allowlists widened; dispatcher behaviour tests added; `gh pr merge*` moved to orchestrator agent; red evidence re-run (see Evidence) |
 | 2026-09-30 | ops-dev | 9 REVIEW c1 fix 2 | Remaining c1 findings: global `gh pr*` deny restored (was `ask`), owner-agent test now asserts path coverage, lane-table + blank-line, OPS-002 typecheck include note, OPS-013 TC path alignment, review-file CRLF→LF |
 | 2026-09-30 | reviewer | 9 REVIEW c2 | verdict **APPROVE** (cycle 2) — all c1 BLOCKERs/MAJORs verified fixed; remaining findings are MINOR follow-ups. `pnpm gate` green 23/23. See `docs/08-project/reviews/TMU-OPS-011.md` |
+| 2026-09-30 | git-steward | 10 SHIP | pushed `3553585..5a77105`; PR [#2](https://github.com/HanifIsya/temuUNAIR-v2/pull/2) opened with the full template body; CI all green |
+| 2026-09-30 | orchestrator | 12 MERGE GATE | squash-merged as `c066330` (DEC-019; review verdict + CI green on record) |
+| 2026-09-30 | docs-keeper | 13 POST-MERGE | status → `DONE`; backlog/status regenerated (TMU-META-001) |
 
 ### Plan
 
@@ -101,7 +104,9 @@ holds merge authority at loop step 12).
   propagates a failing child exit", "codifies the orchestrator merge gate (DEC-019)". The earlier
   "3 failed / 18 passed" was mis-recorded.
 - Green: `pnpm gate` → OK gate(quick) passed, 23/23 unit tests (see PR body).
-- PR: (pending push)
+- PR: [#2](https://github.com/HanifIsya/temuUNAIR-v2/pull/2) — merged to `main` as `c066330`
+  (squash, 2026-09-30T08:25Z); CI all green on `5a77105` (10 pass, `docker-build` skipped by
+  design); main CI green after merge (TMU-OPS-015 records the same for `b7137d3`).
 - Review: **APPROVE** — cycle 2, `docs/08-project/reviews/TMU-OPS-011.md` (2026-09-30). No
   BLOCKER/MAJOR open; MINOR follow-ups tracked in the review file.
 
