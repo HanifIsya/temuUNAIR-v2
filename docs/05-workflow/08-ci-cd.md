@@ -48,7 +48,8 @@ Never print env in CI; mask secrets; `audit` runs without credentials.
 
 ## Branch protection (documented in this repo, configured on GitHub)
 
-- `main`: PR required, ≥1 approval, code-owner review for `packages/contracts/**`,
+- `main`: PR required, review verdict on record (DEC-019; no approval count is required
+  because no agent can post a GitHub approval), code-owner review for `packages/contracts/**`,
   `docs/04-contracts/**`, `packages/db/migrations/**`; required checks above; linear history;
   no force-push; no bypass; squash-merge only; auto-delete merged branches.
 - Secret scanning + push protection on.

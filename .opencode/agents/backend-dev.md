@@ -9,6 +9,7 @@ permission:
     "apps/web/src/app/api/**": allow
     "apps/worker/**": allow
     "packages/db/**": allow
+    "tests/db/**": allow
     "docs/08-project/tasks/**": allow
   bash:
     "*": ask

@@ -21,7 +21,7 @@ ML: `cd services/ml && uv run pytest`
 1. Contract-first. If behaviour is not in a merged contract, STOP and request a `TMU-CTR-*` task.
 2. Stay in your lane (`.agent/lanes.json`). `scripts/check-lane.sh` enforces it.
 3. Tests first (red → green → refactor). Never weaken or delete tests to pass the gate.
-4. NEVER: push directly to `main`; merge to `main` only at loop step 12 MERGE GATE (orchestrator, DEC-019); force-push except `--force-with-lease` on your own `agent/*` branch;
+4. NEVER: push directly to `main`; merge to `main` only at loop step 12 MERGE GATE (orchestrator, DEC-019) - breaking/irreversible contract or migration PRs stop for a human; force-push except `--force-with-lease` on your own `agent/*` branch;
    use `--no-verify`; commit secrets or `.env`; edit a merged migration; hand-edit generated files.
 5. Privacy: never log or return hint answers, emails, embeddings, or raw image URLs of sensitive items.
    Fixtures use synthetic data only.

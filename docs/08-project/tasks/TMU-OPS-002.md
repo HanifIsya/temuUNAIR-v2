@@ -40,7 +40,7 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
       in app code; the root `eslint.config.mjs` consumes it.
 - [ ] `packages/config/vitest.base.ts` exports the shared Vitest defaults; the root
       `vitest.config.ts` consumes it.
-- [ ] A deliberately bad fixture under `tests/tooling/**` fails `pnpm lint` and `pnpm typecheck`
+- [ ] A deliberately bad fixture under `scripts/tooling/**` fails `pnpm lint` and `pnpm typecheck`
       (red evidence), then is removed.
 - [ ] `pnpm lint`, `pnpm typecheck` and `pnpm test:unit` still exit 0 on the clean tree.
 - [ ] No dependency is added outside `packages/config`'s own `package.json` (root devDependencies
@@ -53,7 +53,7 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
   vitest.base.ts)
 - root `tsconfig.base.json`, `eslint.config.mjs`, `vitest.config.ts` (delegate to the presets)
 - root `package.json`, `pnpm-lock.yaml` (workspace dependency on `@temuunair/config`)
-- `tests/tooling/**` (temporary bad fixture; removed before commit)
+- `scripts/tooling/**` (temporary bad fixture; removed before commit)
 
 ## Out of scope
 

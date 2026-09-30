@@ -5,13 +5,14 @@
 // file. Instead each package gate step is routed here, and this dispatcher runs the real
 // implementation when the owning package exists, otherwise the explicit exit-0 placeholder.
 //
-// Adding a real step later (e.g. packages/contracts/src/cli.ts) requires no root-file change:
-// the package ships `pnpm --filter <pkg> <script>` and this dispatcher finds it.
+// Fail-closed: a failing package script propagates its non-zero exit (execSync throws); the
+// placeholder is reachable only when the owning `package.json` is absent.
 import { existsSync } from "node:fs";
 import { execSync } from "node:child_process";
+import { pathToFileURL } from "node:url";
 
 // step name -> [package dir, workspace filter, package script]
-const ROUTES = {
+export const ROUTES = {
   "contracts:build": ["packages/contracts", "@temuunair/contracts", "build"],
   "contracts:check": ["packages/contracts", "@temuunair/contracts", "check"],
   "contracts:lint": ["packages/contracts", "@temuunair/contracts", "lint"],
@@ -25,20 +26,35 @@ const ROUTES = {
   "test:e2e": ["tests/e2e", "@temuunair/e2e-tests", "test"],
 };
 
-const step = process.argv[2];
-const route = ROUTES[step];
-
-if (!route) {
-  console.error(`Unknown dispatched step: ${step ?? "(none given)"}`);
-  process.exit(1);
+// Pure decision function: what should run for this step?
+// `exists` is injectable so tests can cover both branches without real packages.
+export function planStep(step, exists = existsSync) {
+  const route = ROUTES[step];
+  if (!route) {
+    throw new Error(`Unknown dispatched step: ${step ?? "(none given)"}`);
+  }
+  const [dir, filter, script] = route;
+  if (!exists(`${dir}/package.json`)) {
+    // Not implemented yet: the placeholder names the owning task and exits 0 (M0 exit criteria).
+    return { kind: "pending", command: `node scripts/checks/pending.mjs ${step}` };
+  }
+  return { kind: "real", command: `pnpm --filter ${filter} run ${script}` };
 }
 
-const [dir, filter, script] = route;
-
-if (!existsSync(`${dir}/package.json`)) {
-  // Not implemented yet: the placeholder names the owning task and exits 0 (M0 exit criteria).
-  execSync(`node scripts/checks/pending.mjs ${step}`, { stdio: "inherit" });
-  process.exit(0);
+// Runs the plan. `run` is injectable; the default propagates a non-zero child exit.
+export function runStep(step, options = {}) {
+  const { exists = existsSync, run = (cmd) => execSync(cmd, { stdio: "inherit" }) } = options;
+  const plan = planStep(step, exists);
+  run(plan.command);
+  return plan;
 }
 
-execSync(`pnpm --filter ${filter} run ${script}`, { stdio: "inherit" });
+const isCli = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isCli) {
+  try {
+    runStep(process.argv[2]);
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
+}

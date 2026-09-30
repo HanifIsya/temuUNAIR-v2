@@ -3,7 +3,7 @@
 
 ## M0 — 0%
 
-TODO: 10 · IN_PROGRESS: 1 · BLOCKED: 0 · REVIEW: 1 · DONE: 0 · CANCELLED: 0
+TODO: 13 · IN_PROGRESS: 1 · BLOCKED: 0 · REVIEW: 1 · DONE: 0 · CANCELLED: 0
 
 - [ ] TMU-META-001 — Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables
 - [ ] TMU-OPS-001 — Root workspace scaffold, gate scripts and lane-map gaps
@@ -17,4 +17,7 @@ TODO: 10 · IN_PROGRESS: 1 · BLOCKED: 0 · REVIEW: 1 · DONE: 0 · CANCELLED: 0
 - [ ] TMU-OPS-009 — Repo hygiene — branch protection, Dependabot and worktree notes
 - [ ] TMU-OPS-010 — M0 exit checklist, gate evidence and milestone handoff
 - [ ] TMU-OPS-011 — Loop runnability — ops executor, step dispatcher and merge authority
+- [ ] TMU-OPS-012 — Web Docker image and real docker-build CI job
+- [ ] TMU-OPS-013 — Integration, contract and E2E test packages
+- [ ] TMU-OPS-014 — Workspace glob for test packages
 

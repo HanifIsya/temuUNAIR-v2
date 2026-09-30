@@ -30,9 +30,9 @@ blank directory.
   `notification.<TYPE>.title|body` key exists in both locales.
 - `docs/03-architecture/02-tech-stack-and-versions.md`: Next 15, React 19, Tailwind 4, Zod,
   TanStack Query 5, next-intl 3.
-- This task also ships `infra/docker/web.Dockerfile` so the `docker-build` CI job (guarded in
-  TMU-OPS-011) starts building on `main`. The Dockerfile is part of the web app's packaging, so
-  it stays in the `fe` lane.
+- `infra/docker/web.Dockerfile` is the `ops` lane (`.agent/lanes.json`), so it is **not** part of
+  this task: TMU-OPS-012 ships it and enables the `docker-build` CI job (guarded in TMU-OPS-011).
+  This task must not add `infra/**` files.
 
 ## Acceptance criteria
 
@@ -40,8 +40,6 @@ blank directory.
 - [ ] `pnpm i18n:check` passes with `id.json` and `en.json` present and in parity, including all
       BE-04 error keys and BE-08 notification keys.
 - [ ] A smoke component test renders the root layout in `id` and asserts the locale switch to `en`.
-- [ ] `infra/docker/web.Dockerfile` builds (`docker build -f infra/docker/web.Dockerfile .`
-      succeeds) and the `docker-build` CI job turns real on `main`.
 - [ ] No page under `apps/web/src/app` fetches data yet; no `console.log`; no raw hex in components.
 - [ ] `pnpm gate` green.
 
@@ -49,7 +47,6 @@ blank directory.
 
 - `apps/web/**` (package.json, tsconfig.json, next.config.ts, postcss.config.mjs,
   eslint.config.mjs, src/app/**, src/i18n/**, src/styles/**, src/**/*.test.tsx)
-- `infra/docker/web.Dockerfile`, `infra/docker/.dockerignore` (if needed)
 - `pnpm-lock.yaml` (workspace dependencies)
 
 ## Out of scope
@@ -65,15 +62,14 @@ blank directory.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| 2026-09-30 | orchestrator | rewritten | owner → `frontend-dev`; Dockerfile folded in (unblocks `docker-build`); root-file edits removed (dispatcher exists) |
+| 2026-09-30 | orchestrator | rewritten | owner → `frontend-dev`; Dockerfile moved to TMU-OPS-012 (ops lane — review BLOCKER 1); folded in (unblocks `docker-build`); root-file edits removed (dispatcher exists) |
 
 ### Plan
 
 1. Scaffold `apps/web` with Next 15 + React 19 + Tailwind 4 and the shared config presets.
 2. Wire next-intl with `id` default and `en`; generate the full BE-04/BE-08 key set.
 3. Add a root layout and one smoke test.
-4. Add `infra/docker/web.Dockerfile`; build it locally.
-5. `pnpm i18n:check`, `pnpm --filter @temuunair/web build`, `pnpm gate`.
+4. `pnpm i18n:check`, `pnpm --filter @temuunair/web build`, `pnpm gate`.
 
 ## Evidence
 

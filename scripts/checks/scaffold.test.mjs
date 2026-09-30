@@ -228,6 +228,8 @@ describe("loop runnability (TMU-OPS-011)", () => {
     expect(block).toContain("infra/docker/web.Dockerfile");
     expect(block).toContain("exists == 'no'");
     expect(block).toContain("TMU-OPS-003");
+    // A guard that always skips would pass the checks above; assert the build step exists.
+    expect(block).toContain("docker build -f infra/docker/web.Dockerfile .");
   });
 
   it("ships an ops-dev agent that can edit the ops lane", () => {
@@ -255,10 +257,53 @@ describe("loop runnability (TMU-OPS-011)", () => {
     for (const name of dispatched) {
       expect(pkg.scripts[name], `${name} uses the dispatcher`).toContain("scripts/checks/step.mjs");
     }
-    const step = readFileSync("scripts/checks/step.mjs", "utf8");
-    expect(step).toContain("packages/contracts");
-    expect(step).toContain("packages/db");
-    expect(step).toContain("scripts/checks/pending.mjs");
+  });
+
+  it("dispatches to the package when it exists and to the placeholder when it does not", async () => {
+    const { planStep, ROUTES } = await import("./step.mjs");
+    const absent = () => false;
+    const present = () => true;
+
+    // Fail-closed: a package that exists runs its real script; a failing script propagates.
+    const real = planStep("contracts:check", present);
+    expect(real.kind).toBe("real");
+    expect(real.command).toContain("@temuunair/contracts");
+
+    // Placeholder only when the owning package is absent, and it names the step.
+    const pending = planStep("db:check", absent);
+    expect(pending.kind).toBe("pending");
+    expect(pending.command).toContain("pending.mjs db:check");
+
+    // Unknown steps must not silently pass.
+    expect(() => planStep("nope", absent)).toThrow(/Unknown dispatched step/);
+
+    // Every dispatched step has a route with a package dir and script.
+    for (const [name, [dir, filter, script]] of Object.entries(ROUTES)) {
+      expect(dir, name).toMatch(/^(packages|tests)\//);
+      expect(filter, name).toMatch(/^@temuunair\//);
+      expect(script, name).toBeTruthy();
+    }
+  });
+
+  it("runs the real command and propagates a failing child exit", async () => {
+    const { runStep } = await import("./step.mjs");
+    const calls = [];
+    const plan = runStep("db:check", {
+      exists: () => true,
+      run: (cmd) => calls.push(cmd),
+    });
+    expect(plan.kind).toBe("real");
+    expect(calls).toEqual(["pnpm --filter @temuunair/db run check"]);
+
+    // A failing child must surface, not be swallowed.
+    expect(() =>
+      runStep("db:check", {
+        exists: () => true,
+        run: () => {
+          throw new Error("child exited 3");
+        },
+      }),
+    ).toThrow(/child exited 3/);
   });
 
   it("codifies the orchestrator merge gate (DEC-019)", () => {

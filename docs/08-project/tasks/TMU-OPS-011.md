@@ -46,7 +46,7 @@ holds merge authority at loop step 12).
       two decision tables are `meta` lane and are updated by TMU-META-001 in the same PR series.
 - [ ] All M0 task files name an existing owner agent and have in-lane, satisfiable criteria.
 - [ ] `.agent/lanes.json` covers every file this task adds (`.gitignore`, `.gitleaks.toml`,
-      `lefthook.yml`, `tests/tooling/**`).
+      `lefthook.yml`, `apps/web/eslint.config.mjs`).
 - [ ] `pnpm gate` green.
 
 ## Files expected to change
@@ -57,7 +57,6 @@ holds merge authority at loop step 12).
 - `.github/workflows/ci.yml`
 - `opencode.json`, `AGENTS.md`
 - `docs/05-workflow/01-git-workflow.md`, `02-agent-loop.md`, `10-parallel-lanes-and-ownership.md`
-- `docs/08-project/decisions-log.md`, `docs/01-product/12-assumptions-and-decisions.md`
 - `docs/08-project/tasks/TMU-OPS-002..010.md` (rewrites), `docs/08-project/tasks/TMU-OPS-011.md`
 
 ## Out of scope
@@ -71,14 +70,15 @@ holds merge authority at loop step 12).
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-30 | orchestrator | task filed | user approved merge-authority change; loop blocked at step 0 |
-| 2026-09-30 | orchestrator | 4 RED | `pnpm test:unit` → 3 failed / 18 passed (docker-build guard, ops-dev agent, merge-gate docs, owner-agent check) |
+| 2026-09-30 | orchestrator | 4 RED | `pnpm test:unit` → 3 failed / 18 passed; failing: docker-build guard, ops-dev agent, merge-gate docs (the owner-agent test passed because the pre-rewrite owners already existed; the dispatcher test was added with the implementation in review cycle 1) |
 | 2026-09-30 | ops-dev | 5 GREEN | ops-dev agent, `step.mjs` dispatcher, CI guard, DEC-019 docs, lane map |
 | 2026-09-30 | ops-dev | 6 REFACTOR | OPS-002..010 rewritten to name existing owners and in-lane criteria; DEC-019 table rows moved to TMU-META-001 (meta lane, caught by the lane check) |
 
 ### Plan
 
 1. Write red tests for the four fixes (guard, agent, dispatcher, DEC-019 + owner check).
-2. Add `ops-dev` agent and `scripts/checks/step.mjs`; rewire the root scripts.
+2. Add `ops-dev` agent and `scripts/checks/step.mjs`; rewire the root scripts. The two decision
+   tables are `meta` lane and land in TMU-META-001.
 3. Guard `docker-build`; record DEC-019 in the two decision tables and the three workflow docs.
 4. Rewrite OPS-002..010 so each is executable by its owner in its lane.
 5. `pnpm gate`.
@@ -87,10 +87,17 @@ holds merge authority at loop step 12).
 
 - Red: `pnpm test:unit` → 3 failed / 18 passed; failures: "guards the docker-build CI job until
   the web Dockerfile exists", "ships an ops-dev agent that can edit the ops lane", "codifies the
-  orchestrator merge gate (DEC-019)".
+  orchestrator merge gate (DEC-019)". The dispatcher behaviour tests (real script, failure
+  propagation) were added in review cycle 1 and are covered by the green run.
 - Green: `pnpm gate` → OK gate(quick) passed (see PR body).
 - PR: (pending)
 - Review: (pending)
+
+## Open questions
+
+- Branch protection approval count (review MAJOR 3): DEC-019 grants the orchestrator merge
+  authority, but `docs/05-workflow/08-ci-cd.md:51` still says ">=1 approval". TMU-OPS-009 resolves
+  this; until then the orchestrator merges on review verdict + CI green.
 
 ## Blockers
 

@@ -36,9 +36,12 @@ the worktree/remote notes so every later task inherits a protected trunk.
 ## Acceptance criteria
 
 - [ ] `.github/dependabot.yml` exists and covers npm, pip (services/ml) and github-actions.
-- [ ] Branch protection on `main` is applied (PR required, 1 approval, required checks above,
-      linear history, no force-push, no direct push) and the `gh api` output is captured in the
-      task evidence.
+- [ ] Branch protection on `main` is applied (PR required, required checks above, linear history,
+      no force-push, no direct push) and the `gh api` output is captured in the task evidence.
+      **No approval count is required**: DEC-019 gives merge authority to the orchestrator and no
+      agent can post a GitHub approval, so requiring one would deadlock the loop. If the human
+      wants a review gate anyway, keep 1 approval and reword DEC-019 accordingly (recorded as an
+      open question in this task).
 - [ ] Secret scanning and push protection are confirmed on (evidence pasted).
 - [ ] Remaining placeholder CODEOWNERS handles are listed in the task file with an owner and a
       milestone by which they must be replaced.

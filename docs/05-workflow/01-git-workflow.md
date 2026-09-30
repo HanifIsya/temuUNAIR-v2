@@ -54,7 +54,7 @@ Agent: backend-dev
 | **P2 – Periodic backup** | Push every ~30 min of active work **if** there are unpushed green commits | git-steward | Never push red commits |
 | **P3 – Ready** | Rebase on `origin/main`, re-run gate, push, mark PR ready | git-steward | DoD met, reviewer APPROVE, gate green |
 | **Before ending a session** | Push green work + write the Progress log; if red, write a WIP note instead of pushing red | orchestrator | Keeps the next session resumable |
-| **Merge to `main`** | Orchestrator squash-merges (DEC-019; a human may still merge) | orchestrator | CI green, review done, labels correct, contract PRs merged first |
+| **Merge to `main`** | Orchestrator squash-merges (DEC-019; a human may still merge) | orchestrator | CI green, review done, labels correct, contract PRs merged first; breaking/irreversible contract or migration PRs stop for a human |
 | **Post-merge** | docs-keeper updates status/traceability/changelog in its own small PR | docs-keeper | Task file marked DONE |
 | **Milestone gate** | Human tags `m<N>-<name>` on `main` after `gate:full` + E2E + demo | human | §8 exit criteria |
 

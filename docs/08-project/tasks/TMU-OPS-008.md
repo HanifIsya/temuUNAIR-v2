@@ -7,7 +7,7 @@ slug: full-gate-and-ci-parity
 milestone: M0
 priority: P1
 owner: ops-dev
-deps: [TMU-OPS-003, TMU-OPS-004, TMU-OPS-005, TMU-OPS-006, TMU-OPS-007]
+deps: [TMU-OPS-003, TMU-OPS-004, TMU-OPS-005, TMU-OPS-006, TMU-OPS-007, TMU-OPS-012, TMU-OPS-013]
 refs: [WF-CICD, WF-GATE, BLUEPRINT]
 created: 2026-09-29
 updated: 2026-09-30
@@ -30,7 +30,8 @@ the gate depends on.
 - TMU-OPS-011 added `scripts/checks/step.mjs`, which routes each package step to
   `pnpm --filter <pkg> run <script>` when the package exists and to the named placeholder
   otherwise. This task replaces the remaining placeholders with real implementations
-  (integration, contract fuzz, E2E) and adds the missing test packages.
+  (integration, contract fuzz, E2E). The test packages themselves (`tests/**`) are the `qa` lane
+  and are delivered by TMU-OPS-013; this task owns the wiring and the CI parity.
 - Local environment note: on Windows the gate needs Git Bash, and `uv`/`gitleaks`/Docker must be
   on PATH for their steps.
 
@@ -52,7 +53,6 @@ the gate depends on.
 - `scripts/**`
 - `.github/workflows/ci.yml`
 - root `package.json`
-- `tests/integration/**`, `tests/contract/**`, `tests/e2e/**` (new test packages)
 - `docs/07-ops/01-local-dev-setup.md`
 - `docs/05-workflow/08-ci-cd.md` (only if the parity table changes)
 
@@ -67,7 +67,7 @@ the gate depends on.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| 2026-09-30 | orchestrator | rewritten | owner → `ops-dev`; dispatcher dependency recorded; docs-lane files noted |
+| 2026-09-30 | orchestrator | rewritten | owner → `ops-dev`; 	ests/** moved to TMU-OPS-013 (qa — review BLOCKER 2); dispatcher dependency recorded |
 
 ### Plan
 

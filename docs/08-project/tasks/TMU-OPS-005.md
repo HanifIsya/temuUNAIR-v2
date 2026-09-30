@@ -38,7 +38,8 @@ verifies the schema instead of printing a placeholder.
 - [ ] `pnpm db:check` exits 0 against an empty pgvector Postgres and exits non-zero when a
       migration is syntactically broken (red evidence).
 - [ ] `pnpm db:generate` and `pnpm db:migrate` are implemented in the package and documented in
-      `docs/07-ops/01-local-dev-setup.md` (one paragraph, no new doc).
+      `packages/db/README.md` (one paragraph). The local-dev doc is the `docs` lane, so a pointer
+      there is opened as a separate `TMU-DOC-*` follow-up if the human wants it.
 - [ ] The initial migration creates only what M0 needs; domain tables arrive in TMU-DB-001..005.
 - [ ] No table, column or index is created that BE-05 does not specify.
 - [ ] `pnpm gate` green (the `db:check` step is skipped with a named notice when no
@@ -48,9 +49,6 @@ verifies the schema instead of printing a placeholder.
 
 - `packages/db/**` (package.json, drizzle.config.ts, src/, migrations/)
 - `tests/db/**`
-- `docs/07-ops/01-local-dev-setup.md` (one paragraph; docs lane owns the file, so request the edit
-  via the task file or add it in the same PR as a `docs`-tagged hunk — see Notes)
-
 ## Out of scope
 
 - Domain schema for reports, claims, matches (M3, `TMU-DB-001..005`).
@@ -59,9 +57,9 @@ verifies the schema instead of printing a placeholder.
 
 ## Notes on the setup-doc line
 
-`docs/07-ops/01-local-dev-setup.md` is the `docs` lane, not `db`. The acceptance criterion above
-is satisfied by opening a tiny `TMU-DOC-*` follow-up in the same PR series **or** by moving the
-paragraph into the `db` package README; pick one in step 2 and record it in the Progress log.
+`docs/07-ops/01-local-dev-setup.md` is the `docs` lane, not `db`. The criterion above therefore
+documents the scripts in `packages/db/README.md` (in-lane); the local-dev doc pointer is an
+optional `TMU-DOC-*` follow-up, not a requirement of this task.
 
 ## Progress log
 

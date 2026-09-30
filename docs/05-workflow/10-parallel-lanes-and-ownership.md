@@ -24,7 +24,7 @@ touch. `scripts/check-lane.sh` fails the gate when a branch touches anything els
 | `fe` | `wt/TMU-FE-…` | frontend-dev | Abdul (visual) / Rizaldi (report UI) | be, ml | needs contract + MSW merged |
 | `ml` | `wt/TMU-ML-…` | ml-dev | Maysha (AI/ML) | be, fe | — |
 | `qa` | `wt/TMU-QA-…` | qa-engineer | any | all | red tests for a task go **inside that task's branch** unless it is a QA task |
-| `ops` | `wt/TMU-OPS-…` | orchestrator/backend-dev | Hanif | docs | touches CI/hooks: merge alone |
+| `ops` | `wt/TMU-OPS-…` | ops-dev | Hanif | docs | touches CI/hooks: merge alone |
 | `sec` / `meta` | `wt/TMU-SEC-…` / post-merge | security-reviewer / docs-keeper | any | all | bookkeeping PRs are tiny and merge fast |
 
 Suggested concurrency: **3–5 worktrees at once**; more multiplies review load and merge
