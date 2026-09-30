@@ -88,6 +88,9 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 | 2026-09-30 | ops-dev | 4 RED | `pnpm vitest run scripts/checks/scaffold.test.mjs` → **5 failed / 24 passed** of 29: "codifies the orchestrator merge gate (DEC-020)", "allows gh pr edit globally without reopening the merge gate", "lets any session merge at step 12 (DEC-020)", "accepts the redirect suffix agents append to push commands (TMU-OPS-016)", "raises the shared Vitest timeout for the cold ESLint load (TMU-OPS-016)" |
 | 2026-09-30 | ops-dev | 5 GREEN | `opencode.json` merge allow; git-steward merge allow + `HEAD*` push patterns; `testTimeout: 15000`; docs/AGENTS wording; focused run **29 passed** |
 | 2026-09-30 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed`; unit **39 passed** (29+10); cold ESLint test 2336 ms under the 15 s timeout |
+| 2026-09-30 | git-steward | 8 COMMIT/PUSH | `e6da814` (rebased onto `76124aa`; `--force-with-lease` on own branch after rebase); draft PR [#8](https://github.com/HanifIsya/temuUNAIR-v2/pull/8); CI green except `migrations` pending at report time |
+| 2026-10-01 | reviewer | 9 REVIEW c1 | verdict **CHANGES** — 1 MAJOR (`git push origin HEAD*` allows `HEAD:main`, `--force`, `--no-verify`; pre-push hook not installed), 7 MINOR → `docs/08-project/reviews/TMU-OPS-016.md`; 5 mutations executed (A–E, all restored); `pnpm gate` green 39/39 |
+| 2026-10-01 | ops-dev | 9 REVIEW c1 fix | push deny rules for refspec/force/no-verify + ask widened to HEAD*; test renames; AGENTS/playbook/OPS-009/OPS-016 wording; focused run 30 passed |
 
 ### Plan
 
@@ -101,8 +104,8 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 4. (REFACTOR) task file Progress log/Evidence updated; diffs stay minimal.
 5. (GATE) `pnpm gate`; fix loop if red.
 6. (SHIP) git-steward commits/pushes/opens the PR; reviewer verdict; CI green.
-7. (MERGE GATE) orchestrator attempts the squash-merge; if `gh pr merge` is denied in this
-   session (config applies to later sessions), stop and report.
+7. (MERGE GATE) the session attempts the squash-merge; if `gh pr merge` is denied (config
+   applies to later sessions), stop and report.
 
 ## Evidence
 
@@ -113,7 +116,7 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
   "raises the shared Vitest timeout for the cold ESLint load (TMU-OPS-016)".
 - Green: focused run **29 passed**; `pnpm gate` → `OK gate(quick) passed` (unit 39 passed:
   scaffold 29 + config-presets 10; cold ESLint 2336 ms under the 15 s timeout).
-- PR: (pending)
+- PR: [#8](https://github.com/HanifIsya/temuUNAIR-v2/pull/8) (draft at P1; rebased onto `76124aa`)
 - Review: (pending)
 
 ## Blockers

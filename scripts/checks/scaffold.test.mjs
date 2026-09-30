@@ -318,7 +318,7 @@ describe("loop runnability (TMU-OPS-011)", () => {
     ).toThrow(/child exited 3/);
   });
 
-  it("codifies the orchestrator merge gate (DEC-020)", () => {
+  it("codifies the merge gate (DEC-020)", () => {
     const loop = readFileSync("docs/05-workflow/02-agent-loop.md", "utf8");
     expect(loop).toContain("MERGE GATE");
     const git = readFileSync("docs/05-workflow/01-git-workflow.md", "utf8");
@@ -405,7 +405,7 @@ describe("gh pr permissions (TMU-OPS-015)", () => {
     expect(resolve(agentRules("orchestrator"), "gh pr merge 2 --squash")).toBe("allow");
   });
 
-  it("keeps merge out of the agents that must not merge (DEC-020)", () => {
+  it("keeps merge out of the docs-keeper and reviewer rulesets (DEC-020)", () => {
     expect(resolve(agentRules("docs-keeper"), "gh pr merge 2 --squash")).toBe("deny");
     expect(resolve(agentRules("reviewer"), "gh pr merge 2 --squash")).toBe("deny");
     // Push stays git-steward-only: the global rules deny every `git push*`.
@@ -421,6 +421,15 @@ describe("gh pr permissions (TMU-OPS-015)", () => {
       "ask",
     );
     expect(resolve(globalRules(), "git push origin HEAD 2>&1")).toBe("deny");
+  });
+
+  it("guards the widened push patterns against force, refspec and hook bypass (TMU-OPS-016)", () => {
+    const rules = agentRules("git-steward");
+    expect(resolve(rules, "git push origin HEAD:main")).toBe("deny");
+    expect(resolve(rules, "git push origin HEAD:refs/heads/main")).toBe("deny");
+    expect(resolve(rules, "git push origin HEAD --force")).toBe("deny");
+    expect(resolve(rules, "git push origin HEAD --no-verify")).toBe("deny");
+    expect(resolve(rules, "git push --force-with-lease origin HEAD 2>&1")).toBe("ask");
   });
 });
 
