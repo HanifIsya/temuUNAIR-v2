@@ -39,7 +39,8 @@
       "gh run*": "allow",
       "gh pr*": "deny",
       "gh pr view*": "allow",
-      "gh pr checks*": "allow"
+      "gh pr checks*": "allow",
+      "gh pr edit*": "allow"
     }
   },
   "mcp": {

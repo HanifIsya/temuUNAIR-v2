@@ -340,3 +340,68 @@ describe("loop runnability (TMU-OPS-011)", () => {
     }
   });
 });
+
+describe("gh pr permissions (TMU-OPS-015)", () => {
+  // Same evaluation order as the permission engine: the LAST matching rule wins, so the
+  // broad `gh pr*: deny` catch-all sits first and the narrow allows follow it.
+  const resolve = (rules, command) => {
+    let action = null;
+    for (const [pattern, ruleAction] of rules) {
+      const re = new RegExp(
+        "^" +
+          pattern
+            .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+            .replace(/\*/g, ".*")
+            .replace(/\?/g, ".") +
+          "$",
+      );
+      if (re.test(command)) action = ruleAction;
+    }
+    return action;
+  };
+
+  const globalRules = () => Object.entries(readJson("opencode.json").permission.bash);
+
+  // Only the `bash:` map — scanning the whole front-matter would pick up `edit:`/`task:` rules
+  // (e.g. orchestrator's `task: "*": allow`) and make every command resolve to allow.
+  const agentRules = (agent) => {
+    const text = readFileSync(`.opencode/agents/${agent}.md`, "utf8");
+    const fm = text.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1];
+    expect(fm, `${agent}.md has front-matter`).toBeTruthy();
+    const lines = fm.split(/\r?\n/);
+    const start = lines.findIndex((l) => /^ {2}bash:\s*$/.test(l));
+    expect(start, `${agent}.md has a bash permission block`).toBeGreaterThan(-1);
+    const rules = [];
+    for (const line of lines.slice(start + 1)) {
+      if (/^\s*$/.test(line)) continue;
+      if (!/^ {4}/.test(line)) break;
+      const m = line.match(/^ {4}"([^"]+)":\s*(allow|deny|ask)\s*$/);
+      if (m) rules.push([m[1], m[2]]);
+    }
+    return rules;
+  };
+
+  it("allows gh pr edit globally without reopening the merge gate", () => {
+    const rules = globalRules();
+    expect(resolve(rules, "gh pr edit 2 --body-file body.md")).toBe("allow");
+    expect(resolve(rules, "gh pr view 2")).toBe("allow");
+    expect(resolve(rules, "gh pr checks 2")).toBe("allow");
+    // Review cycle 1 M4: merge authority must not leak into the global rules.
+    expect(resolve(rules, "gh pr merge 2 --squash")).toBe("deny");
+  });
+
+  it("lets git-steward refresh the PR body and the orchestrator edit PR metadata", () => {
+    expect(resolve(agentRules("git-steward"), "gh pr edit 2 --body-file x.md")).toBe("allow");
+    expect(resolve(agentRules("orchestrator"), "gh pr edit 2 --add-label ops")).toBe("allow");
+    // Agents that do not maintain PRs get no grant, so the allowlist stays meaningful:
+    // backend-dev falls through to its `*: ask`; docs-keeper to its `*: deny`.
+    expect(resolve(agentRules("backend-dev"), "gh pr edit 2")).toBe("ask");
+    expect(resolve(agentRules("docs-keeper"), "gh pr edit 2")).toBe("deny");
+  });
+
+  it("keeps gh pr merge orchestrator-only (DEC-019)", () => {
+    expect(resolve(globalRules(), "gh pr merge 2 --squash")).toBe("deny");
+    expect(resolve(agentRules("git-steward"), "gh pr merge 2 --squash")).toBe("deny");
+    expect(resolve(agentRules("orchestrator"), "gh pr merge 2 --squash")).toBe("allow");
+  });
+});

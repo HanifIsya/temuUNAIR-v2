@@ -20,6 +20,7 @@ permission:
     "gh pr ready*": allow
     "gh pr view*": allow
     "gh pr checks*": allow
+    "gh pr edit*": allow
     "gh run*": allow
     "pnpm gate*": allow
 ---
