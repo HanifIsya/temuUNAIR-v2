@@ -10,7 +10,7 @@ owner: orchestrator
 deps: []
 refs: [BLUEPRINT, ROADMAP, WF-LANES, WF-GATE]
 created: 2026-09-29
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # TMU-OPS-001 — Root workspace scaffold, gate scripts and lane-map gaps
@@ -79,6 +79,7 @@ that make this scaffold out-of-lane today.
 | 2026-09-29 | orchestrator | 9 REVIEW fix | F1 meta/contracts exception now codified in a test; F2 hard-coded id list replaced with a filename↔id invariant; F3 `.npmrc` comments corrected; F5 M0 caveat added to the setup doc; F6 evidence claim corrected; F7 Node globals scoped, browser globals added; F8 `audit` invoked once via the script. F4 (Windows bash shim) filed as a follow-up |
 | 2026-09-29 | git-steward | 10 SHIP | pushed `5e000e3`, draft PR https://github.com/HanifIsya/temuUNAIR-v2/pull/1 |
 | 2026-09-29 | orchestrator | 11 CI fix (1/3) | CI red: 8 jobs failed with "Multiple versions of pnpm specified" — root `packageManager` now conflicts with `version:` on `pnpm/action-setup@v4`. Dropped the explicit version (pin lives in one place), removed the now-unused `PNPM_VERSION` env, made the `ml` and `e2e` jobs skip honestly until TMU-OPS-006/TMU-OPS-003 land, and routed the `audit` job through the same script as the gate. Added 3 tests asserting the CI/gate wiring |
+| 2026-09-30 | orchestrator | 11 CI green | all 11 checks green on `bedf703` (10 pass, `docker-build` skipped by design until TMU-OPS-003); `pnpm gate` re-verified locally: OK gate(quick) passed, 16/16 unit tests |
 
 ### Plan
 
@@ -155,7 +156,7 @@ OK gate(quick) passed
   `src/styles/**`). Without this, TMU-OPS-003 fails `check-lane.sh` on its first commit.
   `apps/web/src/app/api/**` stays with `be`, matching the route-handler ownership split.
 
-- PR: (pending — push is git-steward's step)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/1 - OPEN, not draft, mergeable/CLEAN, CI green on `bedf703`
 - Review: `docs/08-project/reviews/TMU-OPS-001.md` — APPROVE (8 MINOR, all addressed except F4)
 
 ### Review follow-ups
