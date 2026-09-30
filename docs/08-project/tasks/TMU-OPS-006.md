@@ -10,7 +10,7 @@ owner: ml-dev
 deps: [TMU-OPS-002]
 refs: [ARCH-STACK, BE-06, DEC-011]
 created: 2026-09-29
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # TMU-OPS-006 — ML service skeleton with uv, FastAPI health and pytest
@@ -26,8 +26,10 @@ that report model state from `models.lock.json`.
 - `docs/04-contracts/backend/BE-06-ml-service-contract.md` — endpoints, schemas, status codes.
 - `docs/03-architecture/06-ml-service-design.md` — models, preprocessing, latency budget.
 - `services/ml/README.md` documents the planned layout and non-negotiables.
-- `services/ml/models.lock.json` is a placeholder pinned in TMU-ML-001; `/ready` must report
-  `degraded` while checksums are `TODO`.
+- `services/ml/models.lock.json` is a placeholder; `/ready` must report `degraded` while
+  checksums are `TODO`.
+- The gate step and the CI `ml` job both guard on `services/ml/pyproject.toml`, so they turn real
+  as soon as this task lands. **No root or CI file needs to change.**
 
 ## Acceptance criteria
 
@@ -41,20 +43,20 @@ that report model state from `models.lock.json`.
 ## Files expected to change
 
 - `services/ml/**` (pyproject.toml, uv.lock, app/, tests/)
-- `docs/07-ops/07-model-management.md` (only if the readiness contract needs clarifying)
 
 ## Out of scope
 
 - Real model loading and inference (M5, `TMU-ML-001..012`).
 - The Dockerfile for the `ml` compose service (M5; compose block stays commented until then).
 - `ml-openapi.json` generation (TMU-OPS-008 wires the export step).
+- Root `package.json`/`scripts/**`/`ci.yml` edits (the guards already exist).
 
 ## Progress log
 
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| | | | |
+| 2026-09-30 | orchestrator | rewritten | removed the setup-doc edit (docs lane); CI/gate guards confirmed already present |
 
 ### Plan
 

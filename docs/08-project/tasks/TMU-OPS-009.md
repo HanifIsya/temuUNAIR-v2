@@ -6,11 +6,11 @@ lane: ops
 slug: repo-hygiene
 milestone: M0
 priority: P2
-owner: orchestrator
+owner: ops-dev
 deps: [TMU-OPS-001]
 refs: [WF-CICD, WF-GIT, BLUEPRINT]
 created: 2026-09-29
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # TMU-OPS-009 — Repo hygiene: branch protection, Dependabot and worktree notes
@@ -26,15 +26,19 @@ the worktree/remote notes so every later task inherits a protected trunk.
 - M0 exit criteria: "Repo protected; remote = `HanifIsya/temuUNAIR-v2`".
 - `docs/05-workflow/08-ci-cd.md` §Branch protection lists the exact settings.
 - Blueprint §7.10 requires Dependabot for npm/pip/actions.
+- The repo currently has **no** branch protection ("Branch not protected", checked 2026-09-30).
+  Applying it needs repo-admin API access, which the agent has via `gh api`; the checks list must
+  only name jobs that are green on `main` (lint-typecheck, unit, contracts, migrations, ml,
+  integration, contract-fuzz, e2e, secret-scan), not advisory ones (audit, docker-build).
 - CODEOWNERS still carries placeholder handles for the lane owners; this task records which ones
   remain and who owns resolving them.
 
 ## Acceptance criteria
 
 - [ ] `.github/dependabot.yml` exists and covers npm, pip (services/ml) and github-actions.
-- [ ] `gh api repos/HanifIsya/temuUNAIR-v2/branches/main/protection` output is captured in the
-      task evidence showing: PR required, ≥1 approval, required checks, linear history,
-      no force-push, no direct push.
+- [ ] Branch protection on `main` is applied (PR required, 1 approval, required checks above,
+      linear history, no force-push, no direct push) and the `gh api` output is captured in the
+      task evidence.
 - [ ] Secret scanning and push protection are confirmed on (evidence pasted).
 - [ ] Remaining placeholder CODEOWNERS handles are listed in the task file with an owner and a
       milestone by which they must be replaced.
@@ -44,7 +48,7 @@ the worktree/remote notes so every later task inherits a protected trunk.
 
 - `.github/dependabot.yml`
 - `.github/CODEOWNERS` (only comments/placeholders that are now resolved)
-- `docs/07-ops/01-local-dev-setup.md` or `docs/05-workflow/03-orca-playbook.md` (worktree note)
+- `docs/05-workflow/01-git-workflow.md` or `docs/07-ops/01-local-dev-setup.md` (worktree note)
 
 ## Out of scope
 
@@ -56,15 +60,15 @@ the worktree/remote notes so every later task inherits a protected trunk.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| | | | |
+| 2026-09-30 | orchestrator | rewritten | owner → `ops-dev`; branch-protection state confirmed unprotected; checks list pinned to green jobs |
 
 ### Plan
 
 1. Add `.github/dependabot.yml` for npm, pip and actions.
-2. Verify and capture branch protection, secret scanning and push protection state.
-3. Record unresolved CODEOWNERS placeholders with owners and due milestone.
-4. Add the worktree note if missing.
-5. `pnpm gate`.
+2. Apply branch protection via `gh api` and capture the result.
+3. Verify secret scanning and push protection; record the state.
+4. Record unresolved CODEOWNERS placeholders with owners and due milestone.
+5. Add the worktree note; `pnpm gate`.
 
 ## Evidence
 

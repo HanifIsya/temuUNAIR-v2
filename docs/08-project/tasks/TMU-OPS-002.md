@@ -6,11 +6,11 @@ lane: ops
 slug: shared-config-presets
 milestone: M0
 priority: P1
-owner: orchestrator
+owner: ops-dev
 deps: [TMU-OPS-001]
 refs: [ARCH-STACK, WF-STANDARDS]
 created: 2026-09-29
-updated: 2026-09-29
+updated: 2026-09-30
 ---
 
 # TMU-OPS-002 — Shared config presets in `packages/config`
@@ -28,23 +28,32 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
 - `docs/05-workflow/13-coding-standards.md` forbids `any`, `@ts-ignore`, `console.log`, raw
   `fetch("/api/v1/…")` and raw hex/px — the presets are where those become lint rules.
 - Blueprint §3 lists `packages/config/` as "tsconfig, eslint, prettier presets".
+- `packages/config/**` is ops-lane (`.agent/lanes.json`), so this task runs on an `ops` branch;
+  consuming packages extend the presets from their own lane in later tasks.
 
 ## Acceptance criteria
 
-- [ ] `packages/config` exports a base tsconfig with `strict`, `noUncheckedIndexedAccess`,
-      `noImplicitOverride`.
-- [ ] `packages/config` exports a flat ESLint config that errors on `@typescript-eslint/no-explicit-any`,
-      `@typescript-eslint/ban-ts-comment` and `no-console` in app code.
-- [ ] A deliberately bad fixture file fails `pnpm lint` and `pnpm typecheck` (red evidence),
-      then is removed.
+- [ ] `packages/config/tsconfig.base.json` sets `strict`, `noUncheckedIndexedAccess`,
+      `noImplicitOverride`; the root `tsconfig.base.json` re-exports it (no behaviour change).
+- [ ] `packages/config/eslint.config.mjs` exports a flat config erroring on
+      `@typescript-eslint/no-explicit-any`, `@typescript-eslint/ban-ts-comment` and `no-console`
+      in app code; the root `eslint.config.mjs` consumes it.
+- [ ] `packages/config/vitest.base.ts` exports the shared Vitest defaults; the root
+      `vitest.config.ts` consumes it.
+- [ ] A deliberately bad fixture under `tests/tooling/**` fails `pnpm lint` and `pnpm typecheck`
+      (red evidence), then is removed.
 - [ ] `pnpm lint`, `pnpm typecheck` and `pnpm test:unit` still exit 0 on the clean tree.
-- [ ] No dependency is added outside `packages/config`'s own `package.json`.
+- [ ] No dependency is added outside `packages/config`'s own `package.json` (root devDependencies
+      keep only what the root configs themselves import).
+- [ ] `pnpm gate` green.
 
 ## Files expected to change
 
-- `packages/config/**`
-- root `package.json` (devDependencies + script wiring)
-- `pnpm-lock.yaml`
+- `packages/config/**` (package.json, tsconfig.base.json, eslint.config.mjs, prettier.json,
+  vitest.base.ts)
+- root `tsconfig.base.json`, `eslint.config.mjs`, `vitest.config.ts` (delegate to the presets)
+- root `package.json`, `pnpm-lock.yaml` (workspace dependency on `@temuunair/config`)
+- `tests/tooling/**` (temporary bad fixture; removed before commit)
 
 ## Out of scope
 
@@ -56,14 +65,15 @@ standards in `docs/05-workflow/13-coding-standards.md` are enforced by tooling.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
-| | | | |
+| 2026-09-30 | orchestrator | rewritten | owner → `ops-dev` (created in TMU-OPS-011); criteria made satisfiable in-lane |
 
 ### Plan
 
 1. Create `packages/config` with `package.json`, `tsconfig.base.json`, `eslint.config.mjs`,
    `prettier.json`, `vitest.base.ts`.
-2. Wire the root scripts to consume the presets.
-3. Add a temporary bad fixture, capture the red lint/typecheck output, delete it.
+2. Point the root configs at the presets (ops-lane files, same branch).
+3. Add a temporary bad fixture under `tests/tooling/`, capture the red lint/typecheck output,
+   delete it.
 4. Re-run `pnpm gate`; capture the tail.
 
 ## Evidence
