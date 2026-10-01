@@ -74,6 +74,9 @@ MINORs were deliberately left out of that PR to keep the diff small.
 | 2026-10-02 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
 | 2026-10-02 | backend-dev | 5 GREEN | implemented m7 (documented `CREATEDB` in `README.md`) and m9 (resolved default `migrationsDir` via `import.meta.url` in `check.ts`); recorded dispositions for all other rows |
 | 2026-10-02 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (139 tests passed) |
+| 2026-10-02 | git-steward | 8 COMMIT/PUSH | `0253b70` pushed; PR #29 opened |
+| 2026-10-02 | reviewer | 9 REVIEW | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR) -> `docs/08-project/reviews/TMU-OPS-021.md` |
+| 2026-10-02 | orchestrator | 11 CI | all 11 checks green |
 
 ### Plan
 
@@ -85,8 +88,8 @@ MINORs were deliberately left out of that PR to keep the diff small.
 ## Evidence
 
 - Green: `packages/db/src/check.ts` resolves `migrationsDir` relative to package; `packages/db/README.md` documents `CREATEDB`; all 11 minor findings resolved or delegated with reasons; `pnpm gate` passes with 139 tests.
-- PR: (pending)
-- Review: (pending)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/29
+- Review: `docs/08-project/reviews/TMU-OPS-021.md` (APPROVE)
 
 ## Blockers
 
