@@ -222,17 +222,15 @@ describe("workspace manifests", () => {
   });
 });
 describe("loop runnability (TMU-OPS-011)", () => {
-  it("guards the docker-build CI job until the web Dockerfile exists", () => {
-    // The job only runs on main, so a missing Dockerfile used to make main permanently red.
+  it("builds the web Dockerfile in CI without skipping (TMU-OPS-012)", () => {
+    expect(existsSync("infra/docker/web.Dockerfile")).toBe(true);
+    expect(existsSync(".dockerignore") || existsSync("infra/docker/.dockerignore")).toBe(true);
     const ci = readFileSync(".github/workflows/ci.yml", "utf8");
     const idx = ci.indexOf("\n  docker-build:");
     expect(idx, "ci.yml declares a docker-build job").toBeGreaterThan(-1);
     const block = ci.slice(idx);
-    expect(block).toContain("infra/docker/web.Dockerfile");
-    expect(block).toContain("exists == 'no'");
-    expect(block).toContain("TMU-OPS-003");
-    // A guard that always skips would pass the checks above; assert the build step exists.
     expect(block).toContain("docker build -f infra/docker/web.Dockerfile .");
+    expect(block).not.toContain("exists == 'no'");
   });
 
   it("gives every M0 owner agent the paths its tasks need", () => {
