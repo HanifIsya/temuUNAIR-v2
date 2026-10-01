@@ -1,10 +1,10 @@
 ---
-id: TMU-CTR-001
+id: TMU-CTR-006
 title: Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
 status: TODO
 lane: contracts
 slug: be05-additions-vs-init-migration
-milestone: M0
+milestone: M2
 priority: P2
 owner: architect
 deps: [TMU-OPS-005]
@@ -13,7 +13,12 @@ created: 2026-10-01
 updated: 2026-10-01
 ---
 
-# TMU-CTR-001 — Reconcile BE-05 "Additions required by the docs" with the extensions-only `0001_init`
+# TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only `0001_init`
+
+> ID note: filed as `TMU-CTR-006`, not `TMU-CTR-001`. The roadmap
+> (`docs/01-product/10-roadmap.md:21`) reserves `TMU-CTR-001..005` for the M2 contracts
+> implementation, and `TMU-CTR-001` in particular is named by `docs/04-contracts/CHANGELOG.md:16`,
+> `docs/04-contracts/backend/BE-02-openapi.md:20` and `TMU-OPS-004.md:35`.
 
 ## Goal
 
@@ -61,6 +66,7 @@ keeps every migration self-contained.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-01 | orchestrator | filed | MINOR `m1` of the TMU-OPS-005 cycle-1 review (`docs/08-project/reviews/TMU-OPS-005.md`); must be filed before M3 starts |
+| 2026-10-01 | orchestrator | renumbered | Cycle-2 review found `TMU-CTR-001` was reserved by the roadmap for the M2 contracts implementation → renumbered to `TMU-CTR-006` (C2-M1) |
 
 ## Blockers
 

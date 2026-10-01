@@ -3,7 +3,6 @@
 
 | ID | Milestone | Lane | Status | Priority | Title | Deps |
 |---|---|---|---|---|---|---|
-| [TMU-CTR-001](tasks/TMU-CTR-001.md) | M0 | contracts | TODO | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
 | [TMU-META-001](tasks/TMU-META-001.md) | M0 | meta | DONE | P1 | Post-merge bookkeeping — OPS-001/OPS-011 DONE and DEC-019 tables | TMU-OPS-001, TMU-OPS-011 |
 | [TMU-META-002](tasks/TMU-META-002.md) | M0 | meta | DONE | P1 | Post-merge bookkeeping — OPS-002 DONE and META-001 close-out | TMU-OPS-002, TMU-META-001 |
 | [TMU-OPS-001](tasks/TMU-OPS-001.md) | M0 | ops | DONE | P0 | Root workspace scaffold, gate scripts and lane-map gaps |  |
@@ -21,4 +20,5 @@
 | [TMU-OPS-013](tasks/TMU-OPS-013.md) | M0 | qa | TODO | P2 | Integration, contract and E2E test packages | TMU-OPS-003, TMU-OPS-005, TMU-OPS-007 |
 | [TMU-OPS-014](tasks/TMU-OPS-014.md) | M0 | ops | TODO | P2 | Workspace glob for test packages | TMU-OPS-013 |
 | [TMU-OPS-015](tasks/TMU-OPS-015.md) | M0 | ops | DONE | P1 | Grant gh PR-refresh permissions to the ship agents | TMU-OPS-011 |
-| [TMU-OPS-016](tasks/TMU-OPS-016.md) | M0 | db | TODO | P3 | Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings) | TMU-OPS-005 |
+| [TMU-OPS-021](tasks/TMU-OPS-021.md) | M0 | db | TODO | P3 | Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings) | TMU-OPS-005 |
+| [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | TODO | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
