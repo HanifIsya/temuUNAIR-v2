@@ -1,0 +1,37 @@
+version: 2
+updates:
+  # Maintain dependencies for npm packages across the pnpm workspace
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+      timezone: "Asia/Jakarta"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+
+  # Maintain Python dependencies for services/ml
+  - package-ecosystem: "pip"
+    directory: "/services/ml"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+      timezone: "Asia/Jakarta"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps-ml)"
+
+  # Maintain GitHub Actions workflow dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+      timezone: "Asia/Jakarta"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "ci(actions)"
