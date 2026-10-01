@@ -81,6 +81,9 @@ Findings while delivering TMU-OPS-003 (all reproduced 2026-10-01 in `E:\wt\TMU-O
 | 2026-10-02 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
 | 2026-10-02 | ops-dev | 5 GREEN | ignored `next-env.d.ts` in `.gitignore`, `.prettierignore`, `eslint.config.mjs`; configured `esbuild: { jsx: "automatic" }` in `vitest.config.ts`; created `tsconfig.test.json` and added `@types/jest-axe` to typecheck `apps/web` tests in `pnpm typecheck` |
 | 2026-10-02 | orchestrator | 7 GATE | verified: `next build` leaves `next-env.d.ts` on disk; `pnpm gate` exits 0 cleanly without manual cleanup (139 tests passed) |
+| 2026-10-02 | git-steward | 8 COMMIT/PUSH | `272c8bf` pushed; draft PR #25 opened |
+| 2026-10-02 | reviewer | 9 REVIEW | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR) -> `docs/08-project/reviews/TMU-OPS-018.md` |
+| 2026-10-02 | orchestrator | 11 CI | all 9 required checks pass |
 
 ### Plan
 
@@ -94,8 +97,8 @@ Findings while delivering TMU-OPS-003 (all reproduced 2026-10-01 in `E:\wt\TMU-O
 
 - Red: `pnpm gate:full` or `next build` before this change left untracked/unformatted `apps/web/next-env.d.ts` that broke `format:check` and `eslint`.
 - Green: `pnpm --filter @temuunair/web build` leaves `next-env.d.ts` in working tree; `pnpm gate` passes cleanly with 139 tests; `pnpm typecheck` validates both root scripts and `apps/web/src/**/*.test.{ts,tsx}`.
-- PR: (pending)
-- Review: (pending)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/25
+- Review: `docs/08-project/reviews/TMU-OPS-018.md` (APPROVE)
 
 ## Blockers
 
