@@ -1,7 +1,7 @@
 ---
 id: TMU-META-003
 title: Record DEC-020 — any agent may merge at step 12
-status: IN_PROGRESS
+status: DONE
 lane: meta
 slug: record-dec-020
 milestone: M0

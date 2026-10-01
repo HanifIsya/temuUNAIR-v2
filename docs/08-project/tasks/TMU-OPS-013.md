@@ -7,7 +7,7 @@ slug: test-packages
 milestone: M0
 priority: P2
 owner: qa-engineer
-deps: [TMU-OPS-003, TMU-OPS-005, TMU-OPS-007]
+deps: [TMU-OPS-003, TMU-OPS-005, TMU-OPS-007, TMU-OPS-014]
 refs: [WF-CICD, BE-13, FE-12]
 created: 2026-09-30
 updated: 2026-09-30

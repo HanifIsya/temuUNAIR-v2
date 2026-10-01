@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-007
 title: Worker package skeleton with pg-boss bootstrap
-status: REVIEW
+status: DONE
 lane: be
 slug: worker-skeleton
 milestone: M0

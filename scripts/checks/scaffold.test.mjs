@@ -210,10 +210,10 @@ describe("workspace manifests", () => {
     expect(pkg.engines.node).toBe(">=24");
   });
 
-  it("registers apps/* and packages/* as the only workspace globs", () => {
+  it("registers apps/*, packages/* and tests/* as workspace globs", () => {
     const workspace = readFileSync("pnpm-workspace.yaml", "utf8");
     const globs = [...workspace.matchAll(/^\s*-\s*"([^"]+)"/gm)].map((m) => m[1]);
-    expect(globs).toEqual(["apps/*", "packages/*"]);
+    expect(globs).toEqual(["apps/*", "packages/*", "tests/*"]);
   });
 
   it("ships a dev-only env template and never a real .env", () => {

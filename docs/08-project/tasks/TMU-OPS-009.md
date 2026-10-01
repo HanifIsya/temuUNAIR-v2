@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-009
 title: Repo hygiene — branch protection, Dependabot and worktree notes
-status: REVIEW
+status: DONE
 lane: ops
 slug: repo-hygiene
 milestone: M0
@@ -69,6 +69,7 @@ the worktree/remote notes so every later task inherits a protected trunk.
 | 2026-10-01 | git-steward | 8 COMMIT/PUSH | `c97af28` pushed; draft PR #16 opened |
 | 2026-10-01 | reviewer | 9 REVIEW | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR) -> `docs/08-project/reviews/TMU-OPS-009.md` |
 | 2026-10-01 | orchestrator | 11 CI | 9/9 required checks pass (lint-typecheck, unit, contracts, migrations, ml, integration, contract-fuzz, e2e, secret-scan) |
+| 2026-10-01 | orchestrator | 12 MERGE GATE | Squash-merged as PR #16 (`0f674fc`); branch deleted |
 
 ### Plan
 
