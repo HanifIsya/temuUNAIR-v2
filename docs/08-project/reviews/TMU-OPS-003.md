@@ -2,11 +2,11 @@
 id: REV-TMU-OPS-003
 task: TMU-OPS-003
 reviewer: reviewer
-cycle: 1
+cycle: 2
 date: 2026-10-01
-verdict: REQUEST_CHANGES
+verdict: APPROVE
 ---
-# Review — TMU-OPS-003
+# Review — TMU-OPS-003 (final: cycle 2 APPROVE; cycle 1 record preserved below)
 
 Scope reviewed: `git diff origin/main...HEAD` (20 files: 16 in `apps/web`, `pnpm-lock.yaml`, 3 task docs) — commit `18a16d5` on claim `4655e5d`. Shell is well built, gate is green, i18n/privacy/lane checks pass; one test in the core i18n suite cannot fail.
 
@@ -59,3 +59,55 @@ Scope reviewed: `git diff origin/main...HEAD` (20 files: 16 in `apps/web`, `pnpm
 
 ## Notes for the human
 F1 is a ~2-line fix in one test helper; the shipped message data is correct, so no product change is implied — but merge only after the parity test actually executes (or `i18n:check` grows the placeholder check). F2–F6 can ride the same fix commit or be filed as follow-ups per process (MINOR → follow-up task allowed). **Verdict: REQUEST_CHANGES (cycle 1) — one MAJOR (F1), five MINOR.**
+
+---
+
+# Review — TMU-OPS-003 (cycle 2)
+
+Scope: `git diff 18a16d5..2520bfa` + working tree on `agent/fe/TMU-OPS-003-web-app-shell` (PR #10, draft). Cycle-1 findings F1–F6 all verified against the fix commit; gate re-run green. Read-only review — mutation for F1 re-traced statically, not re-executed.
+
+## Finding resolution (cycle 1 → cycle 2)
+
+| # | Sev | Verdict | Evidence |
+|---|---|---|---|
+| F1 vacuous placeholder test | MAJOR | **RESOLVED** | `messages.test.ts:51-53` now builds clean dotted paths (`prefix.length > 0 ? \`${prefix}.${key}\` : key`), so `flatten()` yields `error.NOT_FOUND`-style keys; `leafValue` (`:56-65`) resolves every one and the placeholder loop (`:121-137`) compares all 70 keys. Only hunk in that file vs `18a16d5`; parity `:73-78`, BE-04 `:80-96`, BE-08 `:98-116`, source-locale `:140-145` untouched → **no assertion weakened**. Mutation evidence at task `:128-132` (red `notification.ADMIN_DISPUTE.body: id=[claimShortId] en=[]` → restore → 5/5). Re-ran `pnpm test:unit apps/web/src` → **3 files / 11 tests pass**. |
+| F2 task bookkeeping | MINOR | **RESOLVED** (new cosmetic regression → N1) | `status: REVIEW`, single merged RED row, COMMIT/REVIEW/fix rows, PR URL in Evidence. But the edit left duplicated GREEN/GATE rows → N1. |
+| F3 invented metadata description | MINOR | **RESOLVED** | `layout.tsx:10-12` metadata is `{ title: "TemuUNAIR" }` only; invented `description` gone. |
+| F4 page axe missing | MINOR | **RESOLVED** | `page.test.tsx:39-48` `it("has no axe violations")` → `expect(results.violations).toEqual([])`; suite = 3 files / **11 tests**; layout axe intact. |
+| F5 tests not typechecked | MINOR | **RESOLVED (by filing — accepted)** | New AC in `TMU-OPS-018.md:54-57` + progress row. Ops lane, cross-lane MINOR → resolution-by-filing is per process. |
+| F6 theme tokens incomplete | MINOR | **RESOLVED** | `theme.css:21-25` `--font-weight-*` = 400/500/600/700 (matches `tokens.json:36`); `:28-30` `--duration-*` = 120/200/320ms. **`@theme static` judged acceptable — keep it:** plain `@theme` prunes unused vars, so `var(--duration-base)` referenced by M3 would silently break; `static` guarantees emission for ~1 KB. Not a revert candidate. |
+
+## New findings (cycle 2)
+
+- **N1 — MINOR: duplicate Progress-log rows.** task `:69≡:74` (identical `5 GREEN`), `:70≡:75` (identical `7 GATE`). Cosmetic; orchestrator drops one pair when transcribing this review. **Not DoD-affecting — does not block.**
+- **N2 — MINOR: misleading ease comment.** `theme.css:26` says "curve is the default ease-out", but Tailwind's default transition curve is `cubic-bezier(0.4,0,0.2,1)`; M3 should pair `duration-*` with the `ease-out` utility (which does equal CSS `ease-out`) — comment corrected in the final commit. Note only.
+- **N3 — NOTE: cross-branch bookkeeping in `TMU-OPS-017.md`.** This fe-branch records that ops task's RED/GREEN evidence while its code lives on `47976c3` (verified via `git show 47976c3 --stat`). Lane-legal (`_common`); reconcile at merge (note added to that task file).
+
+## Checks run (cycle 2)
+
+- `git show 2520bfa --stat` → exactly **8 files** (4 `apps/web` + 4 docs); lane compliance all `fe`/`_common`; whole PR = 21 files, no root/`infra`/`.github` edits; no `next-env.d.ts`.
+- `pnpm test:unit apps/web/src` → 3 files / 11 tests passed; `pnpm gate` → **`OK gate(quick) passed`**, `i18n:check` 70 keys, unit **47 passed (47)**; `git status` clean after gate.
+- Message JSONs, `layout.test.tsx`, configs unchanged by the fix commit → no weakened/deleted tests, no contract files touched.
+- Not verifiable from sandbox: `gh pr checks` (denied) → PR CI status unknown; `next build` not re-run (would create `next-env.d.ts`).
+
+## DoD checklist (cycle 2)
+
+| # | Item | Result | How |
+|---|---|---|---|
+| 1 | Red first, failed for right reason | Pass (same caveat as cycle 1) | Original red block at task `:108-120`; fix-batch red = F1 mutation at `:128-132` |
+| 2 | Tests pass; `pnpm gate` green | Pass | Re-ran gate: **47/47** |
+| 3 | Contract tests for touched `API-*` | Pass (N/A) | No endpoints; BE-04/BE-08 asserted + `i18n:check` |
+| 4 | Auth/RBAC; transitions | N/A | Shell only |
+| 5 | Privacy | Pass | Message JSONs untouched this cycle; no PII/logs |
+| 6 | i18n `id`+`en`, `error.<code>` | Pass | 70 keys/locale; placeholder parity now actually enforced (F1) |
+| 7 | a11y | Pass | layout axe + **page axe 0 violations** (F4) |
+| 8 | Docs / Progress / traceability | Pass (N1 cosmetic) | status REVIEW, PR row, review+fix rows, mutation evidence |
+| 9 | Generated files in sync | Pass | No contract generated files in diff |
+| 10 | Reviewer verdict | This file | Cycle 2 of max 2 |
+| 11 | Security review (sensitive?) | Pass (light) | No auth/upload/PII surface |
+| 12 | PR ready, CI green | Partial | PR #10 draft; CI blocked on prerequisite TMU-OPS-017 (`47976c3`) |
+| — | Lane / no drive-bys | Pass | See Checks above |
+
+## Verdict
+
+**APPROVE (cycle 2).** All six cycle-1 findings resolved (F5 filed into TMU-OPS-018); no BLOCKER/MAJOR remains; no new DoD-affecting issue. N1/N2/N3 are cosmetic/doc notes for the orchestrator and must not block merge. Follow-ups: TMU-OPS-017 (merge first for green CI), TMU-OPS-018 (shared-config hygiene).

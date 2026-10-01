@@ -62,6 +62,16 @@ package that owns the dependency instead of the workspace root.
 | 2026-10-01 | orchestrator | 3/5 | reproduced: `pnpm exec playwright install` at root → `ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "playwright" not found` (exit 1); `tests/e2e` absent |
 | 2026-10-01 | ops-dev | 4 RED | `scaffold.test.mjs` assertion repointed to `tests/e2e/package.json` first → `1 failed (26)`: `AssertionError … to contain 'tests/e2e/package.json'` (ci.yml still on old guard) |
 | 2026-10-01 | ops-dev | 5 GREEN | `ci.yml` e2e job: guard → `tests/e2e/package.json`, Playwright via `pnpm --filter @temuunair/e2e-tests exec …`, skip echo names TMU-OPS-013, comment rewritten; `scaffold.test.mjs` 26/26; `pnpm gate` → `OK gate(quick) passed` (36 tests); diff = exactly 2 files (13+/8−) |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | `47976c3` `ci(e2e): guard the e2e job on tests/e2e and install Playwright in its package` pushed to `agent/ops/TMU-OPS-017-e2e-guard`; **`gh pr create` denied by session permissions** (`gh pr*` allowlist) → PR must be opened by a human from https://github.com/HanifIsya/temuUNAIR-v2/pull/new/agent/ops/TMU-OPS-017-e2e-guard |
+| 2026-10-01 | reviewer | 9 REVIEW cycle 1 | **APPROVE** — all 5 ACs verified; MINOR 1 (stale doc command) filed as TMU-OPS-019, MINOR 2 (red evidence claimed-not-re-executed) noted; full document in `docs/08-project/reviews/TMU-OPS-017.md` |
+
+### Notes
+
+- **Cross-branch task file (REV cycle-2 N3):** this task file lives on the `fe` branch
+  (`agent/fe/TMU-OPS-003-web-app-shell`, `_common` lane) and rides with PR #10; the fix commit
+  `47976c3` lives on the ops branch. Do **not** add a second copy of this file to the ops PR —
+  the rows above are the single record; they land on `main` when #10 merges (which must happen
+  after this task's PR merges, so #10's CI can go green).
 
 ### Plan
 

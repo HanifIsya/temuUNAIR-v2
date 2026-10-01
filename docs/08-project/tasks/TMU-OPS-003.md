@@ -71,8 +71,8 @@ blank directory.
 | 2026-10-01 | git-steward | 8 COMMIT/PUSH | `18a16d5` `feat(web): add Next.js web app shell with i18n and tests` (19 files: 16 `apps/web` + lockfile + 2 task docs); pushed; PR #10 updated |
 | 2026-10-01 | reviewer | 9 REVIEW cycle 1 | `REQUEST_CHANGES` — MAJOR F1 (vacuous placeholder-parity test), MINOR F2–F6; full document in `docs/08-project/reviews/TMU-OPS-003.md` |
 | 2026-10-01 | general (fix) | 5 GREEN (fix) | F1 `flatten` → clean dotted keys + mutation proof (red: `notification.ADMIN_DISPUTE.body` mismatch → restore → 5/5 green); F3 invented `metadata.description` removed; F4 axe assertion added to `page.test.tsx` (0 violations, 11th test); F6 `--font-weight-*` + `--duration-*` from tokens.json with `@theme static`; gate → 47 tests green |
-| 2026-10-01 | general (GREEN) | 5 GREEN | `apps/web` scaffolded per spike-validated design: package/tsconfig/next/postcss/vitest/eslint configs, `src/i18n/{request.ts,messages/{id,en}.json}`, `src/middleware.ts`, `src/styles/theme.css`, `src/app/{layout,page}.tsx`; `pnpm i` updated `pnpm-lock.yaml`; focused run `vitest run apps/web/src` → 3 files / 10 tests green; `i18n:check` → `passed (70 keys per locale)`; `next build` → Compiled successfully (`/` dynamic + middleware) |
-| 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (unit: 5 files / 46 tests, incl. new 10); generated `apps/web/next-env.d.ts` (untracked, not in lane) tripped `pnpm lint` (`triple-slash-reference`) → removed before gate; shared-config fix filed as TMU-OPS-018 |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | `2520bfa` `fix(web): run the placeholder parity test and address review cycle 1` (8 files: 4 `apps/web` + 4 docs); pushed; gate re-verified 47/47 pre-commit |
+| 2026-10-01 | reviewer | 9 REVIEW cycle 2 | **APPROVE** — F1–F6 all resolved (F5 by filing into TMU-OPS-018); `@theme static` accepted; notes N1 (duplicate rows → fixed here), N2 (ease comment → fixed in final commit), N3 (OPS-017 cross-branch task file → noted in that task) |
 
 ### Plan
 

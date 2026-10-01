@@ -23,7 +23,8 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  /* motion.* durations (tokens.json); curve is the default ease-out. reducedMotion is
+  /* motion.* durations (tokens.json). Pair them with the ease-out utility — the motion
+     curve is ease-out, not Tailwind's default cubic-bezier(0.4,0,0.2,1). reducedMotion is
      behavioural (M3: prefers-reduced-motion media query), not a value token. */
   --duration-fast: 120ms;
   --duration-base: 200ms;
