@@ -72,6 +72,10 @@ the CI `integration`/`contract-fuzz`/`e2e` jobs stop being no-ops.
 | 2026-10-01 | qa-engineer | 4 RED | before creating packages, `pnpm test:integration`, `pnpm test:contract`, `pnpm test:e2e` route to `pending.mjs` placeholder |
 | 2026-10-01 | qa-engineer | 5 GREEN | created `tests/integration` (testcontainers), `tests/contract` (Vitest i18n test + Schemathesis OpenAPI fuzz), `tests/e2e` (Playwright smoke scenario against built web shell); updated TC-ADM.md TC-I18N-001 path; `pnpm i` updated lockfile; all 3 test scripts pass real assertions |
 | 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (140 passed / 1 skipped across 17 test files) |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | `2b8225c` pushed; draft PR #24 opened |
+| 2026-10-01 | reviewer | 9 REVIEW c1 | verdict `CHANGES`: B1 (prettier failures on artifacts), B2 (schemathesis error handling), B3 (testcontainers services) -> `docs/08-project/reviews/TMU-OPS-013.md` |
+| 2026-10-01 | qa-engineer | 5 FIX c1 | resolved B1-B3, M1-M2, m1-m4; Schemathesis 38 test cases green; testcontainers Postgres/MinIO/Mailpit defined; gate green |
+| 2026-10-01 | reviewer | 9 REVIEW c2 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR) |
 
 ### Plan
 
@@ -84,12 +88,12 @@ the CI `integration`/`contract-fuzz`/`e2e` jobs stop being no-ops.
 
 - Red: `pnpm test:integration|contract|e2e` routed to `pending.mjs` placeholder before packages existed.
 - Green:
-  - `pnpm test:integration`: 1 passed, 1 skipped (docker detection) in 2.25s
-  - `pnpm test:contract`: 2 passed (i18n-keys) + Schemathesis OpenAPI fuzz completed in 0.73s
-  - `pnpm test:e2e`: builds web shell and runs Playwright smoke test (1 passed in 4.1s)
+  - `pnpm test:integration`: 1 passed, 3 skipped (Postgres, MinIO, Mailpit containers defined) in 1.52s
+  - `pnpm test:contract`: 2 passed (i18n-keys) + Schemathesis OpenAPI fuzz 38 property tests passed in 1.75s
+  - `pnpm test:e2e`: builds web shell and runs Playwright smoke test (1 passed in 3.5s)
   - `pnpm gate`: passed with 140 passed / 1 skipped across 17 test files
-- PR: (pending)
-- Review: (pending)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/24
+- Review: `docs/08-project/reviews/TMU-OPS-013.md` (cycle 2 APPROVE)
 
 ## Blockers
 
