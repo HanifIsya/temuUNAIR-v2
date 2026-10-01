@@ -91,6 +91,8 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 | 2026-09-30 | git-steward | 8 COMMIT/PUSH | `e6da814` (rebased onto `76124aa`; `--force-with-lease` on own branch after rebase); draft PR [#8](https://github.com/HanifIsya/temuUNAIR-v2/pull/8); CI green except `migrations` pending at report time |
 | 2026-10-01 | reviewer | 9 REVIEW c1 | verdict **CHANGES** — 1 MAJOR (`git push origin HEAD*` allows `HEAD:main`, `--force`, `--no-verify`; pre-push hook not installed), 7 MINOR → `docs/08-project/reviews/TMU-OPS-016.md`; 5 mutations executed (A–E, all restored); `pnpm gate` green 39/39 |
 | 2026-10-01 | ops-dev | 9 REVIEW c1 fix | push deny rules for refspec/force/no-verify + ask widened to HEAD*; test renames; AGENTS/playbook/OPS-009/OPS-016 wording; focused run 30 passed |
+| 2026-10-01 | reviewer | 9 REVIEW c2 | verdict **CHANGES** (cycle limit -> needs-human) — 1 MAJOR (git-steward still allows `git push origin HEAD -f` and `HEAD~:main`), 2 MINOR (c2-2, c2-3) -> `docs/08-project/reviews/TMU-OPS-016.md` cycle-2 section; `pnpm gate` green 40/40; CI 10/10 green on run 36792990071 (`33ac008`) |
+| 2026-10-01 | orchestrator (human step) | 9 REVIEW c2 fix | red: guard test extended with 8 c2-3 assertions -> **1 failed / 29 passed** (`HEAD -f` resolved `allow`); green: git-steward push rules restructured (`*-f*` deny before the `ask`, `*:*` deny **after** it so a refspec stays denied under force-with-lease = c2-2) -> **30 passed**; probe 21/21; `pnpm gate` → `OK gate(quick) passed` (40 tests) |
 
 ### Plan
 
@@ -117,7 +119,12 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 - Green: focused run **29 passed**; `pnpm gate` → `OK gate(quick) passed` (unit 39 passed:
   scaffold 29 + config-presets 10; cold ESLint 2336 ms under the 15 s timeout).
 - PR: [#8](https://github.com/HanifIsya/temuUNAIR-v2/pull/8) (draft at P1; rebased onto `76124aa`)
-- Review: (pending)
+- Review: c1 verdict CHANGES (1 MAJOR + 7 MINOR, all fixed); c2 verdict CHANGES (cycle limit →
+  needs-human: 1 MAJOR + 2 MINOR) → human fix applied by orchestrator per
+  `05-definition-of-ready-done.md` (red 1 failed/29 passed → green 30 passed → gate green 40).
+- Final push-rule matrix: plain `HEAD` push allow (incl. `2>&1`); refspec (`HEAD:…`, `HEAD~:…`,
+  `HEAD^:…`), `--force`/`-f`, `--no-verify` deny; `--force-with-lease origin HEAD` ask (incl.
+  suffix), but ask loses to `*:*` deny when a refspec is present.
 
 ## Blockers
 

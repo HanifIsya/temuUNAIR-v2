@@ -430,6 +430,16 @@ describe("gh pr permissions (TMU-OPS-015)", () => {
     expect(resolve(rules, "git push origin HEAD --force")).toBe("deny");
     expect(resolve(rules, "git push origin HEAD --no-verify")).toBe("deny");
     expect(resolve(rules, "git push --force-with-lease origin HEAD 2>&1")).toBe("ask");
+    // Review cycle 2 (c2-3): the HEAD* allow must not smuggle short flags or revision
+    // refspecs past the deny list, and a refspec stays denied even under force-with-lease.
+    expect(resolve(rules, "git push origin HEAD -f")).toBe("deny");
+    expect(resolve(rules, "git push -f origin HEAD")).toBe("deny");
+    expect(resolve(rules, "git push origin HEAD~:main")).toBe("deny");
+    expect(resolve(rules, "git push origin HEAD^:main")).toBe("deny");
+    expect(resolve(rules, "git push --force origin HEAD")).toBe("deny");
+    expect(resolve(rules, "git push --no-verify origin HEAD")).toBe("deny");
+    expect(resolve(rules, "git push origin HEAD:main 2>&1")).toBe("deny");
+    expect(resolve(rules, "git push --force-with-lease origin HEAD:main")).toBe("deny");
   });
 });
 
