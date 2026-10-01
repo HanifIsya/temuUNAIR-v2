@@ -48,7 +48,9 @@ function flatten(tree: unknown, prefix = ""): string[] {
   if (typeof tree !== "object" || tree === null) {
     return prefix.length > 0 ? [prefix] : [];
   }
-  return Object.entries(tree).flatMap(([key, value]) => flatten(value, `${prefix}${key}.`));
+  return Object.entries(tree).flatMap(([key, value]) =>
+    flatten(value, prefix.length > 0 ? `${prefix}.${key}` : key),
+  );
 }
 
 function leafValue(tree: unknown, dottedKey: string): string | undefined {

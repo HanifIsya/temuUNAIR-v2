@@ -51,6 +51,10 @@ Findings while delivering TMU-OPS-003 (all reproduced 2026-10-01 in `E:\wt\TMU-O
 - [ ] Root `vitest.config.ts` sets `esbuild: { jsx: "automatic" }` so a `.tsx` file without a
       pragma renders correctly in a component test; `pnpm gate` stays green with the existing
       pragma-bearing files untouched.
+- [ ] Test files under `apps/web/src` are typechecked by `pnpm gate` — today
+      `apps/web/tsconfig.json` excludes `**/*.test.{ts,tsx}` and the root `tsconfig.json` (the
+      only thing the gate typechecks) includes just `scripts/**`, so type drift in component
+      tests passes unnoticed (REV-TMU-OPS-003 finding F5).
 - [ ] `pnpm gate` green.
 
 ## Files expected to change
@@ -71,6 +75,7 @@ Findings while delivering TMU-OPS-003 (all reproduced 2026-10-01 in `E:\wt\TMU-O
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-01 | orchestrator | task filed | finding from TMU-OPS-003 GREEN/GATE (ops-lane files: eslint/preset, gitignore, prettierignore, root vitest config) |
+| 2026-10-01 | orchestrator | extended | folded in REV-TMU-OPS-003 minor F5 (apps/web test files not typechecked by any gate step) |
 
 ### Plan
 

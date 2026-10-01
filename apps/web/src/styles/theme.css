@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+@theme static {
   --color-primary-900: #0a2a6e;
   --color-primary-700: #0f3d9e;
   --color-primary-500: #1e6fd9;
@@ -18,6 +18,16 @@
   --color-text-muted: #5a6472;
   --font-sans: "Plus Jakarta Sans", Inter, system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, monospace;
+  /* font.weight.* (tokens.json) — font-regular etc. */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  /* motion.* durations (tokens.json); curve is the default ease-out. reducedMotion is
+     behavioural (M3: prefers-reduced-motion media query), not a value token. */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;

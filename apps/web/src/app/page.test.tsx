@@ -1,6 +1,7 @@
 /** @jsxRuntime automatic */
 // @vitest-environment jsdom
 import { cleanup, render, screen } from "@testing-library/react";
+import { axe } from "jest-axe";
 import { NextIntlClientProvider } from "next-intl";
 import { afterEach, describe, expect, it } from "vitest";
 
@@ -33,5 +34,16 @@ describe("home page", () => {
 
     expect(container.querySelectorAll("main").length).toBe(1);
     expect(container.querySelector("main")?.id).toBe("main");
+  });
+
+  it("has no axe violations", async () => {
+    const { container } = render(
+      <NextIntlClientProvider locale="id" messages={MESSAGES}>
+        <HomePage />
+      </NextIntlClientProvider>,
+    );
+    const results = await axe(container);
+
+    expect(results.violations).toEqual([]);
   });
 });

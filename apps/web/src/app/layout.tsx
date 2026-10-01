@@ -9,7 +9,6 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "TemuUNAIR",
-  description: "Lost and found platform for Universitas Airlangga",
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {

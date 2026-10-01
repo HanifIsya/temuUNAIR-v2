@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-003
 title: Next.js web app shell with i18n and unit test harness
-status: IN_PROGRESS
+status: REVIEW
 lane: fe
 slug: web-app-shell
 milestone: M0
@@ -65,8 +65,12 @@ blank directory.
 | 2026-09-30 | orchestrator | rewritten | owner → `frontend-dev`; Dockerfile moved to TMU-OPS-012 (ops lane — review BLOCKER 1); folded in (unblocks `docker-build`); root-file edits removed (dispatcher exists) |
 | 2026-10-01 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-003` rebased onto `origin/main` @ `76124aa`; `pnpm i --frozen-lockfile` ok; baseline `pnpm gate` green (36 tests) |
 | 2026-10-01 | orchestrator | 1 PICK | claim push to `agent/fe/TMU-OPS-003-web-app-shell` |
-| 2026-10-01 | qa-engineer | 4 RED | tests written: `apps/web/src/i18n/messages.test.ts`, `apps/web/src/app/layout.test.tsx`, `apps/web/src/app/page.test.tsx`; `pnpm -s vitest run apps/web/src` → 1 failed suite (`Cannot find module './messages/id.json'`), 2 unhandled errors (`Cannot find package 'jsdom'` — deps land in GREEN) |
-| 2026-10-01 | qa-engineer | 4 RED | tests written: `src/i18n/messages.test.ts` (5), `src/app/layout.test.tsx` (3), `src/app/page.test.tsx` (2); red evidence in section Evidence |
+| 2026-10-01 | qa-engineer | 4 RED | tests written: `apps/web/src/i18n/messages.test.ts` (5 tests), `apps/web/src/app/layout.test.tsx` (3), `apps/web/src/app/page.test.tsx` (2); `pnpm -s vitest run apps/web/src` → 1 failed suite (`Cannot find module './messages/id.json'`), 2 unhandled errors (`Cannot find package 'jsdom'` — deps land in GREEN) |
+| 2026-10-01 | general (GREEN) | 5 GREEN | `apps/web` scaffolded per spike-validated design: package/tsconfig/next/postcss/vitest/eslint configs, `src/i18n/{request.ts,messages/{id,en}.json}`, `src/middleware.ts`, `src/styles/theme.css`, `src/app/{layout,page}.tsx`; `pnpm i` updated `pnpm-lock.yaml`; focused run `vitest run apps/web/src` → 3 files / 10 tests green; `i18n:check` → `passed (70 keys per locale)`; `next build` → Compiled successfully (`/` dynamic + middleware) |
+| 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (unit: 5 files / 46 tests, incl. new 10); generated `apps/web/next-env.d.ts` (untracked, not in lane) tripped `pnpm lint` (`triple-slash-reference`) → removed before gate; shared-config fix filed as TMU-OPS-018 |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | `18a16d5` `feat(web): add Next.js web app shell with i18n and tests` (19 files: 16 `apps/web` + lockfile + 2 task docs); pushed; PR #10 updated |
+| 2026-10-01 | reviewer | 9 REVIEW cycle 1 | `REQUEST_CHANGES` — MAJOR F1 (vacuous placeholder-parity test), MINOR F2–F6; full document in `docs/08-project/reviews/TMU-OPS-003.md` |
+| 2026-10-01 | general (fix) | 5 GREEN (fix) | F1 `flatten` → clean dotted keys + mutation proof (red: `notification.ADMIN_DISPUTE.body` mismatch → restore → 5/5 green); F3 invented `metadata.description` removed; F4 axe assertion added to `page.test.tsx` (0 violations, 11th test); F6 `--font-weight-*` + `--duration-*` from tokens.json with `@theme static`; gate → 47 tests green |
 | 2026-10-01 | general (GREEN) | 5 GREEN | `apps/web` scaffolded per spike-validated design: package/tsconfig/next/postcss/vitest/eslint configs, `src/i18n/{request.ts,messages/{id,en}.json}`, `src/middleware.ts`, `src/styles/theme.css`, `src/app/{layout,page}.tsx`; `pnpm i` updated `pnpm-lock.yaml`; focused run `vitest run apps/web/src` → 3 files / 10 tests green; `i18n:check` → `passed (70 keys per locale)`; `next build` → Compiled successfully (`/` dynamic + middleware) |
 | 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (unit: 5 files / 46 tests, incl. new 10); generated `apps/web/next-env.d.ts` (untracked, not in lane) tripped `pnpm lint` (`triple-slash-reference`) → removed before gate; shared-config fix filed as TMU-OPS-018 |
 
@@ -121,8 +125,16 @@ blank directory.
   (unit `5 passed (5)` files / `46 passed (46)` tests — baseline 36 + new 10).
   Fix-loop note: one transient `config-presets.test.mjs` ESLint cold-start timeout (5 s, first run
   after install) — passed on re-run; no code change.
-- PR: (pending)
-- Review: (pending)
+- Review cycle 1 fix (2026-10-01): mutation proof for F1 — removed `{claimShortId}` from
+  `notification.ADMIN_DISPUTE.body` in `en` only → placeholder test failed with
+  `notification.ADMIN_DISPUTE.body: id=[claimShortId] en=[]` (proving it now executes);
+  restored → 5/5 green. After F4 the suite is `3 files / 11 tests`; final gate
+  `OK gate(quick) passed` with `47 passed (47)`.
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/10 — `agent/fe/TMU-OPS-003-web-app-shell`,
+  commits `4655e5d` (claim) + `18a16d5` (GREEN).
+- Review: cycle 1 — `REQUEST_CHANGES` (MAJOR F1, MINOR F2–F6) →
+  `docs/08-project/reviews/TMU-OPS-003.md`; F1/F3/F4/F6 fixed, F2 resolved in this file,
+  F5 filed into TMU-OPS-018. Cycle 2 pending.
 
 ## Blockers
 

@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-017
 title: Fix the e2e CI job guard and Playwright install path
-status: TODO
+status: IN_PROGRESS
 lane: ops
 slug: e2e-ci-guard-fix
 milestone: M0
@@ -59,6 +59,9 @@ package that owns the dependency instead of the workspace root.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-01 | orchestrator | task filed | split out of TMU-OPS-003 during 0 SYNC (CI prerequisite: web shell flips the old guard on) |
+| 2026-10-01 | orchestrator | 3/5 | reproduced: `pnpm exec playwright install` at root → `ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL Command "playwright" not found` (exit 1); `tests/e2e` absent |
+| 2026-10-01 | ops-dev | 4 RED | `scaffold.test.mjs` assertion repointed to `tests/e2e/package.json` first → `1 failed (26)`: `AssertionError … to contain 'tests/e2e/package.json'` (ci.yml still on old guard) |
+| 2026-10-01 | ops-dev | 5 GREEN | `ci.yml` e2e job: guard → `tests/e2e/package.json`, Playwright via `pnpm --filter @temuunair/e2e-tests exec …`, skip echo names TMU-OPS-013, comment rewritten; `scaffold.test.mjs` 26/26; `pnpm gate` → `OK gate(quick) passed` (36 tests); diff = exactly 2 files (13+/8−) |
 
 ### Plan
 
@@ -69,8 +72,15 @@ package that owns the dependency instead of the workspace root.
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
+- Red: 2026-10-01 — assertion-first: after repointing the scaffold assertion to
+  `tests/e2e/package.json`, `pnpm -s vitest run scripts/checks/scaffold.test.mjs` →
+  `1 failed (26)` with `AssertionError: expected '# CI (Blueprint §7.10)…' to contain
+  'tests/e2e/package.json'` (ci.yml untouched). Root reproduction earlier that day:
+  `pnpm exec playwright install --with-deps chromium` → `ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL
+  Command "playwright" not found`, exit 1.
+- Green: 2026-10-01 — `scaffold.test.mjs` 26/26; `pnpm gate` → `OK gate(quick) passed`
+  (36 tests); `git diff --stat` = `.github/workflows/ci.yml | 14 ++++++------`,
+  `scripts/checks/scaffold.test.mjs | 7 +++++--` (2 files, 13+/8−).
 - PR: (pending)
 - Review: (pending)
 
