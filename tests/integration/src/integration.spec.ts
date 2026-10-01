@@ -47,8 +47,10 @@ describe("Integration tests with testcontainers (Postgres, MinIO, Mailpit)", () 
         .withEnvironment({
           MINIO_ROOT_USER: "minioadmin",
           MINIO_ROOT_PASSWORD: "minioadmin",
+          MINIO_ACCESS_KEY: "minioadmin",
+          MINIO_SECRET_KEY: "minioadmin",
         })
-        .withCommand(["server", "/data"])
+        .withCommand(["server", "/tmp/data", "--console-address", ":9001"])
         .withExposedPorts(9000)
         .start();
 
