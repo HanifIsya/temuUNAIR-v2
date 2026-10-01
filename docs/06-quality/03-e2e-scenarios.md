@@ -43,7 +43,7 @@ creates its own data through the API where practical.
 ## Running
 
 ```bash
-pnpm exec playwright install --with-deps chromium
+pnpm --filter @temuunair/e2e-tests exec playwright install --with-deps chromium
 ML_MODE=stub pnpm test:e2e            # local
 ML_MODE=stub pnpm test:e2e -- --project=mobile
 ```
