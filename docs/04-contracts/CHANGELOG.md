@@ -3,6 +3,13 @@
 All notable changes to the TemuUNAIR contracts (backend + frontend). Format: Keep a Changelog.
 Every entry links the PR. Versioning rules: `README.md` §Governance.
 
+## [Unreleased]
+
+### Added
+- `packages/contracts` implemented (TMU-OPS-004): Zod registry + deterministic generator for
+  `BE-02-openapi.yaml`, `generated/types.ts`, `generated/client.ts`,
+  `generated/msw-handlers.ts`; real `contracts:build|check|lint|breaking`. ([#11](https://github.com/HanifIsya/temuUNAIR-v2/pull/11))
+
 ## [1.0.0] — 2026-09-29
 
 ### Added
