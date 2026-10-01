@@ -21,8 +21,12 @@ async function main() {
     }
   };
 
-  process.once("SIGINT", () => shutdown("SIGINT"));
-  process.once("SIGTERM", () => shutdown("SIGTERM"));
+  process.once("SIGINT", () => {
+    void shutdown("SIGINT");
+  });
+  process.once("SIGTERM", () => {
+    void shutdown("SIGTERM");
+  });
 
   process.stdout.write("worker: starting pg-boss consumer...\n");
   await worker.start();

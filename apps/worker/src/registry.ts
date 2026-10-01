@@ -15,17 +15,21 @@ export const notifySendPayloadSchema = z.object({
   notificationId: uuidSchema,
 });
 
-export const emptyPayloadSchema = z.object({});
+export const emptyPayloadSchema = z
+  .union([z.object({}), z.null(), z.undefined()])
+  .transform(() => ({}));
 
 export const accountDeletePayloadSchema = z.object({
   userId: uuidSchema,
 });
 
+export const campusEnum = z.enum(["KAMPUS_A", "KAMPUS_B", "KAMPUS_C", "BANYUWANGI"]);
+
 export const matchingReindexPayloadSchema = z.object({
   scope: z.enum(["all", "campus", "report"]),
-  campus: z.string().optional(),
+  campus: campusEnum.optional(),
   reportId: uuidSchema.optional(),
-  algoVersion: z.number().int().positive(),
+  algoVersion: z.string().min(1),
 });
 
 export const QUEUES = {

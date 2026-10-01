@@ -49,8 +49,12 @@ describe("BE-07 Queue Registry", () => {
 
     it("validates sweep and cleanup empty payloads", () => {
       expect(parseJobPayload("report.expire-sweep", {})).toEqual({});
+      expect(parseJobPayload("report.expire-sweep", null)).toEqual({});
+      expect(parseJobPayload("report.expire-sweep", undefined)).toEqual({});
       expect(parseJobPayload("claim.expire-sweep", {})).toEqual({});
+      expect(parseJobPayload("claim.expire-sweep", null)).toEqual({});
       expect(parseJobPayload("media.cleanup", {})).toEqual({});
+      expect(parseJobPayload("media.cleanup", null)).toEqual({});
     });
 
     it("validates account.delete payload", () => {
@@ -62,18 +66,21 @@ describe("BE-07 Queue Registry", () => {
     });
 
     it("validates matching.reindex payload", () => {
-      const valid = { scope: "all", algoVersion: 1 };
+      const valid = { scope: "all", algoVersion: "2026.10.1" };
       expect(parseJobPayload("matching.reindex", valid)).toEqual(valid);
 
       const validCampus = {
         scope: "campus",
         campus: "KAMPUS_C",
-        algoVersion: 2,
+        algoVersion: "2026.10.1",
       };
       expect(parseJobPayload("matching.reindex", validCampus)).toEqual(validCampus);
 
       expect(() =>
-        parseJobPayload("matching.reindex", { scope: "unknown", algoVersion: 1 }),
+        parseJobPayload("matching.reindex", { scope: "unknown", algoVersion: "2026.10.1" }),
+      ).toThrow();
+      expect(() =>
+        parseJobPayload("matching.reindex", { scope: "all", algoVersion: "" }),
       ).toThrow();
       expect(() => parseJobPayload("matching.reindex", { scope: "all" })).toThrow();
     });
