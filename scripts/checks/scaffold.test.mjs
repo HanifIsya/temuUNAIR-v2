@@ -48,10 +48,13 @@ describe("gate wiring", () => {
   });
 
   it("skips the ML and e2e CI jobs until their packages exist", () => {
-    // Both jobs used to fail on a fresh clone because services/ml and apps/web do not exist yet.
+    // Both jobs used to fail on a fresh clone because services/ml and tests/e2e do not exist yet.
+    // The e2e job must skip until tests/e2e (TMU-OPS-013) exists — the old apps/web guard flipped
+    // the job on before a shell/scenarios could run, and the workspace root does not depend on
+    // `playwright`, so a root-level `pnpm exec playwright` cannot resolve the binary.
     const ci = readFileSync(".github/workflows/ci.yml", "utf8");
     expect(ci).toContain("services/ml/pyproject.toml");
-    expect(ci).toContain("apps/web/package.json");
+    expect(ci).toContain("tests/e2e/package.json");
   });
 
   it("routes the CI audit job through the same script as the gate", () => {
