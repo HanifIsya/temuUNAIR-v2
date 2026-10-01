@@ -1,0 +1,3 @@
+# @temuunair/db
+
+Drizzle ORM package that owns the forward-only SQL migrations for TemuUNAIR (BE-05): `pnpm db:generate` emits the next `NNNN_description.sql` from `src/schema.ts`, `pnpm db:migrate` applies pending migrations to `DATABASE_URL`, and `pnpm db:check` proves the migration folder applies cleanly to a throwaway scratch database and leaves zero drift against the Drizzle schema (it skips with exit 0 and a named notice when `DATABASE_URL` is unset). The URL must carry `?sslmode=require` for hosted Postgres (e.g. Render) and must omit `sslmode` entirely for plaintext local/CI Postgres; `db:check` never rewrites it. The baseline migration creates only the `vector` and `citext` extensions — domain tables arrive with TMU-DB-001..005.
