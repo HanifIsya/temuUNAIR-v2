@@ -73,6 +73,8 @@ the gate depends on.
 | 2026-09-30 | orchestrator | rewritten | owner → `ops-dev`; `tests/**` moved to TMU-OPS-013 (qa — review BLOCKER 2); dispatcher dependency recorded |
 | 2026-09-30 | docs-keeper | follow-up filed | from REV-TMU-META-002 MINOR 2: the ESLint guard `scripts/checks/config-presets.test.mjs` uses Vitest's default 5000 ms timeout and took 5409 ms on a cold cache (ESLint + typescript-eslint cold load) — latent flake on cold CI runners; raise the timeout or warm the cache in this task's gate/CI parity scope |
 | 2026-09-30 | docs-keeper | follow-up filed | from REV-TMU-META-002 MINOR 3: commit scope `meta` (used by `5d1f9e1`, `e4fc457`, `25234ef`) is not in the allowed list in `docs/05-workflow/07-commit-and-pr-conventions.md:28`; add `meta` (same precedent as TMU-OPS-002 review F7 adding `tasks`) |
+| 2026-10-01 | orchestrator | follow-up filed | from REV-TMU-OPS-006 cycle 2 m6: `uv run pytest` in the ML step emits `StarletteDeprecationWarning: Using httpx with starlette.testclient is deprecated; install httpx2 instead` (fastapi 0.142.2 / starlette 1.7.0 / httpx 0.28.1); track and move the `services/ml` dev dep to `httpx2` when the toolchain allows |
+| 2026-10-01 | orchestrator | follow-up filed | from SEC-REV-TMU-OPS-006 F2/F4: add a Python dependency advisory job (`pip-audit` or equivalent) to CI, and consider tightening the `>=` lower bounds in `services/ml/pyproject.toml` / enabling Dependabot now that the lockfile is committed and CI uses `--frozen` |
 
 ### Plan
 
