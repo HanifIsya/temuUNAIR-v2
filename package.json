@@ -46,6 +46,10 @@
     "vitest": "^3.2.4"
   },
   "pnpm": {
+    "overrides": {
+      "postcss": "^8.5.18",
+      "undici": "^6.27.0"
+    },
     "onlyBuiltDependencies": [
       "esbuild"
     ]

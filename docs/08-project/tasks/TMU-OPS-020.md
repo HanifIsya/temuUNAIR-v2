@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-020
 title: Clear the advisory audit red (postcss under next)
-status: TODO
+status: REVIEW
 lane: ops
 slug: audit-postcss-override
 milestone: M0
@@ -10,7 +10,7 @@ owner: ops-dev
 deps: [TMU-OPS-003]
 refs: [WF-CICD]
 created: 2026-10-01
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # TMU-OPS-020 — Clear the advisory audit red (postcss under `next`)
@@ -32,18 +32,18 @@ Make the CI `audit` job green now that `apps/web` pulls `next` (and its transiti
 
 ## Acceptance criteria
 
-- [ ] `pnpm -s run audit` exits 0 on a branch containing `apps/web` — e.g. via a
+- [x] `pnpm -s run audit` exits 0 on a branch containing `apps/web` — e.g. via a
       `pnpm.overrides` entry for `postcss` (`>=8.5.18`) in the root `package.json` (ops lane),
       or a `next` bump if a release ships the patched transitive already (choose the least
       invasive that actually clears the advisories).
-- [ ] `pnpm --filter @temuunair/web build` still succeeds (Next compiles with the resolved
+- [x] `pnpm --filter @temuunair/web build` still succeeds (Next compiles with the resolved
       postcss).
-- [ ] `pnpm gate` green.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
 - root `package.json` (`pnpm.overrides`) and/or `pnpm-lock.yaml`
-- possibly `docs/08-project/tasks/TMU-OPS-020.md`
+- `docs/08-project/tasks/TMU-OPS-020.md`
 
 ## Out of scope
 
@@ -54,11 +54,22 @@ Make the CI `audit` job green now that `apps/web` pulls `next` (and its transiti
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-01 | orchestrator | task filed | observed on PR #10 CI + local `pnpm run audit` (6 vulns, all `apps__web>next>postcss`) |
+| 2026-10-02 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-020` @ `576ed4a`; `pnpm i` OK; baseline gate green |
+| 2026-10-02 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
+| 2026-10-02 | ops-dev | 5 GREEN | added `pnpm.overrides` for `postcss` (^8.5.18) and `undici` (^6.27.0); updated lockfile; `pnpm -s run audit` exits 0; verified `next build` compiles successfully |
+| 2026-10-02 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (139 tests passed) |
+
+### Plan
+
+1. Add `pnpm.overrides` in root `package.json` for `postcss` and `undici`.
+2. Run `pnpm install` to update lockfile.
+3. Verify `pnpm -s run audit` exits 0 and `pnpm --filter @temuunair/web build` passes.
+4. `pnpm gate`.
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
+- Red: `pnpm -s run audit` previously reported 5 high vulnerabilities (`undici <6.27.0`, `postcss <=8.5.17`) and exited 1.
+- Green: `pnpm -s run audit` reports 0 high vulnerabilities and exits 0; `next build` passes; `pnpm gate` passes with 139 tests.
 - PR: (pending)
 - Review: (pending)
 
