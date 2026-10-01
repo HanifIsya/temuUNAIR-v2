@@ -73,6 +73,9 @@ blank directory.
 | 2026-10-01 | general (fix) | 5 GREEN (fix) | F1 `flatten` → clean dotted keys + mutation proof (red: `notification.ADMIN_DISPUTE.body` mismatch → restore → 5/5 green); F3 invented `metadata.description` removed; F4 axe assertion added to `page.test.tsx` (0 violations, 11th test); F6 `--font-weight-*` + `--duration-*` from tokens.json with `@theme static`; gate → 47 tests green |
 | 2026-10-01 | git-steward | 8 COMMIT/PUSH | `2520bfa` `fix(web): run the placeholder parity test and address review cycle 1` (8 files: 4 `apps/web` + 4 docs); pushed; gate re-verified 47/47 pre-commit |
 | 2026-10-01 | reviewer | 9 REVIEW cycle 2 | **APPROVE** — F1–F6 all resolved (F5 by filing into TMU-OPS-018); `@theme static` accepted; notes N1 (duplicate rows → fixed here), N2 (ease comment → fixed in final commit), N3 (OPS-017 cross-branch task file → noted in that task) |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | `52336dd` `docs(web): record review approvals and apply cycle-2 review notes` (6 files: theme comment N2, N1 dedupe, both review files, OPS-019 filed); pushed |
+| 2026-10-01 | orchestrator | 11 CI | PR #10 body updated with DoD evidence (`gh pr edit`). Checks on `52336dd`: **9/11 pass** (lint-typecheck, unit 47/47, contracts, contract-fuzz, integration, migrations, ml, secret-scan, docker-build skipped) — `e2e` **fail (by design)** until TMU-OPS-017 merges; `audit` fail = advisory (`continue-on-error`), 6 transitive `apps__web>next>postcss` vulns → filed TMU-OPS-020 |
+| 2026-10-01 | orchestrator | 12 MERGE GATE | **STOPPED — `gh pr merge` denied by session permissions (`gh pr*` allowlist), per standing directive "if merge denied → stop and report".** Both reviews APPROVE; branch mergeable; awaiting human: merge ops PR (017) first, then re-check CI, ready + squash-merge #10 |
 
 ### Plan
 
@@ -134,7 +137,17 @@ blank directory.
   commits `4655e5d` (claim) + `18a16d5` (GREEN).
 - Review: cycle 1 — `REQUEST_CHANGES` (MAJOR F1, MINOR F2–F6) →
   `docs/08-project/reviews/TMU-OPS-003.md`; F1/F3/F4/F6 fixed, F2 resolved in this file,
-  F5 filed into TMU-OPS-018. Cycle 2 pending.
+  F5 filed into TMU-OPS-018. Cycle 2 — **APPROVE** (same file, cycle-2 section); notes
+  N1/N2 resolved in `52336dd`, N3 noted in the OPS-017 task file.
+- CI (PR #10, run 36801218123 @ `52336dd`): pass ×9 — `lint-typecheck`, `unit` (47/47),
+  `contracts`, `contract-fuzz`, `integration`, `migrations`, `ml`, `secret-scan`;
+  `docker-build` skipped (no Dockerfile in scope). Red ×2: `e2e` (expected — old guard until
+  TMU-OPS-017 merges) and `audit` (advisory `continue-on-error`; 6 transitive
+  `next→postcss` vulns → TMU-OPS-020).
+- Merge gate: **stopped at step 12** — `gh pr merge 10 --squash` denied by session
+  permissions (rule `gh pr*` → deny; allowlist `gh pr view/checks/edit` only), matching the
+  standing directive to stop and report. PR also cannot be marked ready (`gh pr ready` same
+  rule) and TMU-OPS-017's PR could not be created (`gh pr create` denied).
 
 ## Blockers
 
