@@ -9,7 +9,7 @@
 | [TMU-OPS-002](tasks/TMU-OPS-002.md) | M0 | ops | DONE | P1 | Shared config presets in packages/config | TMU-OPS-001 |
 | [TMU-OPS-003](tasks/TMU-OPS-003.md) | M0 | fe | TODO | P1 | Next.js web app shell with i18n and unit test harness | TMU-OPS-002 |
 | [TMU-OPS-004](tasks/TMU-OPS-004.md) | M0 | contracts | TODO | P1 | Contracts package skeleton and real contracts checks | TMU-OPS-002 |
-| [TMU-OPS-005](tasks/TMU-OPS-005.md) | M0 | db | IN_PROGRESS | P1 | DB package skeleton with Drizzle and a real db check | TMU-OPS-002 |
+| [TMU-OPS-005](tasks/TMU-OPS-005.md) | M0 | db | DONE | P1 | DB package skeleton with Drizzle and a real db check | TMU-OPS-002 |
 | [TMU-OPS-006](tasks/TMU-OPS-006.md) | M0 | ml | TODO | P1 | ML service skeleton with uv, FastAPI health and pytest | TMU-OPS-002 |
 | [TMU-OPS-007](tasks/TMU-OPS-007.md) | M0 | be | TODO | P2 | Worker package skeleton with pg-boss bootstrap | TMU-OPS-002 |
 | [TMU-OPS-008](tasks/TMU-OPS-008.md) | M0 | ops | TODO | P1 | Full gate wiring, CI parity and toolchain prerequisites | TMU-OPS-003, TMU-OPS-004, TMU-OPS-005, TMU-OPS-006, TMU-OPS-007, TMU-OPS-012, TMU-OPS-013 |

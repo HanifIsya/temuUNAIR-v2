@@ -47,6 +47,7 @@ MINORs were deliberately left out of that PR to keep the diff small.
 | m8 | Task-file Evidence still said `PR: (pending)` (fixed in-cycle) | db |
 | m9 | `runCheck`'s `migrationsDir` default is cwd-relative on an exported function, which is surprising for a non-CLI caller | db |
 | m10 | The extensions-only assertion in `package.test.ts` is a deny-list (`CREATE TYPE/SCHEMA/...` would pass); it should be an allow-list of exactly the two `CREATE EXTENSION` statements | qa |
+| n11 | `docs/01-product/10-roadmap.md:28` lists `TMU-OPS-017..022` under M9, so `TMU-OPS-021` sits in a nominal reservation even though `017..020` are already M0 tasks; the roadmap's M0 (`:19`) and M9 rows are stale relative to the real M0 set | docs (or fold into `TMU-OPS-010`) |
 
 ## Acceptance criteria
 
@@ -62,6 +63,7 @@ MINORs were deliberately left out of that PR to keep the diff small.
 |---|---|---|---|
 | 2026-10-01 | orchestrator | filed | MINOR `m2`-`m10` of the TMU-OPS-005 cycle-1 review; `m1` filed as a separate contract task, `m3`/`m8` already fixed in-cycle |
 | 2026-10-01 | orchestrator | renumbered | Cycle-2 review found `TMU-OPS-016` already claimed by open PR #8 → renumbered to `TMU-OPS-021` (C2-M2) |
+| 2026-10-01 | orchestrator | extended | Cycle-3 confirmation review returned **APPROVE** and added one non-blocking MINOR (`n11`, stale roadmap `TMU-OPS-017..022` M9 reservation) — added to the findings table |
 
 ## Blockers
 

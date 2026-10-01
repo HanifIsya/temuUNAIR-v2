@@ -2,9 +2,9 @@
 id: REV-TMU-OPS-005
 task: TMU-OPS-005
 reviewer: reviewer
-verdict: REQUEST CHANGES
+verdict: APPROVE
 date: 2026-10-01
-cycle: 2
+cycle: 3
 ---
 
 # TMU-OPS-005 — Review cycle 1
@@ -561,3 +561,132 @@ doc fix, and its "Why this is a contract task" section correctly cites governanc
   as part of this write, so the file you copy over now contains neither the scan terms nor anything else
   changed from the committed version except `cycle: 1` → `cycle: 2` and this section.
 - As in cycle 1: I modified no product code, did not commit, push or merge, and re-ran the gate myself.
+
+---
+---
+
+# TMU-OPS-005 — Review cycle 3 (confirmation)
+
+Diff reviewed: `origin/main...23811e3` in worktree `E:\wt\TMU-OPS-005`, working tree clean at review
+time. 4 commits — `ab2c63d` (claim), `4638413` (feat), `64331e3` (fix cycle 1), `23811e3` (renumber
+C2-M1/C2-M2). Per the request this cycle verifies **only** the two cycle-2 MAJORs and the renames'
+blast radius; `packages/db/**` was not re-reviewed (it was already cleared in cycle 2).
+
+**Verdict: `APPROVE`** — 0 BLOCKER, 0 MAJOR, 1 MINOR (new, non-blocking). Both cycle-2 MAJORs are
+resolved, the renames broke nothing, and the gate is green. **Nothing blocks merging.**
+
+## C2-M1 — resolved
+
+- `docs/08-project/tasks/TMU-CTR-006.md:2` — `id: TMU-CTR-006` matches the filename
+  `TMU-CTR-006.md`; `scripts/checks/scaffold.test.mjs:180-200` asserts this and passed in my run.
+- `owner: architect` (`TMU-CTR-006.md:9`) is a real agent file (`.opencode/agents/architect.md`),
+  satisfying `scaffold.test.mjs:328-341`; the doc-style `AR` abbreviation is gone.
+- **Outside the reserved block:** `docs/01-product/10-roadmap.md:21` reserves `TMU-CTR-001..005`
+  for M2; `006` is outside it. The file is now `milestone: M2` (`:7`), which is *more* correct than
+  the old `milestone: M0` — a contract-wording fix belongs to M2. No other doc binds `TMU-CTR-006`.
+- **References:** the only remaining `TMU-CTR-001` occurrences are the pre-existing, correctly
+  targeted ones (`docs/04-contracts/CHANGELOG.md:16`, `docs/04-contracts/backend/BE-02-openapi.md:20`,
+  `docs/01-product/10-roadmap.md:21`, `docs/08-project/tasks/TMU-OPS-004.md:35,57`, and the template
+  example `docs/08-project/README.md:35`). The new file explains why it is `006`, not `001`
+  (`TMU-CTR-006.md:18-21`), and `TMU-OPS-021.md:40,54` now point at `TMU-CTR-006`. The old
+  `TMU-OPS-005.md:85` reference is superseded by the Progress rows at `:86-87`. **No stale reference
+  to the old task file remains.**
+
+## C2-M2 — resolved
+
+- `docs/08-project/tasks/TMU-OPS-021.md:2` — `id: TMU-OPS-021` matches the filename; `owner:
+  backend-dev` (`:9`) is a real agent file.
+- **ID is genuinely free:** no worktree under `E:\wt` (`003`, `004`, `005`, `006`, `016`, `017`),
+  the primary checkout, nor `origin/main` declares `TMU-OPS-021` as a task-file id. `TMU-OPS-016`
+  remains PR #8's; `017..020` are M0 tasks in `E:\wt\TMU-OPS-003`
+  (`TMU-OPS-017.md`..`TMU-OPS-020.md`). `TMU-OPS-021.md:18-20` records the collision and the choice.
+- **`TMU-OPS-016..020` as task-file ids:** `016` appears only in historical/ID-note text
+  (`TMU-OPS-021.md:18,19,64`, this review file, and the cycle-2 Progress row `TMU-OPS-005.md:86`);
+  `017..020` appear only in the M9 roadmap reservation (`10-roadmap.md:28`) and the ID-note. **No
+  file in this diff declares any of them as its `id:`** — the diff adds exactly one task file per
+  renumbered ID.
+
+## Generated files — consistent, not hand-edited
+
+- `docs/08-project/backlog.md` has **19 rows** (`:6-24`), matching the **19** `*.md` files in
+  `docs/08-project/tasks/` — every `tasks/<file>.md` link resolves, no missing task. The last two
+  rows are `TMU-OPS-021` (`:23`) and `TMU-CTR-006` (`:24`); neither `TMU-OPS-016` nor `TMU-CTR-001`
+  appears.
+- `docs/08-project/status.md` — M0 is `18` tasks (`11 + 1 + 6`), `6/18 = 33 %` (`:4-6`); M2 is a
+  separate `1`-task bucket (`:27-31`); `18 + 1 = 19`. Row order and the `32 % → 33 %` change are
+  exactly what `scripts/backlog-index.mjs:44-68` emits (sort by `milestone` then `id`; M2 sorts
+  after M0). Both files carry the `GENERATED … do not edit by hand` header (`backlog.md:1`,
+  `status.md:1`) and were produced by `23811e3` alone.
+- **Idempotency:** I could not execute `node scripts/backlog-index.mjs` (sandbox blocked the `node`
+  invocation; it also writes), so "regenerated" is inferred from content-exactness rather than a
+  re-run. The values are self-consistent and the generator is deterministic, so this is a formality.
+
+## No regressions since cycle 2
+
+- **Frozen tests:** `git diff origin/main...HEAD -- tests/db` → the same 4 new files,
+  `+64/+24/+16/+55` with `0` deletions (`--numstat`); no existing test modified, no assertion
+  removed. No `testTimeout` / `.only` / `it.skip` in `tests/db` (the single skip is the by-design
+  live-DB `skipIf`).
+- **Secrets:** scan of the worktree for the hosted-DB password fragment, instance id, DB role,
+  Render API-key name and the credentialed connection-URL form → only the pre-existing repo-local
+  dev defaults (`postgres://temuunair:temuunair@localhost:5432/…` in `.env.example:9`, `ci.yml:77`,
+  `07-ops/01-local-dev-setup.md:48`, `BE-11:19`) plus the `scripts/backup.sh:3` usage comment;
+  **0 hits for any real credential**, none introduced by this diff. No `.env` added. Scan terms
+  intentionally not reproduced here.
+- **Lane:** all 6 files of `23811e3` are `_common` (`docs/08-project/{tasks,reviews,backlog.md,
+  status.md}`); the branch matches `db` (`packages/db/**`, `tests/db/**`) or `_common`
+  (`pnpm-lock.yaml`, the docs index, task/review files). `scripts/check-lane.sh` exited 0 in my run.
+- **Gate:** `pnpm gate` (workdir `E:\wt\TMU-OPS-005`) → **`OK gate(quick) passed`**, exit 0 — lane
+  OK, prettier clean, eslint 0, typecheck 0, unit **45 passed / 3 skipped (6 files)** (incl. the two
+  ID/owner task-file tests; `scaffold.test.mjs` 26), contracts placeholders exit 0, `migrations
+  check` printed `db:check: skipped (DATABASE_URL is not set)`.
+- **No out-of-lane or product-code change:** `23811e3` is docs-only (6 files; renames detected as
+  renames), so no re-review of `packages/db/**` was warranted.
+
+## MINOR (new in cycle 3, non-blocking)
+
+- [ ] **n11** — `docs/01-product/10-roadmap.md:28` lists `TMU-OPS-017..022` under **M9** (Launch &
+      UAT), so `TMU-OPS-021` sits inside a *nominal* roadmap reservation even though `017..020` are
+      already used as M0 tasks in `E:\wt\TMU-OPS-003`. Nothing enforces it and the ID is genuinely
+      free, so this is not a collision of the C2-M2 kind; but the roadmap's M0 row (`:19`,
+      `TMU-OPS-001..010`) and M9 row are both now stale relative to the actual M0 set (`001..021`).
+      Fold into the M0 exit/handoff task (`TMU-OPS-010`) or a roadmap docs task: widen the M0 row or
+      re-point M9 above the M0 range. Recorded, not blocking — the same advisory applies to
+      `TMU-OPS-016` (PR #8) and every post-010 M0 task.
+
+## DoD delta since cycle 2
+
+| # | Item | Cycle 3 |
+|---|---|---|
+| 8 | Docs updated | **Pass** — the two follow-ups are filed under free IDs; cross-references updated. (Cycle-2 MINORs n6/n7/n8 remain in `TMU-OPS-005.md:13,80,115-116`; already filed/known, not re-opened here.) |
+| 9 | Generated files in sync, no hand edits | **Pass** — 19/19 rows; counts and percentages match the generator's algorithm; header intact. |
+| 10 | Reviewer verdict | This section — **`APPROVE`**. |
+| 12 | PR ready, CI green | CI run `36829822422` green 10/10 (given, incl. `migrations` + `unit`); PR #12 MERGEABLE/CLEAN at head `23811e3` (given; `gh` not callable here). |
+
+## Checks run (cycle 3)
+
+- `pnpm gate` → green as above. `git status --short` (clean), `git log --oneline -20` /
+  `origin/main..HEAD` (4 commits, head `23811e3`), `git diff origin/main...HEAD` (`--stat`,
+  `--name-status`, `--numstat -- tests/db`), `git show 23811e3 --stat`,
+  `git diff 64331e3 23811e3 -- …/TMU-OPS-005.md`, and `git show 64331e3:…/TMU-CTR-001.md` /
+  `…/TMU-OPS-016.md` (old contents).
+- Reads: both renumbered task files, `backlog.md`, `status.md`, `scripts/backlog-index.mjs`,
+  `scripts/checks/scaffold.test.mjs:156-201,328-341`, `.agent/lanes.json`,
+  `.opencode/agents/{architect,backend-dev}.md`, `docs/01-product/10-roadmap.md:19-28`,
+  `docs/08-project/README.md:35`.
+- Cross-worktree ID census: `E:\wt\{003,004,005,006,016,017}` and `E:\TemuUNAIR-v2` task dirs.
+- Greps: `TMU-CTR-001` (28 hits — pre-existing targets, historical review/progress text, or the new
+  ID-note), `TMU-OPS-01[6-9]|TMU-OPS-020` (31 hits — historical/roadmap only, no `id:`),
+  `TMU-OPS-021|TMU-CTR-006` (only the two new files, the two index files, the Progress rows),
+  `^deps:.*(TMU-CTR-001|TMU-OPS-016)` (only the `README.md:35` template example),
+  `reserved|TMU-OPS-017\.\.022` (roadmap + ID-note only), credential/instance scan (0 real hits).
+- Not run: `node scripts/backlog-index.mjs` (blocked + writes), `gh` inspection of run `36829822422`
+  / PR #12 (unavailable), live `db:check` (no `DATABASE_URL`). These rest on your report and are
+  labelled as such.
+
+## Notes for the human
+
+- **Both cycle-2 MAJORs are closed and the renames caused no regression.** I would merge this. The
+  only new item is the non-blocking roadmap-staleness MINOR `n11`.
+- Front-matter was updated to `verdict: APPROVE` / `cycle: 3` so the machine-readable header matches
+  the final verdict; the cycle-1 and cycle-2 sections are left verbatim.

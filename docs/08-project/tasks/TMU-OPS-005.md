@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-005
 title: DB package skeleton with Drizzle and a real db check
-status: IN_PROGRESS
+status: DONE
 lane: db
 slug: db-package-skeleton
 milestone: M0
@@ -10,7 +10,7 @@ owner: backend-dev
 deps: [TMU-OPS-002]
 refs: [ARCH-STACK, BE-05, DEC-002]
 created: 2026-09-29
-updated: 2026-09-30
+updated: 2026-10-01
 ---
 
 # TMU-OPS-005 — DB package skeleton with Drizzle and a real `db:check`
@@ -112,12 +112,22 @@ optional `TMU-DOC-*` follow-up, not a requirement of this task.
   Acceptance: `pnpm db:check` exit 0 / `db:check: ok`; `db:generate` exit 0, no migration drift;
   `db:migrate` exit 0; `seed` exit 0 (no-op); `eslint` 0, `tsc -p packages/db` 0, `prettier --check`
   clean, `check-lane.sh` 0; `pnpm gate` → `OK gate(quick) passed` (exit 0).
-- PR: [#12](https://github.com/HanifIsya/temuUNAIR-v2/pull/12) (draft), commit `6572380`.
-  CI run `36810827530` — **10/10 checks pass**, incl. `migrations` (`pnpm db:check` against the
-  pgvector service) and `unit`. `docker-build` skipped (path-filtered).
-- Review cycle 1: **REQUEST CHANGES** — `docs/08-project/reviews/TMU-OPS-005.md`. 0 BLOCKER,
-  3 MAJOR (M1 URL-parse could reject and leak credentials to stderr; M2 no connect/deadline
-  timeouts; M3 RED evidence named an impossible failure), 10 MINOR. Fixes applied in this cycle.
+- PR: [#12](https://github.com/HanifIsya/temuUNAIR-v2/pull/12), head `23811e3` (4 commits: claim,
+  feat, review-fix, renumber). CI run `36829822422` — **10/10 checks pass**, incl. `migrations`
+  (`pnpm db:check` against the pgvector service) and `unit`. `docker-build` skipped (path-filtered).
+  PR is MERGEABLE/CLEAN. Rebased onto `main` after PRs #6/#7 advanced the generated `backlog.md`
+  and `status.md`.
+- Review cycle 1: **REQUEST CHANGES** — 0 BLOCKER, 3 MAJOR (M1 URL-parse could reject and leak
+  credentials to stderr; M2 no connect/deadline timeouts; M3 RED evidence named an impossible
+  failure), 10 MINOR.
+- Review cycle 2: **REQUEST CHANGES** — 0 BLOCKER, 2 MAJOR (both IDs I invented for the follow-up
+  files collided: `TMU-CTR-001` reserved by the roadmap, `TMU-OPS-016` claimed by open PR #8),
+  8 MINOR. Cycle-1 MAJORs all verified fixed.
+- Review cycle 3: **APPROVE** — both cycle-2 MAJORs resolved by the renumber; no regressions; one
+  new non-blocking MINOR (`n11`, roadmap `10-roadmap.md:28` lists `TMU-OPS-017..022` under M9).
+  `docs/08-project/reviews/TMU-OPS-005.md` (692 lines) carries `verdict: APPROVE` / `cycle: 3`.
+- Follow-ups filed, not dropped: `TMU-CTR-006` (BE-05:126 vs extensions-only `0001_init`) and
+  `TMU-OPS-021` (the ten cycle-1 MINORs plus the cycle-2/3 MINORs).
 
 ## Blockers
 
