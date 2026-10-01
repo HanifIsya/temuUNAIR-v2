@@ -77,6 +77,8 @@ route registry) with a generator that emits `BE-02-openapi.yaml`, `generated/typ
 | 2026-10-01 | git-steward | 8 COMMIT/PUSH | commit `1133ce9` (rebased onto origin/main, no conflicts), pushed to `agent/contracts/TMU-OPS-004-contracts-package-skeleton`, draft PR [#11](https://github.com/HanifIsya/temuUNAIR-v2/pull/11) with label `contract` (label created); CI all green (contracts, lint-typecheck, unit, migrations, audit, contract-fuzz, e2e, integration, ml, secret-scan) |
 | 2026-10-01 | reviewer | 9 REVIEW (cycle 1) | verdict **CHANGES**: 1 BLOCKER (Response Objects lack required `description` - invalid OpenAPI 3.1), 1 MAJOR (`target: "openApi3"` emits 3.0 `nullable: true` + `tsTypeOf` drops unions), 8 MINOR. Review: `docs/08-project/reviews/TMU-OPS-004.md` |
 | 2026-10-01 | architect | 5 FIX (cycle 1) | BLOCKER: `description` on every Response Object + new lint rule `response-description`. MAJOR: recursive `toOpenApi31` post-process (`type: [..., "null"]`, no `nullable: true`), `tsTypeOf` renders `A \| null` / `A \| B`; new lint rule `no-30-nullable`. MINOR 3 (lint CLI try/catch), 5 (MSW body=examples + stale test name), 8 (cookie constant) also fixed. Red evidence: 6 failures for the right reason. `pnpm test:unit` **100/100**, gate green |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH (cycle 1) | commit `8d187d1` pushed; PR #11 marked ready for review; CI green (10 pass, 1 skip) |
+| 2026-10-01 | reviewer | 9 REVIEW (cycle 2) | verdict **APPROVE**: 0 BLOCKER / 0 MAJOR / 0 new MINOR; 6 cycle-1 findings RESOLVED with evidence, 4 DEFERRED filed in this task file; gate re-run green (100/100), no weakened tests. Final allowed cycle per DoD |
 
 ### Plan (orchestrator, 2026-09-30)
 
@@ -186,9 +188,8 @@ OK gate(quick) passed
 
 - Red: captured above (tests + both acceptance reds).
 - Green: captured above (91/91 at step 7; **100/100** after cycle-1 fixes).
-- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/11 (draft, label `contract`, CI green)
-- Review: `docs/08-project/reviews/TMU-OPS-004.md` — cycle 1 CHANGES (1 BLOCKER, 1 MAJOR, 8 MINOR);
-  BLOCKER + MAJOR + MINOR 3/5/8 fixed in cycle 1; cycle 2 pending.
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/11 (ready for review, label `contract`, CI green: 10 pass / 1 skip)
+- Review: `docs/08-project/reviews/TMU-OPS-004.md` — cycle 1 CHANGES (1 BLOCKER, 1 MAJOR, 8 MINOR); BLOCKER + MAJOR + MINOR 3/5/6/8 fixed in `8d187d1`; cycle 2 **APPROVE** (0 BLOCKER, 0 MAJOR, 0 new MINOR; 6 RESOLVED, 4 DEFERRED).
 
 ### Deferred MINORs (review cycle 1, filed for follow-up)
 
