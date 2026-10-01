@@ -1,0 +1,124 @@
+{
+  "app": {
+    "name": "TemuUNAIR",
+    "tagline": "Hilang hari ini, ketemu bersama"
+  },
+  "common": {
+    "save": "Simpan",
+    "cancel": "Batal",
+    "back": "Kembali",
+    "next": "Lanjut",
+    "retry": "Coba lagi",
+    "loadMore": "Muat lebih banyak",
+    "loading": "Memuat…",
+    "optional": "opsional",
+    "required": "wajib",
+    "close": "Tutup",
+    "copy": "Salin",
+    "copied": "Tersalin",
+    "offline": "Kamu sedang offline",
+    "unknownError": "Terjadi kesalahan. Coba lagi ya."
+  },
+  "landing": {
+    "hero": {
+      "title": "TemuUNAIR — Hilang hari ini, ketemu bersama",
+      "subtitle": "Lapor barang hilang atau temuan di kampus UNAIR. Kami bantu mencocokkan."
+    },
+    "cta": {
+      "login": "Masuk dengan akun UNAIR"
+    },
+    "value": {
+      "report": {
+        "title": "Lapor dalam 1 menit"
+      },
+      "match": {
+        "title": "Dicocokkan otomatis"
+      },
+      "safe": {
+        "title": "Serah terima aman"
+      }
+    }
+  },
+  "error": {
+    "AUTH_REQUIRED": "Silakan masuk dulu.",
+    "AUTH_DOMAIN_NOT_ALLOWED": "Gunakan akun UNAIR kamu.",
+    "ACCOUNT_SUSPENDED": "Akun kamu sedang ditangguhkan. Hubungi admin.",
+    "FORBIDDEN": "Kamu tidak punya akses ke sini.",
+    "NOT_FOUND": "Tidak ditemukan.",
+    "VALIDATION_FAILED": "Ada isian yang perlu diperbaiki.",
+    "CONFLICT_STATE": "Data sudah berubah. Muat ulang ya.",
+    "IDEMPOTENCY_CONFLICT": "Permintaan berbeda dengan yang sebelumnya.",
+    "CLAIM_ALREADY_ACTIVE": "Kamu sudah punya klaim aktif untuk barang ini.",
+    "CLAIM_LIMIT_EXCEEDED": "Batas klaim hari ini tercapai. Coba besok.",
+    "REPORT_NOT_CLAIMABLE": "Barang ini belum bisa diklaim.",
+    "SELF_CLAIM_NOT_ALLOWED": "Kamu tidak bisa mengklaim laporan sendiri.",
+    "UPLOAD_INVALID_TYPE": "Format file tidak didukung.",
+    "UPLOAD_TOO_LARGE": "Ukuran foto terlalu besar (maks 8 MB).",
+    "UPLOAD_LIMIT_REACHED": "Maksimal 5 foto per laporan.",
+    "RATE_LIMITED": "Terlalu banyak percobaan. Tunggu sebentar.",
+    "ML_UNAVAILABLE": "Pencocokan sedang sibuk. Kami coba lagi nanti.",
+    "INTERNAL": "Terjadi kesalahan di sisi kami."
+  },
+  "notification": {
+    "MATCH_SUGGESTED": {
+      "title": "Ada kemungkinan kecocokan",
+      "body": "Kami menemukan laporan yang mirip dengan \"{reportTitle}\"."
+    },
+    "MATCH_INVITE": {
+      "title": "Seseorang mungkin menemukan barangmu",
+      "body": "Penemu barang mengira ini milikmu: \"{foundTitle}\"."
+    },
+    "CLAIM_SUBMITTED": {
+      "title": "Ada yang mengklaim barang temuanmu",
+      "body": "Seseorang menjawab pertanyaan verifikasimu untuk \"{reportTitle}\"."
+    },
+    "CLAIM_APPROVED": {
+      "title": "Klaim kamu disetujui 🎉",
+      "body": "Penemu menyetujui klaimmu. Atur serah terima di ruang klaim."
+    },
+    "CLAIM_REJECTED": {
+      "title": "Klaim kamu belum disetujui",
+      "body": "Alasan: {reason}. Kamu bisa mengajukan sengketa jika merasa ini keliru."
+    },
+    "CLAIM_REMINDER": {
+      "title": "Jangan lupa tinjau klaim",
+      "body": "Klaim untuk \"{reportTitle}\" menunggu keputusanmu. Kedaluwarsa dalam 24 jam."
+    },
+    "MESSAGE_RECEIVED": {
+      "title": "Pesan baru dari {senderName}",
+      "body": "Buka ruang klaim untuk membalas."
+    },
+    "HANDOVER_PLANNED": {
+      "title": "Rencana serah terima diatur",
+      "body": "{place} · {at} (WIB). Cek detailnya."
+    },
+    "HANDOVER_CONFIRMED": {
+      "title": "Serah terima dikonfirmasi",
+      "body": "Satu pihak sudah konfirmasi. Konfirmasi kamu dibutuhkan."
+    },
+    "REPORT_RETURNED": {
+      "title": "Barang sudah kembali!",
+      "body": "Klaim selesai dan barang sudah diserahkan. Terima kasih sudah jujur."
+    },
+    "REPORT_EXPIRING": {
+      "title": "Laporanmu akan kedaluwarsa dalam 14 hari",
+      "body": "Perpanjang laporan \"{reportTitle}\" agar tetap aktif."
+    },
+    "REPORT_EXPIRED": {
+      "title": "Laporanmu sudah kedaluwarsa",
+      "body": "Kamu masih bisa memperpanjang dalam 30 hari."
+    },
+    "REPORT_REMOVED": {
+      "title": "Laporanmu dihapus moderator",
+      "body": "Alasan: {reason}. Hubungi admin jika kamu merasa ini keliru."
+    },
+    "REPORT_APPROVED": {
+      "title": "Laporanmu disetujui",
+      "body": "Laporan \"{reportTitle}\" sudah tayang."
+    },
+    "ADMIN_DISPUTE": {
+      "title": "Sengketa baru perlu ditinjau",
+      "body": "Klaim {claimShortId} disengketakan. Buka antrian untuk meninjau."
+    }
+  }
+}

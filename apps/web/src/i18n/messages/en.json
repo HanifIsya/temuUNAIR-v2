@@ -1,0 +1,124 @@
+{
+  "app": {
+    "name": "TemuUNAIR",
+    "tagline": "Lost Today, Found Together"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "retry": "Try again",
+    "loadMore": "Load more",
+    "loading": "Loading…",
+    "optional": "optional",
+    "required": "required",
+    "close": "Close",
+    "copy": "Copy",
+    "copied": "Copied",
+    "offline": "You are offline",
+    "unknownError": "Something went wrong. Try again."
+  },
+  "landing": {
+    "hero": {
+      "title": "TemuUNAIR — Lost Today, Found Together",
+      "subtitle": "Report lost or found items on UNAIR campus. We help match them."
+    },
+    "cta": {
+      "login": "Sign in with UNAIR account"
+    },
+    "value": {
+      "report": {
+        "title": "Report in a minute"
+      },
+      "match": {
+        "title": "Matched automatically"
+      },
+      "safe": {
+        "title": "Safe handover"
+      }
+    }
+  },
+  "error": {
+    "AUTH_REQUIRED": "Please sign in first.",
+    "AUTH_DOMAIN_NOT_ALLOWED": "Please use your UNAIR account.",
+    "ACCOUNT_SUSPENDED": "Your account is suspended. Contact an admin.",
+    "FORBIDDEN": "You do not have access here.",
+    "NOT_FOUND": "Not found.",
+    "VALIDATION_FAILED": "Some fields need fixing.",
+    "CONFLICT_STATE": "The data changed. Please reload.",
+    "IDEMPOTENCY_CONFLICT": "This request differs from the previous one.",
+    "CLAIM_ALREADY_ACTIVE": "You already have an active claim for this item.",
+    "CLAIM_LIMIT_EXCEEDED": "Daily claim limit reached. Try tomorrow.",
+    "REPORT_NOT_CLAIMABLE": "This item cannot be claimed right now.",
+    "SELF_CLAIM_NOT_ALLOWED": "You cannot claim your own report.",
+    "UPLOAD_INVALID_TYPE": "Unsupported file type.",
+    "UPLOAD_TOO_LARGE": "Photo too large (max 8 MB).",
+    "UPLOAD_LIMIT_REACHED": "Maximum 5 photos per report.",
+    "RATE_LIMITED": "Too many attempts. Wait a moment.",
+    "ML_UNAVAILABLE": "Matching is busy. We will retry later.",
+    "INTERNAL": "Something went wrong on our side."
+  },
+  "notification": {
+    "MATCH_SUGGESTED": {
+      "title": "A possible match",
+      "body": "We found a report similar to \"{reportTitle}\"."
+    },
+    "MATCH_INVITE": {
+      "title": "Someone may have found your item",
+      "body": "A finder thinks this might be yours: \"{foundTitle}\"."
+    },
+    "CLAIM_SUBMITTED": {
+      "title": "Someone claimed your found item",
+      "body": "Someone answered your verification questions for \"{reportTitle}\"."
+    },
+    "CLAIM_APPROVED": {
+      "title": "Your claim was approved 🎉",
+      "body": "The finder approved your claim. Arrange the handover in the claim room."
+    },
+    "CLAIM_REJECTED": {
+      "title": "Your claim was not approved",
+      "body": "Reason: {reason}. You can open a dispute if this seems wrong."
+    },
+    "CLAIM_REMINDER": {
+      "title": "Do not forget to review the claim",
+      "body": "The claim for \"{reportTitle}\" awaits your decision. It expires in 24 hours."
+    },
+    "MESSAGE_RECEIVED": {
+      "title": "New message from {senderName}",
+      "body": "Open the claim room to reply."
+    },
+    "HANDOVER_PLANNED": {
+      "title": "Handover planned",
+      "body": "{place} · {at} (WIB). Check the details."
+    },
+    "HANDOVER_CONFIRMED": {
+      "title": "Handover confirmed",
+      "body": "One side confirmed. Your confirmation is needed."
+    },
+    "REPORT_RETURNED": {
+      "title": "The item is back!",
+      "body": "The claim is complete and the item was handed over. Thank you for being honest."
+    },
+    "REPORT_EXPIRING": {
+      "title": "Your report expires in 14 days",
+      "body": "Renew \"{reportTitle}\" to keep it active."
+    },
+    "REPORT_EXPIRED": {
+      "title": "Your report has expired",
+      "body": "You can still renew within 30 days."
+    },
+    "REPORT_REMOVED": {
+      "title": "Your report was removed by a moderator",
+      "body": "Reason: {reason}. Contact an admin if this seems wrong."
+    },
+    "REPORT_APPROVED": {
+      "title": "Your report was approved",
+      "body": "\"{reportTitle}\" is now visible."
+    },
+    "ADMIN_DISPUTE": {
+      "title": "A new dispute needs review",
+      "body": "Claim {claimShortId} was disputed. Open the queue to review."
+    }
+  }
+}
