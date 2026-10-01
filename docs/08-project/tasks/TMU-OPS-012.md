@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-012
 title: Web Docker image and real docker-build CI job
-status: REVIEW
+status: DONE
 lane: ops
 slug: web-docker-image
 milestone: M0
@@ -66,6 +66,7 @@ CI gap.
 | 2026-10-01 | reviewer | 9 REVIEW c1 | verdict `CHANGES`: BLOCKER (Corepack cache permission under non-root user), MAJOR (prune devDependencies), MINORs -> `docs/08-project/reviews/TMU-OPS-012.md` |
 | 2026-10-01 | ops-dev | 5 FIX c1 | switched to global `npm install -g pnpm@10.34.6`; added `pnpm prune --prod` in builder; created `nextjs` home directory; gate green |
 | 2026-10-01 | reviewer | 9 REVIEW c2 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR) |
+| 2026-10-01 | orchestrator | 12 MERGE GATE | Squash-merged as PR #22 (`157e8b7`); docker-build verified on main |
 
 ### Plan
 
@@ -79,7 +80,7 @@ CI gap.
 - Red: `pnpm vitest run scripts/checks/scaffold.test.mjs` failed before implementation: `AssertionError: expected false to be true` on `existsSync("infra/docker/web.Dockerfile")`.
 - Green: `pnpm vitest run scripts/checks/scaffold.test.mjs` passed 30/30; `pnpm gate` passed with 139 unit tests across 16 test files.
 - PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/22
-- Review: `docs/08-project/reviews/TMU-OPS-012.md` (cycle 1 CHANGES -> cycle 2 pending)
+- Review: `docs/08-project/reviews/TMU-OPS-012.md` (cycle 2 APPROVE)
 
 ## Blockers
 
