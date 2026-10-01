@@ -23,7 +23,7 @@ The `no-protected-push.sh` hook refuses any other remote.
 | Human branches | `feat/…`, `fix/…`, `docs/…` (same PR rules) |
 | Lifetime | Short: aim for < 1 day / < 400 changed lines. Split tasks that grow |
 | Merge | **Squash merge**; PR title = the Conventional Commit; any agent may squash-merge (DEC-020) |
-| Worktrees | One Orca worktree per active task at `../wt/<TASK-ID>` (fallback: `git worktree add ../wt/<TASK-ID> -b <branch> origin/main`). Remove after merge |
+| Worktrees | One dedicated worktree per active task at `E:\wt\<TASK-ID>` (or sibling `../wt/<TASK-ID>`); created via `git worktree add E:/wt/<TASK-ID> -b <branch> origin/main`. Removed after step 12 merge gate via `git worktree remove` / `Remove-Item` and `git worktree prune`. |
 | Tags | `contract-v<semver>` per accepted contract set; `m<N>-<name>` per milestone gate; `v<semver>` for releases |
 
 ## Commit conventions
