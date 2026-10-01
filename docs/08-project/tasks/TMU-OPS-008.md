@@ -53,7 +53,9 @@ the gate depends on.
 
 ## Files expected to change
 
+- `.github/workflows/ci.yml`
 - `docs/05-workflow/07-commit-and-pr-conventions.md`
+- `docs/05-workflow/08-ci-cd.md`
 - `docs/07-ops/01-local-dev-setup.md`
 - `docs/08-project/tasks/TMU-OPS-008.md` (this file)
 
@@ -77,6 +79,9 @@ the gate depends on.
 | 2026-10-02 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
 | 2026-10-02 | ops-dev | 5 GREEN | verified every script in `scripts/gate.sh` does real work; verified all 14 steps in `pnpm gate:full` pass cleanly; added `meta` to commit conventions scopes; updated `01-local-dev-setup.md` prerequisites table |
 | 2026-10-02 | orchestrator | 7 GATE | `pnpm gate` and `pnpm gate:full` both exit 0 cleanly with all checks green |
+| 2026-10-02 | git-steward | 8 COMMIT/PUSH | `410f9de` pushed; PR #27 opened |
+| 2026-10-02 | reviewer | 9 REVIEW c1 | verdict `CHANGES`: B1 (ci.yml build job parity), M1 (ci.yml lane check comment), m1 (Playwright Chromium install doc), m2 (red evidence commands) -> `docs/08-project/reviews/TMU-OPS-008.md` |
+| 2026-10-02 | ops-dev | 5 FIX c1 | added `build` job to `.github/workflows/ci.yml` and `08-ci-cd.md`; added `lane check` parity note; added Chromium install to `01-local-dev-setup.md`; recorded exact red reproduction commands |
 
 ### Plan
 
@@ -89,11 +94,11 @@ the gate depends on.
 ## Evidence
 
 - Red: Deliberate failure verified per gate category:
-  - `lint`: `Unexpected console statement no-console` (exit 1)
-  - `unit`: `AssertionError: expected 1 to be 2` (exit 1)
-  - `contracts`: `drift packages/contracts/generated/client.ts: out of sync` (exit 1)
-  - `db`: `db:check: failed: connect ECONNREFUSED` (exit 1)
-  - `ml`: `FAILED tests/test_health.py::test_fail - assert False` (exit 1)
+  - `lint`: Injected `console.log("bad")` in `packages/contracts/src/errors.ts` -> command `pnpm lint` -> output `48:1 error Unexpected console statement no-console` (exit 1).
+  - `unit`: Injected `it("fail", () => expect(1).toBe(2))` in `packages/contracts/src/check.test.ts` -> command `pnpm test:unit` -> output `FAIL packages/contracts/src/check.test.ts > fail AssertionError: expected 1 to be 2` (exit 1).
+  - `contracts`: Appended comment to `packages/contracts/generated/client.ts` -> command `pnpm contracts:check` -> output `drift packages/contracts/generated/client.ts: out of sync. Run pnpm contracts:build` (exit 1).
+  - `db`: Set `DATABASE_URL=postgres://invalid:invalid@127.0.0.1:5432/nonexistent` -> command `pnpm db:check` -> output `db:check: failed: connect ECONNREFUSED` (exit 1).
+  - `ml`: Injected `def test_fail(): assert False` in `services/ml/tests/test_health.py` -> command `(cd services/ml && uv run pytest -q -m "not slow")` -> output `FAILED tests/test_health.py::test_fail - assert False` (exit 1).
 - Green: `pnpm gate:full` runs all 14 steps cleanly and exits 0:
   - lane check: OK
   - format: OK
@@ -112,8 +117,8 @@ the gate depends on.
   - e2e: Playwright smoke scenario passed
   - secret scan: gitleaks scanned 46 commits, 0 leaks
   - dependency audit: 0 high vulnerabilities, exited 0
-- PR: (pending)
-- Review: (pending)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/27
+- Review: `docs/08-project/reviews/TMU-OPS-008.md` (cycle 1 CHANGES -> cycle 2 pending)
 
 ## Blockers
 

@@ -20,6 +20,7 @@ source_refs: ["Blueprint §4.8"]
 | Docker Desktop | current | `winget install Docker.DockerDesktop` (Windows) or `brew install --cask docker` (macOS); required for postgres+pgvector, minio, mailpit |
 | uv | latest | Python ML service — Windows: `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 \| iex"` or `pip install uv`; Linux/macOS: `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
 | gitleaks | latest | `winget install Gitleaks.Gitleaks` (Windows) or `brew install gitleaks` (macOS); required for pre-commit secret scans and `pnpm gate:full` |
+| Playwright Chromium | latest | `pnpm --filter @temuunair/e2e-tests exec playwright install chromium` — required for `pnpm test:e2e` and `pnpm gate:full` |
 | lefthook | via pnpm | `pnpm dlx lefthook install` |
 
 ## First run
