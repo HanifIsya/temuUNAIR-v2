@@ -1,0 +1,45 @@
+# Keep unnecessary files out of Docker build context (TMU-OPS-012)
+
+# Version control
+.git
+.gitignore
+
+# Dependencies and build caches
+node_modules
+.pnpm-store
+.next
+out
+dist
+build
+.turbo
+*.tsbuildinfo
+
+# Documentation
+docs
+
+# Services (Python ML service)
+services
+.venv
+__pycache__
+*.py[cod]
+
+# Tests and reports
+tests
+coverage
+test-results
+playwright-report
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Editor / OS
+.idea
+.vscode
+.DS_Store
+Thumbs.db
+*.log

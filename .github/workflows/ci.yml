@@ -167,15 +167,9 @@ jobs:
       - run: pnpm -s run audit
 
   docker-build:
-    # Runs on main only, and only once the web image exists (TMU-OPS-003). Without the presence
-    # guard a missing Dockerfile makes main permanently red (caught after TMU-OPS-001 merged).
+    # Catches Dockerfile drift on main (Blueprint §7.10, docs/05-workflow/08-ci-cd.md).
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: present
-        run: echo "exists=$([ -f infra/docker/web.Dockerfile ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
-      - if: steps.present.outputs.exists == 'yes'
-        run: docker build -f infra/docker/web.Dockerfile .
-      - if: steps.present.outputs.exists == 'no'
-        run: echo "infra/docker/web.Dockerfile not implemented yet (TMU-OPS-003) - skipping"
+      - run: docker build -f infra/docker/web.Dockerfile .
