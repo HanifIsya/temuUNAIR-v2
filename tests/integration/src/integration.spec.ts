@@ -43,12 +43,11 @@ describe("Integration tests with testcontainers (Postgres, MinIO, Mailpit)", () 
     }, 60000);
 
     it("can start and communicate with a MinIO container", async () => {
-      const container = await new GenericContainer("quay.io/minio/minio:latest")
+      const container = await new GenericContainer("bitnami/minio:latest")
         .withEnvironment({
           MINIO_ROOT_USER: "minioadmin",
           MINIO_ROOT_PASSWORD: "minioadmin",
         })
-        .withCommand(["server", "/data"])
         .withExposedPorts(9000)
         .start();
 
