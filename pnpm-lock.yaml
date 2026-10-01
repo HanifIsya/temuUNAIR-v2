@@ -76,6 +76,31 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  apps/worker:
+    dependencies:
+      pg-boss:
+        specifier: ^10.4.2
+        version: 10.4.2
+      zod:
+        specifier: 3.25.76
+        version: 3.25.76
+    devDependencies:
+      '@temuunair/config':
+        specifier: workspace:*
+        version: link:../../packages/config
+      '@types/node':
+        specifier: ^26.6.3
+        version: 26.6.3
+      tsx:
+        specifier: ^4.23.15
+        version: 4.23.15
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.4
+        version: 3.2.7(@types/node@26.6.3)(jiti@2.7.0)(jsdom@30.1.1)(lightningcss@1.32.0)(msw@2.15.0(@types/node@26.6.3)(typescript@5.9.3))(tsx@4.23.15)(yaml@2.9.1)
+
   packages/config:
     dependencies:
       '@eslint/js':
@@ -1576,6 +1601,11 @@ packages:
     resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
     engines: {node: '>=18'}
 
+  cron-parser@4.9.0:
+    resolution: {integrity: sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==}
+    engines: {node: '>=12.0.0'}
+    deprecated: v4 is no longer maintained, upgrade to v5
+
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -2074,6 +2104,10 @@ packages:
     resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
 
+  luxon@3.7.2:
+    resolution: {integrity: sha512-vtEhXh/gNjI9Yg1u4jX/0YVPMvxzHuGgCm6tC5kZyb08yjGWGnqAjGJvcXbqQR2P3MyMEFnRbpcdFS6PBcLqew==}
+    engines: {node: '>=12'}
+
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
     hasBin: true
@@ -2192,6 +2226,10 @@ packages:
   pathval@2.0.1:
     resolution: {integrity: sha512-//nshmD55c46FuFw26xV/xFAaB5HF9Xdap7HJBBnrKdAd6/GxDBaNA1870O79+9ueg61cZLSVc+OaFlfmObYVQ==}
     engines: {node: '>= 14.16'}
+
+  pg-boss@10.4.2:
+    resolution: {integrity: sha512-AttEWOtSzn53av8OnCMWEanwRBvjkZCE1y5nLrZnwvkkMnlZ5XpWDpZ7sKI/BYjvi2OVieMX37arD2ACgJ750w==}
+    engines: {node: '>=20'}
 
   pg-cloudflare@1.4.1:
     resolution: {integrity: sha512-6PQbsFWZcp9EmJEwy5cGQ2La+AMWpP46lgbb8X+U/XsHIUweYDNCpeuKck5RxL2MdVFi7krbbEi5nX4Zh7JhrQ==}
@@ -2331,6 +2369,10 @@ packages:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
     engines: {node: '>=10'}
     hasBin: true
+
+  serialize-error@8.1.0:
+    resolution: {integrity: sha512-3NnuWfM6vBYoy5gZFvHiYsVbafvI9vZv/+jlIigFn4oP4zjNPK3LhcY0xSCgeb1a5L8jO71Mit9LlNoi2UfDDQ==}
+    engines: {node: '>=10'}
 
   set-cookie-parser@3.1.2:
     resolution: {integrity: sha512-5/r/lTwbJ3zQ+qwdUFZYeRNqda7P5HD8zQKqlSjdGt1/S0cjLAphHusj4Y58ahDtWn/g32xrIS58/ikOvwl0Lw==}
@@ -2488,6 +2530,10 @@ packages:
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
+
+  type-fest@0.20.2:
+    resolution: {integrity: sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==}
+    engines: {node: '>=10'}
 
   type-fest@5.10.0:
     resolution: {integrity: sha512-NoSdpq/WEiAg5sjmBkmV/hfxv6HJH4NqPNrqjtSO5CwRmpsDfaf4begxW34KdJykH/l1yHtwBWQkCRdoXO8mPA==}
@@ -3727,6 +3773,10 @@ snapshots:
 
   cookie@1.1.1: {}
 
+  cron-parser@4.9.0:
+    dependencies:
+      luxon: 3.7.2
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -4181,6 +4231,8 @@ snapshots:
 
   lru-cache@11.5.3: {}
 
+  luxon@3.7.2: {}
+
   lz-string@1.5.0: {}
 
   magic-string@0.30.21:
@@ -4308,6 +4360,14 @@ snapshots:
   pathe@2.0.3: {}
 
   pathval@2.0.1: {}
+
+  pg-boss@10.4.2:
+    dependencies:
+      cron-parser: 4.9.0
+      pg: 8.23.1
+      serialize-error: 8.1.0
+    transitivePeerDependencies:
+      - pg-native
 
   pg-cloudflare@1.4.1:
     optional: true
@@ -4451,6 +4511,10 @@ snapshots:
   scheduler@0.28.0: {}
 
   semver@7.8.5: {}
+
+  serialize-error@8.1.0:
+    dependencies:
+      type-fest: 0.20.2
 
   set-cookie-parser@3.1.2: {}
 
@@ -4601,6 +4665,8 @@ snapshots:
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
+
+  type-fest@0.20.2: {}
 
   type-fest@5.10.0:
     dependencies:
