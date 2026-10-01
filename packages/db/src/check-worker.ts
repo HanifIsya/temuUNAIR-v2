@@ -27,6 +27,9 @@ interface WorkerMessage {
 
 const require = createRequire(import.meta.url);
 
+/** `pg` otherwise waits forever, which would wedge the gate on an unreachable endpoint. */
+const CONNECT_TIMEOUT_MS = 10_000;
+
 /** FIFO queue of messages from the main thread; messages may arrive before or after a wait. */
 class MainInbox {
   private readonly pending: WorkerMessage[] = [];
@@ -73,14 +76,21 @@ async function run(): Promise<void> {
     const migratorModule =
       require("drizzle-orm/node-postgres/migrator") as typeof import("drizzle-orm/node-postgres/migrator");
 
-    admin = new pg.Client({ connectionString: config.sourceUrl });
+    admin = new pg.Client({
+      connectionString: config.sourceUrl,
+      connectionTimeoutMillis: CONNECT_TIMEOUT_MS,
+    });
     await admin.connect();
     await admin.query(`CREATE DATABASE ${config.scratchName}`);
     post(port, { phase: "scratch-ready" });
 
     const scratchUrl = new URL(config.sourceUrl);
     scratchUrl.pathname = `/${config.scratchName}`;
-    pool = new pg.Pool({ connectionString: scratchUrl.toString(), max: 1 });
+    pool = new pg.Pool({
+      connectionString: scratchUrl.toString(),
+      max: 1,
+      connectionTimeoutMillis: CONNECT_TIMEOUT_MS,
+    });
     await migratorModule.migrate(drizzleModule.drizzle(pool), {
       migrationsFolder: config.migrationsDir,
     });

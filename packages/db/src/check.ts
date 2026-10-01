@@ -19,6 +19,25 @@ export interface RunCheckOptions {
   migrationsDir?: string | undefined;
 }
 
+/** Hard ceiling so a stalled endpoint can never hang `pnpm gate` or the CI migrations job. */
+const CHECK_DEADLINE_MS = 60_000;
+/** Cleanup budget: long enough for the worker to drop the scratch database, never unbounded. */
+const FINISH_MS = 10_000;
+const CONNECT_TIMEOUT_MS = 10_000;
+
+/** Reject with a typed error once `ms` elapses; the in-flight work is left to be cleaned up. */
+function withDeadline<T>(ms: number, work: () => Promise<T>): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const pending = work();
+  pending.catch(() => undefined); // the deadline may win; never leave an unhandled rejection
+  const deadline = new Promise<never>((_resolve, reject) => {
+    timer = setTimeout(() => reject(new Error(`db:check: timed out after ${ms} ms`)), ms);
+  });
+  return Promise.race([pending, deadline]).finally(() => {
+    if (timer !== undefined) clearTimeout(timer);
+  });
+}
+
 export interface RunCheckDeps {
   log: (message: string) => void;
   error: (message: string) => void;
@@ -73,8 +92,19 @@ export async function runCheck(options: RunCheckOptions, deps: RunCheckDeps): Pr
     return 0;
   }
 
+  // Parse up front and swallow the failure: a malformed DATABASE_URL must return 1, never
+  // reject. A rejection escapes `runCheck` and Node dumps the error's enumerable properties —
+  // including the offending URL, credentials and all — straight to stderr, which contradicts the
+  // "never logs the URL" contract stated at the top of this file and in AGENTS.md rule 5.
+  let scratchUrl: URL;
+  try {
+    scratchUrl = new URL(databaseUrl);
+  } catch {
+    deps.error("db:check: failed: DATABASE_URL is not a valid URL");
+    return 1;
+  }
+
   const scratchName = `tmu_check_${Date.now()}_${randomBytes(6).toString("hex")}`;
-  const scratchUrl = new URL(databaseUrl);
   scratchUrl.pathname = `/${scratchName}`;
 
   let pool: Pool | undefined;
@@ -83,62 +113,72 @@ export async function runCheck(options: RunCheckOptions, deps: RunCheckDeps): Pr
   try {
     enableCompileCache();
 
-    // Spawn first: the worker's connect + CREATE + migrate runs while this thread loads the
-    // heavy modules below.
-    worker = new Worker(new URL("./check-worker.ts", import.meta.url), {
-      workerData: {
-        sourceUrl: databaseUrl,
-        scratchName,
-        migrationsDir: migrationsDir ?? "./migrations",
-      },
-    });
-    inbox = new WorkerInbox(worker);
+    const code = await withDeadline(CHECK_DEADLINE_MS, async () => {
+      // Spawn first: the worker's connect + CREATE + migrate runs while this thread loads the
+      // heavy modules below.
+      worker = new Worker(new URL("./check-worker.ts", import.meta.url), {
+        workerData: {
+          sourceUrl: databaseUrl,
+          scratchName,
+          migrationsDir: migrationsDir ?? "./migrations",
+        },
+      });
+      inbox = new WorkerInbox(worker);
 
-    const pg = require("pg") as typeof import("pg");
-    const drizzleModule =
-      require("drizzle-orm/node-postgres") as typeof import("drizzle-orm/node-postgres");
-    const schemaModule = await import("./schema.js");
-    const kitModule = require("drizzle-kit/api") as typeof import("drizzle-kit/api");
+      const pg = require("pg") as typeof import("pg");
+      const drizzleModule =
+        require("drizzle-orm/node-postgres") as typeof import("drizzle-orm/node-postgres");
+      const schemaModule = await import("./schema.js");
+      const kitModule = require("drizzle-kit/api") as typeof import("drizzle-kit/api");
 
-    for (;;) {
-      const message = await inbox.next();
-      if (message.phase === "scratch-ready") {
-        // Open this thread's connection while the worker is still migrating, so the pushSchema
-        // diff below reuses it instead of paying for another handshake.
-        pool = new pg.Pool({ connectionString: scratchUrl.toString(), max: 1 });
-        const client = await pool.connect();
-        client.release();
-      } else if (message.phase === "migrate-done") {
-        break;
-      } else {
-        throw new Error(message.message ?? `db:check worker stopped (${message.phase})`);
+      for (;;) {
+        const message = await inbox.next();
+        if (message.phase === "scratch-ready") {
+          // Open this thread's connection while the worker is still migrating, so the pushSchema
+          // diff below reuses it instead of paying for another handshake.
+          pool = new pg.Pool({
+            connectionString: scratchUrl.toString(),
+            max: 1,
+            connectionTimeoutMillis: CONNECT_TIMEOUT_MS,
+          });
+          const client = await pool.connect();
+          client.release();
+        } else if (message.phase === "migrate-done") {
+          break;
+        } else {
+          throw new Error(message.message ?? `db:check worker stopped (${message.phase})`);
+        }
       }
-    }
-    if (!pool) throw new Error("db:check lost its scratch connection");
+      if (!pool) throw new Error("db:check lost its scratch connection");
 
-    const { statementsToExecute } = await kitModule.pushSchema(
-      schemaModule as unknown as Record<string, unknown>,
-      drizzleModule.drizzle(pool),
-      ["public"],
-    );
-    if (statementsToExecute.length > 0) {
-      deps.error(
-        `db:check: drift: ${statementsToExecute.length} statement(s) would bring the database ` +
-          `in line with src/schema.ts (scratch database "${scratchName}")`,
+      const { statementsToExecute } = await kitModule.pushSchema(
+        schemaModule as unknown as Record<string, unknown>,
+        drizzleModule.drizzle(pool),
+        ["public"],
       );
-      return 1;
-    }
-    deps.log("db:check: ok");
-    return 0;
+      if (statementsToExecute.length > 0) {
+        deps.error(
+          `db:check: drift: ${statementsToExecute.length} statement(s) would bring the database ` +
+            `in line with src/schema.ts (scratch database "${scratchName}")`,
+        );
+        return 1;
+      }
+      deps.log("db:check: ok");
+      return 0;
+    });
+    return code;
   } catch (cause) {
     deps.error(`db:check: failed: ${cause instanceof Error ? cause.message : String(cause)}`);
     return 1;
   } finally {
-    if (pool) {
-      await pool.end().catch(() => undefined);
-    }
-    if (worker) {
-      if (inbox) {
+    // Cleanup must be bounded too. `withDeadline` above stops covering this block the moment the
+    // try/catch resolves, so an unbounded `inbox.next()` here would hang `runCheck` forever even
+    // after the deadline fired — which is exactly how a wedged worker turns into a stuck gate.
+    await withDeadline(FINISH_MS, async () => {
+      if (pool) {
+        await pool.end().catch(() => undefined);
+      }
+      if (worker && inbox) {
         try {
           worker.postMessage({ phase: "finish" });
         } catch {
@@ -148,6 +188,8 @@ export async function runCheck(options: RunCheckOptions, deps: RunCheckDeps): Pr
           await inbox.next(); // "done" after the drop, or "exit" if the worker died
         }
       }
+    }).catch(() => undefined);
+    if (worker) {
       await worker.terminate().catch(() => undefined);
     }
   }

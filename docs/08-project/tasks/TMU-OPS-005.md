@@ -72,11 +72,17 @@ optional `TMU-DOC-*` follow-up, not a requirement of this task.
 | 2026-10-01 | orchestrator | 2 READ | BE-05 (DDL + migration rules), ARCH-STACK (Drizzle + PG16/pgvector), WF-STANDARDS, step.mjs routes, CI `migrations` job |
 | 2026-10-01 | orchestrator | 3 PLAN | plan below; Docker absent on this host → empty pgvector PG16 on Render used as the empty-DB target (CI uses the pgvector service); probes: programmatic `migrate` + `pushSchema` diff verified |
 | 2026-10-01 | orchestrator | env note | `DATABASE_URL` for local evidence: Render `temuunair-dev` (PG 16.15, pgvector 0.8.0, citext 1.6, empty). Never committed |
-| 2026-10-01 | qa-engineer | 4 RED | `tests/db/{dispatcher,package,check-skip,check-live}.test.ts`; `pnpm exec vitest run tests/db` → **2 failed files | 1 passed | 1 skipped; 7 failed | 2 passed | 3 skipped**. Failures: `packages/db/package.json`/`migrations/0001_init.sql`/`meta/_journal.json`/`README.md` ENOENT; skip notice missing (placeholder lacks `skip`/`DATABASE_URL`); `runCheck` module absent. The 2 passes are dispatcher regression guards on the pre-existing `scripts/checks/step.mjs` |
+| 2026-10-01 | qa-engineer | 4 RED | `tests/db/{dispatcher,package,check-skip,check-live}.test.ts`; `pnpm exec vitest run tests/db` → **2 failed files | 1 passed | 1 skipped; 7 failed | 2 passed | 3 skipped**. The 7 failures: 6 in `package.test.ts` (ENOENT on `packages/db/package.json`, `migrations/`, `0001_init.sql`, `migrations/meta/_journal.json`, `README.md`) + 1 in `check-skip.test.ts` (placeholder `check` script printed no named skip notice). The 2 passes are dispatcher regression guards on the pre-existing `scripts/checks/step.mjs`. The 3 skipped are `check-live.test.ts` (`skipIf(!DATABASE_URL)`) — **`runCheck` was never imported in this run**, so no failure can be attributed to that module |
 | 2026-10-01 | backend-dev | 5 GREEN | implemented `packages/db/**` (package.json, tsconfig, drizzle.config, src/{schema,migrate,seed,check,check-worker}, migrations/0001_init + meta, README) + `tests/db/**`; `vitest run tests/db` → **12 passed | 3 skipped** with `DATABASE_URL`, **9 passed | 3 skipped** without |
 | 2026-10-01 | orchestrator | 5 GREEN verify | `pnpm db:check` → exit 0 / `db:check: ok` (4.8 s); `db:generate` → exit 0 "No schema changes" (meta unchanged); `db:migrate` → exit 0 `migrate: ok`; `seed` → exit 0 no-op; `eslint` 0, `tsc -p packages/db` 0, `prettier --check` clean, `check-lane.sh` 0 |
 | 2026-10-01 | orchestrator | 5 GREEN live | `vitest run tests/db --testTimeout 60000` with `DATABASE_URL` → **3/3 runs all 12 passed**. `--testTimeout` is a CLI flag, so **no frozen test file was edited**; the 5000 ms vitest default is sized for CI's localhost pgvector service, while local evidence runs against the remote Render instance (~4.5-5.0 s/run). Broken-migration case covered by `check-live.test.ts` #2 (passes) |
 | 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → **`OK gate(quick) passed`**, exit 0 (`test:unit` 45 passed, 3 skipped). One run hit a transient 5000 ms timeout in the ops-lane `scripts/checks/config-presets.test.mjs` under parallel load; passed 3/3 in isolation and on re-run (3018 ms) — unrelated to this diff |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | commit `6572380` (18 files: `packages/db` 13, `tests/db` 4, task file, `pnpm-lock.yaml`); draft PR **#12**; no `--no-verify` |
+| 2026-10-01 | reviewer | 9 REVIEW (cycle 1) | **REQUEST CHANGES** → `docs/08-project/reviews/TMU-OPS-005.md`. 0 BLOCKER / 3 MAJOR / 10 MINOR. Verified green: BE-05 extensions-only migration, lane, frozen tests untouched, 0 secret hits, gate re-run |
+| 2026-10-01 | orchestrator | 10 FIX (M1-M3) | **M1** `check.ts`: `new URL()` moved out of the reject path into an explicit catch that returns 1 with a fixed message (a rejection would dump the URL, credentials included, to stderr). **M2** `connectionTimeoutMillis: 10_000` on all three connections + `withDeadline(60_000)` around the whole check so a stalled endpoint can never wedge the gate/CI. **M3** RED evidence corrected — `runCheck` was never imported in the RED run (`check-live` skipped), so that failure was impossible; 6 ENOENT + 1 skip-notice = 7 |
+| 2026-10-01 | orchestrator | 10 FIX (M2 follow-up) | First live run after M2 hung: `withDeadline` did **not** cover the `finally` block, so `await inbox.next()` waiting on the worker stayed unbounded and `runCheck` never returned. Cleanup now runs under `withDeadline(FINISH_MS = 10_000)` before `worker.terminate()`, so `runCheck` always returns within the deadline. Verified no connection exhaustion (7/100 connections, 0 lock waits); purged 5 `tmu_check_*` scratch databases left by the aborted runs |
+| 2026-10-01 | orchestrator | 10 FIX verify | M1 regression: malformed `DATABASE_URL` → exit **1** with `db:check: failed: DATABASE_URL is not a valid URL`, credential string absent from output. Live suite **3/3 runs green, 12/12 tests each**, 0 leftover scratch DBs. `pnpm db:check` exit 0 (5.4 s). `eslint` 0, `tsc -p packages/db` 0, `prettier --check` clean, `check-lane.sh` 0, **`pnpm gate` → `OK gate(quick) passed`** |
+| 2026-10-01 | orchestrator | 10 FIX (docs) | MINOR `m1` filed as **`TMU-CTR-001`** (BE-05:126 vs extensions-only `0001_init`); MINOR `m2`-`m10` filed as **`TMU-OPS-016`**; backlog index regenerated (18 tasks). Gate initially failed because `owner:` on a task file must be an agent name, not the doc-style `AR` — corrected to `architect` |
 
 ### Plan
 
@@ -93,16 +99,23 @@ optional `TMU-DOC-*` follow-up, not a requirement of this task.
 
 ## Evidence
 
-- Red: `pnpm exec vitest run tests/db` before implementation → **7 failed | 2 passed | 3 skipped**
-  (package/README/migration ENOENT, `runCheck` module absent, skip notice missing). Detail in the
+- Red: `pnpm exec vitest run tests/db` before implementation → **7 failed | 2 passed | 3 skipped**:
+  6 ENOENT failures in `package.test.ts` (manifest, migration dir, `0001_init.sql`, journal,
+  README) + 1 in `check-skip.test.ts` (no named skip notice). The 2 passes are pre-existing
+  dispatcher guards. The 3 `check-live` tests were **skipped** (`skipIf(!DATABASE_URL)`), so the
+  `runCheck` import never executed — no RED failure is attributable to that module. Detail in the
   Progress log `4 RED` row.
 - Green: `pnpm exec vitest run tests/db` after implementation → **9 passed | 3 skipped** without
   `DATABASE_URL`; with it, `vitest run tests/db --testTimeout 60000` → **3/3 runs, 12 passed**.
   Acceptance: `pnpm db:check` exit 0 / `db:check: ok`; `db:generate` exit 0, no migration drift;
   `db:migrate` exit 0; `seed` exit 0 (no-op); `eslint` 0, `tsc -p packages/db` 0, `prettier --check`
   clean, `check-lane.sh` 0; `pnpm gate` → `OK gate(quick) passed` (exit 0).
-- PR: (pending)
-- Review: (pending)
+- PR: [#12](https://github.com/HanifIsya/temuUNAIR-v2/pull/12) (draft), commit `6572380`.
+  CI run `36810827530` — **10/10 checks pass**, incl. `migrations` (`pnpm db:check` against the
+  pgvector service) and `unit`. `docker-build` skipped (path-filtered).
+- Review cycle 1: **REQUEST CHANGES** — `docs/08-project/reviews/TMU-OPS-005.md`. 0 BLOCKER,
+  3 MAJOR (M1 URL-parse could reject and leak credentials to stderr; M2 no connect/deadline
+  timeouts; M3 RED evidence named an impossible failure), 10 MINOR. Fixes applied in this cycle.
 
 ## Blockers
 
