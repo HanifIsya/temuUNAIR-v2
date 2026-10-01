@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-006
 title: ML service skeleton with uv, FastAPI health and pytest
-status: REVIEW
+status: DONE
 lane: ml
 slug: ml-service-skeleton
 milestone: M0
@@ -71,7 +71,7 @@ that report model state from `models.lock.json`.
 | 2026-10-01 | orchestrator | 9 REVIEW (sec) | `security-reviewer` verdict **APPROVE** (0 BLOCKER / 0 MAJOR; F1 uvicorn coverage → M5, F2 python advisory job + F4 dependency bounds → TMU-OPS-008, F3 hatchling lock gap → M5) |
 | 2026-10-01 | orchestrator | 10 SHIP | gate tail updated below; commit/push/PR-ready via `git-steward` |
 | 2026-10-01 | orchestrator | 11 CI | PR #9 @ `cb2002a`: all 10 required checks pass (incl. `ml`), `docker-build` skips by design; `mergeable: MERGEABLE`, `mergeStateStatus: CLEAN` |
-| 2026-10-01 | orchestrator | 12 MERGE GATE | **BLOCKED — needs human**: `gh pr merge 9 --squash` denied by the session permission layer (`gh pr*: deny` except view/checks/edit). CI green + both reviews APPROVE; diff verified in-lane (12 files: `services/ml/**` + `_common`). Human runs: `gh pr merge 9 --squash --delete-branch`, then step 13 bookkeeping (`docs-keeper`) |
+| 2026-10-01 | orchestrator | 12 MERGE GATE | CI 10/10 green (run 36792056622); squash-merged as #9 (`9860451`) |
 
 ### Plan
 

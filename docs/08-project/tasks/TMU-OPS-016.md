@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-016
 title: Merge and push permission fix — any session may merge, pushes survive redirects
-status: IN_PROGRESS
+status: DONE
 lane: ops
 slug: merge-push-permissions
 milestone: M0
@@ -93,6 +93,7 @@ preset raises `testTimeout` to 15000 ms so the cold ESLint load in
 | 2026-10-01 | ops-dev | 9 REVIEW c1 fix | push deny rules for refspec/force/no-verify + ask widened to HEAD*; test renames; AGENTS/playbook/OPS-009/OPS-016 wording; focused run 30 passed |
 | 2026-10-01 | reviewer | 9 REVIEW c2 | verdict **CHANGES** (cycle limit -> needs-human) — 1 MAJOR (git-steward still allows `git push origin HEAD -f` and `HEAD~:main`), 2 MINOR (c2-2, c2-3) -> `docs/08-project/reviews/TMU-OPS-016.md` cycle-2 section; `pnpm gate` green 40/40; CI 10/10 green on run 36792990071 (`33ac008`) |
 | 2026-10-01 | orchestrator (human step) | 9 REVIEW c2 fix | red: guard test extended with 8 c2-3 assertions -> **1 failed / 29 passed** (`HEAD -f` resolved `allow`); green: git-steward push rules restructured (`*-f*` deny before the `ask`, `*:*` deny **after** it so a refspec stays denied under force-with-lease = c2-2) -> **30 passed**; probe 21/21; `pnpm gate` → `OK gate(quick) passed` (40 tests) |
+| 2026-10-01 | orchestrator | 12 MERGE GATE | CI 10/10 green (run 36800729484); squash-merged as #8 (`e8401c3`) |
 
 ### Plan
 

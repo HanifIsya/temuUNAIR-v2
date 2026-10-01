@@ -36,7 +36,8 @@ in `docs/03-architecture/adr/`.
 | DEC-016 | Ultralytics AGPL acceptable for coursework, flagged | provisional | Advisor | 2026-09-29 |
 | DEC-017 | UU PDP (27/2022) as a design constraint | accepted | UNAIR legal / DPO | 2026-09-29 |
 | DEC-018 | Login required for all browsing | accepted | Team | 2026-09-29 |
-| DEC-019 | Orchestrator holds merge authority at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs stop for a human | accepted | Repo owner | 2026-09-30 |
+| DEC-019 | Orchestrator holds merge authority at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs stop for a human | superseded (on merge authority by DEC-020; no-approval-count stands) | Repo owner | 2026-09-30 |
+| DEC-020 | Any agent may merge at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs still stop for a human | accepted | Repo owner | 2026-09-30 |
 
 ## ADR entries
 

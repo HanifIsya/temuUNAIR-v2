@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-004
 title: Contracts package skeleton and real contracts checks
-status: IN_PROGRESS
+status: DONE
 lane: contracts
 slug: contracts-package-skeleton
 milestone: M0
@@ -79,6 +79,7 @@ route registry) with a generator that emits `BE-02-openapi.yaml`, `generated/typ
 | 2026-10-01 | architect | 5 FIX (cycle 1) | BLOCKER: `description` on every Response Object + new lint rule `response-description`. MAJOR: recursive `toOpenApi31` post-process (`type: [..., "null"]`, no `nullable: true`), `tsTypeOf` renders `A \| null` / `A \| B`; new lint rule `no-30-nullable`. MINOR 3 (lint CLI try/catch), 5 (MSW body=examples + stale test name), 8 (cookie constant) also fixed. Red evidence: 6 failures for the right reason. `pnpm test:unit` **100/100**, gate green |
 | 2026-10-01 | git-steward | 8 COMMIT/PUSH (cycle 1) | commit `8d187d1` pushed; PR #11 marked ready for review; CI green (10 pass, 1 skip) |
 | 2026-10-01 | reviewer | 9 REVIEW (cycle 2) | verdict **APPROVE**: 0 BLOCKER / 0 MAJOR / 0 new MINOR; 6 cycle-1 findings RESOLVED with evidence, 4 DEFERRED filed in this task file; gate re-run green (100/100), no weakened tests. Final allowed cycle per DoD |
+| 2026-10-01 | orchestrator | 12 MERGE GATE | CI 10/10 green (run 36801966029); squash-merged as #11 (`b4f114d`) |
 
 ### Plan (orchestrator, 2026-09-30)
 
