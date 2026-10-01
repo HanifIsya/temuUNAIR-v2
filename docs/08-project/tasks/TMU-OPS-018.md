@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-018
 title: Make shared configs aware of apps/web (generated next-env.d.ts, automatic JSX)
-status: TODO
+status: REVIEW
 lane: ops
 slug: shared-configs-apps-web
 milestone: M0
@@ -10,7 +10,7 @@ owner: ops-dev
 deps: []
 refs: [WF-STANDARDS, TMU-OPS-003]
 created: 2026-10-01
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # TMU-OPS-018 — Make shared configs aware of `apps/web`
@@ -44,24 +44,25 @@ Findings while delivering TMU-OPS-003 (all reproduced 2026-10-01 in `E:\wt\TMU-O
 
 ## Acceptance criteria
 
-- [ ] `next-env.d.ts` is ignored in `.gitignore` and `.prettierignore`, and `**/next-env.d.ts`
+- [x] `next-env.d.ts` is ignored in `.gitignore` and `.prettierignore`, and `**/next-env.d.ts`
       is added to the `ignores` list in `packages/config/eslint.config.mjs`.
-- [ ] After `pnpm --filter @temuunair/web build` on a fresh worktree, `pnpm gate` is green
+- [x] After `pnpm --filter @temuunair/web build` on a fresh worktree, `pnpm gate` is green
       without deleting or reformatting anything.
-- [ ] Root `vitest.config.ts` sets `esbuild: { jsx: "automatic" }` so a `.tsx` file without a
+- [x] Root `vitest.config.ts` sets `esbuild: { jsx: "automatic" }` so a `.tsx` file without a
       pragma renders correctly in a component test; `pnpm gate` stays green with the existing
       pragma-bearing files untouched.
-- [ ] Test files under `apps/web/src` are typechecked by `pnpm gate` — today
+- [x] Test files under `apps/web/src` are typechecked by `pnpm gate` — today
       `apps/web/tsconfig.json` excludes `**/*.test.{ts,tsx}` and the root `tsconfig.json` (the
       only thing the gate typechecks) includes just `scripts/**`, so type drift in component
       tests passes unnoticed (REV-TMU-OPS-003 finding F5).
-- [ ] `pnpm gate` green.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
 - `.gitignore`, `.prettierignore`
 - `packages/config/eslint.config.mjs`
 - `vitest.config.ts` (root)
+- `tsconfig.test.json`, root `package.json`, `pnpm-lock.yaml`
 - `docs/08-project/tasks/TMU-OPS-018.md` (this file)
 
 ## Out of scope
@@ -76,20 +77,28 @@ Findings while delivering TMU-OPS-003 (all reproduced 2026-10-01 in `E:\wt\TMU-O
 |---|---|---|---|
 | 2026-10-01 | orchestrator | task filed | finding from TMU-OPS-003 GREEN/GATE (ops-lane files: eslint/preset, gitignore, prettierignore, root vitest config) |
 | 2026-10-01 | orchestrator | extended | folded in REV-TMU-OPS-003 minor F5 (apps/web test files not typechecked by any gate step) |
+| 2026-10-02 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-018` @ `8bdd600`; `pnpm i` OK; baseline gate green |
+| 2026-10-02 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
+| 2026-10-02 | ops-dev | 5 GREEN | ignored `next-env.d.ts` in `.gitignore`, `.prettierignore`, `eslint.config.mjs`; configured `esbuild: { jsx: "automatic" }` in `vitest.config.ts`; created `tsconfig.test.json` and added `@types/jest-axe` to typecheck `apps/web` tests in `pnpm typecheck` |
+| 2026-10-02 | orchestrator | 7 GATE | verified: `next build` leaves `next-env.d.ts` on disk; `pnpm gate` exits 0 cleanly without manual cleanup (139 tests passed) |
+| 2026-10-02 | git-steward | 8 COMMIT/PUSH | `272c8bf` pushed; draft PR #25 opened |
+| 2026-10-02 | reviewer | 9 REVIEW | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR) -> `docs/08-project/reviews/TMU-OPS-018.md` |
+| 2026-10-02 | orchestrator | 11 CI | all 9 required checks pass |
 
 ### Plan
 
 1. Add `next-env.d.ts` to `.gitignore` and `.prettierignore`.
 2. Add `**/next-env.d.ts` to `packages/config/eslint.config.mjs` ignores.
 3. Add `esbuild: { jsx: "automatic" }` to root `vitest.config.ts`.
-4. Fresh-worktree proof: build → `pnpm gate` green without manual cleanup.
+4. Add `tsconfig.test.json` to typecheck `apps/web` tests; wire into `pnpm typecheck`.
+5. Fresh-worktree proof: build → `pnpm gate` green without manual cleanup.
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
-- PR: (pending)
-- Review: (pending)
+- Red: `pnpm gate:full` or `next build` before this change left untracked/unformatted `apps/web/next-env.d.ts` that broke `format:check` and `eslint`.
+- Green: `pnpm --filter @temuunair/web build` leaves `next-env.d.ts` in working tree; `pnpm gate` passes cleanly with 139 tests; `pnpm typecheck` validates both root scripts and `apps/web/src/**/*.test.{ts,tsx}`.
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/25
+- Review: `docs/08-project/reviews/TMU-OPS-018.md` (APPROVE)
 
 ## Blockers
 
