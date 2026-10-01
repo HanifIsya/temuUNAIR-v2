@@ -124,12 +124,14 @@ jobs:
     env:
       ML_MODE: stub
     steps:
-      # Playwright needs the web app (TMU-OPS-003) and the scenarios in tests/e2e. Both land
-      # after M0, so this job skips until apps/web exists rather than reporting a red build for
-      # work that has not been scheduled yet.
+      # The guard is tests/e2e/package.json (TMU-OPS-013): the job skips until the scenarios
+      # package exists rather than reporting a red build for work that has not landed yet. The old
+      # apps/web guard (TMU-OPS-003) flipped the job on before a shell or scenarios could run, and
+      # Playwright installs through @temuunair/e2e-tests (TMU-OPS-017) because the workspace root
+      # has no `playwright` dependency, so a root `pnpm exec playwright` cannot resolve the binary.
       - uses: actions/checkout@v4
       - id: present
-        run: echo "exists=$([ -f apps/web/package.json ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+        run: echo "exists=$([ -f tests/e2e/package.json ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
       - if: steps.present.outputs.exists == 'yes'
         uses: pnpm/action-setup@v4
       - if: steps.present.outputs.exists == 'yes'
@@ -138,11 +140,11 @@ jobs:
       - if: steps.present.outputs.exists == 'yes'
         run: pnpm install --frozen-lockfile
       - if: steps.present.outputs.exists == 'yes'
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm --filter @temuunair/e2e-tests exec playwright install --with-deps chromium
       - if: steps.present.outputs.exists == 'yes'
         run: pnpm -s test:e2e
       - if: steps.present.outputs.exists == 'no'
-        run: echo "apps/web not implemented yet (TMU-OPS-003) — skipping"
+        run: echo "tests/e2e not implemented yet (TMU-OPS-013) — skipping"
 
   secret-scan:
     runs-on: ubuntu-latest
