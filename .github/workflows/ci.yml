@@ -97,7 +97,7 @@ jobs:
       - id: present
         run: echo "exists=$([ -f services/ml/pyproject.toml ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
       - if: steps.present.outputs.exists == 'yes'
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v7
       - if: steps.present.outputs.exists == 'yes'
         run: uv sync --frozen
         working-directory: services/ml
