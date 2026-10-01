@@ -25,7 +25,7 @@ Agent: backend-dev
 | Part | Rule |
 |---|---|
 | Type | `feat` `fix` `docs` `test` `refactor` `perf` `build` `ci` `chore` `revert` |
-| Scope | `web` `api` `worker` `ml` `db` `contracts` `ui` `i18n` `e2e` `docs` `ops` `agents` `tasks` |
+| Scope | `web` `api` `worker` `ml` `db` `contracts` `ui` `i18n` `e2e` `docs` `ops` `agents` `tasks` `meta` |
 | `!` | breaking contract change; requires a `BREAKING CHANGE:` footer and an ADR |
 | Subject | imperative, lowercase, no trailing period |
 | Trailers | `Task:` (required), `Refs:` (FR/API/ADR ids), `Agent:` (agent name) |
