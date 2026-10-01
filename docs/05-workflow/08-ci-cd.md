@@ -18,6 +18,7 @@ Workflow: `.github/workflows/ci.yml`. All jobs required on `main` except `audit`
 | Job | What it runs | Required | Notes |
 |---|---|---|---|
 | `lint-typecheck` | `format:check`, `lint`, `typecheck`, `i18n:check` | yes | fastest feedback |
+| `build` | `build` (Turbo build of web, worker, contracts) | yes | catches compile/type errors in apps/worker |
 | `unit` | `test:unit` (Vitest) | yes | |
 | `contracts` | `contracts:check`, `contracts:lint`, `contracts:breaking` | yes | breaking needs `fetch-depth: 0` |
 | `migrations` | `db:check` against a pgvector Postgres service | yes | applies migrations on an empty DB |

@@ -12,14 +12,15 @@ source_refs: ["Blueprint §4.8"]
 
 ## Prerequisites
 
-| Tool | Version | Notes |
+| Tool | Version | Install command & notes |
 |---|---|---|
-| Node.js | 24 LTS | `node -v` |
-| pnpm | 10.x | `corepack enable` then `corepack prepare pnpm@latest --activate` |
-| Bash | 5.x | **Required by the gate.** `pnpm gate` runs `scripts/gate.sh`. On Linux/macOS use the system shell; on Windows install Git for Windows and ensure `bash.exe` is on `PATH` (`C:\Program Files\Git\bin`), because `cmd`/PowerShell cannot execute it |
-| Docker Desktop | current | for postgres+pgvector, minio, mailpit, ml |
-| uv | latest | Python ML service (`pip install uv` or the installer) |
-| gitleaks | latest | pre-commit hook and the gate's `full` mode secret scan |
+| Node.js | 24 LTS | `node -v` — download from https://nodejs.org or via `nvm install 24` / `fnm install 24` |
+| pnpm | 10.x | `corepack enable` then `corepack prepare pnpm@10.34.6 --activate` (or `npm i -g pnpm@10.34.6`) |
+| Bash | 5.x | **Required by the gate.** `pnpm gate` runs `scripts/gate.sh`. On Linux/macOS use the system shell; on Windows install Git for Windows (`winget install Git.Git`) and ensure `bash.exe` is on `PATH` (`C:\Program Files\Git\bin`), because `cmd`/PowerShell cannot execute bash scripts directly |
+| Docker Desktop | current | `winget install Docker.DockerDesktop` (Windows) or `brew install --cask docker` (macOS); required for postgres+pgvector, minio, mailpit |
+| uv | latest | Python ML service — Windows: `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 \| iex"` or `pip install uv`; Linux/macOS: `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| gitleaks | latest | `winget install Gitleaks.Gitleaks` (Windows) or `brew install gitleaks` (macOS); required for pre-commit secret scans and `pnpm gate:full` |
+| Playwright Chromium | latest | `pnpm --filter @temuunair/e2e-tests exec playwright install chromium` — required for `pnpm test:e2e` and `pnpm gate:full` |
 | lefthook | via pnpm | `pnpm dlx lefthook install` |
 
 ## First run
