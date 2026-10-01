@@ -36,12 +36,12 @@ blank directory.
 
 ## Acceptance criteria
 
-- [ ] `pnpm --filter @temuunair/web build` succeeds.
-- [ ] `pnpm i18n:check` passes with `id.json` and `en.json` present and in parity, including all
+- [x] `pnpm --filter @temuunair/web build` succeeds.
+- [x] `pnpm i18n:check` passes with `id.json` and `en.json` present and in parity, including all
       BE-04 error keys and BE-08 notification keys.
-- [ ] A smoke component test renders the root layout in `id` and asserts the locale switch to `en`.
-- [ ] No page under `apps/web/src/app` fetches data yet; no `console.log`; no raw hex in components.
-- [ ] `pnpm gate` green.
+- [x] A smoke component test renders the root layout in `id` and asserts the locale switch to `en`.
+- [x] No page under `apps/web/src/app` fetches data yet; no `console.log`; no raw hex in components.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
@@ -65,6 +65,10 @@ blank directory.
 | 2026-09-30 | orchestrator | rewritten | owner → `frontend-dev`; Dockerfile moved to TMU-OPS-012 (ops lane — review BLOCKER 1); folded in (unblocks `docker-build`); root-file edits removed (dispatcher exists) |
 | 2026-10-01 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-003` rebased onto `origin/main` @ `76124aa`; `pnpm i --frozen-lockfile` ok; baseline `pnpm gate` green (36 tests) |
 | 2026-10-01 | orchestrator | 1 PICK | claim push to `agent/fe/TMU-OPS-003-web-app-shell` |
+| 2026-10-01 | qa-engineer | 4 RED | tests written: `apps/web/src/i18n/messages.test.ts`, `apps/web/src/app/layout.test.tsx`, `apps/web/src/app/page.test.tsx`; `pnpm -s vitest run apps/web/src` → 1 failed suite (`Cannot find module './messages/id.json'`), 2 unhandled errors (`Cannot find package 'jsdom'` — deps land in GREEN) |
+| 2026-10-01 | qa-engineer | 4 RED | tests written: `src/i18n/messages.test.ts` (5), `src/app/layout.test.tsx` (3), `src/app/page.test.tsx` (2); red evidence in section Evidence |
+| 2026-10-01 | general (GREEN) | 5 GREEN | `apps/web` scaffolded per spike-validated design: package/tsconfig/next/postcss/vitest/eslint configs, `src/i18n/{request.ts,messages/{id,en}.json}`, `src/middleware.ts`, `src/styles/theme.css`, `src/app/{layout,page}.tsx`; `pnpm i` updated `pnpm-lock.yaml`; focused run `vitest run apps/web/src` → 3 files / 10 tests green; `i18n:check` → `passed (70 keys per locale)`; `next build` → Compiled successfully (`/` dynamic + middleware) |
+| 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (unit: 5 files / 46 tests, incl. new 10); generated `apps/web/next-env.d.ts` (untracked, not in lane) tripped `pnpm lint` (`triple-slash-reference`) → removed before gate; shared-config fix filed as TMU-OPS-018 |
 
 ### Plan
 
@@ -82,11 +86,41 @@ blank directory.
 
 - Permission deviation (recorded for review): `frontend-dev` writes are anchored to the main checkout, so GREEN is delegated to a `general` agent running the frontend-dev playbook; the review file is transcribed into this worktree by the orchestrator. Precedent: TMU-OPS-002.
 - e2e CI job guard (`.github/workflows/ci.yml`) flips on when `apps/web/package.json` lands and then fails at root `pnpm exec playwright install` (spike-proven: root `.bin` has no playwright). Fix is ops-lane → filed as TMU-OPS-017; do not edit root/CI files here.
+- **JSX transform under root Vitest (spike-proven, 2026-10-01)**: root `vitest run` compiles `.tsx` with esbuild's *classic* runtime (`React.createElement`) because the nearest tsconfig for `apps/web/src/**` is `apps/web/tsconfig.json`, which Next pins to `jsx: preserve` (Next rewrites it back on every build). The clean fix (`apps/web/src/tsconfig.json` with `react-jsx`) is outside the `fe` lane. Therefore every `.tsx` file under `apps/web/src` (product and tests) starts with `/** @jsxRuntime automatic */`; verified against both `vitest run` and `next build`.
+- **next-intl 3.26 specifics (spike-proven)**: `getRequestConfig` must use `requestLocale` (the `locale` param is deprecated); set `timeZone: "Asia/Jakarta"` (silences `ENVIRONMENT_FALLBACK`, matches FE-08 §5); the root layout needs `export const dynamic = "force-dynamic"` — `getLocale`/`getMessages` read `headers`, and without it `next build` fails prerendering `/`.
+- **Harness**: `jsdom` + `@testing-library/react` + `jest-axe`; component tests opt in per file via `// @vitest-environment jsdom` (per `packages/config/vitest.base.ts`); root `vitest run` discovers `apps/web/**/*.test.{ts,tsx}`.
+- `notification.*` copy follows `13-notification-and-email-templates.md` (BE-08 names it the copy source) where `09-content-and-microcopy.md` differs; `error.*` copy follows `09-content-and-microcopy.md`.
+- **Generated `apps/web/next-env.d.ts` (finding, 2026-10-01)**: `next build` writes it with
+  CRLF + triple-slash references. Prettier passes after `prettier --write apps/web`, but the
+  shared ESLint preset (`packages/config`, ops lane) has no ignore for `**/next-env.d.ts`, so
+  `pnpm lint`/`pnpm gate` fail when the file is present (and a local `gate:full` re-run after a
+  build would too; CI is unaffected — no build step). The file is untracked and outside the
+  `fe` lane, so it was removed before the gate run; fixes (gitignore + eslint ignore, plus
+  root-vitest `esbuild.jsx: "automatic"` so future `.tsx` files need no pragma) filed as
+  **TMU-OPS-018** (ops lane).
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
+- Red: 2026-10-01 qa-engineer wrote `apps/web/src/i18n/messages.test.ts` (5 tests),
+  `apps/web/src/app/layout.test.tsx` (3 tests), `apps/web/src/app/page.test.tsx` (2 tests).
+  `pnpm -s vitest run apps/web/src` fails for the right reason — product files absent:
+  - `apps/web/src/i18n/messages.test.ts`: `Error: Cannot find module './messages/id.json'
+    imported from 'E:/wt/TMU-OPS-003/apps/web/src/i18n/messages.test.ts'` →
+    `Failed to load url ./messages/id.json … Does the file exist?`
+  - `apps/web/src/app/layout.test.tsx` / `page.test.tsx`: jsdom environment cannot start yet
+    because the harness deps (`jsdom`, `@testing-library/react`, `jest-axe`, `next-intl`) are
+    not installed in this worktree; the missing product modules `./layout` / `./page` were
+    proven with temporary node-env probes (since removed) →
+    `Error: Cannot find module './layout' imported from …/red-probe-layout.test.ts`.
+  - `pnpm -s i18n:check` → `i18n:check skipped (message files not created yet — M3)` (exit 0),
+    as expected before GREEN creates the JSON files.
+- Green: 2026-10-01 — `pnpm -s vitest run apps/web/src` → `3 passed (3)` / `10 passed (10)`
+  (messages 5, layout 3, page 2); `pnpm -s i18n:check` → `i18n:check passed (70 keys per locale)`;
+  `pnpm --filter @temuunair/web build` → `✓ Compiled successfully`, routes `/` and `/_not-found`
+  (ƒ dynamic; middleware 55.6 kB); `pnpm gate` → `OK gate(quick) passed`, exit 0
+  (unit `5 passed (5)` files / `46 passed (46)` tests — baseline 36 + new 10).
+  Fix-loop note: one transient `config-presets.test.mjs` ESLint cold-start timeout (5 s, first run
+  after install) — passed on re-run; no code change.
 - PR: (pending)
 - Review: (pending)
 
