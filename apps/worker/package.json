@@ -1,0 +1,23 @@
+{
+  "name": "@temuunair/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "pg-boss": "^10.4.2",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@temuunair/config": "workspace:*",
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

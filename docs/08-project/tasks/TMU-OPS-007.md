@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-007
 title: Worker package skeleton with pg-boss bootstrap
-status: TODO
+status: REVIEW
 lane: be
 slug: worker-skeleton
 milestone: M0
@@ -10,7 +10,7 @@ owner: backend-dev
 deps: [TMU-OPS-002]
 refs: [ARCH-STACK, BE-07, DEC-013]
 created: 2026-09-29
-updated: 2026-09-30
+updated: 2026-10-01
 ---
 
 # TMU-OPS-007 — Worker package skeleton with pg-boss bootstrap
@@ -30,12 +30,12 @@ graceful shutdown, so `pnpm dev:worker` works and M5 job tasks add handlers inst
 
 ## Acceptance criteria
 
-- [ ] `pnpm --filter @temuunair/worker build` succeeds.
-- [ ] `pnpm dev:worker` starts, connects to Postgres from `DATABASE_URL`, registers no-op
+- [x] `pnpm --filter @temuunair/worker build` succeeds.
+- [x] `pnpm dev:worker` starts, connects to Postgres from `DATABASE_URL`, registers no-op
       handlers for the queues declared in BE-07, and exits cleanly on SIGTERM/SIGINT.
-- [ ] A unit test asserts the queue registry matches the BE-07 queue list exactly (no extras).
-- [ ] Job payloads are parsed with the contract schema, never cast.
-- [ ] `pnpm gate` green.
+- [x] A unit test asserts the queue registry matches the BE-07 queue list exactly (no extras).
+- [x] Job payloads are parsed with the contract schema, never cast.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
@@ -55,6 +55,13 @@ graceful shutdown, so `pnpm dev:worker` works and M5 job tasks add handlers inst
 |---|---|---|---|
 | 2026-09-29 | orchestrator | task filed | backlog row created |
 | 2026-09-30 | orchestrator | rewritten | owner → `backend-dev` (lane `be` matches); root-script dependency removed |
+| 2026-10-01 | orchestrator | 0 SYNC | worktree `E:\wt\TMU-OPS-007`, branch `agent/be/TMU-OPS-007-worker-skeleton` @ `5c04133`; `pnpm i` OK; baseline gate green |
+| 2026-10-01 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
+| 2026-10-01 | orchestrator | 2 READ | BE-07 queues, ARCH-JOBS, `scripts/checks/dev.mjs`, `scripts/checks/build.mjs` |
+| 2026-10-01 | backend-dev | 4 RED | `apps/worker/src/registry.test.ts` written; `pnpm test:unit apps/worker` failed as expected: `Cannot find module './registry.js'` |
+| 2026-10-01 | backend-dev | 5 GREEN | implemented `apps/worker/package.json`, `tsconfig.json`, `src/registry.ts`, `src/worker.ts`, `src/index.ts`, `src/worker.test.ts`; `pnpm test:unit apps/worker` passed 11/11 |
+| 2026-10-01 | backend-dev | 6 REFACTOR | formatting clean via `prettier`; verified `pnpm --filter @temuunair/worker build` (`tsc -p tsconfig.json`) and `pnpm build` via turbo |
+| 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (138 tests passed across 16 test files) |
 
 ### Plan
 
@@ -65,8 +72,8 @@ graceful shutdown, so `pnpm dev:worker` works and M5 job tasks add handlers inst
 
 ## Evidence
 
-- Red: (pending)
-- Green: (pending)
+- Red: `pnpm test:unit apps/worker` before implementation failed with `Cannot find module './registry.js'` (exit 1).
+- Green: `pnpm test:unit apps/worker` passed 11/11 tests (registry 7, worker 4); `pnpm --filter @temuunair/worker build` emits clean JS to `dist/`; `pnpm gate` passed with 138 tests.
 - PR: (pending)
 - Review: (pending)
 
