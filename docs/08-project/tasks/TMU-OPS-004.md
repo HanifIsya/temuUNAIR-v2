@@ -10,7 +10,7 @@ owner: architect
 deps: [TMU-OPS-002]
 refs: [CONTRACTS-README, BE-01, FE-01]
 created: 2026-09-29
-updated: 2026-09-30
+updated: 2026-10-01
 ---
 
 # TMU-OPS-004 — Contracts package skeleton and real `contracts:*` checks
@@ -37,15 +37,15 @@ route registry) with a generator that emits `BE-02-openapi.yaml`, `generated/typ
 
 ## Acceptance criteria
 
-- [ ] `pnpm contracts:build` regenerates all four artefacts deterministically; running it twice
+- [x] `pnpm contracts:build` regenerates all four artefacts deterministically; running it twice
       produces no diff.
-- [ ] `pnpm contracts:check` fails when a generated file is hand-edited (red evidence) and passes
+- [x] `pnpm contracts:check` fails when a generated file is hand-edited (red evidence) and passes
       when regenerated.
-- [ ] `pnpm contracts:lint` validates the emitted OpenAPI against the rules in BE-01.
-- [ ] `pnpm contracts:breaking` compares against the last released `CONTRACT_VERSION` and exits 0
+- [x] `pnpm contracts:lint` validates the emitted OpenAPI against the rules in BE-01.
+- [x] `pnpm contracts:breaking` compares against the last released `CONTRACT_VERSION` and exits 0
       on a non-breaking change (red evidence for a breaking one).
-- [ ] `docs/04-contracts/CONTRACT_VERSION` is read by the build and stamped into the artefacts.
-- [ ] `pnpm gate` green (the `contracts:*` steps now run the real package).
+- [x] `docs/04-contracts/CONTRACT_VERSION` is read by the build and stamped into the artefacts.
+- [x] `pnpm gate` green (the `contracts:*` steps now run the real package).
 
 ## Files expected to change
 
@@ -73,6 +73,10 @@ route registry) with a generator that emits `BE-02-openapi.yaml`, `generated/typ
 | 2026-09-30 | qa-engineer | 4 RED | 5 test files created (`packages/contracts/src/{registry,generate,contract-lint,breaking,check}.test.ts`); `pnpm test:unit` exit 1: `5 failed | 2 passed (7)` test files, `Cannot find module './errors.ts'` / `'./generate.ts'` / `'./lint.ts'` / `'./breaking.ts'` / `'./check.ts'`; 36 pre-existing tests still pass. Failing for the right reason (implementation absent) |
 | 2026-10-01 | architect | 5 GREEN | `packages/contracts` implemented (package.json, tsconfig, src/{enums,errors,common,registry,examples,testing,generate,lint,breaking,check}.ts, scripts/{build,check,lint,breaking}.ts, README); `pnpm test:unit` 91/91; `contracts:check`/`lint`/`breaking` real and green; generated artefacts committed; two builds byte-identical |
 | 2026-10-01 | orchestrator | 6 REFACTOR | BE-02 status + command table updated to real behaviour (Spectral/oasdiff deviation documented), CHANGELOG `[Unreleased]`, package README added, unused `openapi-typescript` dep dropped; `pnpm gate` green |
+| 2026-10-01 | architect | 7 GREEN | gate green: 91/91, `contracts:check OK (version 1.0.0)`, `contracts:lint OK`, tail `OK gate(quick) passed` |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | commit `1133ce9` (rebased onto origin/main, no conflicts), pushed to `agent/contracts/TMU-OPS-004-contracts-package-skeleton`, draft PR [#11](https://github.com/HanifIsya/temuUNAIR-v2/pull/11) with label `contract` (label created); CI all green (contracts, lint-typecheck, unit, migrations, audit, contract-fuzz, e2e, integration, ml, secret-scan) |
+| 2026-10-01 | reviewer | 9 REVIEW (cycle 1) | verdict **CHANGES**: 1 BLOCKER (Response Objects lack required `description` - invalid OpenAPI 3.1), 1 MAJOR (`target: "openApi3"` emits 3.0 `nullable: true` + `tsTypeOf` drops unions), 8 MINOR. Review: `docs/08-project/reviews/TMU-OPS-004.md` |
+| 2026-10-01 | architect | 5 FIX (cycle 1) | BLOCKER: `description` on every Response Object + new lint rule `response-description`. MAJOR: recursive `toOpenApi31` post-process (`type: [..., "null"]`, no `nullable: true`), `tsTypeOf` renders `A \| null` / `A \| B`; new lint rule `no-30-nullable`. MINOR 3 (lint CLI try/catch), 5 (MSW body=examples + stale test name), 8 (cookie constant) also fixed. Red evidence: 6 failures for the right reason. `pnpm test:unit` **100/100**, gate green |
 
 ### Plan (orchestrator, 2026-09-30)
 
@@ -181,9 +185,24 @@ OK gate(quick) passed
   task; the quick gate is the task's DoD gate).
 
 - Red: captured above (tests + both acceptance reds).
-- Green: captured above.
-- PR: (pending)
-- Review: (pending)
+- Green: captured above (91/91 at step 7; **100/100** after cycle-1 fixes).
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/11 (draft, label `contract`, CI green)
+- Review: `docs/08-project/reviews/TMU-OPS-004.md` — cycle 1 CHANGES (1 BLOCKER, 1 MAJOR, 8 MINOR);
+  BLOCKER + MAJOR + MINOR 3/5/8 fixed in cycle 1; cycle 2 pending.
+
+### Deferred MINORs (review cycle 1, filed for follow-up)
+
+- MINOR 1: `scripts/breaking.ts` — `CONTRACTS_BASELINE_DIR` set but missing file fails open
+  (suppresses git fallback) instead of erroring.
+- MINOR 2: breaking/lint coverage gaps vs BE-02 wording (type/auth/status/request-enum changes
+  not classified; `x-error-codes` only checked when present).
+- MINOR 4: BE-02 generation table overstates inputs (`request`, `rateLimit`, shared-enum
+  components, PageMeta refs not actually emitted).
+- MINOR 6 (part): task bookkeeping (this section + `updated` field) — done in this row's edit.
+- MINOR 7: Spectral/oasdiff deviation has no owning backlog task (TMU-OPS-008 scope is
+  Schemathesis/CI parity, not toolchain swaps).
+- Out-of-lane flake flagged by reviewer: `scripts/checks/config-presets.test.mjs:91` 5s timeout
+  (pre-existing, ops lane).
 
 ## Blockers
 

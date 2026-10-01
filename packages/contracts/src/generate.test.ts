@@ -10,9 +10,11 @@
 // Import order is deliberate: "./generate.ts" precedes "yaml" so the RED run fails on the
 // missing implementation module before resolving the not-yet-installed YAML parser.
 import { describe, expect, it } from "vitest";
-import { generateAll, type GeneratedFile } from "./generate.ts";
-import { parse } from "yaml";
+import { generateAll, toJsonSchema, tsTypeOf, type GeneratedFile } from "./generate.ts";
+import { parse, stringify } from "yaml";
 import { registry } from "./registry.ts";
+import { examples } from "./examples.ts";
+import { z } from "zod";
 
 const VERSION = "1.0.0";
 const OPENAPI_PATH = "docs/04-contracts/backend/BE-02-openapi.yaml";
@@ -154,7 +156,7 @@ describe("BE-02-openapi.yaml", () => {
 });
 
 describe("generated artefacts", () => {
-  it("types.ts is an openapi-typescript module with the @generated banner and API ids", () => {
+  it("types.ts carries the @generated banner and API ids (deterministic emitter)", () => {
     const types = contentOf(generateAll(VERSION), TYPES_PATH);
     expect(types).toContain("@generated");
     expect(types).toContain("API-SYS-01");
@@ -164,10 +166,65 @@ describe("generated artefacts", () => {
     expect(contentOf(generateAll(VERSION), CLIENT_PATH)).toContain("createClient");
   });
 
-  it("msw-handlers.ts registers at least one http.get handler per registry route", () => {
+  it("msw-handlers.ts registers one example-backed handler per registry route", () => {
     const handlers = contentOf(generateAll(VERSION), MSW_PATH);
-    const occurrences = handlers.match(/http\.get\(/g) ?? [];
-    expect(handlers).toContain("http.get(");
-    expect(occurrences.length).toBeGreaterThanOrEqual(registry.length);
+    const handlerLines = handlers
+      .split("\n")
+      .filter((line) => line.trimStart().startsWith("http."));
+    expect(handlerLines).toHaveLength(registry.length);
+    for (const route of registry) {
+      const example = examples[route.id];
+      if (example === undefined) throw new Error(`examples is missing an entry for ${route.id}`);
+      expect(handlers, route.id).toContain(
+        `http.${route.method}("*${route.path}", () => HttpResponse.json(${JSON.stringify(example)}))`,
+      );
+    }
+  });
+
+  it("msw-handlers.ts body of every handler equals its examples.ts entry", () => {
+    const handlers = contentOf(generateAll(VERSION), MSW_PATH);
+    for (const route of registry) {
+      const example = JSON.stringify(examples[route.id]);
+      expect(handlers, route.id).toContain(`HttpResponse.json(${example})`);
+    }
+  });
+});
+
+// REV-TMU-OPS-004 MAJOR: zod-to-json-schema's "openApi3" target emits the 3.0 `nullable` keyword
+// (ignored by 3.1) and unions as anyOf, while tsTypeOf had no branch for either. The frozen M0
+// registry contains no nullable/union response yet (PageMeta.nextCursor lands with the first
+// paginated M2 endpoint), so the emission path is pinned here on a synthetic schema — red first.
+describe("OpenAPI 3.1 nullable and union emission", () => {
+  const probe = z.object({
+    nextCursor: z.string().nullable(),
+    candidate: z.union([z.string(), z.number()]),
+    kind: z.enum(["FOUND", "LOST"]).nullable(),
+  });
+
+  it("yaml uses 3.1 type arrays and never the 3.0 nullable keyword", () => {
+    const yaml = stringify({ components: { schemas: { Probe: toJsonSchema(probe) } } });
+    // Block sequence at any indent; "null" is quoted because JSON Schema needs the *string*
+    // "null" (a bare `null` would round-trip as the null value).
+    expect(yaml).toMatch(/type:\n\s+- string\n\s+- "null"/);
+    expect(yaml).not.toContain("nullable");
+    const parsed = parse(yaml) as { components?: { schemas?: { Probe?: unknown } } };
+    expect(parsed.components?.schemas?.Probe).toMatchObject({
+      properties: {
+        nextCursor: { type: ["string", "null"] },
+        candidate: { anyOf: [{ type: "string" }, { type: "number" }] },
+        kind: { type: ["string", "null"], enum: ["FOUND", "LOST"] },
+      },
+    });
+  });
+
+  it("types nullable as | null and unions as A | B", () => {
+    const ts = tsTypeOf(toJsonSchema(probe));
+    expect(ts).toContain("string | null");
+    expect(ts).toContain("string | number");
+    expect(ts).toContain('"FOUND" | "LOST" | null');
+  });
+
+  it("the generated OpenAPI document itself carries no nullable keyword", () => {
+    expect(contentOf(generateAll(VERSION), OPENAPI_PATH)).not.toContain("nullable");
   });
 });

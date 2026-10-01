@@ -128,6 +128,17 @@ export function lintOpenApi(
     if (!isRecord(responses)) continue;
     for (const [status, response] of Object.entries(responses)) {
       const responsePointer = `${pointer}.responses.${status}`;
+      // response-description: `description` is REQUIRED on every Response Object (OAS 3.1
+      // Response Object) — REV-TMU-OPS-004 BLOCKER, so the generated document cannot ship
+      // without it again.
+      const description = isRecord(response) ? response["description"] : undefined;
+      if (typeof description !== "string" || description.trim().length === 0) {
+        findings.push({
+          rule: "response-description",
+          path: `${responsePointer}.description`,
+          message: `response ${status} must declare a non-empty description (REQUIRED by OAS 3.1)`,
+        });
+      }
       const headers = isRecord(response) ? response["headers"] : undefined;
       if (!isRecord(headers) || !(REQUEST_ID_HEADER in headers)) {
         findings.push({
@@ -228,6 +239,17 @@ export function lintOpenApi(
           });
         }
       }
+    }
+
+    // no-30-nullable: `nullable` is an OpenAPI 3.0 keyword that OAS 3.1 (JSON Schema 2020-12)
+    // ignores, so a null value would fail validation — REV-TMU-OPS-004 MAJOR. Express null as
+    // a type union instead (`type: ["string", "null"]`).
+    if ("nullable" in node) {
+      findings.push({
+        rule: "no-30-nullable",
+        path: joinPointer(pointer, "nullable"),
+        message: `nullable ${JSON.stringify(node["nullable"])} is an OpenAPI 3.0 keyword; use type: [..., "null"] (OAS 3.1)`,
+      });
     }
 
     for (const [key, value] of Object.entries(node)) {

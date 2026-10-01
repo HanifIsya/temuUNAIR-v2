@@ -26,6 +26,10 @@ const FROZEN_RULES: readonly string[] = [
   "page-meta",
   "security-scheme",
   "contract-version",
+  // Review cycle 1 additions: TMU-OPS-004 freezes the original nine, and REV-TMU-OPS-004
+  // (BLOCKER + MAJOR) mandates these two so the same defects cannot pass the gate again.
+  "response-description",
+  "no-30-nullable",
 ] as const;
 
 type JsonRecord = { [key: string]: unknown };
@@ -279,6 +283,19 @@ const mutateNonSemverVersion = (doc: OpenApiDocument): void => {
   doc.info = { ...(doc.info ?? {}), version: "not-semver" };
 };
 
+const mutateMissingResponseDescription = (doc: OpenApiDocument): void => {
+  for (const operation of operationsOf(doc)) {
+    for (const response of Object.values(operation.responses ?? {})) {
+      if (isRecord(response)) delete response["description"];
+    }
+  }
+};
+
+const mutateThirtyNullable = (doc: OpenApiDocument): void => {
+  const schemas = ensureRecord(ensureRecord(doc, "components"), "schemas");
+  schemas["SyntheticNullable"] = { type: "string", nullable: true };
+};
+
 type Mutation = { name: string; rule: string; apply: (doc: OpenApiDocument) => void };
 
 const MUTATIONS: readonly Mutation[] = [
@@ -304,6 +321,16 @@ const MUTATIONS: readonly Mutation[] = [
     apply: mutateNonPublicWithoutCookieAuth,
   },
   { name: "a non-semver info.version", rule: "contract-version", apply: mutateNonSemverVersion },
+  {
+    name: "a response without a description",
+    rule: "response-description",
+    apply: mutateMissingResponseDescription,
+  },
+  {
+    name: "a 3.0-style nullable keyword",
+    rule: "no-30-nullable",
+    apply: mutateThirtyNullable,
+  },
 ];
 
 describe("lintOpenApi", () => {
@@ -315,6 +342,33 @@ describe("lintOpenApi", () => {
     const doc = cleanDoc();
     apply(doc);
     expect(rulesOf(doc)).toContain(rule);
+  });
+
+  it("reports response-description for a hand-built document whose response omits it", () => {
+    const doc: OpenApiDocument = {
+      openapi: "3.1.0",
+      info: { title: "probe", version: VERSION },
+      paths: { "/api/v1/probe": { get: minimalOperation("API-PRB-01") } },
+    };
+    expect(rulesOf(doc)).toContain("response-description");
+  });
+
+  it("declares a non-empty description on every response of the generated document", () => {
+    let seen = 0;
+    for (const operation of operationsOf(cleanDoc())) {
+      for (const [status, response] of Object.entries(operation.responses ?? {})) {
+        if (!isRecord(response)) continue;
+        seen += 1;
+        const label = `${operation.operationId} ${status}`;
+        expect(typeof response["description"], label).toBe("string");
+        expect(String(response["description"]).trim().length, label).toBeGreaterThan(0);
+      }
+    }
+    expect(seen).toBeGreaterThan(0);
+  });
+
+  it("emits no OpenAPI 3.0 nullable keyword in the generated document", () => {
+    expect(JSON.stringify(cleanDoc())).not.toContain("nullable");
   });
 
   it("returns findings whose fields are non-empty strings", () => {

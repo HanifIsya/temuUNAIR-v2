@@ -11,6 +11,7 @@ paths:
       security: []
       responses:
         "200":
+          description: Success
           headers:
             X-Request-Id:
               schema:
@@ -25,6 +26,7 @@ paths:
       security: []
       responses:
         "200":
+          description: Success
           headers:
             X-Request-Id:
               schema:
@@ -40,6 +42,7 @@ paths:
         - cookieAuth: []
       responses:
         "200":
+          description: Success
           headers:
             X-Request-Id:
               schema:
@@ -55,6 +58,7 @@ paths:
         - cookieAuth: []
       responses:
         "200":
+          description: Success
           headers:
             X-Request-Id:
               schema:
@@ -64,6 +68,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/API-META-03Response"
         "422":
+          description: "Error: VALIDATION_FAILED"
           headers:
             X-Request-Id:
               schema:

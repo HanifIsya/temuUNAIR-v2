@@ -20,6 +20,9 @@ const MSW_PATH = "packages/contracts/generated/msw-handlers.ts";
 
 const ERROR_ENVELOPE_NAME = "ErrorEnvelope";
 const ERROR_ENVELOPE_REF = "#/components/schemas/ErrorEnvelope";
+// One source for the BE-09 session cookie name (REV-TMU-OPS-004 MINOR): the OpenAPI security
+// scheme and the types.ts emitter must not drift apart on a cookie rename.
+export const SESSION_COOKIE_NAME = "__Secure-temuunair.session";
 
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 type JsonObject = { [key: string]: JsonValue };
@@ -28,12 +31,48 @@ const isJsonObject = (value: unknown): value is JsonObject =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
 // The pinned zod-to-json-schema names the OpenAPI-3.0-compatible target "openApi3" (there is no
-// "openapi-3.0" target; an unknown string is silently ignored). It emits `enum` for literals.
-const toJsonSchema = (schema: z.ZodTypeAny): JsonObject =>
-  zodToJsonSchema(schema, {
-    target: "openApi3",
-    $refStrategy: "none",
-  }) as unknown as JsonObject;
+// "openapi-3.0" target; an unknown string is silently ignored). It emits `enum` for literals,
+// but also the 3.0 `nullable` keyword and `anyOf` unions, so every emitted node is rewritten to
+// OAS 3.1 (JSON Schema 2020-12) form here before it reaches any artefact (REV-TMU-OPS-004
+// MAJOR): `nullable: true` becomes a "null" member of `type`, or an explicit
+// `anyOf: [..., { type: "null" }]` branch when the node carries no scalar `type`. The rewrite is
+// applied recursively to every subschema (properties, items, combinators, additionalProperties).
+const toOpenApi31 = (node: JsonValue): JsonValue => {
+  if (Array.isArray(node)) return node.map(toOpenApi31);
+  if (!isJsonObject(node)) return node;
+  const nullable = node["nullable"] === true;
+  const converted: JsonObject = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (key === "nullable") continue;
+    converted[key] = toOpenApi31(value);
+  }
+  if (!nullable) return converted;
+  const type = converted["type"];
+  if (typeof type === "string") {
+    converted["type"] = [type, "null"];
+    return converted;
+  }
+  if (Array.isArray(type)) {
+    if (!type.includes("null")) type.push("null");
+    return converted;
+  }
+  const branches = converted["anyOf"] ?? converted["oneOf"];
+  if (Array.isArray(branches)) {
+    branches.push({ type: "null" });
+    return converted;
+  }
+  return { anyOf: [converted, { type: "null" }] };
+};
+
+// Exported for tests: generate.test.ts pins the 3.1 emission path on a synthetic schema, since
+// the frozen M0 registry contains no nullable/union response yet.
+export const toJsonSchema = (schema: z.ZodTypeAny): JsonObject =>
+  toOpenApi31(
+    zodToJsonSchema(schema, {
+      target: "openApi3",
+      $refStrategy: "none",
+    }) as unknown as JsonObject,
+  );
 
 const jsonLiteral = (value: unknown): string => JSON.stringify(value) ?? "null";
 
@@ -90,6 +129,8 @@ const buildOpenApiModel = (version: string): OpenApiModel => {
 
     const responses: JsonObject = {
       "200": {
+        // OAS 3.1 Response Object: `description` is REQUIRED (REV-TMU-OPS-004 BLOCKER).
+        description: "Success",
         headers: { "X-Request-Id": { schema: { type: "string" } } },
         content: {
           "application/json": { schema: { $ref: `#/components/schemas/${component.name}` } },
@@ -102,9 +143,11 @@ const buildOpenApiModel = (version: string): OpenApiModel => {
       const existing = responses[status];
       if (isJsonObject(existing) && Array.isArray(existing["x-error-codes"])) {
         existing["x-error-codes"].push(code);
+        existing["description"] = `Error: ${existing["x-error-codes"].join(", ")}`;
         continue;
       }
       responses[status] = {
+        description: `Error: ${code}`,
         headers: { "X-Request-Id": { schema: { type: "string" } } },
         content: { "application/json": { schema: { $ref: ERROR_ENVELOPE_REF } } },
         "x-error-codes": [code],
@@ -133,7 +176,7 @@ const buildOpenApiModel = (version: string): OpenApiModel => {
       paths,
       components: {
         securitySchemes: {
-          cookieAuth: { type: "apiKey", in: "cookie", name: "__Secure-temuunair.session" },
+          cookieAuth: { type: "apiKey", in: "cookie", name: SESSION_COOKIE_NAME },
         },
         schemas,
       },
@@ -175,32 +218,63 @@ const primitiveTypeOf = (type: unknown): string => {
   }
 };
 
-const tsTypeOf = (schema: JsonObject): string => {
-  if ("const" in schema) return jsonLiteral(schema["const"]);
+// REV-TMU-OPS-004 MAJOR: `toOpenApi31` normally strips `nullable`, so this is a defensive
+// suffix (it also detects a 3.1 type array that already contains "null").
+const nullableSuffixOf = (schema: JsonObject): string => {
+  if (schema["nullable"] === true) return " | null";
+  const type = schema["type"];
+  return Array.isArray(type) && type.includes("null") ? " | null" : "";
+};
+
+// Exported for tests (generate.test.ts). Unions render `A | B`, nullable renders `A | null`,
+// and only nodes with no representable shape fall back to `unknown` (REV-TMU-OPS-004 MAJOR).
+export const tsTypeOf = (schema: JsonObject): string => {
+  const suffix = nullableSuffixOf(schema);
+  if ("const" in schema) return `${jsonLiteral(schema["const"])}${suffix}`;
   const enumValues = schema["enum"];
   if (Array.isArray(enumValues)) {
-    return enumValues.map((value) => jsonLiteral(value)).join(" | ");
+    return `${enumValues.map((value) => jsonLiteral(value)).join(" | ")}${suffix}`;
+  }
+  for (const key of ["anyOf", "oneOf"] as const) {
+    const branches = schema[key];
+    if (Array.isArray(branches)) {
+      const members = branches.map((branch) =>
+        isJsonObject(branch) ? tsTypeOf(branch) : "unknown",
+      );
+      return `${members.join(" | ")}${suffix}`;
+    }
   }
   const type = schema["type"];
+  // Renders one member of the type space, so a 3.1 `type: ["object", "null"]` keeps its
+  // property shape instead of degrading to `unknown`.
+  const renderMember = (member: unknown): string => {
+    if (member === "array") {
+      const items = schema["items"];
+      return `Array<${isJsonObject(items) ? tsTypeOf(items) : "unknown"}>`;
+    }
+    if (member === "object") {
+      const properties = schema["properties"];
+      if (!isJsonObject(properties)) return "Record<string, unknown>";
+      const required = requiredKeysOf(schema);
+      const members = Object.entries(properties).map(([key, value]) => {
+        const optional = required.has(key) ? "" : "?";
+        const memberType = isJsonObject(value) ? tsTypeOf(value) : "unknown";
+        return `${jsonLiteral(key)}${optional}: ${memberType};`;
+      });
+      return members.length > 0 ? `{ ${members.join(" ")} }` : "Record<string, unknown>";
+    }
+    return primitiveTypeOf(member);
+  };
   if (Array.isArray(type)) {
-    return type.map((entry) => primitiveTypeOf(entry)).join(" | ");
+    const hasNull = type.includes("null");
+    const base = type
+      .filter((entry) => entry !== "null")
+      .map((entry) => renderMember(entry))
+      .join(" | ");
+    if (base.length === 0) return "null";
+    return hasNull ? `${base} | null` : base;
   }
-  if (type === "array") {
-    const items = schema["items"];
-    return `Array<${isJsonObject(items) ? tsTypeOf(items) : "unknown"}>`;
-  }
-  if (type === "object") {
-    const properties = schema["properties"];
-    if (!isJsonObject(properties)) return "Record<string, unknown>";
-    const required = requiredKeysOf(schema);
-    const members = Object.entries(properties).map(([key, value]) => {
-      const optional = required.has(key) ? "" : "?";
-      const memberType = isJsonObject(value) ? tsTypeOf(value) : "unknown";
-      return `${jsonLiteral(key)}${optional}: ${memberType};`;
-    });
-    return members.length > 0 ? `{ ${members.join(" ")} }` : "Record<string, unknown>";
-  }
-  return primitiveTypeOf(type);
+  return `${renderMember(type)}${suffix}`;
 };
 
 const buildOpenApiFile = (version: string, doc: JsonObject): string =>
@@ -226,7 +300,7 @@ const buildTypesFile = (version: string, model: OpenApiModel): string => {
   lines.push("  };");
   lines.push("  securitySchemes: {");
   lines.push(
-    '    cookieAuth: { type: "apiKey"; in: "cookie"; name: "__Secure-temuunair.session" };',
+    `    cookieAuth: { type: "apiKey"; in: "cookie"; name: ${jsonLiteral(SESSION_COOKIE_NAME)} };`,
   );
   lines.push("  };");
   lines.push("}", "");

@@ -36,7 +36,7 @@ Commands:
 |---|---|
 | `pnpm contracts:build` | regenerates all four artefacts: `BE-02-openapi.yaml`, `packages/contracts/generated/types.ts`, `packages/contracts/generated/client.ts`, `packages/contracts/generated/msw-handlers.ts` |
 | `pnpm contracts:check` | rebuilds in memory and diffs against the committed files (fails on drift or a missing file) |
-| `pnpm contracts:lint` | validates the emitted OpenAPI against the BE-01 rules via `packages/contracts/src/lint.ts`; rule ids: `base-path`, `operation-id`, `camel-case-fields`, `enum-values`, `request-id-header`, `error-envelope`, `page-meta`, `security-scheme`, `contract-version` |
+| `pnpm contracts:lint` | validates the emitted OpenAPI against the BE-01 rules via `packages/contracts/src/lint.ts`; rule ids: `base-path`, `operation-id`, `camel-case-fields`, `enum-values`, `request-id-header`, `error-envelope`, `page-meta`, `security-scheme`, `contract-version`, `response-description`, `no-30-nullable` |
 | `pnpm contracts:breaking` | compares the emitted OpenAPI with the baseline on `origin/main` via `packages/contracts/src/breaking.ts`; `CONTRACTS_BASELINE_DIR` overrides the baseline directory; exits 0 with "no baseline released yet" when none exists (breaking = major + ADR + label) |
 
 Example red-evidence run: `CONTRACTS_BASELINE_DIR=<dir with BE-02-openapi.yaml + CONTRACT_VERSION> pnpm contracts:breaking` (PowerShell: `$env:CONTRACTS_BASELINE_DIR`).
@@ -58,6 +58,9 @@ Spectral, oasdiff or openapi-typescript without changing the command surface.
 4. `auth` values map to OpenAPI security schemes: `cookieAuth` (session) and `bearerMl`
    (ML service only, in `ml-openapi.json`).
 5. Examples come from `packages/contracts/src/examples.ts` (kept honest by contract tests).
+6. Every Response Object carries a non-empty `description` (OAS 3.1 REQUIRED), and nullability
+   is emitted as a 3.1 type union (`type: ["string", "null"]`) — never the 3.0 `nullable`
+   keyword. Enforced by the `response-description` and `no-30-nullable` lint rules.
 
 ## Reviewer checklist
 
