@@ -13,14 +13,19 @@ permission:
     "git add*": allow
     "git commit*": allow
     "git rebase origin/main": allow
-    "git push -u origin HEAD": allow
-    "git push origin HEAD": allow
-    "git push --force-with-lease origin HEAD": ask
+    "git push -u origin HEAD*": allow
+    "git push origin HEAD*": allow
+    "git push *--no-verify*": deny
+    "git push *--force*": deny
+    "git push *-f*": deny
+    "git push --force-with-lease origin HEAD*": ask
+    "git push *:*": deny
     "gh pr create*": allow
     "gh pr ready*": allow
     "gh pr view*": allow
     "gh pr checks*": allow
     "gh pr edit*": allow
+    "gh pr merge*": allow
     "gh run*": allow
     "pnpm gate*": allow
 ---
