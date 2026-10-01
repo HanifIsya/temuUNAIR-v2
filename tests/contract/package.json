@@ -1,0 +1,15 @@
+{
+  "name": "@temuunair/contract-tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node run-contract.mjs"
+  },
+  "devDependencies": {
+    "@temuunair/config": "workspace:*",
+    "@temuunair/contracts": "workspace:*",
+    "@types/node": "^26.6.3",
+    "vitest": "^3.2.4"
+  }
+}

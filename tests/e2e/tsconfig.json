@@ -1,0 +1,4 @@
+{
+  "extends": "@temuunair/config/tsconfig.base.json",
+  "include": ["src/**/*", "playwright.config.ts"]
+}

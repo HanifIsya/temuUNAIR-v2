@@ -1,0 +1,17 @@
+{
+  "name": "@temuunair/integration-tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "testcontainers": "^10.18.0"
+  },
+  "devDependencies": {
+    "@temuunair/config": "workspace:*",
+    "@types/node": "^26.6.3",
+    "vitest": "^3.2.4"
+  }
+}
