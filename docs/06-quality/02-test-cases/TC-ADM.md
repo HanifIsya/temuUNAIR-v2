@@ -50,7 +50,7 @@ source_refs: ["FR-ADM-001..009", "FR-NTF-001..007", "FR-I18N-001..003"]
 
 | TC | Case | Derives from | Automated path |
 |---|---|---|---|
-| TC-I18N-001 | API returns `labelKey`/`error.code`, never translated strings | FR-I18N-003 | `tests/contracts/i18n-keys.spec.ts` |
+| TC-I18N-001 | API returns `labelKey`/`error.code`, never translated strings | FR-I18N-003 | `tests/contract/i18n-keys.spec.ts` |
 | TC-I18N-002 | `id.json` and `en.json` have identical key sets | NFR-052 | `scripts/i18n-check.mjs` in gate |
 | TC-I18N-003 | Every `BE-04` code has `error.<code>` in both locales | NFR-052 | same |
 | TC-I18N-004 | Every `BE-08` type has title/body keys in both locales | NFR-052 | same |
