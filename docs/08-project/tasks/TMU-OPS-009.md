@@ -66,6 +66,9 @@ the worktree/remote notes so every later task inherits a protected trunk.
 | 2026-10-01 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
 | 2026-10-01 | ops-dev | 5 GREEN | created `.github/dependabot.yml` (npm, pip, github-actions); updated worktree notes in `01-git-workflow.md`; applied branch protection on `main` via `gh api`; verified squash-only merge settings and secret scanning |
 | 2026-10-01 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` (139 tests passed across 16 test files) |
+| 2026-10-01 | git-steward | 8 COMMIT/PUSH | `c97af28` pushed; draft PR #16 opened |
+| 2026-10-01 | reviewer | 9 REVIEW | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR) -> `docs/08-project/reviews/TMU-OPS-009.md` |
+| 2026-10-01 | orchestrator | 11 CI | 9/9 required checks pass (lint-typecheck, unit, contracts, migrations, ml, integration, contract-fuzz, e2e, secret-scan) |
 
 ### Plan
 
@@ -122,8 +125,8 @@ the worktree/remote notes so every later task inherits a protected trunk.
 | `/services/ml/` | `@<maysha-handle>` (AI / ML) | ML Owner (Maysha) | Before M3 |
 
 - Gate: `pnpm gate` passed cleanly with 139 tests across 16 test files.
-- PR: (pending)
-- Review: (pending)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/16
+- Review: `docs/08-project/reviews/TMU-OPS-009.md` (APPROVE)
 
 ## Blockers
 
