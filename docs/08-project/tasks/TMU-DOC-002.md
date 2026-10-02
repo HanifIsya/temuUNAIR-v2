@@ -1,7 +1,7 @@
 ---
 id: TMU-DOC-002
 title: "Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md"
-status: TODO
+status: IN_PROGRESS
 lane: docs
 slug: source-intake-pdf-extract
 milestone: M1
@@ -42,19 +42,19 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 
 ## Acceptance criteria
 
-- [ ] `docs/_source/proposal.pdf` is tracked and byte-identical to the human's drop: copy it from
+- [x] `docs/_source/proposal.pdf` is tracked and byte-identical to the human's drop: copy it from
       `E:\TemuUNAIR-v2\docs\_source\proposal.pdf` (or take it from git if the human committed it),
       compare SHA-256 hashes before staging, then `git add` only — no re-encoding, renaming or
       modification. If neither source is available, file a blocker instead of proceeding.
-- [ ] `docs/_source/proposal-extract.md` exists with `status: draft`, covering: a section list,
+- [x] `docs/_source/proposal-extract.md` exists with `status: draft`, covering: a section list,
       verbatim quotes of the *Tujuan 1–5* and the *Cara Kerja* 8 steps, and a figure list — every
       item citing `proposal.pdf §…`; illegible/absent content marked `OPEN QUESTION`.
-- [ ] `docs/_source/README.md` table updated: `proposal.pdf` → committed; extract → drafted
+- [x] `docs/_source/README.md` table updated: `proposal.pdf` → committed; extract → drafted
       (human verification flagged); logo placeholder caveat unchanged.
 - [ ] No other source file (`logo.png`, `proposal.pdf` body) is modified; `git diff` for the
       folder shows additions/edits only where the ACs say.
 - [ ] `bash scripts/check-lane.sh` and `pnpm gate` green.
-- [ ] Probe cross-reference: the `git add docs/_source/proposal.pdf` + lane-check result is
+- [x] Probe cross-reference: the `git add docs/_source/proposal.pdf` + lane-check result is
       recorded in `TMU-OPS-033`'s Progress log (that task's probe AC expects it back; task files
       are `_common`, so a docs branch may write it).
 
@@ -70,6 +70,8 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-02 | orchestrator | filed | TMU-META-004 M1 backlog breakdown |
+| 2026-10-02 | orchestrator | 1 PICK | worktree `E:\wt\TMU-DOC-002` @ `4610f94`; status → `IN_PROGRESS`; PDF copied from main checkout, SHA-256 `028501CB2CBBA3385F62F57B192D1B87C2541CF2CE58348C44E99B0BE5FBF8B9` verified byte-identical; lane probe PASSED (cross-ref in `TMU-OPS-033`) |
+| 2026-10-02 | orchestrator | 5 GREEN | `proposal-extract.md` drafted (status `draft`: section list A–H + cover, verbatim §B Tujuan 1–5, verbatim §D 7 prose steps + 8 figure boxes, 3-figure list, OQ-6 for truncated Tujuan 5, page-8 blank note); `README.md` table + section refreshed (PDF committed, extract drafted/human-verification pending, logo caveat intact); extraction via `pypdf` layout mode + image extraction, temp artifacts outside the repo |
 
 ## Blockers
 

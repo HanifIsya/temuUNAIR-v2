@@ -82,6 +82,7 @@ both paths. M1's exit criteria ("PDF + logo added") are unreachable until this i
 | 2026-10-02 | reviewer | 9 REVIEW c1 | verdict **APPROVE** (cycle 1, final) — 0 BLOCKER / 0 MAJOR / 3 MINOR; diff exactness, red evidence re-derived, 140/140 green, no index drift, CI 11 pass + skip. See `docs/08-project/reviews/TMU-OPS-033.md` |
 | 2026-10-02 | orchestrator | 9 REVIEW c1 fix | m1 AC wording + Files list (review file + regenerated `_common` indexes), m2 test count 139 → 140, m3 `PR:`/`Review:` Evidence lines + PR #33 body refresh |
 | 2026-10-02 | orchestrator | 11 DONE | verdict APPROVE on record; status → `DONE`; indexes regenerated (48 rows) |
+| 2026-10-02 | orchestrator | 13 probe cross-ref | **live probe passed** from the docs-lane branch of `TMU-DOC-002` (@ `4610f94`): `git add docs/_source/proposal.pdf` (SHA-256 `028501CB…F8B9`, byte-identical to the human's drop) + `bash scripts/check-lane.sh` → exit 0. AC probe closed. |
 
 ## Evidence
 
@@ -93,8 +94,8 @@ both paths. M1's exit criteria ("PDF + logo added") are unreachable until this i
   16 files, contracts, db:check, ml ruff + 7 pytest).
 - Glob diff (the entire lane change): `"docs/_source/proposal-extract.md"` →
   `"docs/_source/**"` in the docs lane; no other lane or `_common` entry touched.
-- Live probe deferred: `git add docs/_source/proposal.pdf` + lane check runs from the docs-lane
-  branch of `TMU-DOC-002` after merge; cross-reference goes back into this Progress log.
+- Live probe: **passed** — `git add docs/_source/proposal.pdf` + lane check from the docs-lane
+  branch of `TMU-DOC-002` → exit 0 (cross-referenced in the Progress log, 2026-10-02).
 - PR: [#33](https://github.com/HanifIsya/temuUNAIR-v2/pull/33) —
   `chore(ops): widen docs lane to docs/_source (TMU-OPS-033)`, label `documentation`.
 - Review: `docs/08-project/reviews/TMU-OPS-033.md` — cycle 1 **APPROVE** (0 BLOCKER / 0 MAJOR /
