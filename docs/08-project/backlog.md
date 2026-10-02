@@ -28,4 +28,25 @@
 | [TMU-OPS-020](tasks/TMU-OPS-020.md) | M0 | ops | DONE | P3 | Clear the advisory audit red (postcss under next) | TMU-OPS-003 |
 | [TMU-OPS-021](tasks/TMU-OPS-021.md) | M0 | db | DONE | P3 | Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings) | TMU-OPS-005 |
 | [TMU-DOC-001](tasks/TMU-DOC-001.md) | M1 | docs | DONE | P1 | M0 exit roadmap update and M1 documentation milestone kickoff | TMU-OPS-010 |
+| [TMU-DOC-002](tasks/TMU-DOC-002.md) | M1 | docs | TODO | P1 | Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md | TMU-DOC-001, TMU-OPS-033 |
+| [TMU-DOC-003](tasks/TMU-DOC-003.md) | M1 | docs | TODO | P1 | Resolve OQ-1..OQ-5 (answer OQ-1 from source; defer OQ-2..5 with DECs) | TMU-DOC-002 |
+| [TMU-DOC-004](tasks/TMU-DOC-004.md) | M1 | docs | TODO | P2 | Review and approve the M1 core product docs (PRD, VISION, PERSONAS) | TMU-DOC-003 |
+| [TMU-DOC-005](tasks/TMU-DOC-005.md) | M1 | docs | TODO | P2 | Review and approve the requirements docs (US, FR, NFR) | TMU-DOC-002 |
+| [TMU-DOC-006](tasks/TMU-DOC-006.md) | M1 | docs | TODO | P2 | Review and approve the acceptance-criteria and glossary docs | TMU-DOC-002 |
+| [TMU-DOC-007](tasks/TMU-DOC-007.md) | M1 | docs | TODO | P2 | Review and approve the risk register and roadmap | TMU-DOC-002 |
+| [TMU-DOC-008](tasks/TMU-DOC-008.md) | M1 | docs | TODO | P2 | Review and approve the success-metrics and decisions docs | TMU-DOC-003 |
+| [TMU-DOC-009](tasks/TMU-DOC-009.md) | M1 | docs | TODO | P2 | Review the legal/privacy drafts and record the human legal-review requirement | TMU-DOC-002 |
+| [TMU-DOC-010](tasks/TMU-DOC-010.md) | M1 | docs | TODO | P2 | Review and approve the operations-model and user-research docs | TMU-DOC-002 |
+| [TMU-DOC-011](tasks/TMU-DOC-011.md) | M1 | docs | TODO | P2 | Review and approve the design foundations (principles, brand, tokens) | TMU-DOC-002 |
+| [TMU-DOC-012](tasks/TMU-DOC-012.md) | M1 | docs | TODO | P2 | Review and approve information architecture and user flows | TMU-DOC-002 |
+| [TMU-DOC-013](tasks/TMU-DOC-013.md) | M1 | docs | TODO | P2 | Review and approve wireframes | TMU-DOC-002 |
+| [TMU-DOC-014](tasks/TMU-DOC-014.md) | M1 | docs | TODO | P2 | Review and approve the screen specs (SCR-001..023) | TMU-DOC-002 |
+| [TMU-DOC-015](tasks/TMU-DOC-015.md) | M1 | docs | TODO | P2 | Review and approve the component inventory and content/microcopy docs | TMU-DOC-002 |
+| [TMU-DOC-016](tasks/TMU-DOC-016.md) | M1 | docs | TODO | P2 | Review and approve the accessibility and responsive/motion docs | TMU-DOC-002 |
+| [TMU-DOC-017](tasks/TMU-DOC-017.md) | M1 | docs | TODO | P2 | Review and approve the state designs and notification templates | TMU-DOC-002 |
+| [TMU-DOC-018](tasks/TMU-DOC-018.md) | M1 | docs | TODO | P2 | Review and approve the admin-console design and onboarding docs | TMU-DOC-002 |
+| [TMU-DOC-019](tasks/TMU-DOC-019.md) | M1 | docs | TODO | P2 | M1 cross-document consistency and traceability pass | TMU-DOC-003, TMU-DOC-004, TMU-DOC-005, TMU-DOC-006, TMU-DOC-007, TMU-DOC-008, TMU-DOC-009, TMU-DOC-010, TMU-DOC-011, TMU-DOC-012, TMU-DOC-013, TMU-DOC-014, TMU-DOC-015, TMU-DOC-016, TMU-DOC-017, TMU-DOC-018 |
+| [TMU-DOC-020](tasks/TMU-DOC-020.md) | M1 | docs | TODO | P1 | M1 exit checklist, docs-approval evidence and M2 handoff | TMU-DOC-019 |
+| [TMU-META-004](tasks/TMU-META-004.md) | M1 | meta | IN_PROGRESS | P1 | File the M1 task breakdown (TMU-DOC-002..020) and the source-lane enabler | TMU-DOC-001 |
+| [TMU-OPS-033](tasks/TMU-OPS-033.md) | M1 | ops | TODO | P1 | Widen the docs lane to docs/_source/** (M1 source intake enabler) | TMU-DOC-001 |
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | TODO | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
