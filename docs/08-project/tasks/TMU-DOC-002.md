@@ -1,7 +1,7 @@
 ---
 id: TMU-DOC-002
 title: "Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md"
-status: IN_PROGRESS
+status: DONE
 lane: docs
 slug: source-intake-pdf-extract
 milestone: M1
@@ -51,9 +51,9 @@ anything, and bring `_source/README.md`'s status table in line with reality.
       item citing `proposal.pdf §…`; illegible/absent content marked `OPEN QUESTION`.
 - [x] `docs/_source/README.md` table updated: `proposal.pdf` → committed; extract → drafted
       (human verification flagged); logo placeholder caveat unchanged.
-- [ ] No other source file (`logo.png`, `proposal.pdf` body) is modified; `git diff` for the
+- [x] No other source file (`logo.png`, `proposal.pdf` body) is modified; `git diff` for the
       folder shows additions/edits only where the ACs say.
-- [ ] `bash scripts/check-lane.sh` and `pnpm gate` green.
+- [x] `bash scripts/check-lane.sh` and `pnpm gate` green.
 - [x] Probe cross-reference: the `git add docs/_source/proposal.pdf` + lane-check result is
       recorded in `TMU-OPS-033`'s Progress log (that task's probe AC expects it back; task files
       are `_common`, so a docs branch may write it).
@@ -65,6 +65,7 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 - `docs/_source/README.md`
 - `docs/08-project/tasks/TMU-DOC-002.md`
 - `docs/08-project/tasks/TMU-OPS-033.md` (probe cross-reference, authorised by that task's AC)
+- `docs/08-project/tasks/TMU-DOC-003.md` (stale-PRD-claim follow-up filing from review F5)
 - `docs/08-project/backlog.md`, `docs/08-project/status.md` (regenerated `_common` indexes, not hand edits)
 - `docs/08-project/reviews/TMU-DOC-002.md` (review record, `_common`)
 
@@ -77,13 +78,16 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 | 2026-10-02 | orchestrator | 5 GREEN | `proposal-extract.md` drafted (status `draft`: section list A–H + cover, verbatim §B Tujuan 1–5, verbatim §D 7 prose steps + 8 figure boxes, 3-figure list, OQ-6 for truncated Tujuan 5, page-8 blank note); `README.md` table + section refreshed (PDF committed, extract drafted/human-verification pending, logo caveat intact); extraction via `pypdf` layout mode + image extraction, temp artifacts outside the repo |
 | 2026-10-02 | reviewer | 9 REVIEW c1 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR, 7 MINOR F1–F7) → cycle 1 in `reviews/TMU-DOC-002.md`; 14 PDF-vs-extract comparisons confirmed incl. OQ-6 truncation |
 | 2026-10-02 | orchestrator | 5 FIX c1 | (F1) Files-expected list completed (OPS-033 cross-ref, regen indexes, review file); (F2) `## Evidence` section added; (F3) extract transcribes normalisation disclosure (spacing/quote-joins only, wording never altered); (F4) literal `proposal.pdf §…` citations added to section + figure lists; (F5) stale PRD `:13` claim refresh filed into `TMU-DOC-003` Context; (F6) `proposal.pdf §8` → `proposal.pdf p. 8`; (F7) README "Human-written summary" → transcription-accurate wording |
+| 2026-10-02 | reviewer | 9 REVIEW c2 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR; F1–F7 all VERIFIED CLOSED; new C2-1 MINOR — Files list missing the F5 edit to `TMU-DOC-003.md`) → cycle 2 appended to `reviews/TMU-DOC-002.md` |
+| 2026-10-02 | orchestrator | 5 FIX c2 | (C2-1) added `docs/08-project/tasks/TMU-DOC-003.md` to Files-expected; status → `DONE`, AC4/AC5 ticked, Evidence Review line updated |
+| 2026-10-02 | orchestrator | 10 CI | 11 checks green + 1 skipped on `f6408e1` (REST check during cycle-2 review); close-out commit CI verified post-push before merge |
 
 ## Evidence
 
 - Red: N/A — documentation transcription with no behaviour change; ACs are artifact + integrity checks (hash, lane probe, gate), recorded in the Progress log
 - Green: `pnpm gate` → `OK gate(quick) passed` (lane check, prettier, lint, typecheck, i18n, 140/140 unit tests, contracts, db, ml)
 - PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/34
-- Review: cycle 1 `APPROVE` (0 BLOCKER, 0 MAJOR, 7 MINOR F1–F7, all closed pre-merge) → `docs/08-project/reviews/TMU-DOC-002.md`
+- Review: cycle 1 `APPROVE` (0 BLOCKER, 0 MAJOR, 7 MINOR F1–F7, all closed in `f6408e1`); cycle 2 **`APPROVE`** (0 BLOCKER, 0 MAJOR, F1–F7 verified closed, 1 MINOR C2-1 fixed in close-out) → `docs/08-project/reviews/TMU-DOC-002.md`
 
 ## Blockers
 

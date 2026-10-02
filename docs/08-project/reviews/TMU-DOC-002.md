@@ -5,7 +5,7 @@ title: "Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _
 reviewer: reviewer
 verdict: APPROVE
 date: 2026-10-02
-cycle: 1
+cycle: 2
 ---
 
 # TMU-DOC-002 — Review cycle 1
@@ -283,3 +283,206 @@ logged, returned or rendered. Fixtures absent by construction. DoD 5 satisfied.
    corroborated by the 12-run CI matrix on `707c719`), `gh` (denied — GitHub REST API used for
    PR/CI facts), and a second independent PDF text extraction (no PDF tooling allowed — see
    Fidelity method).
+
+---
+
+# TMU-DOC-002 — Review cycle 2
+
+Diff reviewed for this cycle: `git diff 707c719..HEAD` — one fix commit
+`f6408e1 docs(docs): close cycle 1 minor findings on source intake`, **5 files, +323/−19**:
+`docs/08-project/reviews/TMU-DOC-002.md` (new, +285 — the cycle-1 record above, committed with
+the fixes), `docs/08-project/tasks/TMU-DOC-002.md` (+12), `docs/08-project/tasks/TMU-DOC-003.md`
+(+5), `docs/_source/README.md` (1 line), `docs/_source/proposal-extract.md` (19+/19−). Whole
+branch `origin/main...HEAD` = **9 files, +471/−16**, 2 commits (`707c719`, `f6408e1`).
+
+Scope integrity: `git diff 707c719..HEAD --stat -- docs/_source/proposal.pdf` → **no output —
+the PDF is untouched since cycle 1** (still the pure 2,917,693 B addition from `707c719`,
+byte-identical to the human's drop). `git status --short` → clean; `git diff --check
+707c719..HEAD` → clean. The 5 fix-commit paths are all `docs` lane (`.agent/lanes.json:16`
+`docs/_source/**`) or `_common` (`:4` `docs/08-project/tasks/**`, `:5`
+`docs/08-project/reviews/**`) → lane-clean by static derivation (`bash scripts/check-lane.sh`
+remains sandbox-denied, as in cycle 1). `f6408e1` is a Conventional Commit (`docs(docs)` scope,
+subject `docs(docs): close cycle 1 minor findings on source intake` = 57 chars ≤ 72) with the
+required `Task: TMU-DOC-002`, `Refs: SRC-README, PRD`, `Agent: orchestrator` trailers
+(`git log -1 f6408e1`). PR #34 now has head `f6408e1` == worktree HEAD, base `4610f94`; its
+**12 CI check-runs on `f6408e1` are 11 `success`** (`unit`, `lint-typecheck`, `build`,
+`contracts`, `migrations`, `ml`, `integration`, `contract-fuzz`, `e2e`, `secret-scan`, `audit`)
+**+ `docker-build` `skipped`** (GitHub REST API, `gh` sandbox-denied) — so the new
+`## Evidence` "Green: `pnpm gate` → `OK gate(quick) passed`" line is corroborated by a green CI
+matrix **on the fix commit itself**, not only on `707c719`.
+
+**Cycle-1 text integrity:** the cycle-1 record above is preserved verbatim; only the
+front-matter `cycle: 1 → 2` was rewritten (`verdict` was already `APPROVE`). Caveat (same as
+`reviews/TMU-DOC-001.md` cycle 2): the review file first appears in this branch (`f6408e1`), so
+no independent committed copy exists to diff the cycle-1 prose against; its content is
+internally consistent with the cycle-1 diff it describes (`707c719`, 7 files, +167/−16).
+
+## Summary
+
+**APPROVE — cycle 2 of 2.** 0 BLOCKER / 0 MAJOR / **1 MINOR** (new, bookkeeping-only). All
+seven cycle-1 findings are **verified closed against the final bytes** — not against the fix
+commit's message — and the fidelity spot-check of every region the fixes touched re-passes
+against the PDF text layer (below): the section/figure tables gained literal citations whose
+section and page targets I re-derived from the source; the normalisation disclosure now matches
+what the extract actually applies *and* what the source actually contains (curly quotes and
+irregular spacing present; zero em-dashes anywhere in the source); the phantom `§8` is gone; the
+README cell no longer says "Human-written"; and the stale-PRD follow-up is durably filed in
+`TMU-DOC-003`. The verbatim quote blocks were **not touched** by the fix commit (its hunks stop
+at the preamble and the tables), so cycle 1's 14 PDF-vs-extract comparisons stand unchanged. The
+single new MINOR is the same declared-list class F1 addressed — the fix commit itself edits
+`TMU-DOC-003.md`, which the Files-expected list does not name. It does not merit a cycle 3
+(max 2 cycles; DoD sends MINOR to a filed follow-up or the close-out edit, not to re-review).
+
+## Cycle 1 disposition
+
+| # | Finding (severity c1) | Status | Evidence in the final state (file:line) |
+|---|---|---|---|
+| F1 | MINOR — Files-expected list named only 4 of the 7 files `707c719` ships | **VERIFIED CLOSED** | `docs/08-project/tasks/TMU-DOC-002.md:63-69` now names all 7 (`proposal.pdf` `:63`, `proposal-extract.md` `:64`, `_source/README.md` `:65`, this task `:66`, `TMU-OPS-033.md` `:67`, regenerated `backlog.md`/`status.md` `:68`, review file `:69`); diff hunk 1 of `f6408e1` adds exactly those bullets. Scope note → C2-1 (the fix commit's own `TMU-DOC-003.md` edit is not listed) |
+| F2 | MINOR — no `## Evidence` section | **VERIFIED CLOSED** | `TMU-DOC-002.md:81-86` — `## Evidence` with all four template lines: `Red:` (N/A + rationale) `:83`, `Green:` (gate tail) `:84`, `PR:` #34 `:85`, `Review:` cycle-1 pointer `:86`; matches the template at `docs/08-project/README.md:70-73` |
+| F3 | MINOR — normalisation declaration under-disclosed | **VERIFIED CLOSED** | `docs/_source/proposal-extract.md:16-19` now declares verbatim-**in-wording** plus the exact normalisation list (inter-word/line spacing; curly → straight quotation marks; em-dashes joining the PDF's line-broken titles/bodies) and "no word is ever added, removed or reordered". Disclosure re-checked against the source itself (fidelity re-check 3) |
+| F4 | MINOR — section/figure tables lacked literal `proposal.pdf §…` citations | **VERIFIED CLOSED** | `proposal-extract.md:36-45` rows now carry `` `proposal.pdf §cover` `` … `` `proposal.pdf §H` `` and `` `proposal.pdf p. 8` ``; figure list `:107-111` gained a **Citation** column with `` `proposal.pdf §cover p. 1` ``, `` `proposal.pdf §C.1 p. 3` ``, `` `proposal.pdf §D figure p. 4` ``. All targets re-derived from the text layer (fidelity re-check 1–2) |
+| F5 | MINOR — stale PRD `:13` claim needed a filed follow-up | **VERIFIED CLOSED** | `docs/08-project/tasks/TMU-DOC-003.md:44-48` — Context bullet "Stale-source claim refresh (follow-up from `TMU-DOC-002` review F5)": update `docs/01-product/01-PRD.md:13` ("… not in the repo yet") to the committed state (hash + extract pointer) while touching the PRD for OQ-1, with `02-design/02-brand-and-logo.md:13`'s logo caveat explicitly scoped out. Placement note: cycle 1 suggested AC/Progress log; Context is durable, sits in the very task whose AC1 forces the PRD edit, and the fix row `TMU-DOC-002.md:79` records the filing — filed, not silently dropped |
+| F6 | MINOR (LOW) — `proposal.pdf §8, p. 8` phantom section | **VERIFIED CLOSED** | `proposal-extract.md:145` → `` `proposal.pdf p. 8` ``; the section-list twin `:45` also reads `` `proposal.pdf p. 8` ``. Page-8 blankness re-confirmed (the text-layer artifact's final line is `===== PAGE 8 =====` with no content) |
+| F7 | MINOR (LOW) — README cell said "Human-written" | **VERIFIED CLOSED** | `docs/_source/README.md:19` → "Citation-first summary of the PDF (sections, verbatim quotes, figure list) transcribed from the committed PDF for agents that cannot read PDFs" — consistent with the same row's Status cell and with `:27` ("A draft extract is a transcription aid, not verified ground truth"). Grep `Human-written` over `docs/**` → zero live hits |
+
+**7/7 VERIFIED CLOSED, 0 REOPENED.**
+
+## Changes since cycle 1
+
+`git diff 707c719..HEAD --stat` → 5 files, +323/−19; every added line read:
+
+| File | What changed |
+|---|---|
+| `docs/08-project/reviews/TMU-DOC-002.md` (new, +285) | Cycle-1 review record (APPROVE, 0/0/7), committed by `f6408e1`. |
+| `docs/08-project/tasks/TMU-DOC-002.md` (+12) | F1: three Files-expected bullets (`:67-69`). F2: `## Evidence` (`:81-86`). Two Progress-log rows: `:78` `9 REVIEW c1` (verdict + 14 comparisons) and `:79` `5 FIX c1` (F1–F7 one-liner). `status: IN_PROGRESS` (`:4`) and the AC boxes are unchanged — close-out bookkeeping. |
+| `docs/08-project/tasks/TMU-DOC-003.md` (+5) | F5: Context bullet `:44-48` filing the `01-PRD.md:13` refresh + logo-caveat carve-out. |
+| `docs/_source/README.md` (1 line) | F7: extract description cell `:19` reworded (F7). |
+| `docs/_source/proposal-extract.md` (19+/19−) | F3: preamble disclosure `:16-19`. F4: section-list `§` column `:36-45` + figure-list Citation column `:107-111`. F6: OQ-table page-8 row `:145`. Metadata block, verbatim Tujuan/Cara Kerja quotes (`:47-103`), §H table, anchors and the OQ-6 row are untouched. |
+
+No other path changed: no test, contract, migration, generated file, config, or any
+`apps/**` / `packages/**` / `services/**` / `scripts/**` file anywhere in the branch;
+`backlog.md`/`status.md` were correctly *not* re-run (the task's status did not change).
+
+## Findings (cycle 2)
+
+No BLOCKER, no MAJOR.
+
+| # | Severity | File:line | Finding | Evidence / direction |
+|---|---|---|---|---|
+| C2-1 | MINOR | `docs/08-project/tasks/TMU-DOC-002.md:63-69` | The declared Files-expected list covers 8 of the **9** paths the full branch ships: `f6408e1` itself edits `docs/08-project/tasks/TMU-DOC-003.md` (the F5 filing) and that file is not listed — the same declared-list-vs-diff class as cycle-1 F1, reintroduced by the fix commit. | `git diff origin/main...HEAD --stat` = 9 files (incl. `TMU-DOC-003.md`); declared list = 8 paths. The edit is in-lane (`lanes.json:4` `_common`) and disclosed in the `5 FIX c1` Progress row (`:79`), so scope and traceability are substantively fine. Direction: add one bullet when the post-verdict Evidence/Progress/status bookkeeping is committed — **do not open a third cycle for it** (max 2; `05-definition-of-ready-done.md` sends MINOR to a filed follow-up or the close-out edit) |
+
+Adjudicated — deliberately **not** findings:
+
+- Citation comma style drift `proposal.pdf §D figure, p. 4` (`proposal-extract.md:85`, `:102`)
+  vs `proposal.pdf §D figure p. 4` (`:111`) — both valid citations; cosmetic.
+- Section-list `§F` label drops the source heading's trailing "YANG DIGUNAKAN" (`:42` vs text
+  layer line 211) — pre-existing in `707c719` (cycle 1 accepted it), summary column not a
+  quote, and not introduced by the fixes.
+- AC boxes 4–5 still unticked and `status: IN_PROGRESS` (`TMU-DOC-002.md:4`, `:54-56`) —
+  intentionally left for the step-11/12 close-out flip the orchestrator runs after this verdict
+  (cycle-1 note 2).
+
+## Fidelity re-check (regions the fixes touched)
+
+Method (unchanged from cycle 1, disclosed): my `Read` tool still cannot render the PDF, so I
+compared against the GREEN-step text-layer artifact `%TEMP%\opencode\proposal-layout.txt`
+(pypdf layout mode, `===== PAGE n =====` delimited) plus cycle 1's first-hand figure views. The
+PDF bytes are unchanged since cycle 1 (scope-integrity proof above), so cycle 1's pixel checks
+carry over; residual circularity stays as disclosed in cycle 1's Fidelity method.
+
+1. **Section list (`proposal-extract.md:36-45`) — page map re-derived.** Text-layer markers:
+   PAGE 2 @45, PAGE 3 @90, PAGE 4 @137, PAGE 5 @183, PAGE 6 @227, PAGE 7 @270, PAGE 8 @313
+   (artifact's last line — nothing follows ⇒ blank ✓). Headings: `A. LATAR BELAKANG` @46 (p2),
+   `B. TUJUAN` @99 (p3), `C. DESKRIPSI IDE/INOVASI` @113 (p3), `D. CARA KERJA SISTEM` @162
+   (p4), `E. TARGET PENGGUNA` @193 (p5), `F. TEKNOLOGI DAN INFRASTRUKTUR YANG DIGUNAKAN` @211
+   (p5), `G. TIMELINE PENGERJAAN` @264 (p6), `H. PEMBAGIAN PERAN` @291 (p7) ⇒ every row's page
+   span (1, 2–3, 3, 3–4, 4–5, 5, 5–6, 6–7, 7, 8) is exactly what the table still says — **the
+   F4 edit changed only the `§` column; no page or summary drift.**
+2. **Figure list (`:107-111`) — new citations checked.** `1. Logo dan Filosofi` (§C.1) @114
+   sits between PAGE 3 @90 and PAGE 4 @137 ⇒ `proposal.pdf §C.1 p. 3` correct ✓; `D. CARA
+   KERJA SISTEM` @162 is on page 4 and cycle 1 verified the 8-box figure `X19.png` as page 4
+   first-hand ⇒ `proposal.pdf §D figure p. 4` correct ✓; figure 1 is on the cover ⇒
+   `proposal.pdf §cover p. 1` ✓.
+3. **Disclaimer (`:16-19`) — disclosure vs source.** (a) Text layer line 176 reads
+   `Pengguna memilih “Saya   Kehilangan” atau “Saya   Menemukan”, …` — curly glyphs **and**
+   irregular spacing present ⇒ "curly → straight quotation marks" and "inter-word/line spacing"
+   are exactly the applied normalisations ✓. (b) Grep of the text layer for
+   `—|–|“|”` → 4 hits, all curly quotes (lines 141, 176) or **en**-dashes in unrelated strings
+   (`Language–Image`, `Bab I–III`, both p6) — **zero em-dashes anywhere in the source** ⇒
+   "em-dashes joining the PDF's line-broken titles/bodies" is an accurate admission of an
+   inserted glyph ✓. (c) Prose steps 1–7 put each title on its own line with the body indented
+   below (layout `:173-191`) ⇒ "joining the PDF's line-broken titles/bodies" is the true
+   operation ✓. (d) "no word is ever added, removed or reordered" is consistent with cycle 1's
+   word-for-word comparison of both quote blocks — and the fix commit's hunk boundaries
+   (preamble `:13-20`, section list `:31-45`, figure list `:104-111`, OQ table `:140-145`)
+   prove the quote blocks were not edited ✓.
+4. **OQ table (`:144-145`).** OQ-6 row untouched and still correct (`B. TUJUAN` @99 = page 3 ⇒
+   `proposal.pdf §B Tujuan 5, p. 3` ✓; truncation confirmed in cycle 1). Page-8 row now
+   `proposal.pdf p. 8` — no phantom `§8`; blankness re-confirmed. Grep `§8` over `docs/**` →
+   only legitimate `Blueprint §8` references plus the historical cycle-1 review/Progress text ✓.
+5. **README wording (`README.md:19`).** New cell: "Citation-first summary … transcribed from
+   the committed PDF for agents that cannot read PDFs" — consistent with the same row's Status
+   cell ("drafted … human verification pending") and `:27` ("A draft extract is a transcription
+   aid, not verified ground truth, until a human signs off"). Grep `Human-written` over
+   `docs/**` → zero live hits (only the cycle-1 finding row and the `5 FIX c1` Progress row,
+   both historical records) ✓. Draft status still enforced at `proposal-extract.md:4,11,19-20`.
+
+## Checks run (cycle 2)
+
+- `git log --oneline -5`, `git log -1 f6408e1` (subject + trailers), `git diff 707c719..HEAD`
+  (read in full, every added line inspected), `git diff 707c719..HEAD --stat`,
+  `git diff origin/main...HEAD --stat` (9 files, +471/−16),
+  `git diff 707c719..HEAD --stat -- docs/_source/proposal.pdf` (empty ⇒ PDF untouched),
+  `git diff --check 707c719..HEAD` (clean), `git status --short` (clean before and after).
+- **PDF-vs-extract re-check** of the five touched regions against the text-layer artifact
+  (fidelity re-check 1–5): all nine section/page rows re-derived, §C.1/§D figure citations
+  verified, curly-quote/spacing/em-dash disclosure verified against source bytes, page-8
+  blankness re-confirmed, README/task-file wording grepped. Quote blocks diff-untouched ⇒
+  cycle 1's 14 comparisons still stand.
+- **CI (fetched, not assumed):** GitHub REST API `…/commits/f6408e1/check-runs` → 12 runs, all
+  `completed`: 11 `success` + `docker-build` `skipped`, attached to PR #34 head `f6408e1`,
+  base `4610f94`.
+- **Lane:** static derivation from `.agent/lanes.json` (`docs` `:16`, `_common` `:4-5`) → 0
+  out-of-lane paths; `bash scripts/check-lane.sh` denied by the sandbox.
+- **Stale-claim sweep:** grep `Human-written|§8` over `docs/**` → no live claims (fidelity 4–5).
+- Not run (disclosed): `pnpm gate` — recorded green at `TMU-DOC-002.md:84` and corroborated by
+  the 11-success CI matrix on `f6408e1`; I was instructed not to re-run it unless distrusted,
+  and this sandbox worktree has no `node_modules`. `gh` denied → REST API. `Get-FileHash`
+  denied → PDF byte-identity carried over from cycle 1's `git diff --no-index` proof plus the
+  unchanged-diff check above.
+
+## DoD checklist (cycle 2)
+
+| # | DoD item | Result | Evidence |
+|---|---|---|---|
+| 1 | Red tests first, failed for the right reason | n/a (by task type) | Docs transcription, no behaviour change; Evidence `Red: N/A` + rationale at `TMU-DOC-002.md:83`. |
+| 2 | New/updated tests pass; full `pnpm gate` green | Met (record + CI) | `TMU-DOC-002.md:84` gate tail; 11 `success` + 1 `skipped` on `f6408e1`. |
+| 3 | Contract tests for touched `API-*` | n/a | No `API-*`, no `packages/**` anywhere in the branch; `contracts` job green. |
+| 4 | Auth/RBAC asserted; state transitions covered | n/a | No endpoint/state machine; the task's own status is unchanged (`IN_PROGRESS`), so no index regeneration was due. |
+| 5 | Privacy: no hint answers, emails, embeddings, sensitive URLs | Met | The fix diff adds citations/bookkeeping only; cover student IDs stay omitted with a citation (`proposal-extract.md:29-30`); no emails, embeddings, raw image URLs, hint answers or secrets in any added line. |
+| 6 | i18n keys for `id` + `en` | n/a | No `apps/` file, no user-facing string; CI `lint-typecheck`/`unit` green. |
+| 7 | A11y (UI tasks) | n/a | No UI. |
+| 8 | Docs updated: status, Progress log, traceability, CHANGELOG | Met (with C2-1) | Evidence section added (`:81-86`), REVIEW c1 + FIX c1 rows (`:78-79`), F5 follow-up filed in `TMU-DOC-003:44-48`; declared list misses `TMU-DOC-003.md` → C2-1; no contract change ⇒ no CHANGELOG obligation. |
+| 9 | Generated files in sync, no hand edits | Met | `backlog.md`/`status.md` untouched by `f6408e1` — correct, since no front-matter status changed; cycle 1's field-by-field derivation still holds. |
+| 10 | Reviewer verdict `APPROVE` in `reviews/<ID>.md` | Met | This file, cycle 2. |
+| 11 | Security review for sensitive tasks | Met | No new sensitive surface; source-privacy posture unchanged from cycle 1 (student IDs omitted, no secrets, PDF is the human's designated source). |
+| 12 | PR ready, CI green, labels correct | Partial (by design pre-merge) | CI green on `f6408e1`; PR #34 still Draft — step 12 flips it after this verdict. |
+
+## Notes for the human (cycle 2)
+
+1. **Verdict `APPROVE` — cycle 2 of 2, 0 BLOCKER / 0 MAJOR / 1 MINOR (C2-1).** All F1–F7 are
+   verified closed against the final bytes, and every extract region the fixes touched was
+   re-checked against the source text layer. Cycle 3 is neither available (max 2) nor warranted:
+   fold C2-1 (one declared-list bullet) into the post-verdict bookkeeping commit.
+2. Close-out steps still outstanding (by design, unchanged from cycle 1): tick AC4/AC5, flip
+   `status: IN_PROGRESS → DONE`, regenerate `backlog.md`/`status.md`, add a `9 REVIEW c2`
+   Progress row, extend the Evidence `Review:` line with this cycle, then step 12 (undraft
+   PR #34).
+3. The extract remains `status: draft` — its mandated human verification pass against the PDF
+   is still required before `TMU-DOC-003` treats it as ground truth for OQ-1. Nothing in this
+   cycle weakens that flag (`proposal-extract.md:19-20`, `_source/README.md:19`).
+4. Standing gap (repeat from this review's cycle 1, `reviews/TMU-DOC-001.md` note 4 and
+   `reviews/TMU-OPS-033.md` note 4; out of scope): `scripts/gate.sh` still has no
+   regenerate-and-diff check for `backlog.md`/`status.md`.
+5. Sandbox limits (disclosed): `bash scripts/*`, `gh`, `Get-FileHash` denied; `pnpm gate` not
+   re-run per instruction — mitigated by CI on `f6408e1` and the static derivations above.
