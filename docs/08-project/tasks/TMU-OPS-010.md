@@ -34,7 +34,8 @@ the human can run `pnpm gate:full`, review the demo checklist and tag `m0-bootst
 - [x] Every M0 criterion in `10-roadmap.md` is checked in this task file with a link to evidence
       (gate output, PR URL, settings capture).
 - [x] `pnpm gate:full` output tail is pasted in the task file from a clean clone.
-- [x] `status.md` shows M0 at 100% DONE with no BLOCKED tasks.
+- [x] `status.md` shows M0 with 23 of 24 tasks DONE (0 BLOCKED, 0 TODO; reaching 100% DONE
+      automatically at Step 13 POST-MERGE upon merging this task).
 - [x] A short M1 handoff note lists the first runnable M1 tasks and the worktree/branch plan.
 - [x] Remaining placeholders that M0 deliberately leaves (real logo, proposal PDF, CODEOWNERS
       handles, model pins) are listed with their owning milestone.
@@ -64,19 +65,22 @@ the human can run `pnpm gate:full`, review the demo checklist and tag `m0-bootst
 | 2026-10-02 | orchestrator | 1 PICK | task picked; status → `IN_PROGRESS` |
 | 2026-10-02 | ops-dev | 5 GREEN | compiled M0 exit evidence; verified all M0 criteria; filed `TMU-DOC-001`; ran `pnpm gate:full` with all 14 steps green |
 | 2026-10-02 | orchestrator | 7 GATE | `pnpm gate` passed with 139 tests; `pnpm gate:full` passed cleanly |
+| 2026-10-02 | git-steward | 8 COMMIT/PUSH | `690e835` pushed; draft PR #30 opened |
+| 2026-10-02 | reviewer | 9 REVIEW c1 | verdict `CHANGES`: M1 (clickable evidence links), M2 (qualify 96% status.md in AC3), m1 (restore standard Evidence block), m2 (TMU-DOC-001 sections) -> `docs/08-project/reviews/TMU-OPS-010.md` |
+| 2026-10-02 | ops-dev | 5 FIX c1 | converted all evidence references to active Markdown links; added AC3 lifecycle note; restored standard Evidence/Blockers sections; added sections to `TMU-DOC-001.md` |
 
 ## M0 Exit Criteria Verification Table
 
 | Criterion from `10-roadmap.md` | Status | Evidence Link |
 |---|---|---|
-| **Repo protected** | PASS | Branch protection applied on `main` via `gh api` with 9 required checks, linear history, no force-push, no deletions (PR #16 / `TMU-OPS-009`) |
-| **Remote = `HanifIsya/temuUNAIR-v2`** | PASS | Enforced by client pre-push hook `scripts/hooks/no-protected-push.sh` and verified across all PR pushes |
-| **Repo, blueprint, agent config merged** | PASS | Monorepo root initialized in PR #1 / `44d2ce9` and `TMU-OPS-001` |
-| **CI skeleton merged & active** | PASS | `.github/workflows/ci.yml` runs all 11 jobs (`lint-typecheck`, `build`, `unit`, `contracts`, `migrations`, `ml`, `integration`, `contract-fuzz`, `e2e`, `secret-scan`, `audit`) |
-| **Scripts & dispatchers merged** | PASS | `scripts/gate.sh`, `scripts/checks/step.mjs`, `scripts/checks/build.mjs`, `scripts/checks/dev.mjs`, `scripts/i18n-check.mjs` all active |
-| **Lanes defined & enforced** | PASS | `.agent/lanes.json` with 11 parallel lanes enforced by `scripts/check-lane.sh` on every task commit |
-| **CODEOWNERS merged** | PASS | `.github/CODEOWNERS` active with maintainer `@HanifIsya` |
-| **`pnpm gate` and `pnpm gate:full` green** | PASS | All 14 steps in `pnpm gate:full` run real tools and exit 0 |
+| **Repo protected** | PASS | Branch protection applied on `main` via `gh api` with 9 required checks, linear history, no force-push, no deletions ([PR #16](https://github.com/HanifIsya/temuUNAIR-v2/pull/16) / [TMU-OPS-009.md#evidence](TMU-OPS-009.md#evidence)) |
+| **Remote = `HanifIsya/temuUNAIR-v2`** | PASS | Enforced by client pre-push hook ([scripts/hooks/no-protected-push.sh](../../../scripts/hooks/no-protected-push.sh)) and verified across all PR pushes |
+| **Repo, blueprint, agent config merged** | PASS | Monorepo root initialized in [PR #1](https://github.com/HanifIsya/temuUNAIR-v2/pull/1) / [TMU-OPS-001.md](TMU-OPS-001.md) |
+| **CI skeleton merged & active** | PASS | [.github/workflows/ci.yml](../../../.github/workflows/ci.yml) runs all 11 jobs (`lint-typecheck`, `build`, `unit`, `contracts`, `migrations`, `ml`, `integration`, `contract-fuzz`, `e2e`, `secret-scan`, `audit`) |
+| **Scripts & dispatchers merged** | PASS | [scripts/gate.sh](../../../scripts/gate.sh), [scripts/checks/step.mjs](../../../scripts/checks/step.mjs), [scripts/checks/build.mjs](../../../scripts/checks/build.mjs), [scripts/checks/dev.mjs](../../../scripts/checks/dev.mjs), [scripts/i18n-check.mjs](../../../scripts/i18n-check.mjs) all active |
+| **Lanes defined & enforced** | PASS | [.agent/lanes.json](../../../.agent/lanes.json) with 11 parallel lanes enforced by [scripts/check-lane.sh](../../../scripts/check-lane.sh) on every task commit |
+| **CODEOWNERS merged** | PASS | [.github/CODEOWNERS](../../../.github/CODEOWNERS) active with maintainer `@HanifIsya` |
+| **`pnpm gate` and `pnpm gate:full` green** | PASS | All 14 steps in `pnpm gate:full` run real tools and exit 0 ([Gate Evidence](#gate-evidence-pnpm-gatefull-tail)) |
 
 ## Gate Evidence (`pnpm gate:full` Tail)
 
@@ -140,3 +144,13 @@ OK gate(full) passed
 - **Goal**: Merge and approve every `docs/01-product/**` and `docs/02-design/**` document; resolve OQ-1..5 with DEC entries; add logo and proposal PDF.
 - **First task**: `TMU-DOC-001` (`docs` lane) to update `docs/01-product/10-roadmap.md` with `m0-bootstrap` completion status.
 - **Git workflow**: Worktrees continue under `E:\wt\<TASK-ID>`, branching from `origin/main`. Human will tag `m0-bootstrap` upon merging this PR.
+
+## Evidence
+
+- Green: `pnpm gate` passed with 139 tests; `pnpm gate:full` passed with all 14 steps green.
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/30
+- Review: `docs/08-project/reviews/TMU-OPS-010.md` (cycle 1 CHANGES -> cycle 2 pending)
+
+## Blockers
+
+(none)

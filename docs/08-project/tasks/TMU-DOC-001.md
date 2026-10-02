@@ -35,3 +35,13 @@ update the M0 and M9 task ranges in the roadmap, and start the M1 documentation 
 
 - `docs/01-product/10-roadmap.md`
 - `docs/08-project/tasks/TMU-DOC-001.md`
+
+## Progress log
+
+| Time | Agent | Step | Evidence |
+|---|---|---|---|
+| 2026-10-02 | orchestrator | task filed | M0 milestone exit follow-up for roadmap status update |
+
+## Blockers
+
+(none)
