@@ -34,6 +34,16 @@ After every per-group review task has landed, sweep the whole of `docs/01-produc
   only *checks* it and hands the row fixes to `TMU-META-005` via its Progress log.
 - `_source/README.md` status table should reflect the M1 intake performed by `TMU-DOC-002`
   (reachable after `TMU-OPS-033` widens the docs lane to `docs/_source/**`).
+- `source_refs` sweep (follow-up from `TMU-DOC-003` review F5): 10 sibling docs still carry
+  `proposal.pdf … (pending extract)` in front-matter although the extract now exists (draft,
+  human verification pending): `01-product/{02-vision-and-scope,03-personas,04-user-stories,
+  05-functional-requirements,08-glossary,11-success-metrics}.md`,
+  `02-design/{02-brand-and-logo,05-user-flows}.md`, `09-course/{README,demo-script}.md`.
+  Refresh each to cite the extract (`… (via docs/_source/proposal-extract.md)`, keep the § path,
+  drop "(pending extract)"). `02-brand-and-logo.md:13` additionally claims `logo.png` "is not in
+  the repo yet" and its `:8` front-matter says `logo.png (missing)` — both false (tracked
+  placeholder) — fix both claims in the same sweep (cycle-2 findings N1–N2: N1 already fixed in
+  `proposal-extract.md` by `TMU-DOC-003`; only N2's sibling-doc claims remain for you).
 
 ## Acceptance criteria
 

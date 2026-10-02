@@ -144,4 +144,5 @@ was extracted into `docs/_source/logo.png` here — replacing the placeholder is
 | OQ-6 | `proposal.pdf §B Tujuan 5, p. 3` | Tujuan 5 ends mid-sentence ("…lebih lanjut untuk"). What completes it? (Human: compare original document.) |
 | — | `proposal.pdf p. 8` | Page 8 has no text layer and no extracted figure — confirm it is intentionally blank. |
 
-*(OQ-6 is local to this extract file; it does not renumber the PRD's OQ-1..5 table.)*
+*(OQ-6 does not renumber the PRD's OQ-1..5 table; since `TMU-DOC-003` it is also registered as
+its own row in `docs/01-product/01-PRD.md` §11.)*

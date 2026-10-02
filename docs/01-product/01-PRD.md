@@ -3,17 +3,19 @@ id: PRD
 title: Product Requirements Document — TemuUNAIR
 status: draft
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-02
 depends_on: ["BLUEPRINT", "SRC-README"]
-source_refs: ["proposal.pdf §A/§B (pending extract)", "DEC-001..DEC-018", "Blueprint §1"]
+source_refs: ["proposal.pdf §A/§B/§D (via docs/_source/proposal-extract.md)", "DEC-001..DEC-024", "Blueprint §1"]
 ---
 
 # PRD — TemuUNAIR ("Lost Today, Found Together")
 
-> **Draft note.** `docs/_source/proposal.pdf` is not in the repo yet. Goal wording (G1–G5),
-> the PDF's feature names and the "Cara Kerja" step list are provisional reconstructions from
-> Blueprint §1.2 and are marked `OPEN QUESTION` where the exact PDF wording matters. Do not
-> treat quoted Indonesian labels as verbatim until `proposal-extract.md` exists.
+> **Draft note.** `docs/_source/proposal.pdf` is **committed** (SHA-256 `028501CB…F8B9`) and
+> `docs/_source/proposal-extract.md` provides the citation-first transcription (status `draft`,
+> human verification pending). Indonesian labels are verbatim only where a `proposal.pdf §…`
+> citation says so — §2.1 now quotes *Tujuan 1–5* and the *Cara Kerja* 8 steps directly
+> (OQ-1 answered by `TMU-DOC-003`). Everything else in this document remains product
+> restatement, not source text.
 
 ## 1. Problem
 
@@ -36,8 +38,44 @@ Consequences:
 | G4 | Give admins/moderators tools to verify, moderate and manage reports and places | Moderation queue SLA; 100% of flagged items actioned | §11, `06-admin-operations-guide.md` |
 | G5 | Operate the platform lawfully and trustworthily (UU PDP) with campus-appropriate scope | Data inventory complete; deletion requests honoured; no PII leaks in audits | §9, `15-privacy-and-data-retention.md` |
 
-`OPEN QUESTION` (blocks M1 approval): exact wording and priority of the five *Tujuan* from the
-proposal PDF. Owner: spec-writer, source: `docs/_source/proposal-extract.md`.
+### 2.1 Verbatim source answers (`OQ-1`, closed by `TMU-DOC-003`)
+
+**§B Tujuan 1–5** — `proposal.pdf §B Tujuan 1–5, p. 3`, transcribed in
+`docs/_source/proposal-extract.md` (status `draft`, human verification pending):
+
+> Pengembangan TemuUNAIR memiliki tujuan sebagai berikut:
+>
+> 1. Mengembangkan sistem informasi terintegrasi untuk mengelola pelaporan barang hilang dan
+>    barang ditemukan di lingkungan Universitas Airlangga.
+> 2. Merancang mekanisme pencarian dan pencocokan barang berdasarkan atribut informasi yang
+>    meliputi foto, deskripsi, kategori, lokasi, dan waktu kejadian.
+> 3. Mengintegrasikan proses verifikasi kepemilikan dan pengembalian barang ke dalam suatu alur
+>    sistem yang terdokumentasi.
+> 4. Menghasilkan mekanisme pengelolaan data dan status laporan yang memungkinkan proses
+>    pelaporan, pencocokan, verifikasi, dan pengembalian barang dapat dipantau secara sistematis.
+> 5. Menghasilkan prototype TemuUNAIR sebagai solusi berbasis teknologi informasi yang dapat
+>    diimplementasikan dan dikembangkan lebih lanjut untuk
+
+`OPEN QUESTION` **OQ-6** (new, source fidelity): Tujuan 5 ends mid-sentence
+("…dikembangkan lebih lanjut untuk") in the source PDF itself — see
+`docs/_source/proposal-extract.md` § OPEN QUESTIONs; a human must compare the original document.
+G1–G5 above are product restatements, **not** the PDF's wording; where a claim needs source
+authority, quote this section or the extract with its `proposal.pdf §…` citation.
+
+**§D *Cara Kerja* 8 steps** — `proposal.pdf §D figure, p. 4` (the 8-box flow; the "8 steps"
+count OQ-1 refers to — the PDF's prose §D lists 7 steps, both are transcribed in the extract):
+
+> 1. Login — Pengguna masuk menggunakan identitas UNAIR.
+> 2. Lapor — Pengguna memilih kehilangan atau menemukan barang, kemudian mengisi informasi dan
+>    mengunggah foto.
+> 3. Simpan Data — Sistem menyimpan laporan ke dalam database.
+> 4. Smart Matching — Sistem mencocokkan laporan berdasarkan kemiripan foto, deskripsi,
+>    kategori, lokasi, dan waktu.
+> 5. Notifikasi — Jika ada kecocokan, sistem mengirim notifikasi kepada pengguna terkait.
+> 6. Verifikasi — Pengguna yang terkait berkomunikasi melalui sistem untuk verifikasi
+>    kepemilikan barang.
+> 7. Barang Dikembalikan — Setelah verifikasi berhasil, barang dikembalikan kepada pemiliknya.
+> 8. Resolved — Laporan diperbarui menjadi Returned/Resolved.
 
 ## 3. Non-goals (MVP)
 
@@ -114,8 +152,9 @@ SSO availability (RISK-008), moderator workload (RISK-009).
 
 | # | Question | Owner | Blocks |
 |---|---|---|---|
-| OQ-1 | Verbatim *Tujuan 1–5* and the PDF's "Cara Kerja" 8 steps | spec-writer | M1 approval |
-| OQ-2 | Real UNAIR domains (DEC-001) | UNAIR DTI | M3 AUTH |
-| OQ-3 | Drop-point list and operating hours (DEC-005) | Stakeholders | M3 seeds |
-| OQ-4 | Which sensitive categories are prohibited from public listing entirely? (DEC-014) | Legal/DPO | M3 REPORT |
-| OQ-5 | Production hosting target (DEC-011) | Advisor | M9 deploy |
+| OQ-1 | **ANSWERED** (`TMU-DOC-003`): verbatim *Tujuan 1–5* and *Cara Kerja* 8 steps quoted in §2.1; full transcription in `docs/_source/proposal-extract.md` (draft — human verification pending) | spec-writer | closed |
+| OQ-2 | Real UNAIR domains (DEC-001) — **deferred by DEC-021**: answer due M3 AUTH, allowlist stands meanwhile | UNAIR DTI | M3 AUTH |
+| OQ-3 | Drop-point list and operating hours (DEC-005) — **deferred by DEC-022**: answer due M3 seeds, synthetic "contoh" drop points meanwhile | Stakeholders | M3 seeds |
+| OQ-4 | Which sensitive categories are prohibited from public listing entirely? (DEC-014) — **deferred by DEC-023**: answer due M3 REPORT, DEC-014 masking rules stand meanwhile | Legal/DPO | M3 REPORT |
+| OQ-5 | Production hosting target (DEC-011) — **deferred by DEC-024**: answer due M9 deploy, DEC-011 Compose/CPU default stands meanwhile | Advisor | M9 deploy |
+| OQ-6 | Tujuan 5 ends mid-sentence in the source PDF ("…dikembangkan lebih lanjut untuk") — what completes it? (source-fidelity question flagged by `TMU-DOC-002`; see extract OPEN QUESTIONs) | human (source verification) | extract sign-off |
