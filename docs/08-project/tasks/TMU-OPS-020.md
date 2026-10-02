@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-020
 title: Clear the advisory audit red (postcss under next)
-status: REVIEW
+status: DONE
 lane: ops
 slug: audit-postcss-override
 milestone: M0

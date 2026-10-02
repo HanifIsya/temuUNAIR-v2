@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-018
 title: Make shared configs aware of apps/web (generated next-env.d.ts, automatic JSX)
-status: REVIEW
+status: DONE
 lane: ops
 slug: shared-configs-apps-web
 milestone: M0

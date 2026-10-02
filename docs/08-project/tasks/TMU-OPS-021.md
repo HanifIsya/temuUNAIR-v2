@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-021
 title: Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
-status: REVIEW
+status: DONE
 lane: db
 slug: tmu-ops-005-review-minors
 milestone: M0

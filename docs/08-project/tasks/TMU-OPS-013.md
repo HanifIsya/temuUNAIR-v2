@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-013
 title: Integration, contract and E2E test packages
-status: REVIEW
+status: DONE
 lane: qa
 slug: test-packages
 milestone: M0

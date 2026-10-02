@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-014
 title: Workspace glob for test packages
-status: REVIEW
+status: DONE
 lane: ops
 slug: test-workspace-glob
 milestone: M0
