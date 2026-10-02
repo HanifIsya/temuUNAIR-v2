@@ -3,7 +3,7 @@ id: DECISIONS
 title: Assumptions and decisions (DEC table)
 status: draft
 owner: DK
-updated: 2026-09-30
+updated: 2026-10-02
 depends_on: ["BLUEPRINT", "PRD"]
 source_refs: ["Blueprint §1.3", "docs/08-project/decisions-log.md"]
 ---
@@ -35,6 +35,10 @@ docs-keeper after every merge. Changing a default requires an ADR (`docs/03-arch
 | DEC-018 | Public browsing | All browsing requires login; landing/help public | accepted | Team |
 | DEC-019 | Who merges a green PR | Orchestrator holds merge authority at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs stop for a human | superseded (merge authority superseded by DEC-020) | Repo owner |
 | DEC-020 | Who merges a green PR | Any agent may merge at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs still stop for a human | accepted | Repo owner |
+| DEC-021 | OQ-2: real UNAIR domains unknown at M1 | Defer the OQ-2 answer to UNAIR DTI, due **M3 AUTH**; DEC-001 dev allowlist + magic link stand meanwhile; PRD §11 keeps the question open until then | deferred — open (due M3 AUTH) | UNAIR DTI / advisor |
+| DEC-022 | OQ-3: real drop-point list and operating hours unknown at M1 | Defer the OQ-3 answer to stakeholders, due **M3 seeds**; DEC-005 synthetic drop points flagged "contoh" stand meanwhile | deferred — open (due M3 seeds) | Stakeholders |
+| DEC-023 | OQ-4: which sensitive categories are prohibited from public listing entirely needs a legal ruling | Defer the OQ-4 answer to Legal/DPO, due **M3 REPORT**; DEC-014 masking/sensitive-flag rules stand meanwhile | deferred — open (due M3 REPORT) | Legal / DPO |
+| DEC-024 | OQ-5: production hosting target undecided at M1 | Defer the OQ-5 answer to the Advisor, due **M9 deploy**; DEC-011 Docker Compose + CPU-ML default stands meanwhile | deferred — open (due M9 deploy) | Advisor |
 
 ## How to change a decision
 

@@ -32,7 +32,7 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 
 ## M1 — 17%
 
-TODO: 19 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 4 · CANCELLED: 0
+TODO: 18 · IN_PROGRESS: 1 · BLOCKED: 0 · REVIEW: 0 · DONE: 4 · CANCELLED: 0
 
 - [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 - [x] TMU-DOC-002 — Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md

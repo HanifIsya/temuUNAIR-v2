@@ -1,7 +1,7 @@
 ---
 id: TMU-DOC-003
 title: Resolve OQ-1..OQ-5 (answer OQ-1 from source; defer OQ-2..5 with DECs)
-status: TODO
+status: IN_PROGRESS
 lane: docs
 slug: resolve-open-questions
 milestone: M1
@@ -53,15 +53,15 @@ approval.
 
 ## Acceptance criteria
 
-- [ ] OQ-1 is answered with verbatim content from `proposal.pdf` (Tujuan 1–5, Cara Kerja 8
+- [x] OQ-1 is answered with verbatim content from `proposal.pdf` (Tujuan 1–5, Cara Kerja 8
       steps) and the PRD OQ row records the answer or a pointer to where it lives.
-- [ ] OQ-2, OQ-3, OQ-4 and OQ-5 each have a DEC entry in `12-assumptions-and-decisions.md`
+- [x] OQ-2, OQ-3, OQ-4 and OQ-5 each have a DEC entry in `12-assumptions-and-decisions.md`
       explicitly deferring them (owner + due milestone preserved), with DEC IDs continuing the
       existing sequence.
-- [ ] Handoff recorded: the new DEC IDs and one-line summaries are written into this task's
+- [x] Handoff recorded: the new DEC IDs and one-line summaries are written into this task's
       Progress log for `TMU-META-005`, which owns `docs/08-project/decisions-log.md`.
-- [ ] No UNAIR fact is invented: every OQ-1 statement traces to a `proposal.pdf §…` citation.
-- [ ] `pnpm gate` green.
+- [x] No UNAIR fact is invented: every OQ-1 statement traces to a `proposal.pdf §…` citation.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
@@ -74,6 +74,9 @@ approval.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-02 | orchestrator | filed | TMU-META-004 M1 backlog breakdown |
+| 2026-10-02 | orchestrator | 1 PICK | worktree `E:\wt\TMU-DOC-003` @ `fe62c10` (post-`TMU-DOC-002` merge); status → `IN_PROGRESS`; deps `TMU-DOC-002` DONE |
+| 2026-10-02 | orchestrator | 5 GREEN | PRD: OQ-1 answered verbatim in new §2.1 (`proposal.pdf §B Tujuan 1–5, p. 3` incl. the OQ-6 truncation note; `proposal.pdf §D figure, p. 4` 8 steps), OQ table rows updated (OQ-1 closed, OQ-2..5 marked deferred), draft note + front-matter refreshed to committed-source state (F5 follow-up from DOC-002); DECISIONS: DEC-021..024 appended (OQ-2→M3 AUTH, OQ-3→M3 seeds, OQ-4→M3 REPORT, OQ-5→M9 deploy, each preserving owner + interim DEC), `updated` bumped |
+| 2026-10-02 | orchestrator | 7 HANDOFF | for `TMU-META-005` (meta lane owns `docs/08-project/decisions-log.md`) — add rows: **DEC-021** defer OQ-2 (real UNAIR domains) to UNAIR DTI, due M3 AUTH, status `deferred — open`; **DEC-022** defer OQ-3 (drop-point list + hours) to stakeholders, due M3 seeds; **DEC-023** defer OQ-4 (legally prohibited sensitive categories) to Legal/DPO, due M3 REPORT; **DEC-024** defer OQ-5 (production hosting target) to Advisor, due M9 deploy — one-liners mirror `12-assumptions-and-decisions.md:38-41`; also `traceability-matrix.md` rows if the DEC range `DEC-001..DEC-018`-style refs appear there |
 
 ## Blockers
 
