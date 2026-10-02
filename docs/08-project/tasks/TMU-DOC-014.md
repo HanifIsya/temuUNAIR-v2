@@ -33,7 +33,7 @@ the Blueprint §4 row for screen specs, fix findings, and approve the set.
 
 ## Acceptance criteria
 
-- [ ] Every screen spec contains the eight Blueprint-required sections (purpose, entry points,
+- [ ] Every screen spec contains the nine Blueprint-required sections (purpose, entry points,
       layout regions, data, components, states, copy keys, analytics events, a11y notes).
 - [ ] `00-index.md` lists exactly the SCR files on disk; SCR IDs are contiguous 001..023.
 - [ ] Referenced CMP IDs exist in `docs/02-design/08-component-inventory.md` (or the mismatch is

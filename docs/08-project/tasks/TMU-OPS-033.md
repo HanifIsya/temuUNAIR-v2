@@ -28,9 +28,12 @@ both paths. M1's exit criteria ("PDF + logo added") are unreachable until this i
 
 ## Context
 
-- The human has dropped the real `proposal.pdf` into `docs/_source/` (present, untracked).
-  `docs/_source/README.md:17` says it "must be added by a human" — the human's drop is done;
-  committing it is bookkeeping that belongs to the docs lane (`TMU-DOC-002`).
+- The human has dropped the real `proposal.pdf` into `docs/_source/` in the **main checkout**
+  (`E:\TemuUNAIR-v2\docs\_source\proposal.pdf`, untracked — so it is *not* in git and not in any
+  agent worktree, which are created from `origin/main`). `docs/_source/README.md:17` says the
+  file "must be added by a human" — the human's drop is done; committing it is bookkeeping that
+  belongs to the docs lane (`TMU-DOC-002`, which copies it from the main checkout or picks it up
+  once the human commits it).
 - The docs lane (`.agent/lanes.json:11-17`) already owns `docs/01-product/**`,
   `docs/02-design/**` … and the single file `docs/_source/proposal-extract.md`. The other source
   paths (`proposal.pdf`, `README.md`, `logo.png`) are uncovered by any lane.
@@ -47,9 +50,12 @@ both paths. M1's exit criteria ("PDF + logo added") are unreachable until this i
 - [ ] No other lane's globs and no `_common` entry change; the eleven lane names stay intact.
 - [ ] This branch only edits `.agent/lanes.json` and this task file — `bash scripts/check-lane.sh`
       passes.
-- [ ] A probe proves the gap is closed: staging `docs/_source/proposal.pdf` from a docs-lane
-      branch passes the lane check (record the probe in the Progress log; do not commit the PDF
-      here — that is `TMU-DOC-002`'s job).
+- [ ] A probe proves the gap is closed: after this merges, a docs-lane branch can stage a
+      `docs/_source/**` path and pass `bash scripts/check-lane.sh`. The PDF itself is not in
+      this ops worktree (untracked, main checkout only), so the live probe —
+      `git add docs/_source/proposal.pdf` + lane check — is performed by `TMU-DOC-002` and
+      cross-referenced back into this task's Progress log; the static proof here is that the
+      widened docs globs cover the path (record the glob diff in the Progress log).
 - [ ] `pnpm gate` green, including the scaffold lane-map tests.
 
 ## Files expected to change

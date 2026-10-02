@@ -7,7 +7,7 @@ slug: m1-exit-checklist
 milestone: M1
 priority: P1
 owner: orchestrator
-deps: [TMU-DOC-019]
+deps: [TMU-DOC-019, TMU-META-005]
 refs: [ROADMAP, BLUEPRINT]
 created: 2026-10-02
 updated: 2026-10-02
@@ -25,6 +25,9 @@ run the full gate, and hand M2 off cleanly — the mirror image of what `TMU-OPS
 - Roadmap M1 row: every `docs/01-product/**` and `docs/02-design/**` doc merged and approved;
   PDF + logo added; OQ-1..OQ-5 answered or deferred with DEC; key tasks `TMU-DOC-001..020`
   (+ `TMU-OPS-033`); human gate "**Docs approved** — no code before this".
+- `TMU-META-005` (meta lane) is a dependency: it applies the `TMU-DOC-003`/`008`/`019` handoffs
+  to `decisions-log.md` and `traceability-matrix.md` — both meta-lane-only, unreachable from
+  this task's docs branch — so the exit evidence can honestly claim the registers are current.
 - Human gate: the tag `m1-docs` on `main` is applied by the human (milestone tagging rule) —
   this task records the gate as pending human, it does not tag.
 - Known caveats to report honestly, not hide: `logo.png` may still be the placeholder
@@ -64,7 +67,8 @@ run the full gate, and hand M2 off cleanly — the mirror image of what `TMU-OPS
 | 4 | OQ-1 answered; OQ-2..5 deferred with DEC | (pending) | ☐ |
 | 5 | `pnpm gate:full` green | (pending) | ☐ |
 | 6 | Roadmap M1 row matches filed tasks | (pending) | ☐ |
-| 7 | Human gate `m1-docs` / Docs approved | pending human | ☐ |
+| 7 | Meta registers current (`TMU-META-005` DONE: decisions log + traceability matrix) | (pending) | ☐ |
+| 8 | Human gate `m1-docs` / Docs approved | pending human | ☐ |
 
 ## Progress log
 

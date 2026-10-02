@@ -24,8 +24,10 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 
 ## Context
 
-- `docs/_source/proposal.pdf` is present in the working tree but untracked (dropped by the human
-  on/before 2026-10-02). `_source/README.md:17` still says "not in the repo yet".
+- `docs/_source/proposal.pdf` exists only in the **main checkout** (`E:\TemuUNAIR-v2\docs\_source\proposal.pdf`,
+  dropped by the human on/before 2026-10-02, untracked) — agent worktrees are created from
+  `origin/main`, so the file is absent here until you copy it in (or the human commits it).
+  `_source/README.md:17` still says "not in the repo yet".
 - `docs/_source/logo.png` is tracked but is a **placeholder** (`README.md:18`); the real logo is
   still with the human. Do not change the logo or the token values it drives.
 - `_source/README.md` rules: never edit or delete a source file's content; anything derived from
@@ -40,8 +42,10 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 
 ## Acceptance criteria
 
-- [ ] `docs/_source/proposal.pdf` is tracked and byte-identical to the file the human dropped
-      (`git add` only — no re-encoding, renaming or modification).
+- [ ] `docs/_source/proposal.pdf` is tracked and byte-identical to the human's drop: copy it from
+      `E:\TemuUNAIR-v2\docs\_source\proposal.pdf` (or take it from git if the human committed it),
+      compare SHA-256 hashes before staging, then `git add` only — no re-encoding, renaming or
+      modification. If neither source is available, file a blocker instead of proceeding.
 - [ ] `docs/_source/proposal-extract.md` exists with `status: draft`, covering: a section list,
       verbatim quotes of the *Tujuan 1–5* and the *Cara Kerja* 8 steps, and a figure list — every
       item citing `proposal.pdf §…`; illegible/absent content marked `OPEN QUESTION`.

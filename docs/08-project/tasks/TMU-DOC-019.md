@@ -29,8 +29,11 @@ After every per-group review task has landed, sweep the whole of `docs/01-produc
 - Checked surfaces: `TMU-*`/`US-###`/`FR-*`/`SCR-###`/`CMP-###`/`DEC-###`/`RISK-###`/`OQ-#`
   references across product and design docs; `tokens.json` ↔ `03-design-tokens.md`; SCR index ↔
   files on disk; front-matter `status`/`updated:` on every doc; the traceability matrix
-  (`docs/08-project/traceability-matrix.md`) Tasks column vs the actual backlog.
-- `_source/README.md` status table should reflect the M1 intake performed by `TMU-DOC-002`.
+  (`docs/08-project/traceability-matrix.md`) Tasks column vs the actual backlog. The matrix is
+  **meta-lane-only** — a `lane: docs` branch fails `scripts/check-lane.sh` on it, so this task
+  only *checks* it and hands the row fixes to `TMU-META-005` via its Progress log.
+- `_source/README.md` status table should reflect the M1 intake performed by `TMU-DOC-002`
+  (reachable after `TMU-OPS-033` widens the docs lane to `docs/_source/**`).
 
 ## Acceptance criteria
 
@@ -39,14 +42,15 @@ After every per-group review task has landed, sweep the whole of `docs/01-produc
       follow-up task files (IDs in the Progress log).
 - [ ] Every document in both trees has `status: approved` or `review` with a filed follow-up
       naming its blocker; `updated:` is consistent with the review that last touched it.
-- [ ] The traceability matrix has no orphan row: Tasks column entries match real backlog IDs.
+- [ ] Handoff recorded: matrix rows that are missing or reference non-existent backlog IDs are
+      listed in this task's Progress log for `TMU-META-005`, which owns
+      `docs/08-project/traceability-matrix.md`.
 - [ ] `docs/_source/README.md` table matches what `TMU-DOC-002` actually committed.
 - [ ] `pnpm gate` green.
 
 ## Files expected to change
 
 - `docs/01-product/**` and `docs/02-design/**` (as the sweep finds defects)
-- `docs/08-project/traceability-matrix.md`
 - `docs/_source/README.md` (if stale)
 - `docs/08-project/tasks/TMU-DOC-019.md` (+ any follow-up task files)
 

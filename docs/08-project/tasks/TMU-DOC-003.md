@@ -41,6 +41,10 @@ approval.
   `docs/01-product/12-assumptions-and-decisions.md` that names the OQ, the deferral, the owner
   and the due milestone. The docs lane's `docs/01-product/**` glob covers that file.
 - Existing DEC numbering must continue (find the last `DEC-###` before minting new ones).
+- `docs/08-project/decisions-log.md` is **meta-lane-only** (`docs/08-project/**` outside the
+  `_common` globs) — a `lane: docs` branch fails `scripts/check-lane.sh` on it. Handoff: record
+  the new DEC IDs and one-line summaries in this task's Progress log; `TMU-META-005` applies
+  them.
 
 ## Acceptance criteria
 
@@ -49,8 +53,8 @@ approval.
 - [ ] OQ-2, OQ-3, OQ-4 and OQ-5 each have a DEC entry in `12-assumptions-and-decisions.md`
       explicitly deferring them (owner + due milestone preserved), with DEC IDs continuing the
       existing sequence.
-- [ ] `decisions-log.md` / traceability updated per the repo's DEC conventions if the existing
-      DEC entries do so.
+- [ ] Handoff recorded: the new DEC IDs and one-line summaries are written into this task's
+      Progress log for `TMU-META-005`, which owns `docs/08-project/decisions-log.md`.
 - [ ] No UNAIR fact is invented: every OQ-1 statement traces to a `proposal.pdf §…` citation.
 - [ ] `pnpm gate` green.
 
@@ -58,7 +62,6 @@ approval.
 
 - `docs/01-product/01-PRD.md`
 - `docs/01-product/12-assumptions-and-decisions.md`
-- possibly `docs/08-project/decisions-log.md`
 - `docs/08-project/tasks/TMU-DOC-003.md`
 
 ## Progress log
