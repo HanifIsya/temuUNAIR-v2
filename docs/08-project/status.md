@@ -30,11 +30,11 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 - [x] TMU-OPS-020 — Clear the advisory audit red (postcss under next)
 - [x] TMU-OPS-021 — Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
 
-## M1 — 0%
+## M1 — 100%
 
-TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 1 · DONE: 0 · CANCELLED: 0
+TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 1 · CANCELLED: 0
 
-- [ ] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
+- [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 
 ## M2 — 0%
 

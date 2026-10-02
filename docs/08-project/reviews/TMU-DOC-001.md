@@ -2,9 +2,9 @@
 id: REV-TMU-DOC-001
 task: TMU-DOC-001
 reviewer: reviewer
-verdict: CHANGES
+verdict: APPROVE
 date: 2026-10-02
-cycle: 1
+cycle: 2
 ---
 
 # TMU-DOC-001 — Review cycle 1
@@ -98,3 +98,127 @@ No BLOCKER.
    regenerate then `git diff --exit-code`.
 4. No security/privacy/auth/RBAC/i18n/a11y surface in this diff — those checklist sections are
    n/a, not skipped.
+
+---
+
+# TMU-DOC-001 — Review cycle 2
+
+Diff reviewed: `origin/main...HEAD` = **2 commits** (`0424059` initial, `62b293c` cycle-1 fixes),
+**7 files, +138/−19**: `docs/01-product/10-roadmap.md`, `docs/08-project/backlog.md`,
+`docs/08-project/reviews/TMU-DOC-001.md` (this file, new), `docs/08-project/status.md`,
+`docs/08-project/tasks/TMU-CTR-006.md`, `docs/08-project/tasks/TMU-DOC-001.md`,
+`docs/08-project/tasks/TMU-OPS-010.md`.
+
+Docs-only again: no `packages/**`, `apps/**`, `services/**`, `scripts/**`, `.github/**`,
+migration, contract, generated-source, test or config file touched; **no test added, weakened,
+skipped or deleted**. Both commits are Conventional Commits with the required
+`Task: TMU-DOC-001` trailer.
+
+**Cycle-1 text integrity:** the cycle-1 record above was left intact — only the front-matter
+`verdict`/`cycle` were rewritten for cycle 2. Caveat: the review file first appears in this
+branch (added by `62b293c`), so no independent committed copy exists to diff the cycle-1 prose
+against; its content is internally consistent with the cycle-1 diff it describes (5 files,
++27/−14 at `0424059`).
+
+## Verdict
+
+**APPROVE** — 0 BLOCKER, 0 MAJOR, **3 MINOR** (all new, all non-blocking). The cycle-1 MAJOR is
+genuinely fixed, all 7 cycle-1 findings are resolved (finding 6 only partially → C2-1), AC1–AC4
+re-verified by me, and `pnpm gate` re-run green by me. Cycle 2 of the allowed 2.
+
+## Cycle-1 findings — resolution
+
+| # | Severity (c1) | Status | Evidence I checked myself |
+|---|---|---|---|
+| 1 | **MAJOR** | **FIXED** | `10-roadmap.md:27` now reads `TMU-OPS-027..032` (exactly the direction cycle 1 suggested); `:28` keeps `TMU-OPS-022..026` for M9. I expanded every range in the table and cross-checked pairwise: OPS `001..021` (M0) ∪ `022..026` (M9) ∪ `027..032` (M8) disjoint; BE `001..048`, FE `001..039`, ML `001..012`, QA `010..026`, DOC `001..024`, ARC `001..015`, CTR `001..006`, DB `001..005`, META `001..003`, SEC `001..008` — no row overlaps another row, in any pair. Against disk: `docs/08-project/tasks/` holds exactly 26 files (21 `TMU-OPS-001..021`, 3 `TMU-META-001..003`, `TMU-DOC-001`, `TMU-CTR-006`); **no `TMU-OPS-022..032` file exists**, so both reservations are free, and every file's `milestone:` matches the row its ID falls in (OPS×21 + META×3 = `M0`, `TMU-DOC-001` = `M1`, `TMU-CTR-006` = `M2`). |
+| 2 | MINOR | **FIXED** | Progress log `TMU-DOC-001.md:54` records "(MINOR 2) logged the M2 `TMU-CTR-001..006` range widening…"; `TMU-CTR-006.md:18-23` now states the reservation as it was when filed (`001..005`) and that it was widened to `001..006` (TMU-DOC-001, 2026-10-02); the back-reference `10-roadmap.md:21` still points at the M2 row. |
+| 3 | MINOR | **FIXED** | `10-roadmap.md:6` → `updated: 2026-10-02`. |
+| 4 | MINOR | **FIXED** | `10-roadmap.md:19` gate cell = ``Tag `m0-bootstrap` (pending human); repo protected; remote = `HanifIsya/temuUNAIR-v2` ``. `git show-ref --tags` → empty, so "pending human" is factually right. |
+| 5 | MINOR | **FIXED** | M0 goal cell is again identical to `origin/main` ("`pnpm gate` runs (even if mostly no-op)"); quoters `TMU-OPS-001.md:27`, `scripts/checks/build.mjs:22`, `scripts/checks/pending.mjs:4` all agree (grep `no-op` → 3 hits). No unlogged criterion change remains. |
+| 6 | MINOR | **PARTIAL → C2-1** | Four entries added (`TMU-DOC-001.md:39-42`: `TMU-OPS-010.md`, `TMU-CTR-006.md`, `backlog.md`, `status.md`); the review file is still missing → C2-1. |
+| 7 | MINOR | **FIXED** | `TMU-DOC-001.md:59` → `PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/31`. Fetched: PR **#31**, base `main`, head `agent/docs/TMU-DOC-001-m0-exit-roadmap-update`, **2 commits** (`0424059`, `62b293c`); CI run `36951147681` (synchronize, `62b293c`) → **Status: Success**, 13 jobs, 59 s. Residual gaps tracked as C2-3. |
+
+## Acceptance criteria (re-verified by me)
+
+| # | Criterion | Result | Evidence |
+|---|---|---|---|
+| 1 | `10-roadmap.md` reflects M0 as complete / tagged `m0-bootstrap` | **PASS** | `:19` M0 row `TMU-OPS-001..021, TMU-META-001..003 (**DONE**)`; gate cell `Tag m0-bootstrap (pending human)` — honest, since `git show-ref --tags` is empty. |
+| 2 | M0 (`TMU-OPS-001..021`, `TMU-META-001..003`) and M9 (`TMU-OPS-022..026`) ranges updated | **PASS (no scope gap)** | `:19` and `:28` match the AC verbatim; the M8 row cycle 1 flagged is renumbered (`:27`), so the AC's task-range hygiene holds table-wide. |
+| 3 | `status.md` shows M0 at 100% DONE | **PASS** | `status.md:4` `## M0 — 100%`, `:6` `DONE: 24 · REVIEW: 0`, `:8-31` all 24 ticked, `:20` `TMU-OPS-010` ticked; M1 `REVIEW: 1` (`:35-37`) and M2 `TODO: 1` match task front-matter. |
+| 4 | `pnpm gate` green | **PASS (reviewer-run, cycle 2)** | Ran myself in `E:\wt\TMU-DOC-001` → **`OK gate(quick) passed`**: lane check clean; Prettier clean; lint; typecheck; `i18n:check passed (70 keys per locale)`; unit **139 passed / 16 files**; `contracts:check OK (version 1.0.0)`; `contracts:lint OK`; `db:check: ok`; ML `ruff` clean + `7 passed`. |
+
+## Findings (cycle 2)
+
+No BLOCKER, no MAJOR.
+
+| # | Severity | File:line | Finding | Evidence / direction |
+|---|---|---|---|---|
+| C2-1 | MINOR | `docs/08-project/tasks/TMU-DOC-001.md:35-42` | Cycle-1 finding 6 is only partially fixed: the declared list covers 6 of the 7 files in the diff and still omits `docs/08-project/reviews/TMU-DOC-001.md`, which this branch adds in `62b293c`. | `git diff --stat` = 7 files; declared list = 6. Precedent: `docs/08-project/tasks/TMU-META-002.md:57` lists its own review file. Direction: add the line when Evidence/Progress log are updated after this verdict (fold into the existing bookkeeping edit). |
+| C2-2 | MINOR | `docs/08-project/tasks/TMU-CTR-006.md:13` | Front-matter still reads `updated: 2026-10-01` although `62b293c` edited the body (ID note `:18-23`) on 2026-10-02. | Same governance rule cycle 1 applied to `10-roadmap.md` (finding 3). Direction: bump to `2026-10-02`. |
+| C2-3 | MINOR | PR #31 (repo metadata) | DoD 12 not fully met: the PR is still **Draft** and carries **no labels** (body's "## Labels / docs-only" is prose only — GitHub shows "Labels: None yet"); the body's "Docs updated" list still names only the first commit's 5 files (missing `TMU-CTR-006.md` and the review file). | Fetched `…/pull/31` and `…/pull/31/checks`: CI green (run `36951147681` = Success), so only *ready* and *labels* remain. Direction: before step 12 MERGE GATE, mark ready-for-review, apply `docs-only`, refresh the body's file list. Not blocking — cycle 1 already scoped DoD 12 to pre-merge. |
+
+Nothing else changed between cycles: no contract, migration, generated source, config, test or
+`CONTRACT_VERSION` touched; no new endpoint, state transition, auth/RBAC path or list/query;
+privacy rule 5 re-checked line-by-line over every added line — no emails, hint answers,
+embeddings, raw image URLs, secrets or PII.
+
+## Checks run (cycle 2)
+
+- `git diff --stat origin/main...HEAD` → 7 files, +138/−19; full `git diff` read, including the
+  cycle-1 review file this branch introduces.
+- `git log origin/main..HEAD --format=…` → 2 commits, both `Task: TMU-DOC-001` +
+  `Refs: ROADMAP, BLUEPRINT` + `Agent: spec-writer`.
+- `pnpm gate` (workdir `E:\wt\TMU-DOC-001`, reviewer-run, not copied from the agent's log) →
+  **`OK gate(quick) passed`** (details in the AC table).
+- Roadmap range audit: every `TMU-*` range in `10-roadmap.md:19-28` expanded and compared
+  pairwise; all 26 task files matched to their row via `^milestone:` — zero collisions, zero
+  contradictions.
+- `git show-ref --tags` → empty (no `m0-bootstrap` tag → "(pending human)" is accurate).
+- Generated files (DoD 9): sandbox denies `node scripts/*`, so as in cycle 1 I re-simulated
+  `scripts/backlog-index.mjs` from its source (`:44-69`): milestone-then-id sort reproduces
+  `backlog.md:6-31` exactly; `Math.round(24/24*100) = 100` = `status.md:4-6`; non-`DONE` renders
+  `- [ ]` = `status.md:37,43`. All changed rows match task front-matter. **In sync by
+  inspection**; the missing `backlog.md`/`status.md` drift check in `scripts/gate.sh` is still
+  open (cycle-1 note 3).
+- Lanes: all 7 paths are `docs` (`.agent/lanes.json:11`) or `_common` (`:4-8`) — no out-of-lane
+  edits; the gate's own lane check passed.
+- External evidence (fetched, not assumed): PR #31 page → title/branch/2 commits correct, state
+  **Draft**, labels **none**; Actions run `36951147681` → **Success**, 13 jobs, 59 s, artifact
+  `gitleaks-results.sarif`.
+- Not run: `pnpm gate:full` and `pnpm test:e2e` (unchanged scope from cycle 1); the M0
+  `gate:full` claim still rests on `TMU-OPS-010.md` + its cycle-2 `APPROVE`.
+- Unverifiable from this sandbox: `gh pr …` is blocked by the command allow-list, so PR/CI facts
+  above come from read-only web fetches of the public repo pages.
+
+## DoD checklist (cycle 2)
+
+| # | DoD item | Result | Evidence |
+|---|---|---|---|
+| 1 | Red tests first | **n/a** | Docs-only diff; no executable code. |
+| 2 | Tests pass, `pnpm gate` green | **Met** | My own run → `OK gate(quick) passed`, 139/139. |
+| 3 | Contract tests for touched `API-*` | **n/a** | No `API-*` touched; `contracts:check OK (1.0.0)` green. |
+| 4 | Auth/RBAC + state transitions | **n/a** | No endpoint/state machine in scope; task `TODO → REVIEW` logged. |
+| 5 | Privacy | **Met** | Full diff read; no PII/secrets/hint answers/embeddings/image URLs. |
+| 6 | i18n keys (id + en) | **n/a** | No user-facing string; `i18n:check passed (70 keys per locale)`. |
+| 7 | A11y | **n/a** | No component touched. |
+| 8 | Docs updated | **Met with C2-1/C2-2** | Status `REVIEW`, log through `5 FIX c1`, PR URL in Evidence; no contract change → no CHANGELOG obligation. |
+| 9 | Generated files in sync | **Met (by inspection)** | See "Checks run (cycle 2)". |
+| 10 | Reviewer verdict `APPROVE` in `reviews/<ID>.md` | **Met** | This file, cycle 2 (pending the append of this section). |
+| 11 | Security review for sensitive tasks | **n/a** | Docs/roadmap only. |
+| 12 | PR ready, CI green, labels correct | **Partial → C2-3** | URL recorded, CI **Success**; PR still Draft and unlabelled. |
+
+## Notes for the human
+
+1. Verdict **APPROVE** (cycle 2 of 2). The three MINORs are bookkeeping-only: fold C2-1/C2-2
+   into the agent's post-verdict evidence commit and C2-3 into the pre-merge PR refresh. Per
+   `05-definition-of-ready-done.md` they must not be silently dropped — but they do not justify
+   a third cycle.
+2. Before tagging `m0-bootstrap`: the tag genuinely does not exist yet (`git show-ref --tags`
+   empty); run `pnpm gate:full` yourself if you want an independent confirmation beyond
+   `TMU-OPS-010`'s pasted tail.
+3. Observation, not a finding: M8's ops reservation (`027..032`) now sorts after M9's
+   (`022..026`) — exactly what cycle 1 asked for (M8 must not reuse M0's IDs). Ranges are
+   disjoint and neither has files; whoever plans M8/M9 should still allocate in ID order.
+4. Standing process gap (cycle-1 note 3, still open, out of scope): `scripts/gate.sh` has no
+   drift check for generated `backlog.md` / `status.md`. Worth an `ops` backlog row:
+   regenerate then `git diff --exit-code`.

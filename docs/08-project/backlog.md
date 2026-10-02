@@ -27,5 +27,5 @@
 | [TMU-OPS-019](tasks/TMU-OPS-019.md) | M0 | qa | DONE | P3 | Correct the Playwright install command in the e2e docs | TMU-OPS-017 |
 | [TMU-OPS-020](tasks/TMU-OPS-020.md) | M0 | ops | DONE | P3 | Clear the advisory audit red (postcss under next) | TMU-OPS-003 |
 | [TMU-OPS-021](tasks/TMU-OPS-021.md) | M0 | db | DONE | P3 | Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings) | TMU-OPS-005 |
-| [TMU-DOC-001](tasks/TMU-DOC-001.md) | M1 | docs | REVIEW | P1 | M0 exit roadmap update and M1 documentation milestone kickoff | TMU-OPS-010 |
+| [TMU-DOC-001](tasks/TMU-DOC-001.md) | M1 | docs | DONE | P1 | M0 exit roadmap update and M1 documentation milestone kickoff | TMU-OPS-010 |
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | TODO | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |

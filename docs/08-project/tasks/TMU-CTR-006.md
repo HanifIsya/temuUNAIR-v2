@@ -10,7 +10,7 @@ owner: architect
 deps: [TMU-OPS-005]
 refs: [BE-05, TMU-OPS-005]
 created: 2026-10-01
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only `0001_init`
