@@ -15,7 +15,7 @@
 | [TMU-OPS-007](tasks/TMU-OPS-007.md) | M0 | be | DONE | P2 | Worker package skeleton with pg-boss bootstrap | TMU-OPS-002 |
 | [TMU-OPS-008](tasks/TMU-OPS-008.md) | M0 | ops | DONE | P1 | Full gate wiring, CI parity and toolchain prerequisites | TMU-OPS-003, TMU-OPS-004, TMU-OPS-005, TMU-OPS-006, TMU-OPS-007, TMU-OPS-012, TMU-OPS-013 |
 | [TMU-OPS-009](tasks/TMU-OPS-009.md) | M0 | ops | DONE | P2 | Repo hygiene — branch protection, Dependabot and worktree notes | TMU-OPS-001 |
-| [TMU-OPS-010](tasks/TMU-OPS-010.md) | M0 | ops | REVIEW | P2 | M0 exit checklist, gate evidence and milestone handoff | TMU-OPS-008, TMU-OPS-009 |
+| [TMU-OPS-010](tasks/TMU-OPS-010.md) | M0 | ops | DONE | P2 | M0 exit checklist, gate evidence and milestone handoff | TMU-OPS-008, TMU-OPS-009 |
 | [TMU-OPS-011](tasks/TMU-OPS-011.md) | M0 | ops | DONE | P0 | Loop runnability — ops executor, step dispatcher and merge authority | TMU-OPS-001 |
 | [TMU-OPS-012](tasks/TMU-OPS-012.md) | M0 | ops | DONE | P2 | Web Docker image and real docker-build CI job | TMU-OPS-003 |
 | [TMU-OPS-013](tasks/TMU-OPS-013.md) | M0 | qa | DONE | P2 | Integration, contract and E2E test packages | TMU-OPS-003, TMU-OPS-005, TMU-OPS-007, TMU-OPS-014 |
@@ -27,5 +27,5 @@
 | [TMU-OPS-019](tasks/TMU-OPS-019.md) | M0 | qa | DONE | P3 | Correct the Playwright install command in the e2e docs | TMU-OPS-017 |
 | [TMU-OPS-020](tasks/TMU-OPS-020.md) | M0 | ops | DONE | P3 | Clear the advisory audit red (postcss under next) | TMU-OPS-003 |
 | [TMU-OPS-021](tasks/TMU-OPS-021.md) | M0 | db | DONE | P3 | Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings) | TMU-OPS-005 |
-| [TMU-DOC-001](tasks/TMU-DOC-001.md) | M1 | docs | TODO | P1 | M0 exit roadmap update and M1 documentation milestone kickoff | TMU-OPS-010 |
+| [TMU-DOC-001](tasks/TMU-DOC-001.md) | M1 | docs | REVIEW | P1 | M0 exit roadmap update and M1 documentation milestone kickoff | TMU-OPS-010 |
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | TODO | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |

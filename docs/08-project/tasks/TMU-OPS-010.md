@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-010
 title: M0 exit checklist, gate evidence and milestone handoff
-status: REVIEW
+status: DONE
 lane: ops
 slug: m0-exit-checklist
 milestone: M0
