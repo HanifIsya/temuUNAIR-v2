@@ -5,7 +5,7 @@ status: draft
 owner: SW
 updated: 2026-10-02
 depends_on: ["BLUEPRINT", "SRC-README"]
-source_refs: ["proposal.pdf §B/§D (via docs/_source/proposal-extract.md)", "DEC-001..DEC-024", "Blueprint §1"]
+source_refs: ["proposal.pdf §A/§B/§D (via docs/_source/proposal-extract.md)", "DEC-001..DEC-024", "Blueprint §1"]
 ---
 
 # PRD — TemuUNAIR ("Lost Today, Found Together")
@@ -157,3 +157,4 @@ SSO availability (RISK-008), moderator workload (RISK-009).
 | OQ-3 | Drop-point list and operating hours (DEC-005) — **deferred by DEC-022**: answer due M3 seeds, synthetic "contoh" drop points meanwhile | Stakeholders | M3 seeds |
 | OQ-4 | Which sensitive categories are prohibited from public listing entirely? (DEC-014) — **deferred by DEC-023**: answer due M3 REPORT, DEC-014 masking rules stand meanwhile | Legal/DPO | M3 REPORT |
 | OQ-5 | Production hosting target (DEC-011) — **deferred by DEC-024**: answer due M9 deploy, DEC-011 Compose/CPU default stands meanwhile | Advisor | M9 deploy |
+| OQ-6 | Tujuan 5 ends mid-sentence in the source PDF ("…dikembangkan lebih lanjut untuk") — what completes it? (source-fidelity question flagged by `TMU-DOC-002`; see extract OPEN QUESTIONs) | human (source verification) | extract sign-off |
