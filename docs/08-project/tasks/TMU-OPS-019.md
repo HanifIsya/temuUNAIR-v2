@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-019
 title: Correct the Playwright install command in the e2e docs
-status: REVIEW
+status: DONE
 lane: qa
 slug: e2e-docs-playwright-command
 milestone: M0

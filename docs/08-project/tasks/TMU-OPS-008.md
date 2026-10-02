@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-008
 title: Full gate wiring, CI parity and toolchain prerequisites
-status: REVIEW
+status: DONE
 lane: ops
 slug: full-gate-and-ci-parity
 milestone: M0
