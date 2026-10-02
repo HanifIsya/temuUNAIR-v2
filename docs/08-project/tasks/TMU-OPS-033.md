@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-033
 title: Widen the docs lane to docs/_source/** (M1 source intake enabler)
-status: TODO
+status: DONE
 lane: ops
 slug: widen-docs-lane-source
 milestone: M1
@@ -48,8 +48,12 @@ both paths. M1's exit criteria ("PDF + logo added") are unreachable until this i
 - [ ] The docs lane in `.agent/lanes.json` covers `docs/_source/**` (the narrower
       `docs/_source/proposal-extract.md` entry is subsumed and removed).
 - [ ] No other lane's globs and no `_common` entry change; the eleven lane names stay intact.
-- [ ] This branch only edits `.agent/lanes.json` and this task file — `bash scripts/check-lane.sh`
-      passes.
+- [ ] A scaffold lane-map test asserts the docs lane covers every `docs/_source/` path
+      (`proposal.pdf`, `proposal-extract.md`, `README.md`, `logo.png`); it was red before the
+      lane change and green after (red evidence in the Progress log).
+- [ ] This branch's edits are limited to `.agent/lanes.json`, `scripts/checks/scaffold.test.mjs`
+      (the new test), this task file and the regenerated `_common` indexes
+      (`backlog.md`/`status.md`) — `bash scripts/check-lane.sh` passes.
 - [ ] A probe proves the gap is closed: after this merges, a docs-lane branch can stage a
       `docs/_source/**` path and pass `bash scripts/check-lane.sh`. The PDF itself is not in
       this ops worktree (untracked, main checkout only), so the live probe —
@@ -61,13 +65,40 @@ both paths. M1's exit criteria ("PDF + logo added") are unreachable until this i
 ## Files expected to change
 
 - `.agent/lanes.json`
+- `scripts/checks/scaffold.test.mjs` (new coverage test)
 - `docs/08-project/tasks/TMU-OPS-033.md`
+- `docs/08-project/reviews/TMU-OPS-033.md` (cycle-1 review)
+- `docs/08-project/backlog.md` / `status.md` (regenerated, `_common`)
 
 ## Progress log
 
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-02 | orchestrator | filed | TMU-META-004 M1 backlog breakdown — lane gap found while planning source intake |
+| 2026-10-02 | orchestrator | 1 PICK | worktree `E:\wt\TMU-OPS-033` @ `6744200`; status → `IN_PROGRESS` |
+| 2026-10-02 | orchestrator | 4 RED | `pnpm exec vitest run scripts/checks/scaffold.test.mjs` → **1 failed / 30 passed**: new test "gives the docs lane the whole source folder (TMU-OPS-033)" failed with `['docs/_source/proposal.pdf', 'docs/_source/README.md', 'docs/_source/logo.png']` — exactly the uncovered paths |
+| 2026-10-02 | orchestrator | 5 GREEN | lanes.json docs lane: `"docs/_source/proposal-extract.md"` → `"docs/_source/**"` (glob diff — the sole lane change); test → 31/31 passed; `bash scripts/check-lane.sh` exit 0 |
+| 2026-10-02 | orchestrator | status → REVIEW | full `pnpm gate` run — see Evidence |
+| 2026-10-02 | reviewer | 9 REVIEW c1 | verdict **APPROVE** (cycle 1, final) — 0 BLOCKER / 0 MAJOR / 3 MINOR; diff exactness, red evidence re-derived, 140/140 green, no index drift, CI 11 pass + skip. See `docs/08-project/reviews/TMU-OPS-033.md` |
+| 2026-10-02 | orchestrator | 9 REVIEW c1 fix | m1 AC wording + Files list (review file + regenerated `_common` indexes), m2 test count 139 → 140, m3 `PR:`/`Review:` Evidence lines + PR #33 body refresh |
+| 2026-10-02 | orchestrator | 11 DONE | verdict APPROVE on record; status → `DONE`; indexes regenerated (48 rows) |
+
+## Evidence
+
+- Red: `pnpm exec vitest run scripts/checks/scaffold.test.mjs` → 1 failed / 30 passed —
+  `AssertionError: expected [ 'docs/_source/proposal.pdf', …(2) ] to deeply equal []`
+  (`scaffold.test.mjs:125`, test added first).
+- Green: same command after the lanes.json change → **31 passed (31)**; full `pnpm gate` →
+  `OK gate(quick) passed` (lane check, prettier, lint, typecheck, i18n, **140** unit tests /
+  16 files, contracts, db:check, ml ruff + 7 pytest).
+- Glob diff (the entire lane change): `"docs/_source/proposal-extract.md"` →
+  `"docs/_source/**"` in the docs lane; no other lane or `_common` entry touched.
+- Live probe deferred: `git add docs/_source/proposal.pdf` + lane check runs from the docs-lane
+  branch of `TMU-DOC-002` after merge; cross-reference goes back into this Progress log.
+- PR: [#33](https://github.com/HanifIsya/temuUNAIR-v2/pull/33) —
+  `chore(ops): widen docs lane to docs/_source (TMU-OPS-033)`, label `documentation`.
+- Review: `docs/08-project/reviews/TMU-OPS-033.md` — cycle 1 **APPROVE** (0 BLOCKER / 0 MAJOR /
+  3 MINOR, all closed pre-merge).
 
 ## Blockers
 

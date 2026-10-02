@@ -49,5 +49,5 @@
 | [TMU-DOC-020](tasks/TMU-DOC-020.md) | M1 | docs | TODO | P1 | M1 exit checklist, docs-approval evidence and M2 handoff | TMU-DOC-019, TMU-META-005 |
 | [TMU-META-004](tasks/TMU-META-004.md) | M1 | meta | DONE | P1 | File the M1 task breakdown (TMU-DOC-002..020) and the source-lane enabler | TMU-DOC-001 |
 | [TMU-META-005](tasks/TMU-META-005.md) | M1 | meta | TODO | P1 | Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix) | TMU-DOC-003, TMU-DOC-008, TMU-DOC-019 |
-| [TMU-OPS-033](tasks/TMU-OPS-033.md) | M1 | ops | TODO | P1 | Widen the docs lane to docs/_source/** (M1 source intake enabler) | TMU-DOC-001 |
+| [TMU-OPS-033](tasks/TMU-OPS-033.md) | M1 | ops | DONE | P1 | Widen the docs lane to docs/_source/** (M1 source intake enabler) | TMU-DOC-001 |
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | TODO | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
