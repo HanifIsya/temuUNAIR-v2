@@ -41,7 +41,9 @@ After every per-group review task has landed, sweep the whole of `docs/01-produc
   `02-design/{02-brand-and-logo,05-user-flows}.md`, `09-course/{README,demo-script}.md`.
   Refresh each to cite the extract (`… (via docs/_source/proposal-extract.md)`, keep the § path,
   drop "(pending extract)"). `02-brand-and-logo.md:13` additionally claims `logo.png` "is not in
-  the repo yet", which is false (tracked placeholder) — fix that claim in the same sweep.
+  the repo yet" and its `:8` front-matter says `logo.png (missing)` — both false (tracked
+  placeholder) — fix both claims in the same sweep (cycle-2 findings N1–N2: N1 already fixed in
+  `proposal-extract.md` by `TMU-DOC-003`; only N2's sibling-doc claims remain for you).
 
 ## Acceptance criteria
 

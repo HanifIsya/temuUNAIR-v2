@@ -5,7 +5,175 @@ title: "Resolve OQ-1..OQ-5 (answer OQ-1 from source; defer OQ-2..5 with DECs)"
 reviewer: reviewer
 verdict: APPROVE
 date: 2026-10-02
-cycle: 1
+cycle: 2
+---
+
+# TMU-DOC-003 — Review cycle 2
+
+Diff reviewed: `origin/main...HEAD` — `origin/main` = `fe62c10`, HEAD = `563c14e`, 2 commits,
+7 files, +279/−22: `7888ee3 docs(docs): resolve OQ-1 from source and defer OQ-2..5 with DECs`
+(the change, reviewed as cycle 1 with verdict `APPROVE`, preserved verbatim below) and the
+cycle-1 fix commit `563c14e docs(docs): close cycle 1 minor findings on OQ resolution` (5 files,
++215/−3, subject 56 chars ≤72, trailers `Task: TMU-DOC-003` / `Refs: PRD, DECISIONS, BLUEPRINT` /
+`Agent: orchestrator`, scope `docs` ∈ allowed list). Worktree `E:\wt\TMU-DOC-003` clean at
+`563c14e`. PR #35 (REST): draft, label `documentation`, head `563c14e` == worktree HEAD, base
+`fe62c10` == `origin/main`, 2 commits / 7 files / +279/−22, `mergeable_state: clean`; its **12
+check-runs on `563c14e`** = 11 `success` (`audit`, `unit`, `integration`, `contracts`,
+`contract-fuzz`, `build`, `e2e`, `ml`, `migrations`, `secret-scan`, `lint-typecheck`) +
+`docker-build` `skipped`, **no failing conclusion**. `lint-typecheck` runs
+`pnpm -s format:check` (`ci.yml:29`) — so prettier/lint/typecheck/i18n are green on the final
+commit; the local-only lane check (gate step 1, `ci.yml:2`) I verified by replaying
+`check-lane.sh`'s glob logic by hand (see Checks run).
+
+## Summary
+
+**APPROVE — cycle 2 of 2 (final).** 0 BLOCKER / 0 MAJOR / 2 MINOR, both cosmetic. All six
+cycle-1 findings are **VERIFIED CLOSED** against the committed bytes of `563c14e` — I re-read
+every fixed region rather than trusting the commit message, and the message's claims all check
+out. The regions the fixes touched (PRD §11 OQ-6 row, PRD front-matter `source_refs`, DEC-022
+wording, task Evidence/GATE rows + Files list, `TMU-DOC-019` Context filing) are internally
+consistent: `OQ-6` uses the identical label in §2.1 (`01-PRD.md:59`), §11 (`:160`) and the extract
+(`proposal-extract.md:62,144`); DEC-021/023/024 are byte-identical to their cycle-1 state and
+only DEC-022's decision cell moved; `backlog.md`/`status.md` are untouched by the fix commit
+(their only changes are `7888ee3`'s pure regeneration of the `TODO → IN_PROGRESS` flip, cycle-1
+AC 9); `decisions-log.md` and `traceability-matrix.md` remain **absent** from the whole diff
+(meta-lane mirror still a `TMU-META-005` handoff). The §2.1 quote blocks are byte-untouched by
+the fix commit (its PRD hunks are front-matter `:8` and the appended `:160` row only), so
+cycle-1's 17/17 PDF-fidelity result carries over unchanged. The two new MINORs are cosmetic
+stale-text nits in files this task does not declare (`proposal-extract.md:147`, the DOC-019 sweep
+filing omitting one sibling claim on `02-brand-and-logo.md:8`); per the DoD they may be filed or
+land in a final one-line commit — they do not warrant a third cycle.
+
+## Cycle 1 disposition
+
+| F | Cycle-1 finding | Disposition | Evidence (final state) |
+|---|---|---|---|
+| F1 | Files-expected omits `backlog.md`/`status.md` | **VERIFIED CLOSED** | `TMU-DOC-003.md:71-73` adds `tasks/TMU-DOC-019.md`, `backlog.md` + `status.md` (annotated "regenerated `_common` indexes, not hand edits") and `reviews/TMU-DOC-003.md`; the declared set now equals `git diff origin/main...HEAD --name-only` exactly (all 7 paths) |
+| F2 | No `## Evidence` section; `7 HANDOFF` collides with loop step 7 GATE | **VERIFIED CLOSED** | `TMU-DOC-003.md:87-92` — `## Evidence` with `Red:` (N/A + documentation-only rationale), `Green:` (`pnpm gate` → `OK gate(quick) passed`, 140/140 … "re-verified by the cycle-1 reviewer" — true), `PR:` #35, `Review:` path. `:82` new `7 GATE` row (matches `02-agent-loop.md:50`); `:83` handoff row de-numbered `7 HANDOFF → handoff` so no step collision; `:84` `9 REVIEW c1` and `:85` `5 FIX c1` match `02-agent-loop.md:52` (step 9 = REVIEW, fixes return to step 5) |
+| F3 | `OQ-6` minted in §2.1 but absent from §11 registry | **VERIFIED CLOSED** (option A) | `01-PRD.md:160` new `OQ-6` row in §11 — same label as §2.1 `:59`, same substance (mid-sentence Tujuan 5, "…dikembangkan lebih lanjut untuk", extract OPEN QUESTIONs, human comparison), owner `human (source verification)` / blocks `extract sign-off` ≈ the F3 direction; OQ-1..5 rows byte-identical (fix diff is +1 line only) |
+| F4 | `source_refs` silently dropped `§A` | **VERIFIED CLOSED** | `01-PRD.md:8` = `proposal.pdf §A/§B/§D (via docs/_source/proposal-extract.md)` (+ `DEC-001..DEC-024`, `Blueprint §1` intact) |
+| F5 | 9 sibling docs keep stale `(pending extract)`; must be **filed** | **VERIFIED CLOSED** | Filed into `TMU-DOC-019.md:37-44` (Context bullet): "10 sibling docs" + exact path list + refresh instructions + the `02-brand-and-logo.md:13` false claim. My grep finds **exactly 10** such docs — the 9 in F5 plus `02-design/02-brand-and-logo.md:8`, which F5's own list had missed — so the filing is a verified superset, not an overcount; `:13`'s claim is indeed false (`logo.png` tracked since bootstrap `d8faabe`). Filed, not silently dropped (DoD MINOR rule) |
+| F6 | `DEC-022` mis-attributes the "contoh" fallback to `DEC-005` | **VERIFIED CLOSED** | `12-assumptions-and-decisions.md:39` now reads "DEC-005's provisional default stands meanwhile, with synthetic drop points flagged "contoh" (PRD §9) until the real list arrives" — matches DEC-005 `:22` ("provisional — real drop points needed") and PRD §9 `:139` ("Synthetic drop points flagged "contoh""); owner/status cells unchanged |
+
+## Changes since cycle 1
+
+`git diff 7888ee3..HEAD --stat` — 5 files, +215/−3 (the review file's +190 is this record
+landing in the repo):
+
+| File | Δ | One-line |
+|---|---|---|
+| `docs/01-product/01-PRD.md` | +2/−1 | F4: front-matter `source_refs` restores `§A` (`:8`); F3: §11 `OQ-6` row appended (`:160`) |
+| `docs/01-product/12-assumptions-and-decisions.md` | +1/−1 | F6: DEC-022 decision cell reworded (`:39`); DEC-021/023/024 untouched |
+| `docs/08-project/reviews/TMU-DOC-003.md` | +190 | Cycle-1 review record committed (`_common` lane) |
+| `docs/08-project/tasks/TMU-DOC-003.md` | +12/−3 | F1 Files list completed (`:71-73`); F2 `7 GATE` row + handoff relabel + `## Evidence` (`:82,83,87-92`); `9 REVIEW c1` / `5 FIX c1` progress rows (`:84-85`) |
+| `docs/08-project/tasks/TMU-DOC-019.md` | +8 | F5 follow-up filed into Context (`:37-44`) |
+
+Explicit (d) checks: `git diff 7888ee3..HEAD -- docs/08-project/backlog.md docs/08-project/status.md`
+→ **empty** (fix commit touches neither index); their only diff vs `origin/main` is `7888ee3`'s
+two-line regeneration (`backlog.md:32` `TODO → IN_PROGRESS`; `status.md:35` `TODO: 19 ·
+IN_PROGRESS: 0` → `TODO: 18 · IN_PROGRESS: 1`), consistent with the front-matter flip (DoD 9).
+`git diff origin/main...HEAD --name-only` (7 paths) contains **neither** `decisions-log.md` nor
+`traceability-matrix.md` — the meta-lane mirror remains a recorded `TMU-META-005` handoff
+(`TMU-DOC-003.md:83`).
+
+## Regions re-verified and new-issue sweep ((b)/(c))
+
+- **OQ-6 label consistency** — `OQ-6` identical in `01-PRD.md:59` (§2.1), `:160` (§11) and
+  `proposal-extract.md:62,144`; question text and pointers agree across all three. No rename or
+  renumber side effects: roadmap/task exit clauses still say "OQ-1..OQ-5 answered or deferred
+  with DEC" (`10-roadmap.md:20`, `TMU-DOC-003.md:20`, `TMU-DOC-020.md:26`) — an extra open
+  OQ-6 falsifies none of them, and the extract's "does not renumber the PRD's OQ-1..5 table"
+  intent (`proposal-extract.md:147`) holds (rows are OQ-1..5 **plus** OQ-6).
+- **DEC table** — full diff vs `origin/main` shows exactly four added rows `DEC-021..024`
+  (`:38-41`); fix-commit diff touches only DEC-022's middle cell. Owner/due/status cells of all
+  four still match the PRD §11 rows exactly (M3 AUTH / M3 seeds / M3 REPORT / M9 deploy).
+- **Task file** — AC ticks unchanged and still true; Evidence `Green` claim matches the cycle-1
+  reviewer's own gate run; Files list = diff; Progress-log step labels match
+  `02-agent-loop.md:44-52`.
+- **`TMU-DOC-019` filing** — sits in Context (before `## Acceptance criteria`, `:46`), is in
+  lane (`docs/08-project/tasks/**` = `_common`), and is the exact "natural home" cycle-1 F5
+  named; DOC-019's own ACs (`:48-57`) already cover cross-document sweeps.
+- **No new defects found** in the fixed regions: no contract/test/migration/config file appears
+  anywhere in the diff (7/7 markdown docs), no generated file hand-edited, no privacy surface
+  (quotes are public proposal text; no NIMs/emails/embeddings/image URLs), no hard-coded UI
+  strings (i18n N/A).
+
+## BLOCKER
+
+(none)
+
+## MAJOR
+
+(none)
+
+## MINOR (both cosmetic — do not block the verdict)
+
+| ID | file:line | Finding | Direction |
+|---|---|---|---|
+| N1 | `docs/_source/proposal-extract.md:147` | The DOC-002 note "*(OQ-6 is local to this extract file; it does not renumber the PRD's OQ-1..5 table.)*" is now half-stale: since F3's fix, the PRD's own §11 also carries `OQ-6`. Pre-existing merged artifact, out of this task's declared files; label and substance still agree, so nothing is contradictory — only the "local to this extract file" scope claim. | Append one clause to the DOC-019 sweep already filed in this PR (`TMU-DOC-019.md:37-44`) — "also refresh `proposal-extract.md:147` now that PRD §11 carries OQ-6" — or accept as historical. Cosmetic |
+| N2 | `docs/02-design/02-brand-and-logo.md:8` | The DOC-019 filing (`:43-44`) names only the `:13` prose claim; the front-matter on `:8` also asserts `docs/_source/logo.png (missing)`, which is equally false (tracked since bootstrap `d8faabe`) and sits on the very line the sweep will already edit. Pre-existing; F5 did not cover it either. | Add "`:8` `logo.png (missing)` → tracked" to the same sweep bullet. Cosmetic |
+
+## Checks run
+
+- `git log --oneline -5`, `git status --short` (clean), `git diff 7888ee3..HEAD` (read in full),
+  `git diff origin/main...HEAD --stat` / `--name-only`, targeted
+  `git diff … -- 12-assumptions-and-decisions.md` and `… -- backlog.md status.md` (latter empty
+  for the fix commit) — all read-only in `E:\wt\TMU-DOC-003`.
+- **Lane check**: `bash scripts/check-lane.sh` is sandbox-denied for me (only
+  `git …`/`pnpm …`/`scripts/*` prefixes execute). I replayed its exact logic
+  (`check-lane.sh:9-16` + `lanes.json`) over all 7 changed paths: 2 × `docs/01-product/**`
+  (docs lane), 5 × `docs/08-project/{tasks,reviews/**,backlog.md,status.md}` (`_common`) → zero
+  out-of-lane files; the author's `7 GATE` row records lane-check exit 0 (`TMU-DOC-003.md:82`)
+  and cycle 1 ran the full gate green at `7888ee3` — the fix commit adds only in-lane paths.
+- **Full gate not re-run** (per instruction): cycle-1 reviewer ran `pnpm gate` green at
+  `7888ee3`; the fix commit is 5 markdown files; CI on `563c14e` supplies gate parity
+  (`format:check`/`lint`/`typecheck`/`i18n:check` via `lint-typecheck`, plus unit, contracts,
+  migrations, build, e2e, audit, secret-scan — 11 success + 1 skipped). Nothing in the fix
+  warrants distrust.
+- GitHub REST via fetch (webfetch; `gh` sandbox-denied): `pulls/35` (state/labels/head/base/
+  counts/`mergeable_state`) and `commits/563c14e/check-runs` (12 runs, conclusions above).
+- Grep sweeps: `pending extract` → exactly 10 doc front-matters (matches the DOC-019 filing's
+  count; F5's list of 9 had missed `02-brand-and-logo`); `OQ-6` → label consistent across
+  extract/PRD/task/reviews; `OQ-1..OQ-5` exit-clause references → none falsified by the OQ-6
+  row; `logo.png` history → tracked since `d8faabe`.
+
+## Definition of Done (this cycle)
+
+| DoD | Status | Note |
+|---|---|---|
+| 1 Red evidence first | Met (N/A justified) | Documentation-only; `Red:` line now present in Evidence (`:89`) — F2 |
+| 2 Gate green, pasted tail | Met | Cycle-1 reviewer's run + CI parity on `563c14e`; tail recorded at `:82,90` |
+| 3 Contract tests per touched `API-*` | Met (N/A) | No contract/code touched; CI `contracts`/`contract-fuzz` success |
+| 4 Auth/RBAC + transitions | Met (N/A) | Docs-only |
+| 5 Privacy | Met | Public proposal text only; no PII beyond what cycle 1 already cleared |
+| 6 i18n `id`/`en` + `error.<code>` | Met (N/A) | No UI strings; CI `i18n:check` success |
+| 7 A11y | Met (N/A) | No UI |
+| 8 Docs updated (task, progress, traceability, CHANGELOG) | Met | Task file, Evidence, Progress rows updated; traceability = docs-keeper/`TMU-META-005` post-merge; no contract change ⇒ no CHANGELOG |
+| 9 Generated files in sync | Met | Fix commit does not touch the indexes; `7888ee3`'s regeneration still matches the front-matter |
+| 10 Reviewer verdict | Met | This file, cycle 2 = `APPROVE` (final) |
+| 11 Security review | Not required | No auth/claims/upload/privacy surface (unchanged from cycle 1) |
+| 12 PR ready, CI green, labels | Met (draft by design) | CI green on `563c14e`; label `documentation`; draft flips at step 12 |
+
+## Notes for the human
+
+1. **Verdict `APPROVE` — cycle 2 of 2, 0 BLOCKER / 0 MAJOR / 2 MINOR (both cosmetic).**
+   N1/N2 are stale-text nits in files this task does not declare; per the DoD they may be fixed
+   opportunistically in a final one-line commit or appended to the DOC-019 filing that already
+   rides in this PR — either way no third cycle is needed or allowed.
+2. **Before ready-for-review (orchestrator):** decide N1/N2 (the DOC-019 bullet at
+   `TMU-DOC-019.md:37-44` is one sentence to extend), record the `9 REVIEW c2` Progress row and
+   refresh the Evidence `Review:` line (it currently cites only cycle 1 — accurate as written,
+   but the close-out should mention this cycle-2 verdict), flip `status:` at step 13, and take
+   PR #35 out of draft at step 12.
+3. **Carried forward from cycle 1 (open by design):** human verification of
+   `proposal-extract.md` against the original PDF (incl. the Tujuan-5 completion = OQ-6), the
+   logo placeholder caveat, and the `TMU-META-005` decisions-log/traceability mirror.
+4. **Could not verify by execution:** `bash scripts/check-lane.sh` directly (sandbox; replayed
+   by hand, above) and a fresh local `pnpm gate` at `563c14e` (not run per instruction — CI
+   parity + cycle-1's green run cover it). PDF fidelity was not re-checked this cycle because
+   the fix commit does not touch the §2.1 quote blocks (hunks = `:8`, `:160` only); cycle-1's
+   17/17 comparison stands.
+
 ---
 
 # TMU-DOC-003 — Review cycle 1
