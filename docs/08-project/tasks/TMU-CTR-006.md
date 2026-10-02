@@ -15,10 +15,12 @@ updated: 2026-10-01
 
 # TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only `0001_init`
 
-> ID note: filed as `TMU-CTR-006`, not `TMU-CTR-001`. The roadmap
-> (`docs/01-product/10-roadmap.md:21`) reserves `TMU-CTR-001..005` for the M2 contracts
+> ID note: filed as `TMU-CTR-006`, not `TMU-CTR-001`. When this task was filed (2026-10-01) the
+> roadmap (`docs/01-product/10-roadmap.md:21`) reserved `TMU-CTR-001..005` for the M2 contracts
 > implementation, and `TMU-CTR-001` in particular is named by `docs/04-contracts/CHANGELOG.md:16`,
-> `docs/04-contracts/backend/BE-02-openapi.md:20` and `TMU-OPS-004.md:35`.
+> `docs/04-contracts/backend/BE-02-openapi.md:20` and `TMU-OPS-004.md:35`. The roadmap range was
+> later widened to `TMU-CTR-001..006` (TMU-DOC-001, 2026-10-02) to reflect this task's M2
+> membership in the generated backlog.
 
 ## Goal
 
