@@ -64,6 +64,9 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 - `docs/_source/proposal-extract.md` (new)
 - `docs/_source/README.md`
 - `docs/08-project/tasks/TMU-DOC-002.md`
+- `docs/08-project/tasks/TMU-OPS-033.md` (probe cross-reference, authorised by that task's AC)
+- `docs/08-project/backlog.md`, `docs/08-project/status.md` (regenerated `_common` indexes, not hand edits)
+- `docs/08-project/reviews/TMU-DOC-002.md` (review record, `_common`)
 
 ## Progress log
 
@@ -72,6 +75,15 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 | 2026-10-02 | orchestrator | filed | TMU-META-004 M1 backlog breakdown |
 | 2026-10-02 | orchestrator | 1 PICK | worktree `E:\wt\TMU-DOC-002` @ `4610f94`; status → `IN_PROGRESS`; PDF copied from main checkout, SHA-256 `028501CB2CBBA3385F62F57B192D1B87C2541CF2CE58348C44E99B0BE5FBF8B9` verified byte-identical; lane probe PASSED (cross-ref in `TMU-OPS-033`) |
 | 2026-10-02 | orchestrator | 5 GREEN | `proposal-extract.md` drafted (status `draft`: section list A–H + cover, verbatim §B Tujuan 1–5, verbatim §D 7 prose steps + 8 figure boxes, 3-figure list, OQ-6 for truncated Tujuan 5, page-8 blank note); `README.md` table + section refreshed (PDF committed, extract drafted/human-verification pending, logo caveat intact); extraction via `pypdf` layout mode + image extraction, temp artifacts outside the repo |
+| 2026-10-02 | reviewer | 9 REVIEW c1 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR, 7 MINOR F1–F7) → cycle 1 in `reviews/TMU-DOC-002.md`; 14 PDF-vs-extract comparisons confirmed incl. OQ-6 truncation |
+| 2026-10-02 | orchestrator | 5 FIX c1 | (F1) Files-expected list completed (OPS-033 cross-ref, regen indexes, review file); (F2) `## Evidence` section added; (F3) extract transcribes normalisation disclosure (spacing/quote-joins only, wording never altered); (F4) literal `proposal.pdf §…` citations added to section + figure lists; (F5) stale PRD `:13` claim refresh filed into `TMU-DOC-003` Context; (F6) `proposal.pdf §8` → `proposal.pdf p. 8`; (F7) README "Human-written summary" → transcription-accurate wording |
+
+## Evidence
+
+- Red: N/A — documentation transcription with no behaviour change; ACs are artifact + integrity checks (hash, lane probe, gate), recorded in the Progress log
+- Green: `pnpm gate` → `OK gate(quick) passed` (lane check, prettier, lint, typecheck, i18n, 140/140 unit tests, contracts, db, ml)
+- PR: https://github.com/HanifIsya/temuUNAIR-v2/pull/34
+- Review: cycle 1 `APPROVE` (0 BLOCKER, 0 MAJOR, 7 MINOR F1–F7, all closed pre-merge) → `docs/08-project/reviews/TMU-DOC-002.md`
 
 ## Blockers
 

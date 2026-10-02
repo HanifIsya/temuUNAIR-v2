@@ -13,8 +13,10 @@ source_refs: ["proposal.pdf"]
 Machine-extracted (text layer via `pypdf`, figures via image extraction) and transcribed by
 `TMU-DOC-002` on 2026-10-02 from the committed source `docs/_source/proposal.pdf`
 (SHA-256 `028501CB2CBBA3385F62F57B192D1B87C2541CF2CE58348C44E99B0BE5FBF8B9`, 8 pages, byte-identical
-to the human's drop). Everything below cites `proposal.pdf §…`. Quotes are verbatim (spacing
-normalised); anything absent or truncated in the source is marked `OPEN QUESTION`. **A human must
+to the human's drop). Everything below cites `proposal.pdf §…`. Quotes are verbatim **in wording**;
+transcription normalisations are limited to: inter-word/line spacing, curly → straight quotation
+marks, and em-dashes joining the PDF's line-broken titles/bodies — no word is ever added, removed
+or reordered. Anything absent or truncated in the source is marked `OPEN QUESTION`. **A human must
 verify this extract against the PDF** (README rule: human verification flagged).
 
 ## Document metadata (cover, `proposal.pdf §cover p. 1`)
@@ -31,16 +33,16 @@ verify this extract against the PDF** (README rule: human verification flagged).
 
 | § | Section | Page(s) | One-line summary |
 |---|---|---|---|
-| cover | Cover | 1 | Title, group, course, members, faculty, year. |
-| §A | LATAR BELAKANG | 2–3 | Problem: scattered, unstructured lost/found information at UNAIR; proposed integrated digital platform (report, search, match, verify, return, status management). |
-| §B | TUJUAN | 3 | Five objectives (verbatim below). |
-| §C | DESKRIPSI IDE/INOVASI | 3–4 | §C.1 Logo dan Filosofi (figure 2); §C.2 Fitur Utama — four features: Pelaporan, Pencarian & Pencocokan, Komunikasi & Pengembalian, Manajemen Laporan. |
-| §D | CARA KERJA SISTEM | 4–5 | 7 numbered prose steps + the 8-step flow figure (verbatim below). |
-| §E | TARGET PENGGUNA | 5 | All UNAIR civitas + supporting entities across Kampus A/B/C and Banyuwangi/FIKKIA; two functional roles: Loser (Pelapor Kehilangan), Finder (Pelapor Penemuan). |
-| §F | TEKNOLOGI DAN INFRASTRUKTUR | 5–6 | Three layers: Next.js/Tailwind frontend; AI/ML service (NLP → YOLO → CLIP, multimodal matching); RDBMS (MySQL/PostgreSQL). |
-| §G | TIMELINE PENGERJAAN | 6–7 | 6 weeks: Minggu 1 Perencanaan & Analisis; 2–3 Perancangan Sistem; 4 Desain & Branding; 5 Penyusunan Laporan; 6 Finalisasi. |
-| §H | PEMBAGIAN PERAN | 7 | Roles per feature (table below). |
-| — | (page 8) | 8 | Blank — no text layer, no extracted figure. |
+| `proposal.pdf §cover` | Cover | 1 | Title, group, course, members, faculty, year. |
+| `proposal.pdf §A` | LATAR BELAKANG | 2–3 | Problem: scattered, unstructured lost/found information at UNAIR; proposed integrated digital platform (report, search, match, verify, return, status management). |
+| `proposal.pdf §B` | TUJUAN | 3 | Five objectives (verbatim below). |
+| `proposal.pdf §C` | DESKRIPSI IDE/INOVASI | 3–4 | §C.1 Logo dan Filosofi (figure 2); §C.2 Fitur Utama — four features: Pelaporan, Pencarian & Pencocokan, Komunikasi & Pengembalian, Manajemen Laporan. |
+| `proposal.pdf §D` | CARA KERJA SISTEM | 4–5 | 7 numbered prose steps + the 8-step flow figure (verbatim below). |
+| `proposal.pdf §E` | TARGET PENGGUNA | 5 | All UNAIR civitas + supporting entities across Kampus A/B/C and Banyuwangi/FIKKIA; two functional roles: Loser (Pelapor Kehilangan), Finder (Pelapor Penemuan). |
+| `proposal.pdf §F` | TEKNOLOGI DAN INFRASTRUKTUR | 5–6 | Three layers: Next.js/Tailwind frontend; AI/ML service (NLP → YOLO → CLIP, multimodal matching); RDBMS (MySQL/PostgreSQL). |
+| `proposal.pdf §G` | TIMELINE PENGERJAAN | 6–7 | 6 weeks: Minggu 1 Perencanaan & Analisis; 2–3 Perancangan Sistem; 4 Desain & Branding; 5 Penyusunan Laporan; 6 Finalisasi. |
+| `proposal.pdf §H` | PEMBAGIAN PERAN | 7 | Roles per feature (table below). |
+| `proposal.pdf p. 8` | (page 8) | 8 | Blank — no text layer, no extracted figure. |
 
 ## Verbatim: §B Tujuan 1–5 (`proposal.pdf §B Tujuan 1–5, p. 3`)
 
@@ -102,11 +104,11 @@ OQ-1) mean the **figure**; cite `proposal.pdf §D figure, p. 4` for 8-step refer
 
 ## Figure list
 
-| # | Page | File (embedded name, px) | What it is |
-|---|---|---|---|
-| 1 | 1 | `X7.png`, 300×300 | UNAIR university emblem (cover). |
-| 2 | 3 | `X14.png`, 1254×1254 | **TemuUNAIR logo** under §C.1: magnifier + backpack inside a location-pin, blue/yellow organic shape, wordmark "TemuUNAIR", tagline "Lost Today, Found Together". |
-| 3 | 4 | `X19.png`, 1983×793 | 8-step *Cara Kerja* flow diagram (Login → Lapor → Simpan Data → Smart Matching → Notifikasi → Verifikasi → Barang Dikembalikan → Resolved). |
+| # | Page | File (embedded name, px) | Citation | What it is |
+|---|---|---|---|---|
+| 1 | 1 | `X7.png`, 300×300 | `proposal.pdf §cover p. 1` | UNAIR university emblem (cover). |
+| 2 | 3 | `X14.png`, 1254×1254 | `proposal.pdf §C.1 p. 3` | **TemuUNAIR logo** under §C.1: magnifier + backpack inside a location-pin, blue/yellow organic shape, wordmark "TemuUNAIR", tagline "Lost Today, Found Together". |
+| 3 | 4 | `X19.png`, 1983×793 | `proposal.pdf §D figure p. 4` | 8-step *Cara Kerja* flow diagram (Login → Lapor → Simpan Data → Smart Matching → Notifikasi → Verifikasi → Barang Dikembalikan → Resolved). |
 
 Observation for `TMU-DSG-001` / the placeholder-logo caveat: figure 2 **is the real logo
 embedded in the PDF** (tagline confirms the Blueprint's "Lost Today, Found Together"). No image
@@ -140,6 +142,6 @@ was extracted into `docs/_source/logo.png` here — replacing the placeholder is
 | OQ | Where | Question |
 |---|---|---|
 | OQ-6 | `proposal.pdf §B Tujuan 5, p. 3` | Tujuan 5 ends mid-sentence ("…lebih lanjut untuk"). What completes it? (Human: compare original document.) |
-| — | `proposal.pdf §8, p. 8` | Page 8 has no text layer and no extracted figure — confirm it is intentionally blank. |
+| — | `proposal.pdf p. 8` | Page 8 has no text layer and no extracted figure — confirm it is intentionally blank. |
 
 *(OQ-6 is local to this extract file; it does not renumber the PRD's OQ-1..5 table.)*

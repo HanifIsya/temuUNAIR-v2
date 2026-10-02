@@ -16,7 +16,7 @@ This folder holds the raw inputs every document traces back to. It is **read-onl
 |---|---|---|
 | `proposal.pdf` | TemuUNAIR proposal — Kelompok 3, Inovasi Sistem Informasi dan Teknologi I1, S1 Sistem Informasi, Universitas Airlangga | **committed** 2026-10-02 (`TMU-DOC-002`) — SHA-256 `028501CB2CBBA3385F62F57B192D1B87C2541CF2CE58348C44E99B0BE5FBF8B9`, byte-identical to the human's drop |
 | `logo.png` | TemuUNAIR logo (source for `docs/02-design/03-design-tokens.md` and `tokens.json`) | **PLACEHOLDER** — generated mark (magnifier + yellow dot, brand placeholder colours). Replace with the real logo; then run TMU-DSG-001 to sample the real palette. |
-| `proposal-extract.md` | Human-written summary of the PDF (sections, quotes, figure list) used by agents that cannot read PDFs | **drafted** (`TMU-DOC-002`) — **human verification pending** before any doc cites it as final |
+| `proposal-extract.md` | Citation-first summary of the PDF (sections, verbatim quotes, figure list) transcribed from the committed PDF for agents that cannot read PDFs | **drafted** (`TMU-DOC-002`) — **human verification pending** before any doc cites it as final |
 
 ## Human-dropped and unverified material
 
