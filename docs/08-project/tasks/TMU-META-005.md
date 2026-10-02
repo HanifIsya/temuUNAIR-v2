@@ -49,9 +49,9 @@ meta lane owns.
       format/order conventions are preserved.
 - [ ] `docs/08-project/traceability-matrix.md` has no orphan row and lists the M1 filed tasks
       (per `TMU-DOC-019`'s handoff): Tasks column entries all match real backlog IDs.
-- [ ] This branch only edits `.agent/lanes.json`-covered meta paths: its own task file,
-      `docs/08-project/decisions-log.md`, `docs/08-project/traceability-matrix.md` —
-      `bash scripts/check-lane.sh` passes.
+- [ ] This branch's content edits are limited to the two registers (`decisions-log.md`,
+      `traceability-matrix.md`); every changed path — including regenerated `_common` indexes —
+      is reachable from the meta lane, so `bash scripts/check-lane.sh` passes.
 - [ ] `node scripts/backlog-index.mjs` regenerated if statuses changed.
 - [ ] `pnpm gate` green.
 
@@ -60,6 +60,7 @@ meta lane owns.
 - `docs/08-project/decisions-log.md`
 - `docs/08-project/traceability-matrix.md`
 - `docs/08-project/tasks/TMU-META-005.md`
+- `docs/08-project/backlog.md` / `status.md` (regenerated, `_common`, only if statuses change)
 
 ## Progress log
 

@@ -2,9 +2,263 @@
 id: REV-TMU-META-004
 task: TMU-META-004
 reviewer: reviewer
-verdict: CHANGES
+verdict: APPROVE
 date: 2026-10-02
-cycle: 1
+cycle: 2
+---
+
+# TMU-META-004 — Review cycle 2
+
+Diff reviewed: `origin/main...HEAD` — `origin/main` = `0a26eff`, HEAD = `caf6ad1`, two commits,
+25 files, +1,608/−2: `328e277 docs(project): file M1 task breakdown (TMU-DOC-002..020,
+TMU-OPS-033)` (23 files, +1,387/−2 — reviewed as cycle 1 with verdict `CHANGES`, preserved
+verbatim below) and the cycle-1 fix commit `caf6ad1 docs(project): fix TMU-META-004 review cycle 1
+findings` (12 files, +263/−42). All 25 paths are under `docs/08-project/**` (lane `meta` +
+`_common`), `git diff --check` is clean, the worktree is clean at `caf6ad1`, and the gate's lane
+check passes. PR #32 is Draft with the `documentation` label, head `caf6ad1` == base `0a26eff`,
+`mergeable_state: clean`, 2 commits / 25 files / +1,608/−2; its 12 CI check runs on `caf6ad1` are
+11 `success` + `docker-build` `skipped` (verified via the GitHub REST API — `gh` is
+sandbox-denied).
+
+## Summary
+
+**APPROVE — cycle 2 of 2.** 0 BLOCKER / 0 MAJOR / 5 MINOR. All three cycle-1 MAJORs are fixed,
+and I re-verified each against the committed bytes rather than trusting the fix commit's message.
+M1: `backlog.md` now carries 48 rows with `TMU-META-004` = `REVIEW` (`backlog.md:50`) and
+`status.md:35` = `TODO: 21 · … · REVIEW: 1 · DONE: 1` with `## M1 — 4%` (= round(1/23)); I
+re-derived both generated files field-by-field from all 48 front-matters against the generator
+source and they equal what a run would write — no drift (execution still sandbox-denied, see
+Checks run). M2: every `proposal.pdf` presence claim is now scoped to the main checkout
+(`TMU-OPS-033.md:31-36`, `TMU-DOC-002.md:27-30`, `TMU-META-004.md:36-42`), DOC-002 AC1 copies by
+SHA-256 (`:45-48`) and the live probe moved to DOC-002 (`TMU-OPS-033.md:53-58`). M3: the three
+docs-lane tasks now declare read-only handoffs (`TMU-DOC-003.md:44-47,56-57`,
+`TMU-DOC-008.md:30-32,39-41`, `TMU-DOC-019.md:32-34,45-47`), the meta-only files are gone from
+their Files lists, `TMU-META-005` is filed (lane `meta`, owner `docs-keeper`, deps
+`DOC-003/008/019`) and `TMU-DOC-020` now depends on it (`:10`) with the exit table extended
+(`:70-71`) — no `lane: docs` task declares a meta-only path any more. MINOR 4–7 of cycle 1 are
+fixed (filed-by table `:59`, "nine" at `TMU-DOC-014.md:36`, Evidence/Progress rows
+`TMU-META-004.md:106-107,115-116`, README re-attribution `:36-42`).
+
+Cycle-1 finding 8 (MINOR) is **not fixed**: the PR #32 body still claims the dep chain is
+"acyclic, verified by the scaffold tests" (no such test exists), still says "(47 tasks)" and
+"23 files", still omits `TMU-META-005` from the chain, and still says the review file is "added
+once cycle 1 completes" although `caf6ad1` committed it. That plus four small new MINORs (a
+one-sided probe handoff, an AC/Files inconsistency in the newly filed `TMU-META-005`, the review
+file missing from this task's own Files list, and the non-allowed commit scope `project`) are the
+whole remaining surface. None touches merged content: MINOR 1 is PR metadata fixed by one
+`gh pr edit` before ready-for-review, and MINOR 2–5 are one-line wording fixes that may land in a
+final commit or be filed as follow-ups per the DoD's MINOR rule. `pnpm gate` green on a fresh
+reviewer run (139/139, 16 files); CI green; privacy clean; no test, contract, migration, config or
+generated source is touched.
+
+## Cycle-1 resolution
+
+| # | Cycle-1 finding | Status | Evidence |
+|---|---|---|---|
+| 1 | **MAJOR** — committed `backlog.md:50` / `status.md:35` stale vs `TMU-META-004.md:4` (`REVIEW`) | **FIXED** | `caf6ad1` regenerates both indexes: 48 rows, `TMU-META-004` row = `REVIEW`, M1 counts `TODO: 21 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 1 · DONE: 1 · CANCELLED: 0` = round(1/23·100) = 4%; full field-by-field re-derivation of both files from all 48 front-matters (sort key, row template, counters, percentages, checklist ticks) matches the committed bytes → regeneration would be a no-op |
+| 2 | **MAJOR** — `proposal.pdf` asserted present where no worktree can see it; probe/intake ACs infeasible | **FIXED** | `TMU-OPS-033.md:31-36` ("main checkout … untracked … not in any agent worktree"), `TMU-DOC-002.md:27-30` ("absent here until you copy it in"), `TMU-META-004.md:36-42`; DOC-002 AC1 `:45-48` = copy from `E:\TemuUNAIR-v2\docs\_source\proposal.pdf` (or git), SHA-256 compare, `git add` only, blocker if neither source exists; OPS-033 AC4 `:53-58` keeps the static glob proof and moves the live probe to DOC-002. No claim remains that the PDF is present in a worktree |
+| 3 | **MAJOR** — `TMU-DOC-003/008/019` (`lane: docs`) declared meta-only files, failing the lane check when executed | **FIXED** | Handoff Context bullets + rewritten ACs + Files cleaned in all three (`TMU-DOC-003.md:44-47,56-57,63-65`; `TMU-DOC-008.md:30-32,39-41,49-51`; `TMU-DOC-019.md:32-34,45-47,53-55`); new `TMU-META-005.md` (72 lines: `lane: meta` `:5`, owner `docs-keeper` `:9`, deps `:10`, handoff ACs `:47-51`, meta-reachable Files `:58-62`); `TMU-DOC-020.md:10,28-30,70-71` gains the dep, rationale and exit row 7 (human gate renumbered to row 8). Sweep of every task's Files list: the only `docs/08-project/**` non-`tasks/` entries left in docs-lane tasks are `backlog.md`/`status.md` in `TMU-DOC-020.md:57-58` — both `_common` |
+| 4 | MINOR — filed-by table gave `TMU-DOC-008` the dep `TMU-DOC-002` | **FIXED** | `TMU-META-004.md:59` = `TMU-DOC-003`, matching `TMU-DOC-008.md:10` and `backlog.md:37`; all 21 table rows re-checked against the filed files' `deps:` |
+| 5 | MINOR — `TMU-DOC-014.md:36` said "eight" sections, listed nine | **FIXED** | `TMU-DOC-014.md:36` now "nine Blueprint-required sections (purpose, …, a11y notes)"; `\beight\b` across `docs/` → 0 hits |
+| 6 | MINOR — Evidence/Progress behind reality (no `9 REVIEW` row, no PR/review links) | **FIXED** | `TMU-META-004.md:106-107` (review row + fix row), `:115` PR #32 URL (draft, label `documentation` — matches the API), `:116` review path |
+| 7 | MINOR — Context over-credited `_source/README.md` with the M1 PDF deadline | **FIXED** | `TMU-META-004.md:36-42`: README quoted only for "must be added by a human" / extract "to be written in M1"; the M1 deadline is attributed to the roadmap M1 exit row |
+| 8 | MINOR — PR body claims the dep chain is "verified by the scaffold tests" | **NOT FIXED** | PR #32 body (API, head `caf6ad1`) still says "Dependency chain (acyclic, verified by the scaffold tests)", "(47 tasks)", "23 files", chain `OPS-033 → … → DOC-020` without `TMU-META-005`, and "Review file … (added once cycle 1 completes)"; `scaffold.test.mjs:163` still only checks required front-matter keys, `:183-203` only ID/filename uniqueness — no deps-existence or cycle test. Carried forward as MINOR 1 below |
+
+### How the index MAJOR (1) was verified without `node`
+
+`node scripts/backlog-index.mjs` / `node scripts/next-task.mjs` remain sandbox-denied (only
+`git status|diff|log|show*`, `pnpm gate*`, `pnpm test*` execute; edits are allowed only under
+`docs/08-project/reviews/**`, so no scratch runner could be written either). I therefore
+re-derived both outputs completely instead of simulating partially, as in cycle 1:
+
+- **Statuses**: grep of `^status:` over `docs/08-project/tasks/` → 48 files; every value matches
+  its backlog row (`DONE` ×25, `REVIEW` ×1 (`TMU-META-004`), `TODO` ×22), including the row that
+  was stale in cycle 1 (`backlog.md:50`).
+- **Row set/order**: 48 rows at `backlog.md:6-53`, sorted by `(milestone, id)` exactly as
+  `backlog-index.mjs:44` does (M0: META-001..003 + OPS-001..021; M1: DOC-001..020, META-004,
+  META-005, OPS-033; M2: CTR-006), row template `:49-52`, quote-stripping `:26` (cf. the quoted
+  title at `TMU-DOC-002.md:3` rendering unquoted at `backlog.md:31`), header `:49`.
+- **Dashboard**: `milestoneOrder` `:46` → M0/M1/M2; M0 24/24 = 100% (`status.md:4-6`), M1 1/23 =
+  4% with `TODO: 21 … REVIEW: 1 … DONE: 1` (`:33-35`), M2 0% (`:61-63`); checklist ticks `:65-66`
+  = only `DONE` tasks get `[x]` (`:37`), trailing blank line per `:67` (file ends at line 66).
+- **Scheduler**: `next-task.mjs:98-119` without `--check-remote` gives `branches = []` (no
+  branch/db exclusions), runnable = TODO ∩ all-deps-DONE = {`TMU-OPS-033` (deps `DOC-001` ✓),
+  `TMU-CTR-006` (deps `OPS-005` ✓)}; sort `(milestone, priority, id)` → first = `TMU-OPS-033`,
+  so AC 4's `next-task` expectation holds; `--all` would print 48 rows.
+
+## BLOCKER
+
+(none)
+
+## MAJOR
+
+(none)
+
+## MINOR
+
+- [ ] **1** (cycle-1 finding 8, still open) PR #32 body (repo metadata) — "Dependency chain
+      (acyclic, **verified by the scaffold tests**)" is a claim no test makes
+      (`scripts/checks/scaffold.test.mjs:163` = required front-matter keys, `:183-203` = ID/
+      filename uniqueness; no deps-existence or cycle check exists anywhere in `scripts/`), and
+      the body has now drifted from the branch it describes: "(47 tasks)" → 48, "23 files" → 25,
+      the chain omits `TMU-META-005` (`TMU-DOC-020.md:10`), and "Review file … (added once cycle
+      1 completes)" is stale — `caf6ad1` committed
+      `docs/08-project/reviews/TMU-META-004.md`. Direction (pre-merge action, no repo file):
+      `gh pr edit 32` — reword to "verified by reviewer inspection (cycle-1 review, AC 3)", bump
+      the counts, add `→ TMU-META-005 → TMU-DOC-020`, and drop the review-file parenthetical.
+- [ ] **2** `docs/08-project/tasks/TMU-META-004.md:90-97` — "Files expected to change" still
+      omits `docs/08-project/reviews/TMU-META-004.md` although `caf6ad1` added it; cycle-1 note 2
+      asked for exactly this once the fix landed, and sibling tasks list their review files
+      (`TMU-DOC-001.md:41`, `TMU-META-001.md:56`, `TMU-META-002.md:57`, `TMU-OPS-011.md:63`).
+      The new `TMU-META-005.md` got the analogous "(filed at review cycle 1)" treatment at
+      `:95`, so the omission is inconsistent even within this file. Direction: add
+      "- `docs/08-project/reviews/TMU-META-004.md`".
+- [ ] **3** `docs/08-project/tasks/TMU-OPS-033.md:56-57` vs
+      `docs/08-project/tasks/TMU-DOC-002.md:43-56` — OPS-033 AC4 requires the live probe to be
+      "performed by `TMU-DOC-002` and cross-referenced back into this task's Progress log", but
+      DOC-002's ACs only stage the PDF (`:45-48`) and run the lane check (`:56`); nothing tells
+      its executor to append that cross-reference, and OPS-033 is already `DONE` by then (DOC-002
+      depends on it, `TMU-DOC-002.md:10`). The handoff is one-sided, so the promised evidence
+      link will silently never be written. Direction: add "record the probe result in
+      `TMU-OPS-033`'s Progress log" to DOC-002's AC5, or drop the cross-reference requirement
+      from OPS-033 AC4 (its static proof at `:57-58` already suffices).
+- [ ] **4** `docs/08-project/tasks/TMU-META-005.md:52-54` vs `:55` and `:58-62` — AC3 says the
+      branch "only edits … its own task file, `decisions-log.md`, `traceability-matrix.md`", yet
+      AC4 mandates regenerating `backlog.md`/`status.md` when statuses change (META-005's own
+      `TODO → … → DONE` flips guarantee that), and the Files list omits both indexes. A literal
+      reading of AC3 either forbids AC4 or ships the exact index-drift class this cycle fixed —
+      which nothing in the gate can catch (`scaffold.test.mjs` has no index↔front-matter check).
+      Direction: scope AC3 to "…plus the two regenerated indexes when AC4 applies" and add
+      `backlog.md`/`status.md` (regenerated) to Files, as `TMU-DOC-020.md:57-58` and
+      `TMU-META-004.md:96-97` already do.
+- [ ] **5** commits `328e277` and `caf6ad1` use scope `project`
+      (`docs(project): …`), which is not in the allowed scope list
+      `docs/05-workflow/07-commit-and-pr-conventions.md:28`
+      (`web api worker ml db contracts ui i18n e2e docs ops agents tasks meta`). Subject shape,
+      ≤72-char imperative and `Task:`/`Refs:`/`Agent:` trailers are otherwise correct. Same class
+      as the cycle-1 scope finding on `TMU-META-002` (`reviews/TMU-META-002.md:43`, MINOR,
+      precedent kept it MINOR). Direction: use `docs(meta)` or `docs(tasks)` for any further
+      commits on this branch (history need not be rewritten), or add `project` to the list via a
+      workflow-doc task — out of lane here.
+
+## Checks run
+
+- `git log origin/main..HEAD --oneline` → `caf6ad1` (fix) + `328e277` (filing). `git diff
+  origin/main...HEAD --stat` → 25 files, +1,608/−2, every path under `docs/08-project/**`.
+  `git diff --check origin/main...HEAD` → clean. `git status --short` in the worktree → empty
+  before and after the gate.
+- `git show caf6ad1 --stat` → 12 files, +263/−42; subject `docs(project): fix TMU-META-004 review
+  cycle 1 findings`; body itemises M1/M2/M3/m4–m7 + the review file; trailers `Task:
+  TMU-META-004`, `Refs: ROADMAP, BLUEPRINT`, `Agent: orchestrator` (scope `project` → MINOR 5).
+- `pnpm gate` **run by me** in the worktree at `caf6ad1` → `OK gate(quick) passed`: lane check
+  (step 1 = `scripts/check-lane.sh`, exit 0), prettier, lint, typecheck, i18n (70 keys/locale),
+  **139 tests / 16 files** (including the live `db:check` suite), `contracts:check OK (version
+  1.0.0)`, `contracts:lint OK`, `db:check: ok`, ml ruff + 7 pytest. Tail:
+
+  ```
+  > migrations check
+  db:check: ok
+
+  > ml lint+tests
+  All checks passed!
+  7 passed, 1 warning in 0.65s
+
+  OK gate(quick) passed
+  ```
+- Index freshness (cycle-1 MAJOR 1): re-derivation described above — statuses 48/48, row order,
+  template, counters, percentages and ticks all equal the committed bytes; a regeneration would
+  produce no diff. `node scripts/backlog-index.mjs` could not be executed (sandbox denies `node`
+  outside `pnpm gate`/`pnpm test`, and denies writing scratch files outside
+  `docs/08-project/reviews/**`); this does not change the conclusion because the generator's
+  output is a pure function of the 48 front-matters, all of which I read.
+- Scheduler (AC 4): source-level derivation from `next-task.mjs:98-119` → runnable set
+  {`TMU-OPS-033`, `TMU-CTR-006`}, first pick `TMU-OPS-033`; `--all` = 48. Not executed (same
+  sandbox limit).
+- Filed-by/deps sweep: all 21 rows of `TMU-META-004.md:52-72` match the filed files' `deps:`;
+  every `deps:` ID across all 48 files resolves; graph with the two new edges (`DOC-020 →
+  META-005`, `META-005 → DOC-003/008/019`) is acyclic — nothing reaches `META-005`/`DOC-020`
+  except their dependents. Slug `sync-meta-registers-m1` (`TMU-META-005.md:6`) unique; owner
+  `docs-keeper` exists in `.opencode/agents/`; lane `meta` ∈ the eleven lanes.
+- Lane audit: grepped every task's `Files expected to change` for `docs/08-project/` entries —
+  no `lane: docs` task declares a meta-only path (finding 3 closed). `TMU-META-005`'s Files
+  (`:58-62`) are all meta-reachable, which is why filing it (rather than widening `_common`) was
+  the right fix.
+- Text sweeps: `\beight\b` in `docs/` → 0 hits (m5); "47 tasks" appears only in this review's
+  historical cycle-1 section and in Progress row `TMU-META-004.md:105` (correct at the time it
+  was written; the `TMU-META-002` precedent is that historical rows are not rewritten);
+  `proposal.pdf` presence claims are all main-checkout-scoped; exit-table renumber has no other
+  referents (`TMU-DOC-020.md:71` is the only "Human gate" row).
+- PR + CI via GitHub REST API (no `gh`): `pulls/32` → Draft, label `documentation`, head
+  `caf6ad1` == worktree HEAD, base `0a26eff`, 2 commits / 25 files / +1,608/−2, body quoted in
+  MINOR 1; `commits/caf6ad1/check-runs` → 12 runs: `audit`, `migrations`, `build`, `integration`,
+  `ml`, `secret-scan`, `contracts`, `e2e`, `unit`, `contract-fuzz`, `lint-typecheck` =
+  `success`, `docker-build` = `skipped`.
+- Not executable here: `node scripts/*`, writing scratch files (edits allowed only under
+  `docs/08-project/reviews/**`), `gh`, `git fetch`, direct `bash scripts/check-lane.sh` (covered
+  by gate step 1), `gate:full`/e2e (docs-only diff; quick gate is what AC 6 asks). No test file
+  was added, changed or weakened by this diff (25/25 paths are task/index/review markdown).
+
+## DoD checklist
+
+| # | DoD item | Status | Evidence |
+|---|---|---|---|
+| 1 | Red tests existed first, failed for the right reason | Met (caveat, as cycle 1) | Docs-filing task; no product code or test changed; cycle-1 recorded this as accepted for comparable filing tasks (`TMU-DOC-001`) — not re-raised |
+| 2 | New/updated tests pass; `pnpm gate` green | Met | My own fresh run (above), 139/139 |
+| 3 | Contract tests for touched `API-*` | N/A | No endpoint, contract or generated file touched (`contracts:check` green) |
+| 4 | Auth/RBAC; state transitions | N/A | Docs-only; no routes, services or state machines |
+| 5 | Privacy: no hint answers, emails, embeddings, sensitive URLs | Met | See Privacy |
+| 6 | i18n keys for `id` + `en` | N/A | No user-facing text; `i18n:check` green (70 keys) |
+| 7 | A11y (UI tasks) | N/A | No UI |
+| 8 | Docs updated: status, Progress log, traceability, CHANGELOG | Met | `TMU-META-004.md:106-107` Progress rows, `:115-116` Evidence; index rows match front-matter; traceability matrix intentionally deferred to `TMU-META-005` (Tasks column is still all `—`, so no orphan rows); no contract change ⇒ no CHANGELOG entry |
+| 9 | Generated files in sync, no hand edits | **Met** | Cycle-1 MAJOR fixed: full re-derivation shows `backlog.md`/`status.md` equal generator output (48 rows, `REVIEW`, counts, 4%); no hand-edit signature in either file (header comment intact, format matches `backlog-index.mjs:49-52,55-67`) |
+| 10 | Reviewer verdict in `reviews/<ID>.md` | **Met** | This file, cycle 2 = `APPROVE` |
+| 11 | Security review for sensitive tasks | N/A | No auth, claims, uploads or privacy-sensitive code; privacy scan performed (below) |
+| 12 | PR ready, CI green, labels correct | Met (step 12 pending) | CI green on `caf6ad1` (11 success + 1 skipped), label `documentation` present; PR still Draft by design — loop step 12 flips it; PR body stale (MINOR 1) |
+
+## Privacy
+
+Clean. The diff is markdown only: task files, two generated indexes, one review file. It records
+the path of an untracked local file (`E:\TemuUNAIR-v2\docs\_source\proposal.pdf`) — a filesystem
+path, not a secret — and no file content. No emails, hint answers, embeddings, raw image URLs,
+tokens or `.env`; no logging, analytics or response surface is touched; fixtures are absent by
+construction. DoD 5 satisfied.
+
+## Notes for the human
+
+1. **Verdict `APPROVE` — cycle 2 of 2, 0 BLOCKER / 0 MAJOR / 5 MINOR.** Justification for
+   approving with open MINORs: none of the five changes merged content — cycle-1 findings 1–7 are
+   fixed and re-verified; MINOR 1 is PR-description metadata; MINOR 2–4 are one-line wording fixes
+   in task files; MINOR 5 is a commit-scope token on already-pushed commits. Per the DoD, MINORs
+   may be fixed opportunistically before merge or filed as follow-up tasks (they must be filed,
+   not silently dropped) — no third review cycle is needed either way.
+2. **Before ready-for-review (orchestrator):** run `gh pr edit 32` for MINOR 1 (the body is now
+   factually wrong about counts, the dep chain and the review file), and decide for MINOR 2–5
+   fix-now vs follow-up. When this file lands, `TMU-META-004.md:116` ("cycle 2 pending") and the
+   step-13 close-out (`status: DONE`, PR/review URLs) still need updating — the standard
+   post-APPROVE bookkeeping, not a finding.
+3. **Recommendation (repeated from cycle 1; orchestrator decides, reviewer files nothing):** this
+   is the second time an index↔front-matter drift escaped into a commit (TMU-META-002 cycle 1,
+   this task cycle 1), and MINOR 4 above plants the same class prospectively in `TMU-META-005`.
+   Consider the small ops/meta task that adds a compare-regenerate-and-diff check to
+   `scripts/checks/scaffold.test.mjs` so the gate can fail on stale indexes.
+4. **Could not verify by execution:** `node scripts/backlog-index.mjs`, `node
+   scripts/next-task.mjs`, `bash scripts/check-lane.sh` directly, `git fetch`, and `gh` — the
+   sandbox executes only `git status|diff|log|show*`, `pnpm gate*`, `pnpm test*` and permits edits
+   only under `docs/08-project/reviews/**` (so not even a temporary probe file could be written).
+   Both generators were instead re-derived field-by-field from all 48 front-matters, the
+   scheduler from its source, and PR/CI state from the GitHub REST API. The task's own Evidence
+   (`TMU-META-004.md:114`: "backlog-index → 48 tasks; next-task → TMU-OPS-033") records the
+   author's runs and is consistent with my derivation; a future agent with a wider sandbox can
+   paste real command output over it.
+5. **Correction to my cycle-1 record (no impact):** cycle-1 AC 1 evidence said "slugs unique" —
+   that was wrong: `TMU-META-001.md:6` and `TMU-META-002.md:6` both use
+   `post-merge-bookkeeping`. It is pre-existing, outside this diff, and nothing requires slug
+   uniqueness (`scaffold.test.mjs:163` only requires the key to be present); unique **IDs**
+   matching filenames hold for all 48 files, which is what the AC actually asks.
+6. **Out of scope, not filed by me:** `TMU-OPS-016.md:75` (a `lane: ops` task) lists
+   `docs/08-project/decisions-log.md`, a meta-only path — pre-existing and `DONE`, untouched by
+   this diff; noting it only because the same lane rule drove finding 3.
+
 ---
 
 # TMU-META-004 — Review cycle 1
@@ -67,7 +321,7 @@ No BLOCKER.
 - Content cross-checks: Blueprint §4 rows 224-258 ↔ `TMU-DOC-004..018` Goals/Contexts (no invented
   requirements found); `SCR-001..023` present; `scripts/check-contrast.mjs` present (DOC-016);
   BE-08 NotificationType present (DOC-017); `10-roadmap.md:20` M1 exit ↔ `TMU-DOC-020` ACs;
-  `decisions-log.md:39-40` DEC-019/DEC-020 (the condition behind findings 3);
+  `decisions-log.md:39-40` DEC-019/DEC-020 (the condition behind finding 3);
   traceability matrix Tasks column is all `—` → no orphan rows created by this filing.
 - PR #32 fetched: Draft, label `documentation`, 1 commit.
 - Not executable in this sandbox (only `git status|diff|log|show*`, `pnpm gate*`, `pnpm test*` are

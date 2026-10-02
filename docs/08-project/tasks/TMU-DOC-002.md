@@ -54,6 +54,9 @@ anything, and bring `_source/README.md`'s status table in line with reality.
 - [ ] No other source file (`logo.png`, `proposal.pdf` body) is modified; `git diff` for the
       folder shows additions/edits only where the ACs say.
 - [ ] `bash scripts/check-lane.sh` and `pnpm gate` green.
+- [ ] Probe cross-reference: the `git add docs/_source/proposal.pdf` + lane-check result is
+      recorded in `TMU-OPS-033`'s Progress log (that task's probe AC expects it back; task files
+      are `_common`, so a docs branch may write it).
 
 ## Files expected to change
 
