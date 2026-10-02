@@ -13,7 +13,7 @@
     "docs/06-quality/**",
     "docs/07-ops/**",
     "docs/09-course/**",
-    "docs/_source/proposal-extract.md"
+    "docs/_source/**"
   ],
   "arch": [
     "docs/03-architecture/**",

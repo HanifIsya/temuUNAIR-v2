@@ -113,6 +113,18 @@ describe("lane map", () => {
     expect(uncovered).toEqual([]);
   });
 
+  it("gives the docs lane the whole source folder (TMU-OPS-033)", () => {
+    const sourcePaths = [
+      "docs/_source/proposal.pdf",
+      "docs/_source/proposal-extract.md",
+      "docs/_source/README.md",
+      "docs/_source/logo.png",
+    ];
+    const allowed = [...(lanes.docs ?? []), ...lanes._common].map(globToRe);
+    const uncovered = sourcePaths.filter((f) => !allowed.some((re) => re.test(f)));
+    expect(uncovered).toEqual([]);
+  });
+
   it("keeps contract paths out of every non-contract lane", () => {
     const contractPaths = [
       "packages/contracts/src/index.ts",
