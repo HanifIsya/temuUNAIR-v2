@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { createRequire, enableCompileCache } from "node:module";
-import { pathToFileURL } from "node:url";
+import { resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { Worker } from "node:worker_threads";
 import type { Pool } from "pg";
 
@@ -120,7 +121,8 @@ export async function runCheck(options: RunCheckOptions, deps: RunCheckDeps): Pr
         workerData: {
           sourceUrl: databaseUrl,
           scratchName,
-          migrationsDir: migrationsDir ?? "./migrations",
+          migrationsDir:
+            migrationsDir ?? resolve(fileURLToPath(import.meta.url), "../../migrations"),
         },
       });
       inbox = new WorkerInbox(worker);
