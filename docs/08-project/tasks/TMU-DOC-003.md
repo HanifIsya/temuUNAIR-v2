@@ -41,6 +41,11 @@ approval.
   `docs/01-product/12-assumptions-and-decisions.md` that names the OQ, the deferral, the owner
   and the due milestone. The docs lane's `docs/01-product/**` glob covers that file.
 - Existing DEC numbering must continue (find the last `DEC-###` before minting new ones).
+- Stale-source claim refresh (follow-up from `TMU-DOC-002` review F5): once `TMU-DOC-002` merges,
+  `docs/01-product/01-PRD.md:13` ("`proposal.pdf` … not in the repo yet") is false — update that
+  line to the committed state (hash + extract pointer) while touching the PRD for OQ-1.
+  `docs/02-design/02-brand-and-logo.md:13`'s logo caveat is unaffected (logo.png is still the
+  placeholder).
 - `docs/08-project/decisions-log.md` is **meta-lane-only** (`docs/08-project/**` outside the
   `_common` globs) — a `lane: docs` branch fails `scripts/check-lane.sh` on it. Handoff: record
   the new DEC IDs and one-line summaries in this task's Progress log; `TMU-META-005` applies

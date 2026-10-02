@@ -28,7 +28,7 @@
 | [TMU-OPS-020](tasks/TMU-OPS-020.md) | M0 | ops | DONE | P3 | Clear the advisory audit red (postcss under next) | TMU-OPS-003 |
 | [TMU-OPS-021](tasks/TMU-OPS-021.md) | M0 | db | DONE | P3 | Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings) | TMU-OPS-005 |
 | [TMU-DOC-001](tasks/TMU-DOC-001.md) | M1 | docs | DONE | P1 | M0 exit roadmap update and M1 documentation milestone kickoff | TMU-OPS-010 |
-| [TMU-DOC-002](tasks/TMU-DOC-002.md) | M1 | docs | TODO | P1 | Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md | TMU-DOC-001, TMU-OPS-033 |
+| [TMU-DOC-002](tasks/TMU-DOC-002.md) | M1 | docs | DONE | P1 | Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md | TMU-DOC-001, TMU-OPS-033 |
 | [TMU-DOC-003](tasks/TMU-DOC-003.md) | M1 | docs | TODO | P1 | Resolve OQ-1..OQ-5 (answer OQ-1 from source; defer OQ-2..5 with DECs) | TMU-DOC-002 |
 | [TMU-DOC-004](tasks/TMU-DOC-004.md) | M1 | docs | TODO | P2 | Review and approve the M1 core product docs (PRD, VISION, PERSONAS) | TMU-DOC-003 |
 | [TMU-DOC-005](tasks/TMU-DOC-005.md) | M1 | docs | TODO | P2 | Review and approve the requirements docs (US, FR, NFR) | TMU-DOC-002 |
