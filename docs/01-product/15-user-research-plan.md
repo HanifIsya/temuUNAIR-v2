@@ -1,9 +1,9 @@
 ---
 id: RESEARCH
 title: User research and usability plan
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PERSONAS", "US", "METRICS"]
 source_refs: ["Blueprint §4.2"]
 ---

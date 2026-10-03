@@ -30,9 +30,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 - [x] TMU-OPS-020 — Clear the advisory audit red (postcss under next)
 - [x] TMU-OPS-021 — Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
 
-## M1 — 48%
+## M1 — 52%
 
-TODO: 12 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 11 · CANCELLED: 0
+TODO: 11 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 12 · CANCELLED: 0
 
 - [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 - [x] TMU-DOC-002 — Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md
@@ -43,7 +43,7 @@ TODO: 12 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 11 · CANCELLED: 
 - [x] TMU-DOC-007 — Review and approve the risk register and roadmap
 - [x] TMU-DOC-008 — Review and approve the success-metrics and decisions docs
 - [x] TMU-DOC-009 — Review the legal/privacy drafts and record the human legal-review requirement
-- [ ] TMU-DOC-010 — Review and approve the operations-model and user-research docs
+- [x] TMU-DOC-010 — Review and approve the operations-model and user-research docs
 - [ ] TMU-DOC-011 — Review and approve the design foundations (principles, brand, tokens)
 - [ ] TMU-DOC-012 — Review and approve information architecture and user flows
 - [ ] TMU-DOC-013 — Review and approve wireframes

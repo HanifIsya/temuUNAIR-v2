@@ -1,9 +1,9 @@
 ---
 id: OPS-MODEL
 title: Operations model — who runs lost-and-found
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PRD", "DECISIONS", "FR-ADM"]
 source_refs: ["DEC-005", "DEC-006", "Blueprint §4.2"]
 ---
