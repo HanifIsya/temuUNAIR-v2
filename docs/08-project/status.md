@@ -30,14 +30,14 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 - [x] TMU-OPS-020 — Clear the advisory audit red (postcss under next)
 - [x] TMU-OPS-021 — Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
 
-## M1 — 22%
+## M1 — 26%
 
-TODO: 18 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 5 · CANCELLED: 0
+TODO: 17 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 6 · CANCELLED: 0
 
 - [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 - [x] TMU-DOC-002 — Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md
 - [x] TMU-DOC-003 — Resolve OQ-1..OQ-5 (answer OQ-1 from source; defer OQ-2..5 with DECs)
-- [ ] TMU-DOC-004 — Review and approve the M1 core product docs (PRD, VISION, PERSONAS)
+- [x] TMU-DOC-004 — Review and approve the M1 core product docs (PRD, VISION, PERSONAS)
 - [ ] TMU-DOC-005 — Review and approve the requirements docs (US, FR, NFR)
 - [ ] TMU-DOC-006 — Review and approve the acceptance-criteria and glossary docs
 - [ ] TMU-DOC-007 — Review and approve the risk register and roadmap

@@ -1,16 +1,16 @@
 ---
 id: PRD
 title: Product Requirements Document — TemuUNAIR
-status: draft
+status: approved
 owner: SW
-updated: 2026-10-02
+updated: 2026-10-03
 depends_on: ["BLUEPRINT", "SRC-README"]
 source_refs: ["proposal.pdf §A/§B/§D (via docs/_source/proposal-extract.md)", "DEC-001..DEC-024", "Blueprint §1"]
 ---
 
 # PRD — TemuUNAIR ("Lost Today, Found Together")
 
-> **Draft note.** `docs/_source/proposal.pdf` is **committed** (SHA-256 `028501CB…F8B9`) and
+> **Source note.** `docs/_source/proposal.pdf` is **committed** (SHA-256 `028501CB…F8B9`) and
 > `docs/_source/proposal-extract.md` provides the citation-first transcription (status `draft`,
 > human verification pending). Indonesian labels are verbatim only where a `proposal.pdf §…`
 > citation says so — §2.1 now quotes *Tujuan 1–5* and the *Cara Kerja* 8 steps directly
@@ -138,7 +138,7 @@ rate, % of returns completed with two-sided confirmation.
 | Real UNAIR email domains | UNAIR DTI / advisor | M3 (AUTH) | Dev allowlist + magic link for testers (DEC-001) |
 | Real drop points + hours | UNAIR stakeholders | M3 (seed data) | Synthetic drop points flagged "contoh" |
 | Google OAuth client credentials | Team | M3 | Dev-only magic-link provider |
-| Proposal PDF + logo in `docs/_source/` | Team | M1 approval | Docs stay `draft` |
+| Proposal PDF in `docs/_source/` (committed) + logo (placeholder tracked; real palette TMU-DSG-001) | Team | M1 approval | Met for M1 doc approval (`TMU-DOC-002`, `SRC-README`) |
 | Eval dataset (labelled lost/found pairs) | ML owner | M5 (matching quality) | Synthetic pairs; metrics marked provisional |
 
 ## 10. Risks (summary)
