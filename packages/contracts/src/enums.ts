@@ -42,3 +42,9 @@ export const Campus = z.enum(["KAMPUS_A", "KAMPUS_B", "KAMPUS_C", "BANYUWANGI"])
 export const Custody = z.enum(["HELD_BY_FINDER", "AT_DROP_POINT"]);
 
 export const MatchBand = z.enum(["STRONG", "POSSIBLE"]);
+
+export const UserRole = z.enum(["USER", "MODERATOR", "ADMIN"]);
+
+export const UserStatus = z.enum(["ACTIVE", "SUSPENDED", "DELETED"]);
+
+export const UploadStatus = z.enum(["PENDING", "READY", "REJECTED"]);

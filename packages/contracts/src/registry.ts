@@ -2,7 +2,21 @@
 // (docs/04-contracts/README.md; BE-02). The generator derives every artefact from this list.
 // The minimal M0 set is frozen by TMU-OPS-004; the full catalogue lands in TMU-CTR-001..005.
 import { z } from "zod";
-import { CategoryMeta, HealthResponse, LocationMeta, ReadyResponse } from "./common.ts";
+import {
+  AccountDeletionResponse,
+  CampusMeta,
+  CategoryMeta,
+  DropPointMeta,
+  HealthResponse,
+  LocationMeta,
+  Me,
+  MeUpdate,
+  NotificationPrefs,
+  ReadyResponse,
+  UploadInitRequest,
+  UploadInitResponse,
+  UploadState,
+} from "./common.ts";
 import type { ErrorCode } from "./errors.ts";
 
 export type Auth = "public" | "user" | "owner" | "moderator" | "admin";
@@ -50,6 +64,15 @@ export const registry: readonly RouteDef[] = [
     errors: [],
   },
   {
+    id: "API-META-02",
+    method: "get",
+    path: "/api/v1/meta/campuses",
+    auth: "user",
+    request: null,
+    response: z.array(CampusMeta),
+    errors: [],
+  },
+  {
     id: "API-META-03",
     method: "get",
     path: "/api/v1/meta/locations",
@@ -57,6 +80,87 @@ export const registry: readonly RouteDef[] = [
     request: null,
     response: z.array(LocationMeta),
     errors: ["VALIDATION_FAILED"],
+  },
+  {
+    id: "API-META-04",
+    method: "get",
+    path: "/api/v1/meta/drop-points",
+    auth: "user",
+    request: null,
+    response: z.array(DropPointMeta),
+    errors: [],
+  },
+  {
+    id: "API-ME-01",
+    method: "get",
+    path: "/api/v1/me",
+    auth: "user",
+    request: null,
+    response: Me,
+    errors: ["AUTH_REQUIRED"],
+  },
+  {
+    id: "API-ME-02",
+    method: "patch",
+    path: "/api/v1/me",
+    auth: "user",
+    request: MeUpdate,
+    response: Me,
+    errors: ["AUTH_REQUIRED", "VALIDATION_FAILED"],
+  },
+  {
+    id: "API-ME-03",
+    method: "delete",
+    path: "/api/v1/me",
+    auth: "user",
+    request: null,
+    response: AccountDeletionResponse,
+    errors: ["AUTH_REQUIRED"],
+  },
+  {
+    id: "API-ME-04",
+    method: "get",
+    path: "/api/v1/me/notification-preferences",
+    auth: "user",
+    request: null,
+    response: NotificationPrefs,
+    errors: ["AUTH_REQUIRED"],
+  },
+  {
+    id: "API-ME-05",
+    method: "put",
+    path: "/api/v1/me/notification-preferences",
+    auth: "user",
+    request: NotificationPrefs,
+    response: NotificationPrefs,
+    errors: ["AUTH_REQUIRED", "VALIDATION_FAILED"],
+  },
+  {
+    id: "API-UPL-01",
+    method: "post",
+    path: "/api/v1/uploads",
+    auth: "user",
+    request: UploadInitRequest,
+    response: UploadInitResponse,
+    errors: ["AUTH_REQUIRED", "UPLOAD_INVALID_TYPE", "UPLOAD_TOO_LARGE", "RATE_LIMITED"],
+  },
+  {
+    id: "API-UPL-02",
+    method: "post",
+    path: "/api/v1/uploads/{id}/complete",
+    auth: "owner",
+    request: null,
+    response: UploadState,
+    errors: ["AUTH_REQUIRED", "NOT_FOUND", "UPLOAD_INVALID_TYPE"],
+  },
+  {
+    id: "API-UPL-03",
+    method: "get",
+    path: "/api/v1/uploads/{id}",
+    auth: "owner",
+    request: null,
+    response: UploadState,
+    errors: ["AUTH_REQUIRED", "NOT_FOUND"],
   },
 ];
 

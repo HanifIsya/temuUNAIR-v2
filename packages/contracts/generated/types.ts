@@ -11,8 +11,38 @@ export interface paths {
   "/api/v1/meta/categories": {
     get: operations["API-META-01"];
   };
+  "/api/v1/meta/campuses": {
+    get: operations["API-META-02"];
+  };
   "/api/v1/meta/locations": {
     get: operations["API-META-03"];
+  };
+  "/api/v1/meta/drop-points": {
+    get: operations["API-META-04"];
+  };
+  "/api/v1/me": {
+    get: operations["API-ME-01"];
+  };
+  "/api/v1/me": {
+    patch: operations["API-ME-02"];
+  };
+  "/api/v1/me": {
+    delete: operations["API-ME-03"];
+  };
+  "/api/v1/me/notification-preferences": {
+    get: operations["API-ME-04"];
+  };
+  "/api/v1/me/notification-preferences": {
+    put: operations["API-ME-05"];
+  };
+  "/api/v1/uploads": {
+    post: operations["API-UPL-01"];
+  };
+  "/api/v1/uploads/{id}/complete": {
+    post: operations["API-UPL-02"];
+  };
+  "/api/v1/uploads/{id}": {
+    get: operations["API-UPL-03"];
   };
 }
 
@@ -22,7 +52,16 @@ export interface components {
     "API-SYS-01Response": { "status": "ok"; };
     "API-SYS-02Response": { "db": "ok" | "degraded" | "down"; "storage": "ok" | "degraded" | "down"; "ml": "ok" | "degraded" | "down"; };
     "API-META-01Response": Array<{ "value": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "labelKey": string; "isSensitive": boolean; "hintPrompts": Array<string>; }>;
+    "API-META-02Response": Array<{ "id": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "name": string; "locationCount"?: number; }>;
     "API-META-03Response": Array<{ "id": string; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "name": string; "building"?: string; "note"?: string; }>;
+    "API-META-04Response": Array<{ "id": string; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "name": string; "locationId"?: string; "hours"?: string; "contactNote"?: string; "active": boolean; }>;
+    "API-ME-01Response": { "id": string; "email": string; "displayName": string; "role": "USER" | "MODERATOR" | "ADMIN"; "status": "ACTIVE" | "SUSPENDED" | "DELETED"; "locale": string; "moderatorCampus"?: "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "createdAt": string; };
+    "API-ME-02Request": { "displayName"?: string; "locale"?: string; };
+    "API-ME-03Response": { "scheduledAt": string; };
+    "API-ME-04Response": { "emailEnabled": boolean; "mutedTypes": Array<string>; };
+    "API-UPL-01Response": { "uploadId": string; "uploadUrl": string; "expiresAt": string; };
+    "API-UPL-01Request": { "mime": string; "sizeBytes": number; "sha256"?: string; };
+    "API-UPL-02Response": { "id": string; "status": "PENDING" | "READY" | "REJECTED"; "mime"?: string; "sizeBytes"?: number; "thumbUrl"?: string | null; "maskedUrl"?: string | null; "createdAt"?: string; };
   };
   securitySchemes: {
     cookieAuth: { type: "apiKey"; in: "cookie"; name: "__Secure-temuunair.session" };
@@ -45,10 +84,95 @@ export interface operations {
       200: { content: { "application/json": components["schemas"]["API-META-01Response"] } };
     };
   };
+  "API-META-02": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-META-02Response"] } };
+    };
+  };
   "API-META-03": {
     responses: {
       200: { content: { "application/json": components["schemas"]["API-META-03Response"] } };
       422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-META-04": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-META-04Response"] } };
+    };
+  };
+  "API-ME-01": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-ME-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-ME-02": {
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-ME-02Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-ME-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-ME-03": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-ME-03Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-ME-04": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-ME-04Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-ME-05": {
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-ME-04Response"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-ME-04Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-UPL-01": {
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-UPL-01Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-UPL-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      415: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      413: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-UPL-02": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-UPL-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      415: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-UPL-03": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-UPL-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
     };
   };
 }

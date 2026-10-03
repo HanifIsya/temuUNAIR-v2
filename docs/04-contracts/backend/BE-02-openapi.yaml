@@ -51,6 +51,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/API-META-01Response"
+  /api/v1/meta/campuses:
+    get:
+      operationId: API-META-02
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-META-02Response"
   /api/v1/meta/locations:
     get:
       operationId: API-META-03
@@ -79,6 +95,372 @@ paths:
                 $ref: "#/components/schemas/ErrorEnvelope"
           x-error-codes:
             - VALIDATION_FAILED
+  /api/v1/meta/drop-points:
+    get:
+      operationId: API-META-04
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-META-04Response"
+  /api/v1/me:
+    get:
+      operationId: API-ME-01
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-ME-01Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+    patch:
+      operationId: API-ME-02
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-ME-01Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-ME-02Request"
+    delete:
+      operationId: API-ME-03
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-ME-03Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+  /api/v1/me/notification-preferences:
+    get:
+      operationId: API-ME-04
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-ME-04Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+    put:
+      operationId: API-ME-05
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-ME-04Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-ME-04Response"
+  /api/v1/uploads:
+    post:
+      operationId: API-UPL-01
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-UPL-01Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "413":
+          description: "Error: UPLOAD_TOO_LARGE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - UPLOAD_TOO_LARGE
+        "415":
+          description: "Error: UPLOAD_INVALID_TYPE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - UPLOAD_INVALID_TYPE
+        "429":
+          description: "Error: RATE_LIMITED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - RATE_LIMITED
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-UPL-01Request"
+  /api/v1/uploads/{id}/complete:
+    post:
+      operationId: API-UPL-02
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-UPL-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+        "415":
+          description: "Error: UPLOAD_INVALID_TYPE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - UPLOAD_INVALID_TYPE
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/uploads/{id}:
+    get:
+      operationId: API-UPL-03
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-UPL-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
 components:
   securitySchemes:
     cookieAuth:
@@ -186,6 +568,27 @@ components:
           - isSensitive
           - hintPrompts
         additionalProperties: false
+    API-META-02Response:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            enum:
+              - KAMPUS_A
+              - KAMPUS_B
+              - KAMPUS_C
+              - BANYUWANGI
+          name:
+            type: string
+          locationCount:
+            type: integer
+            minimum: 0
+        required:
+          - id
+          - name
+        additionalProperties: false
     API-META-03Response:
       type: array
       items:
@@ -212,3 +615,178 @@ components:
           - campus
           - name
         additionalProperties: false
+    API-META-04Response:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          campus:
+            type: string
+            enum:
+              - KAMPUS_A
+              - KAMPUS_B
+              - KAMPUS_C
+              - BANYUWANGI
+          name:
+            type: string
+          locationId:
+            type: string
+            format: uuid
+          hours:
+            type: string
+          contactNote:
+            type: string
+          active:
+            type: boolean
+        required:
+          - id
+          - campus
+          - name
+          - active
+        additionalProperties: false
+    API-ME-01Response:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+        role:
+          type: string
+          enum:
+            - USER
+            - MODERATOR
+            - ADMIN
+        status:
+          type: string
+          enum:
+            - ACTIVE
+            - SUSPENDED
+            - DELETED
+        locale:
+          type: string
+        moderatorCampus:
+          type: string
+          enum:
+            - KAMPUS_A
+            - KAMPUS_B
+            - KAMPUS_C
+            - BANYUWANGI
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - email
+        - displayName
+        - role
+        - status
+        - locale
+        - createdAt
+      additionalProperties: false
+    API-ME-02Request:
+      type: object
+      properties:
+        displayName:
+          type: string
+          minLength: 2
+          maxLength: 100
+        locale:
+          type: string
+          minLength: 2
+          maxLength: 5
+      additionalProperties: false
+    API-ME-03Response:
+      type: object
+      properties:
+        scheduledAt:
+          type: string
+          format: date-time
+      required:
+        - scheduledAt
+      additionalProperties: false
+    API-ME-04Response:
+      type: object
+      properties:
+        emailEnabled:
+          type: boolean
+        mutedTypes:
+          type: array
+          items:
+            type: string
+      required:
+        - emailEnabled
+        - mutedTypes
+      additionalProperties: false
+    API-UPL-01Response:
+      type: object
+      properties:
+        uploadId:
+          type: string
+          format: uuid
+        uploadUrl:
+          type: string
+          format: uri
+        expiresAt:
+          type: string
+          format: date-time
+      required:
+        - uploadId
+        - uploadUrl
+        - expiresAt
+      additionalProperties: false
+    API-UPL-01Request:
+      type: object
+      properties:
+        mime:
+          type: string
+        sizeBytes:
+          type: integer
+          exclusiveMinimum: true
+          minimum: 0
+        sha256:
+          type: string
+      required:
+        - mime
+        - sizeBytes
+      additionalProperties: false
+    API-UPL-02Response:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+            - PENDING
+            - READY
+            - REJECTED
+        mime:
+          type: string
+        sizeBytes:
+          type: integer
+        thumbUrl:
+          type:
+            - string
+            - "null"
+          format: uri
+        maskedUrl:
+          type:
+            - string
+            - "null"
+          format: uri
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - status
+      additionalProperties: false

@@ -79,12 +79,22 @@ describe("registry", () => {
     }
   });
 
-  it("ships the frozen minimal route set from TMU-OPS-004", () => {
+  it("ships the route set including TMU-CTR-001 additions", () => {
     expect(registry.map((route) => route.id).sort()).toEqual([
+      "API-ME-01",
+      "API-ME-02",
+      "API-ME-03",
+      "API-ME-04",
+      "API-ME-05",
       "API-META-01",
+      "API-META-02",
       "API-META-03",
+      "API-META-04",
       "API-SYS-01",
       "API-SYS-02",
+      "API-UPL-01",
+      "API-UPL-02",
+      "API-UPL-03",
     ]);
 
     expect(routeFor("API-SYS-01").path).toBe("/healthz");
@@ -96,6 +106,8 @@ describe("registry", () => {
     expect(routeFor("API-META-03").path).toBe("/api/v1/meta/locations");
     expect(routeFor("API-META-03").auth).toBe("user");
     expect(routeFor("API-META-03").errors).toEqual(["VALIDATION_FAILED"]);
+    expect(routeFor("API-ME-01").path).toBe("/api/v1/me");
+    expect(routeFor("API-UPL-01").path).toBe("/api/v1/uploads");
   });
 });
 

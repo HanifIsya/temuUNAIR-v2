@@ -175,8 +175,9 @@ describe("generated artefacts", () => {
     for (const route of registry) {
       const example = examples[route.id];
       if (example === undefined) throw new Error(`examples is missing an entry for ${route.id}`);
+      const pattern = route.path.replace(/\{([^}]+)\}/g, ":$1");
       expect(handlers, route.id).toContain(
-        `http.${route.method}("*${route.path}", () => HttpResponse.json(${JSON.stringify(example)}))`,
+        `http.${route.method}("*${pattern}", () => HttpResponse.json(${JSON.stringify(example)}))`,
       );
     }
   });
