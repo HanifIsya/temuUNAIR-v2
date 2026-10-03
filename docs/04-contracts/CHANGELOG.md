@@ -10,6 +10,9 @@ Every entry links the PR. Versioning rules: `README.md` §Governance.
   `BE-02-openapi.yaml`, `generated/types.ts`, `generated/client.ts`,
   `generated/msw-handlers.ts`; real `contracts:build|check|lint|breaking`. ([#11](https://github.com/HanifIsya/temuUNAIR-v2/pull/11))
 
+### Changed
+- `BE-05` database contract (TMU-CTR-006): relocated the post-init DDL additions (needs_reprocess column, full-text search trigger, retention indexes) to their respective domain migration tasks (TMU-DB-003..005) instead of instructing their inclusion in the extensions-only 0001_init.sql.
+
 ## [1.0.0] — 2026-09-29
 
 ### Added

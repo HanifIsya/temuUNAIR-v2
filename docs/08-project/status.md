@@ -58,9 +58,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 0%
+## M2 — 100%
 
-TODO: 1 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 0 · CANCELLED: 0
+TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 1 · CANCELLED: 0
 
-- [ ] TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
+- [x] TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
 
