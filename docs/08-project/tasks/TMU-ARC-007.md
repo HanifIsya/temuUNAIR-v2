@@ -2,7 +2,7 @@
 id: TMU-ARC-007
 title: Review and approve ML Evaluation Plan (07-ml-evaluation-plan.md)
 status: TODO
-lane: ml
+lane: arch
 slug: review-ml-eval-plan
 milestone: M2
 priority: P2

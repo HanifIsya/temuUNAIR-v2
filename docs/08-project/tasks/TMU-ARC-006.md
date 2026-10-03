@@ -2,7 +2,7 @@
 id: TMU-ARC-006
 title: Review and approve ML Service Design (06-ml-service-design.md)
 status: TODO
-lane: ml
+lane: arch
 slug: review-ml-service-design
 milestone: M2
 priority: P2
