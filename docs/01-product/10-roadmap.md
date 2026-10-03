@@ -1,9 +1,9 @@
 ---
 id: ROADMAP
 title: Roadmap and milestones M0–M9
-status: draft
+status: approved
 owner: OR
-updated: 2026-10-02
+updated: 2026-10-03
 depends_on: ["PRD", "VISION", "BLUEPRINT"]
 source_refs: ["Blueprint §0.1, §7.6, §8", "DEC-007", "DEC-011"]
 ---
@@ -17,7 +17,7 @@ predecessor's tasks are `DONE`.
 | M | Name | Goal / exit criteria | Key tasks (see `docs/08-project/tasks/`) | Human gate |
 |---|---|---|---|---|
 | **M0** | Bootstrap | Repo, blueprint, agent config, CI skeleton, scripts, lanes, CODEOWNERS all merged; `pnpm gate` runs (even if mostly no-op) | TMU-OPS-001..021, TMU-META-001..003 (**DONE**) | Tag `m0-bootstrap` (pending human); repo protected; remote = `HanifIsya/temuUNAIR-v2` |
-| **M1** | Docs | Every `docs/01-product/**` and `docs/02-design/**` doc merged and approved (PDF + logo added; OQ-1..OQ-5 answered or deferred with DEC) | TMU-DOC-001..020 | **Docs approved** — no code before this |
+| **M1** | Docs | Every `docs/01-product/**` and `docs/02-design/**` doc merged and approved (PDF committed, placeholder logo tracked; OQ-1..OQ-5 answered or deferred with DEC) | TMU-DOC-001..020, TMU-OPS-033 | **Docs approved** — no code before this |
 | **M2** | Contracts | `docs/03-architecture/**` + `docs/04-contracts/**` merged; `packages/contracts` builds; OpenAPI + client + MSW generated; `contracts:check` green | TMU-ARC-001..015, TMU-CTR-001..006 | Contract tag `contract-v1.0.0` |
 | **M3** | Walking skeleton | Auth (Google, domain allowlist), DB migrations, upload handshake, report create/read, `/home` shell, seeds, docker compose up | TMU-DB-001..005, TMU-BE-001..008, TMU-FE-001..006 | Demo: login → create report → read it back |
 | **M4** | Reporting | Full LOST/FOUND wizards, photo pipeline (EXIF strip, thumbs, masking), browse + filters + text search, my-reports, cancel/renew | TMU-BE-009..020, TMU-FE-007..018, TMU-ML-001..003 | Demo: report both types, browse and search |
