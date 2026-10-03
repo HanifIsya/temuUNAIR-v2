@@ -50,4 +50,26 @@
 | [TMU-META-004](tasks/TMU-META-004.md) | M1 | meta | DONE | P1 | File the M1 task breakdown (TMU-DOC-002..020) and the source-lane enabler | TMU-DOC-001 |
 | [TMU-META-005](tasks/TMU-META-005.md) | M1 | meta | DONE | P1 | Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix) | TMU-DOC-003, TMU-DOC-008, TMU-DOC-019 |
 | [TMU-OPS-033](tasks/TMU-OPS-033.md) | M1 | ops | DONE | P1 | Widen the docs lane to docs/_source/** (M1 source intake enabler) | TMU-DOC-001 |
+| [TMU-ARC-001](tasks/TMU-ARC-001.md) | M2 | arch | TODO | P2 | Review and approve System Overview (01-system-overview.md) | TMU-DOC-020 |
+| [TMU-ARC-002](tasks/TMU-ARC-002.md) | M2 | arch | TODO | P2 | Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md) | TMU-DOC-020 |
+| [TMU-ARC-003](tasks/TMU-ARC-003.md) | M2 | arch | TODO | P2 | Review and approve Data Model and ERD (03-data-model-erd.md) | TMU-DOC-020, TMU-CTR-006 |
+| [TMU-ARC-004](tasks/TMU-ARC-004.md) | M2 | arch | TODO | P2 | Review and approve State Machines (04-state-machines.md) | TMU-DOC-020 |
+| [TMU-ARC-005](tasks/TMU-ARC-005.md) | M2 | arch | TODO | P2 | Review and approve Matching Algorithm Spec (05-matching-algorithm-spec.md) | TMU-DOC-020 |
+| [TMU-ARC-006](tasks/TMU-ARC-006.md) | M2 | ml | TODO | P2 | Review and approve ML Service Design (06-ml-service-design.md) | TMU-DOC-020 |
+| [TMU-ARC-007](tasks/TMU-ARC-007.md) | M2 | ml | TODO | P2 | Review and approve ML Evaluation Plan (07-ml-evaluation-plan.md) | TMU-DOC-020 |
+| [TMU-ARC-008](tasks/TMU-ARC-008.md) | M2 | arch | TODO | P2 | Review and approve Async Jobs and Queues (08-async-jobs-and-queues.md) | TMU-DOC-020 |
+| [TMU-ARC-009](tasks/TMU-ARC-009.md) | M2 | arch | TODO | P2 | Review and approve Storage and Media Pipeline (09-storage-and-media-pipeline.md) | TMU-DOC-020 |
+| [TMU-ARC-010](tasks/TMU-ARC-010.md) | M2 | arch | TODO | P2 | Review and approve Auth and RBAC (10-auth-and-rbac.md) | TMU-DOC-020 |
+| [TMU-ARC-011](tasks/TMU-ARC-011.md) | M2 | arch | TODO | P2 | Review and approve Notification Design (11-notification-design.md) | TMU-DOC-020 |
+| [TMU-ARC-012](tasks/TMU-ARC-012.md) | M2 | arch | TODO | P2 | Review and approve Chat Design (12-chat-design.md) | TMU-DOC-020 |
+| [TMU-ARC-013](tasks/TMU-ARC-013.md) | M2 | arch | TODO | P2 | Review and approve Search Design (13-search-design.md) | TMU-DOC-020 |
+| [TMU-ARC-014](tasks/TMU-ARC-014.md) | M2 | sec | TODO | P2 | Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md) | TMU-DOC-020 |
+| [TMU-ARC-015](tasks/TMU-ARC-015.md) | M2 | arch | TODO | P2 | Review and approve Observability, Capacity, Topology, i18n and ADRs | TMU-DOC-020 |
+| [TMU-CTR-001](tasks/TMU-CTR-001.md) | M2 | contracts | TODO | P2 | Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04) | TMU-DOC-020, TMU-ARC-001 |
+| [TMU-CTR-002](tasks/TMU-CTR-002.md) | M2 | contracts | TODO | P2 | Author contract schemas for reports (API-REP-01..08) | TMU-DOC-020, TMU-CTR-001, TMU-ARC-004 |
+| [TMU-CTR-003](tasks/TMU-CTR-003.md) | M2 | contracts | TODO | P2 | Author contract schemas for search and matching (API-SRC-01, API-MAT-01..04) | TMU-DOC-020, TMU-CTR-002, TMU-ARC-005 |
+| [TMU-CTR-004](tasks/TMU-CTR-004.md) | M2 | contracts | TODO | P2 | Author contract schemas for claims, chat and handover (API-CLM-01..10, API-CHT-01..04) | TMU-DOC-020, TMU-CTR-002, TMU-ARC-004 |
+| [TMU-CTR-005](tasks/TMU-CTR-005.md) | M2 | contracts | TODO | P2 | Author contract schemas for notifications and admin operations (API-NTF-01..04, API-ADM-01..17) | TMU-DOC-020, TMU-CTR-004, TMU-ARC-010 |
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | DONE | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
+| [TMU-CTR-007](tasks/TMU-CTR-007.md) | M2 | contracts | TODO | P1 | M2 exit checklist, contracts/architecture approval evidence and M3 handoff | TMU-ARC-001, TMU-ARC-002, TMU-ARC-003, TMU-ARC-004, TMU-ARC-005, TMU-ARC-006, TMU-ARC-007, TMU-ARC-008, TMU-ARC-009, TMU-ARC-010, TMU-ARC-011, TMU-ARC-012, TMU-ARC-013, TMU-ARC-014, TMU-ARC-015, TMU-CTR-001, TMU-CTR-002, TMU-CTR-003, TMU-CTR-004, TMU-CTR-005, TMU-CTR-006 |
+| [TMU-META-006](tasks/TMU-META-006.md) | M2 | meta | DONE | P1 | File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007) | TMU-DOC-020 |

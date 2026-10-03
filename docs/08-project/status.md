@@ -58,9 +58,31 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 100%
+## M2 — 9%
 
-TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 1 · CANCELLED: 0
+TODO: 21 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 2 · CANCELLED: 0
 
+- [ ] TMU-ARC-001 — Review and approve System Overview (01-system-overview.md)
+- [ ] TMU-ARC-002 — Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md)
+- [ ] TMU-ARC-003 — Review and approve Data Model and ERD (03-data-model-erd.md)
+- [ ] TMU-ARC-004 — Review and approve State Machines (04-state-machines.md)
+- [ ] TMU-ARC-005 — Review and approve Matching Algorithm Spec (05-matching-algorithm-spec.md)
+- [ ] TMU-ARC-006 — Review and approve ML Service Design (06-ml-service-design.md)
+- [ ] TMU-ARC-007 — Review and approve ML Evaluation Plan (07-ml-evaluation-plan.md)
+- [ ] TMU-ARC-008 — Review and approve Async Jobs and Queues (08-async-jobs-and-queues.md)
+- [ ] TMU-ARC-009 — Review and approve Storage and Media Pipeline (09-storage-and-media-pipeline.md)
+- [ ] TMU-ARC-010 — Review and approve Auth and RBAC (10-auth-and-rbac.md)
+- [ ] TMU-ARC-011 — Review and approve Notification Design (11-notification-design.md)
+- [ ] TMU-ARC-012 — Review and approve Chat Design (12-chat-design.md)
+- [ ] TMU-ARC-013 — Review and approve Search Design (13-search-design.md)
+- [ ] TMU-ARC-014 — Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md)
+- [ ] TMU-ARC-015 — Review and approve Observability, Capacity, Topology, i18n and ADRs
+- [ ] TMU-CTR-001 — Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04)
+- [ ] TMU-CTR-002 — Author contract schemas for reports (API-REP-01..08)
+- [ ] TMU-CTR-003 — Author contract schemas for search and matching (API-SRC-01, API-MAT-01..04)
+- [ ] TMU-CTR-004 — Author contract schemas for claims, chat and handover (API-CLM-01..10, API-CHT-01..04)
+- [ ] TMU-CTR-005 — Author contract schemas for notifications and admin operations (API-NTF-01..04, API-ADM-01..17)
 - [x] TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
+- [ ] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
+- [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
