@@ -1,17 +1,17 @@
 ---
 id: ARCH-STACK
 title: Tech stack and pinned versions
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-OVERVIEW"]
 source_refs: ["Blueprint §2", "DEC-002", "DEC-011", "DEC-013"]
 ---
 
 # Tech stack and pinned versions
 
-> **Action (M2, TMU-ARC-001):** verify each version against current releases before M3 and
-> update this table. Versions below are the intended majors; the lockfiles are the real pin.
+> Versions below represent the agreed architectural stack; lockfiles (`pnpm-lock.yaml`, `uv.lock`)
+> provide the exact byte-for-byte reproducible pins. Verified in M2 (`TMU-ARC-002`).
 
 ## Runtime and tooling
 
