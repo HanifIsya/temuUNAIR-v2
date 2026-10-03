@@ -1,9 +1,9 @@
 ---
 id: MATCH-SPEC
 title: Matching algorithm specification
-status: draft
+status: approved
 owner: AR+ML
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-STATES", "BE-06", "ARCH-ML"]
 source_refs: ["Blueprint §5A.9", "DEC-003", "DEC-012", "DEC-015"]
 ---
