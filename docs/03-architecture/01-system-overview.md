@@ -1,9 +1,9 @@
 ---
 id: ARCH-OVERVIEW
 title: System overview (C4)
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["VISION", "NFR", "TOKENS"]
 source_refs: ["Blueprint §2", "DEC-011", "DEC-013"]
 ---
