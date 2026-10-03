@@ -30,9 +30,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 - [x] TMU-OPS-020 — Clear the advisory audit red (postcss under next)
 - [x] TMU-OPS-021 — Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
 
-## M1 — 70%
+## M1 — 74%
 
-TODO: 7 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 16 · CANCELLED: 0
+TODO: 6 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 17 · CANCELLED: 0
 
 - [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 - [x] TMU-DOC-002 — Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md
@@ -48,7 +48,7 @@ TODO: 7 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 16 · CANCELLED: 0
 - [x] TMU-DOC-012 — Review and approve information architecture and user flows
 - [x] TMU-DOC-013 — Review and approve wireframes
 - [x] TMU-DOC-014 — Review and approve the screen specs (SCR-001..023)
-- [ ] TMU-DOC-015 — Review and approve the component inventory and content/microcopy docs
+- [x] TMU-DOC-015 — Review and approve the component inventory and content/microcopy docs
 - [ ] TMU-DOC-016 — Review and approve the accessibility and responsive/motion docs
 - [ ] TMU-DOC-017 — Review and approve the state designs and notification templates
 - [ ] TMU-DOC-018 — Review and approve the admin-console design and onboarding docs

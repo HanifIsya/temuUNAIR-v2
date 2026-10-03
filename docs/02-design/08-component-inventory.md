@@ -1,9 +1,9 @@
 ---
 id: CMP
 title: Component inventory
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["TOKENS", "FE-03", "WIREFRAMES"]
 source_refs: ["Blueprint §5B.3"]
 ---
