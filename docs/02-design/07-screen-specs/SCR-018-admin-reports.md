@@ -1,9 +1,9 @@
 ---
 id: SCR-018
 title: Admin reports queue
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-017", "14-admin-console-design", "CMP"]
 source_refs: ["FE-01", "API-ADM-01..04", "API-ADM-16..17", "FR-ADM-001", "FR-REP-010"]
 ---

@@ -1,9 +1,9 @@
 ---
 id: SCR-004
 title: Report wizard
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["FLOWS", "FE-05", "CMP"]
 source_refs: ["FE-01", "FE-05", "API-META-*", "API-UPL-*", "API-REP-01", "API-SRC-01", "FR-REP-001..009"]
 ---

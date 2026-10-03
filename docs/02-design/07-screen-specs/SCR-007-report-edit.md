@@ -1,9 +1,9 @@
 ---
 id: SCR-007
 title: Report edit
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-004", "FE-05"]
 source_refs: ["FE-01", "API-REP-04", "API-REP-05", "API-UPL-*", "FR-REP-007"]
 ---

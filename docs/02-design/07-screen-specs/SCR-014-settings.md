@@ -1,9 +1,9 @@
 ---
 id: SCR-014
 title: Account settings
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "FE-05", "CMP"]
 source_refs: ["FE-01", "API-ME-01..05", "FR-AUTH-004", "FR-AUTH-005", "FR-NTF-006"]
 ---

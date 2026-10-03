@@ -1,9 +1,9 @@
 ---
 id: SCR-003
 title: Home dashboard
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "FE-02", "CMP"]
 source_refs: ["FE-01", "API-ME-01", "API-REP-03", "API-NTF-04"]
 ---

@@ -40,7 +40,7 @@
 | [TMU-DOC-011](tasks/TMU-DOC-011.md) | M1 | docs | DONE | P2 | Review and approve the design foundations (principles, brand, tokens) | TMU-DOC-002 |
 | [TMU-DOC-012](tasks/TMU-DOC-012.md) | M1 | docs | DONE | P2 | Review and approve information architecture and user flows | TMU-DOC-002 |
 | [TMU-DOC-013](tasks/TMU-DOC-013.md) | M1 | docs | DONE | P2 | Review and approve wireframes | TMU-DOC-002 |
-| [TMU-DOC-014](tasks/TMU-DOC-014.md) | M1 | docs | TODO | P2 | Review and approve the screen specs (SCR-001..023) | TMU-DOC-002 |
+| [TMU-DOC-014](tasks/TMU-DOC-014.md) | M1 | docs | DONE | P2 | Review and approve the screen specs (SCR-001..023) | TMU-DOC-002 |
 | [TMU-DOC-015](tasks/TMU-DOC-015.md) | M1 | docs | TODO | P2 | Review and approve the component inventory and content/microcopy docs | TMU-DOC-002 |
 | [TMU-DOC-016](tasks/TMU-DOC-016.md) | M1 | docs | TODO | P2 | Review and approve the accessibility and responsive/motion docs | TMU-DOC-002 |
 | [TMU-DOC-017](tasks/TMU-DOC-017.md) | M1 | docs | TODO | P2 | Review and approve the state designs and notification templates | TMU-DOC-002 |

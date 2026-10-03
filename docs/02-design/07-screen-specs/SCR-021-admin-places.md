@@ -1,9 +1,9 @@
 ---
 id: SCR-021
 title: Admin places (locations and drop points)
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-018", "14-admin-console-design", "CMP"]
 source_refs: ["FE-01", "API-ADM-12..13", "FR-ADM-004", "DEC-005"]
 ---

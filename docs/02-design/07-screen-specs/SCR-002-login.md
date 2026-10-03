@@ -1,9 +1,9 @@
 ---
 id: SCR-002
 title: Login and auth error
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "FE-09"]
 source_refs: ["FR-AUTH-001..003", "DEC-001"]
 ---
