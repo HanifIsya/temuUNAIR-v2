@@ -1,9 +1,9 @@
 ---
 id: DEPLOYMENT
 title: Deployment topology
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-OVERVIEW", "ARCH-STACK", "DEC-011"]
 source_refs: ["DEC-011", "Blueprint §7.10, §7.11"]
 ---

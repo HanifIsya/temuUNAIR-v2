@@ -1,9 +1,9 @@
 ---
 id: ARCH-I18N
 title: Internationalisation design
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["NFR", "FE-08", "DEC-008"]
 source_refs: ["NFR-050..052", "DEC-008"]
 ---
