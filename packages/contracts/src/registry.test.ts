@@ -79,8 +79,12 @@ describe("registry", () => {
     }
   });
 
-  it("ships the route set including TMU-CTR-001 and TMU-CTR-002 additions", () => {
+  it("ships the route set including TMU-CTR-001, TMU-CTR-002 and TMU-CTR-003 additions", () => {
     expect(registry.map((route) => route.id).sort()).toEqual([
+      "API-MAT-01",
+      "API-MAT-02",
+      "API-MAT-03",
+      "API-MAT-04",
       "API-ME-01",
       "API-ME-02",
       "API-ME-03",
@@ -98,6 +102,7 @@ describe("registry", () => {
       "API-REP-06",
       "API-REP-07",
       "API-REP-08",
+      "API-SRC-01",
       "API-SYS-01",
       "API-SYS-02",
       "API-UPL-01",
@@ -117,6 +122,8 @@ describe("registry", () => {
     expect(routeFor("API-ME-01").path).toBe("/api/v1/me");
     expect(routeFor("API-UPL-01").path).toBe("/api/v1/uploads");
     expect(routeFor("API-REP-01").path).toBe("/api/v1/reports");
+    expect(routeFor("API-SRC-01").path).toBe("/api/v1/search");
+    expect(routeFor("API-MAT-01").path).toBe("/api/v1/reports/{id}/matches");
   });
 });
 

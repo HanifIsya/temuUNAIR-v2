@@ -921,6 +921,285 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/API-REP-08Request"
+  /api/v1/search:
+    post:
+      operationId: API-SRC-01
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-SRC-01Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-SRC-01Request"
+  /api/v1/reports/{id}/matches:
+    get:
+      operationId: API-MAT-01
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-MAT-01Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/matches/{id}/dismiss:
+    post:
+      operationId: API-MAT-02
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-MAT-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/matches/{id}/invite:
+    post:
+      operationId: API-MAT-03
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-MAT-03Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+        "429":
+          description: "Error: RATE_LIMITED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - RATE_LIMITED
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/reports/{id}/rematch:
+    post:
+      operationId: API-MAT-04
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-MAT-04Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+        "429":
+          description: "Error: RATE_LIMITED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - RATE_LIMITED
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
 components:
   securitySchemes:
     cookieAuth:
@@ -1912,4 +2191,593 @@ components:
           type: string
       required:
         - reason
+      additionalProperties: false
+    API-SRC-01Response:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                  - LOST
+                  - FOUND
+              status:
+                type: string
+                enum:
+                  - PENDING_REVIEW
+                  - OPEN
+                  - MATCHED
+                  - IN_VERIFICATION
+                  - RETURNED
+                  - EXPIRED
+                  - CANCELLED
+                  - REMOVED
+              category:
+                type: string
+                enum:
+                  - ID_CARD
+                  - BANK_CARD
+                  - WALLET
+                  - PHONE
+                  - LAPTOP_TABLET
+                  - EARPHONES
+                  - CHARGER_CABLE
+                  - KEYS
+                  - BAG
+                  - CLOTHING
+                  - GLASSES
+                  - BOTTLE
+                  - BOOK_DOCUMENT
+                  - STATIONERY
+                  - ACCESSORY
+                  - SPORTS_GEAR
+                  - UMBRELLA
+                  - HELMET
+                  - OTHER
+              isSensitive:
+                type: boolean
+              title:
+                type: string
+              description:
+                type: string
+              colors:
+                type: array
+                items:
+                  type: string
+              brand:
+                type: string
+              images:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    url:
+                      type:
+                        - string
+                        - "null"
+                      format: uri
+                    thumbUrl:
+                      type:
+                        - string
+                        - "null"
+                      format: uri
+                    isMasked:
+                      type: boolean
+                      default: false
+                  required:
+                    - id
+                    - url
+                  additionalProperties: false
+              campus:
+                type: string
+                enum:
+                  - KAMPUS_A
+                  - KAMPUS_B
+                  - KAMPUS_C
+                  - BANYUWANGI
+              locationName:
+                type: string
+              occurredAt:
+                type: object
+                properties:
+                  from:
+                    type: string
+                    format: date-time
+                  to:
+                    type: string
+                    format: date-time
+                required:
+                  - from
+                additionalProperties: false
+              custody:
+                type: string
+                enum:
+                  - HELD_BY_FINDER
+                  - AT_DROP_POINT
+              dropPointName:
+                type: string
+              createdAt:
+                type: string
+                format: date-time
+              band:
+                type: string
+                enum:
+                  - STRONG
+                  - POSSIBLE
+              reasons:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                    labelKey:
+                      type: string
+                  required:
+                    - code
+                    - labelKey
+                  additionalProperties: false
+            required:
+              - id
+              - type
+              - status
+              - category
+              - isSensitive
+              - title
+              - description
+              - colors
+              - images
+              - campus
+              - occurredAt
+              - createdAt
+            additionalProperties: false
+        page:
+          type: object
+          properties:
+            nextCursor:
+              type:
+                - string
+                - "null"
+            hasMore:
+              type: boolean
+          required:
+            - nextCursor
+            - hasMore
+          additionalProperties: false
+      required:
+        - data
+        - page
+      additionalProperties: false
+    API-SRC-01Request:
+      type: object
+      properties:
+        q:
+          type: string
+          maxLength: 120
+        imageUploadId:
+          type: string
+          format: uuid
+        filters:
+          type: object
+          properties:
+            campus:
+              type: array
+              items:
+                type: string
+                enum:
+                  - KAMPUS_A
+                  - KAMPUS_B
+                  - KAMPUS_C
+                  - BANYUWANGI
+            category:
+              type: array
+              items:
+                type: string
+                enum:
+                  - ID_CARD
+                  - BANK_CARD
+                  - WALLET
+                  - PHONE
+                  - LAPTOP_TABLET
+                  - EARPHONES
+                  - CHARGER_CABLE
+                  - KEYS
+                  - BAG
+                  - CLOTHING
+                  - GLASSES
+                  - BOTTLE
+                  - BOOK_DOCUMENT
+                  - STATIONERY
+                  - ACCESSORY
+                  - SPORTS_GEAR
+                  - UMBRELLA
+                  - HELMET
+                  - OTHER
+            dateFrom:
+              type: string
+            dateTo:
+              type: string
+            custody:
+              type: string
+              enum:
+                - HELD_BY_FINDER
+                - AT_DROP_POINT
+            type:
+              type: string
+              enum:
+                - LOST
+                - FOUND
+            limit:
+              type: integer
+              minimum: 1
+              maximum: 50
+            cursor:
+              type: string
+          additionalProperties: false
+      additionalProperties: false
+    API-MAT-01Response:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            format: uuid
+          state:
+            type: string
+            enum:
+              - SUGGESTED
+              - DISMISSED
+              - CLAIMED
+              - INVALIDATED
+          band:
+            type: string
+            enum:
+              - STRONG
+              - POSSIBLE
+          reasons:
+            type: array
+            items:
+              type: object
+              properties:
+                code:
+                  type: string
+                labelKey:
+                  type: string
+              required:
+                - code
+                - labelKey
+              additionalProperties: false
+          other:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum:
+                  - LOST
+                  - FOUND
+              status:
+                type: string
+                enum:
+                  - PENDING_REVIEW
+                  - OPEN
+                  - MATCHED
+                  - IN_VERIFICATION
+                  - RETURNED
+                  - EXPIRED
+                  - CANCELLED
+                  - REMOVED
+              category:
+                type: string
+                enum:
+                  - ID_CARD
+                  - BANK_CARD
+                  - WALLET
+                  - PHONE
+                  - LAPTOP_TABLET
+                  - EARPHONES
+                  - CHARGER_CABLE
+                  - KEYS
+                  - BAG
+                  - CLOTHING
+                  - GLASSES
+                  - BOTTLE
+                  - BOOK_DOCUMENT
+                  - STATIONERY
+                  - ACCESSORY
+                  - SPORTS_GEAR
+                  - UMBRELLA
+                  - HELMET
+                  - OTHER
+              isSensitive:
+                type: boolean
+              title:
+                type: string
+              description:
+                type: string
+              colors:
+                type: array
+                items:
+                  type: string
+              brand:
+                type: string
+              images:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    url:
+                      type:
+                        - string
+                        - "null"
+                      format: uri
+                    thumbUrl:
+                      type:
+                        - string
+                        - "null"
+                      format: uri
+                    isMasked:
+                      type: boolean
+                      default: false
+                  required:
+                    - id
+                    - url
+                  additionalProperties: false
+              campus:
+                type: string
+                enum:
+                  - KAMPUS_A
+                  - KAMPUS_B
+                  - KAMPUS_C
+                  - BANYUWANGI
+              locationName:
+                type: string
+              occurredAt:
+                type: object
+                properties:
+                  from:
+                    type: string
+                    format: date-time
+                  to:
+                    type: string
+                    format: date-time
+                required:
+                  - from
+                additionalProperties: false
+              custody:
+                type: string
+                enum:
+                  - HELD_BY_FINDER
+                  - AT_DROP_POINT
+              dropPointName:
+                type: string
+              createdAt:
+                type: string
+                format: date-time
+            required:
+              - id
+              - type
+              - status
+              - category
+              - isSensitive
+              - title
+              - description
+              - colors
+              - images
+              - campus
+              - occurredAt
+              - createdAt
+            additionalProperties: false
+          createdAt:
+            type: string
+            format: date-time
+        required:
+          - id
+          - state
+          - band
+          - reasons
+          - other
+          - createdAt
+        additionalProperties: false
+    API-MAT-02Response:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum:
+            - SUGGESTED
+            - DISMISSED
+            - CLAIMED
+            - INVALIDATED
+        band:
+          type: string
+          enum:
+            - STRONG
+            - POSSIBLE
+        reasons:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              labelKey:
+                type: string
+            required:
+              - code
+              - labelKey
+            additionalProperties: false
+        other:
+          type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            type:
+              type: string
+              enum:
+                - LOST
+                - FOUND
+            status:
+              type: string
+              enum:
+                - PENDING_REVIEW
+                - OPEN
+                - MATCHED
+                - IN_VERIFICATION
+                - RETURNED
+                - EXPIRED
+                - CANCELLED
+                - REMOVED
+            category:
+              type: string
+              enum:
+                - ID_CARD
+                - BANK_CARD
+                - WALLET
+                - PHONE
+                - LAPTOP_TABLET
+                - EARPHONES
+                - CHARGER_CABLE
+                - KEYS
+                - BAG
+                - CLOTHING
+                - GLASSES
+                - BOTTLE
+                - BOOK_DOCUMENT
+                - STATIONERY
+                - ACCESSORY
+                - SPORTS_GEAR
+                - UMBRELLA
+                - HELMET
+                - OTHER
+            isSensitive:
+              type: boolean
+            title:
+              type: string
+            description:
+              type: string
+            colors:
+              type: array
+              items:
+                type: string
+            brand:
+              type: string
+            images:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                  url:
+                    type:
+                      - string
+                      - "null"
+                    format: uri
+                  thumbUrl:
+                    type:
+                      - string
+                      - "null"
+                    format: uri
+                  isMasked:
+                    type: boolean
+                    default: false
+                required:
+                  - id
+                  - url
+                additionalProperties: false
+            campus:
+              type: string
+              enum:
+                - KAMPUS_A
+                - KAMPUS_B
+                - KAMPUS_C
+                - BANYUWANGI
+            locationName:
+              type: string
+            occurredAt:
+              type: object
+              properties:
+                from:
+                  type: string
+                  format: date-time
+                to:
+                  type: string
+                  format: date-time
+              required:
+                - from
+              additionalProperties: false
+            custody:
+              type: string
+              enum:
+                - HELD_BY_FINDER
+                - AT_DROP_POINT
+            dropPointName:
+              type: string
+            createdAt:
+              type: string
+              format: date-time
+          required:
+            - id
+            - type
+            - status
+            - category
+            - isSensitive
+            - title
+            - description
+            - colors
+            - images
+            - campus
+            - occurredAt
+            - createdAt
+          additionalProperties: false
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - state
+        - band
+        - reasons
+        - other
+        - createdAt
+      additionalProperties: false
+    API-MAT-03Response:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+      required:
+        - status
+      additionalProperties: false
+    API-MAT-04Response:
+      type: object
+      properties:
+        enqueued:
+          type: boolean
+      required:
+        - enqueued
       additionalProperties: false

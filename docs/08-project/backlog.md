@@ -67,7 +67,7 @@
 | [TMU-ARC-015](tasks/TMU-ARC-015.md) | M2 | arch | DONE | P2 | Review and approve Observability, Capacity, Topology, i18n and ADRs | TMU-DOC-020 |
 | [TMU-CTR-001](tasks/TMU-CTR-001.md) | M2 | contracts | DONE | P2 | Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04) | TMU-DOC-020, TMU-ARC-001 |
 | [TMU-CTR-002](tasks/TMU-CTR-002.md) | M2 | contracts | DONE | P2 | Author contract schemas for reports (API-REP-01..08) | TMU-DOC-020, TMU-CTR-001, TMU-ARC-004 |
-| [TMU-CTR-003](tasks/TMU-CTR-003.md) | M2 | contracts | TODO | P2 | Author contract schemas for search and matching (API-SRC-01, API-MAT-01..04) | TMU-DOC-020, TMU-CTR-002, TMU-ARC-005 |
+| [TMU-CTR-003](tasks/TMU-CTR-003.md) | M2 | contracts | DONE | P2 | Author contract schemas for search and matching (API-SRC-01, API-MAT-01..04) | TMU-DOC-020, TMU-CTR-002, TMU-ARC-005 |
 | [TMU-CTR-004](tasks/TMU-CTR-004.md) | M2 | contracts | TODO | P2 | Author contract schemas for claims, chat and handover (API-CLM-01..10, API-CHT-01..04) | TMU-DOC-020, TMU-CTR-002, TMU-ARC-004 |
 | [TMU-CTR-005](tasks/TMU-CTR-005.md) | M2 | contracts | TODO | P2 | Author contract schemas for notifications and admin operations (API-NTF-01..04, API-ADM-01..17) | TMU-DOC-020, TMU-CTR-004, TMU-ARC-010 |
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | DONE | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |

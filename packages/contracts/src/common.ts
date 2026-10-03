@@ -5,6 +5,8 @@ import {
   Campus,
   Category,
   Custody,
+  MatchBand,
+  MatchState,
   ReportStatus,
   ReportType,
   UploadStatus,
@@ -210,5 +212,49 @@ export const ReportFlagRequest = z.object({
 });
 
 export const ReportFlagResponse = z.object({
+  status: z.literal("ok"),
+});
+
+export const SearchFilters = z.object({
+  campus: z.array(Campus).optional(),
+  category: z.array(Category).optional(),
+  dateFrom: z.string().optional(),
+  dateTo: z.string().optional(),
+  custody: Custody.optional(),
+  type: ReportType.optional(),
+  limit: z.number().int().min(1).max(50).optional(),
+  cursor: z.string().optional(),
+});
+
+export const SearchRequest = z.object({
+  q: z.string().max(120).optional(),
+  imageUploadId: Uuid.optional(),
+  filters: SearchFilters.optional(),
+});
+
+export const MatchReason = z.object({
+  code: z.string(),
+  labelKey: z.string(),
+});
+
+export const SearchHit = ReportPublic.extend({
+  band: MatchBand.optional(),
+  reasons: z.array(MatchReason).optional(),
+});
+
+export const MatchView = z.object({
+  id: Uuid,
+  state: MatchState,
+  band: MatchBand,
+  reasons: z.array(MatchReason),
+  other: ReportPublic,
+  createdAt: IsoDateTime,
+});
+
+export const RematchResponse = z.object({
+  enqueued: z.boolean(),
+});
+
+export const ActionStatusResponse = z.object({
   status: z.literal("ok"),
 });

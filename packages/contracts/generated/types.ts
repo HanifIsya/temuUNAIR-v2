@@ -68,6 +68,21 @@ export interface paths {
   "/api/v1/reports/{id}/flag": {
     post: operations["API-REP-08"];
   };
+  "/api/v1/search": {
+    post: operations["API-SRC-01"];
+  };
+  "/api/v1/reports/{id}/matches": {
+    get: operations["API-MAT-01"];
+  };
+  "/api/v1/matches/{id}/dismiss": {
+    post: operations["API-MAT-02"];
+  };
+  "/api/v1/matches/{id}/invite": {
+    post: operations["API-MAT-03"];
+  };
+  "/api/v1/reports/{id}/rematch": {
+    post: operations["API-MAT-04"];
+  };
 }
 
 export interface components {
@@ -94,6 +109,12 @@ export interface components {
     "API-REP-06Request": { "reason"?: string; };
     "API-REP-08Response": { "status": "ok"; };
     "API-REP-08Request": { "reason": string; "note"?: string; };
+    "API-SRC-01Response": { "data": Array<{ "id": string; "type": "LOST" | "FOUND"; "status": "PENDING_REVIEW" | "OPEN" | "MATCHED" | "IN_VERIFICATION" | "RETURNED" | "EXPIRED" | "CANCELLED" | "REMOVED"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "isSensitive": boolean; "title": string; "description": string; "colors": Array<string>; "brand"?: string; "images": Array<{ "id": string; "url": string | null; "thumbUrl"?: string | null; "isMasked"?: boolean; }>; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationName"?: string; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointName"?: string; "createdAt": string; "band"?: "STRONG" | "POSSIBLE"; "reasons"?: Array<{ "code": string; "labelKey": string; }>; }>; "page": { "nextCursor": string | null; "hasMore": boolean; }; };
+    "API-SRC-01Request": { "q"?: string; "imageUploadId"?: string; "filters"?: { "campus"?: Array<"KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI">; "category"?: Array<"ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER">; "dateFrom"?: string; "dateTo"?: string; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "type"?: "LOST" | "FOUND"; "limit"?: number; "cursor"?: string; }; };
+    "API-MAT-01Response": Array<{ "id": string; "state": "SUGGESTED" | "DISMISSED" | "CLAIMED" | "INVALIDATED"; "band": "STRONG" | "POSSIBLE"; "reasons": Array<{ "code": string; "labelKey": string; }>; "other": { "id": string; "type": "LOST" | "FOUND"; "status": "PENDING_REVIEW" | "OPEN" | "MATCHED" | "IN_VERIFICATION" | "RETURNED" | "EXPIRED" | "CANCELLED" | "REMOVED"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "isSensitive": boolean; "title": string; "description": string; "colors": Array<string>; "brand"?: string; "images": Array<{ "id": string; "url": string | null; "thumbUrl"?: string | null; "isMasked"?: boolean; }>; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationName"?: string; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointName"?: string; "createdAt": string; }; "createdAt": string; }>;
+    "API-MAT-02Response": { "id": string; "state": "SUGGESTED" | "DISMISSED" | "CLAIMED" | "INVALIDATED"; "band": "STRONG" | "POSSIBLE"; "reasons": Array<{ "code": string; "labelKey": string; }>; "other": { "id": string; "type": "LOST" | "FOUND"; "status": "PENDING_REVIEW" | "OPEN" | "MATCHED" | "IN_VERIFICATION" | "RETURNED" | "EXPIRED" | "CANCELLED" | "REMOVED"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "isSensitive": boolean; "title": string; "description": string; "colors": Array<string>; "brand"?: string; "images": Array<{ "id": string; "url": string | null; "thumbUrl"?: string | null; "isMasked"?: boolean; }>; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationName"?: string; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointName"?: string; "createdAt": string; }; "createdAt": string; };
+    "API-MAT-03Response": { "status": "ok"; };
+    "API-MAT-04Response": { "enqueued": boolean; };
   };
   securitySchemes: {
     cookieAuth: { type: "apiKey"; in: "cookie"; name: "__Secure-temuunair.session" };
@@ -305,6 +326,68 @@ export interface operations {
       404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
       429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
       422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-SRC-01": {
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-SRC-01Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-SRC-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-MAT-01": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-MAT-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-MAT-02": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-MAT-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-MAT-03": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-MAT-03Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-MAT-04": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-MAT-04Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
     };
   };
 }

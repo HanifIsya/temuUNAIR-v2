@@ -43,6 +43,18 @@ export const Custody = z.enum(["HELD_BY_FINDER", "AT_DROP_POINT"]);
 
 export const MatchBand = z.enum(["STRONG", "POSSIBLE"]);
 
+export const MatchState = z.enum(["SUGGESTED", "DISMISSED", "CLAIMED", "INVALIDATED"]);
+
+export const ClaimStatus = z.enum([
+  "SUBMITTED",
+  "APPROVED",
+  "REJECTED",
+  "DISPUTED",
+  "COMPLETED",
+  "CANCELLED",
+  "EXPIRED",
+]);
+
 export const UserRole = z.enum(["USER", "MODERATOR", "ADMIN"]);
 
 export const UserStatus = z.enum(["ACTIVE", "SUSPENDED", "DELETED"]);

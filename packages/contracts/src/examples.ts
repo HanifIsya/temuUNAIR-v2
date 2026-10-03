@@ -265,4 +265,112 @@ export const examples: Record<ApiId, unknown> = {
   "API-REP-08": {
     status: "ok",
   },
+  "API-SRC-01": {
+    data: [
+      {
+        id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+        type: "FOUND",
+        status: "OPEN",
+        category: "WALLET",
+        isSensitive: false,
+        title: "Dompet cokelat",
+        description: "Dompet kulit cokelat lipat dua.",
+        colors: ["Cokelat"],
+        brand: "Bonia",
+        images: [],
+        campus: "KAMPUS_A",
+        locationName: "Lobi FK",
+        occurredAt: {
+          from: "2026-09-29T10:00:00+07:00",
+        },
+        custody: "HELD_BY_FINDER",
+        createdAt: "2026-09-29T10:30:00+07:00",
+        band: "STRONG",
+        reasons: [
+          {
+            code: "IMAGE_SIMILAR",
+            labelKey: "match.reason.IMAGE_SIMILAR",
+          },
+        ],
+      },
+    ],
+    page: {
+      nextCursor: null,
+      hasMore: false,
+    },
+  },
+  "API-MAT-01": [
+    {
+      id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e85",
+      state: "SUGGESTED",
+      band: "STRONG",
+      reasons: [
+        {
+          code: "IMAGE_SIMILAR",
+          labelKey: "match.reason.IMAGE_SIMILAR",
+        },
+        {
+          code: "SAME_BUILDING",
+          labelKey: "match.reason.SAME_BUILDING",
+        },
+      ],
+      other: {
+        id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+        type: "FOUND",
+        status: "OPEN",
+        category: "WALLET",
+        isSensitive: false,
+        title: "Dompet cokelat",
+        description: "Dompet kulit cokelat lipat dua.",
+        colors: ["Cokelat"],
+        brand: "Bonia",
+        images: [],
+        campus: "KAMPUS_A",
+        locationName: "Lobi FK",
+        occurredAt: {
+          from: "2026-09-29T10:00:00+07:00",
+        },
+        custody: "HELD_BY_FINDER",
+        createdAt: "2026-09-29T10:30:00+07:00",
+      },
+      createdAt: "2026-09-29T11:00:00+07:00",
+    },
+  ],
+  "API-MAT-02": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e85",
+    state: "DISMISSED",
+    band: "STRONG",
+    reasons: [
+      {
+        code: "IMAGE_SIMILAR",
+        labelKey: "match.reason.IMAGE_SIMILAR",
+      },
+    ],
+    other: {
+      id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+      type: "FOUND",
+      status: "OPEN",
+      category: "WALLET",
+      isSensitive: false,
+      title: "Dompet cokelat",
+      description: "Dompet kulit cokelat lipat dua.",
+      colors: ["Cokelat"],
+      brand: "Bonia",
+      images: [],
+      campus: "KAMPUS_A",
+      locationName: "Lobi FK",
+      occurredAt: {
+        from: "2026-09-29T10:00:00+07:00",
+      },
+      custody: "HELD_BY_FINDER",
+      createdAt: "2026-09-29T10:30:00+07:00",
+    },
+    createdAt: "2026-09-29T11:00:00+07:00",
+  },
+  "API-MAT-03": {
+    status: "ok",
+  },
+  "API-MAT-04": {
+    enqueued: true,
+  },
 };
