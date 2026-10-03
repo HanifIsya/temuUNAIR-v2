@@ -1,7 +1,16 @@
 // Shared API primitives (Blueprint §5A.4): ids, timestamps, error envelope, pagination,
 // system responses and meta schemas.
 import { z } from "zod";
-import { Campus, Category, UploadStatus, UserRole, UserStatus } from "./enums.ts";
+import {
+  Campus,
+  Category,
+  Custody,
+  ReportStatus,
+  ReportType,
+  UploadStatus,
+  UserRole,
+  UserStatus,
+} from "./enums.ts";
 
 export const Uuid = z.string().uuid();
 export const IsoDateTime = z.string().datetime({ offset: true });
@@ -107,4 +116,99 @@ export const UploadState = z.object({
   thumbUrl: z.string().url().nullable().optional(),
   maskedUrl: z.string().url().nullable().optional(),
   createdAt: IsoDateTime.optional(),
+});
+
+export const ReportLocationInput = z.object({
+  campus: Campus,
+  locationId: Uuid.optional(),
+  note: z.string().optional(),
+});
+
+export const OccurredAtWindow = z.object({
+  from: IsoDateTime,
+  to: IsoDateTime.optional(),
+});
+
+export const VerificationHintInput = z.object({
+  prompt: z.string().min(3).max(200),
+  answer: z.string().min(1).max(200),
+});
+
+export const ReportCreate = z.object({
+  type: ReportType,
+  category: Category,
+  title: z.string().min(3).max(80),
+  description: z.string().min(10).max(1000),
+  colors: z.array(z.string()).default([]),
+  brand: z.string().optional(),
+  imageIds: z.array(Uuid).default([]),
+  location: ReportLocationInput,
+  occurredAt: OccurredAtWindow,
+  custody: Custody.optional(),
+  dropPointId: Uuid.optional(),
+  hints: z.array(VerificationHintInput).optional(),
+});
+
+export const ReportImage = z.object({
+  id: Uuid,
+  url: z.string().url().nullable(),
+  thumbUrl: z.string().url().nullable().optional(),
+  isMasked: z.boolean().default(false),
+});
+
+export const ReportPublic = z.object({
+  id: Uuid,
+  type: ReportType,
+  status: ReportStatus,
+  category: Category,
+  isSensitive: z.boolean(),
+  title: z.string(),
+  description: z.string(),
+  colors: z.array(z.string()),
+  brand: z.string().optional(),
+  images: z.array(ReportImage),
+  campus: Campus,
+  locationName: z.string().optional(),
+  occurredAt: OccurredAtWindow,
+  custody: Custody.optional(),
+  dropPointName: z.string().optional(),
+  createdAt: IsoDateTime,
+});
+
+export const ReportOwnerView = ReportPublic.extend({
+  version: z.number().int().positive(),
+  matchCount: z.number().int().nonnegative().default(0),
+  hintPrompts: z.array(z.string()).default([]),
+  activeClaimId: Uuid.optional(),
+  expiresAt: IsoDateTime,
+  resolvedAt: IsoDateTime.optional(),
+});
+
+export const ReportModeratorView = ReportOwnerView.extend({
+  reporterId: Uuid,
+  reporterEmail: z.string().email(),
+  flagCount: z.number().int().nonnegative().default(0),
+});
+
+export const ReportUpdate = z.object({
+  title: z.string().min(3).max(80).optional(),
+  description: z.string().min(10).max(1000).optional(),
+  colors: z.array(z.string()).optional(),
+  brand: z.string().optional(),
+  imageIds: z.array(Uuid).optional(),
+  location: ReportLocationInput.optional(),
+  occurredAt: OccurredAtWindow.optional(),
+});
+
+export const ReportCancelRequest = z.object({
+  reason: z.string().optional(),
+});
+
+export const ReportFlagRequest = z.object({
+  reason: z.string(),
+  note: z.string().optional(),
+});
+
+export const ReportFlagResponse = z.object({
+  status: z.literal("ok"),
 });

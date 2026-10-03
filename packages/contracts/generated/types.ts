@@ -44,6 +44,30 @@ export interface paths {
   "/api/v1/uploads/{id}": {
     get: operations["API-UPL-03"];
   };
+  "/api/v1/reports": {
+    post: operations["API-REP-01"];
+  };
+  "/api/v1/reports": {
+    get: operations["API-REP-02"];
+  };
+  "/api/v1/reports/mine": {
+    get: operations["API-REP-03"];
+  };
+  "/api/v1/reports/{id}": {
+    get: operations["API-REP-04"];
+  };
+  "/api/v1/reports/{id}": {
+    patch: operations["API-REP-05"];
+  };
+  "/api/v1/reports/{id}/cancel": {
+    post: operations["API-REP-06"];
+  };
+  "/api/v1/reports/{id}/renew": {
+    post: operations["API-REP-07"];
+  };
+  "/api/v1/reports/{id}/flag": {
+    post: operations["API-REP-08"];
+  };
 }
 
 export interface components {
@@ -62,6 +86,14 @@ export interface components {
     "API-UPL-01Response": { "uploadId": string; "uploadUrl": string; "expiresAt": string; };
     "API-UPL-01Request": { "mime": string; "sizeBytes": number; "sha256"?: string; };
     "API-UPL-02Response": { "id": string; "status": "PENDING" | "READY" | "REJECTED"; "mime"?: string; "sizeBytes"?: number; "thumbUrl"?: string | null; "maskedUrl"?: string | null; "createdAt"?: string; };
+    "API-REP-01Response": { "id": string; "type": "LOST" | "FOUND"; "status": "PENDING_REVIEW" | "OPEN" | "MATCHED" | "IN_VERIFICATION" | "RETURNED" | "EXPIRED" | "CANCELLED" | "REMOVED"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "isSensitive": boolean; "title": string; "description": string; "colors": Array<string>; "brand"?: string; "images": Array<{ "id": string; "url": string | null; "thumbUrl"?: string | null; "isMasked"?: boolean; }>; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationName"?: string; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointName"?: string; "createdAt": string; "version": number; "matchCount"?: number; "hintPrompts"?: Array<string>; "activeClaimId"?: string; "expiresAt": string; "resolvedAt"?: string; };
+    "API-REP-01Request": { "type": "LOST" | "FOUND"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "title": string; "description": string; "colors"?: Array<string>; "brand"?: string; "imageIds"?: Array<string>; "location": { "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationId"?: string; "note"?: string; }; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointId"?: string; "hints"?: Array<{ "prompt": string; "answer": string; }>; };
+    "API-REP-02Response": { "data": Array<{ "id": string; "type": "LOST" | "FOUND"; "status": "PENDING_REVIEW" | "OPEN" | "MATCHED" | "IN_VERIFICATION" | "RETURNED" | "EXPIRED" | "CANCELLED" | "REMOVED"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "isSensitive": boolean; "title": string; "description": string; "colors": Array<string>; "brand"?: string; "images": Array<{ "id": string; "url": string | null; "thumbUrl"?: string | null; "isMasked"?: boolean; }>; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationName"?: string; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointName"?: string; "createdAt": string; }>; "page": { "nextCursor": string | null; "hasMore": boolean; }; };
+    "API-REP-03Response": { "data": Array<{ "id": string; "type": "LOST" | "FOUND"; "status": "PENDING_REVIEW" | "OPEN" | "MATCHED" | "IN_VERIFICATION" | "RETURNED" | "EXPIRED" | "CANCELLED" | "REMOVED"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "isSensitive": boolean; "title": string; "description": string; "colors": Array<string>; "brand"?: string; "images": Array<{ "id": string; "url": string | null; "thumbUrl"?: string | null; "isMasked"?: boolean; }>; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationName"?: string; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointName"?: string; "createdAt": string; "version": number; "matchCount"?: number; "hintPrompts"?: Array<string>; "activeClaimId"?: string; "expiresAt": string; "resolvedAt"?: string; }>; "page": { "nextCursor": string | null; "hasMore": boolean; }; };
+    "API-REP-05Request": { "title"?: string; "description"?: string; "colors"?: Array<string>; "brand"?: string; "imageIds"?: Array<string>; "location"?: { "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationId"?: string; "note"?: string; }; "occurredAt"?: { "from": string; "to"?: string; }; };
+    "API-REP-06Request": { "reason"?: string; };
+    "API-REP-08Response": { "status": "ok"; };
+    "API-REP-08Request": { "reason": string; "note"?: string; };
   };
   securitySchemes: {
     cookieAuth: { type: "apiKey"; in: "cookie"; name: "__Secure-temuunair.session" };
@@ -173,6 +205,106 @@ export interface operations {
       200: { content: { "application/json": components["schemas"]["API-UPL-02Response"] } };
       401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
       404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-01": {
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-REP-01Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-02": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-03": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-03Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-04": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-05": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-REP-05Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-06": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-REP-06Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-07": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-REP-08": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-REP-08Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-REP-08Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
     };
   };
 }

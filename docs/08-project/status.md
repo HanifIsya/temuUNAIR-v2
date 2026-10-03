@@ -58,9 +58,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 78%
+## M2 — 83%
 
-TODO: 5 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 18 · CANCELLED: 0
+TODO: 4 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 19 · CANCELLED: 0
 
 - [x] TMU-ARC-001 — Review and approve System Overview (01-system-overview.md)
 - [x] TMU-ARC-002 — Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md)
@@ -78,7 +78,7 @@ TODO: 5 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 18 · CANCELLED: 0
 - [x] TMU-ARC-014 — Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md)
 - [x] TMU-ARC-015 — Review and approve Observability, Capacity, Topology, i18n and ADRs
 - [x] TMU-CTR-001 — Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04)
-- [ ] TMU-CTR-002 — Author contract schemas for reports (API-REP-01..08)
+- [x] TMU-CTR-002 — Author contract schemas for reports (API-REP-01..08)
 - [ ] TMU-CTR-003 — Author contract schemas for search and matching (API-SRC-01, API-MAT-01..04)
 - [ ] TMU-CTR-004 — Author contract schemas for claims, chat and handover (API-CLM-01..10, API-CHT-01..04)
 - [ ] TMU-CTR-005 — Author contract schemas for notifications and admin operations (API-NTF-01..04, API-ADM-01..17)
