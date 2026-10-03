@@ -58,14 +58,14 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 22%
+## M2 — 26%
 
-TODO: 18 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 5 · CANCELLED: 0
+TODO: 17 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 6 · CANCELLED: 0
 
 - [x] TMU-ARC-001 — Review and approve System Overview (01-system-overview.md)
 - [x] TMU-ARC-002 — Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md)
 - [x] TMU-ARC-003 — Review and approve Data Model and ERD (03-data-model-erd.md)
-- [ ] TMU-ARC-004 — Review and approve State Machines (04-state-machines.md)
+- [x] TMU-ARC-004 — Review and approve State Machines (04-state-machines.md)
 - [ ] TMU-ARC-005 — Review and approve Matching Algorithm Spec (05-matching-algorithm-spec.md)
 - [ ] TMU-ARC-006 — Review and approve ML Service Design (06-ml-service-design.md)
 - [ ] TMU-ARC-007 — Review and approve ML Evaluation Plan (07-ml-evaluation-plan.md)

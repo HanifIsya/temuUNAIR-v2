@@ -1,9 +1,9 @@
 ---
 id: ARCH-STATES
 title: State machines
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-ERD", "FR", "AC"]
 source_refs: ["Blueprint §5A.6", "DEC-007", "DEC-012"]
 ---
