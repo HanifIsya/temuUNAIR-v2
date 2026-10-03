@@ -30,9 +30,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 - [x] TMU-OPS-020 — Clear the advisory audit red (postcss under next)
 - [x] TMU-OPS-021 — Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
 
-## M1 — 91%
+## M1 — 96%
 
-TODO: 2 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 21 · CANCELLED: 0
+TODO: 1 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 22 · CANCELLED: 0
 
 - [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 - [x] TMU-DOC-002 — Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md
@@ -55,7 +55,7 @@ TODO: 2 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 21 · CANCELLED: 0
 - [x] TMU-DOC-019 — M1 cross-document consistency and traceability pass
 - [ ] TMU-DOC-020 — M1 exit checklist, docs-approval evidence and M2 handoff
 - [x] TMU-META-004 — File the M1 task breakdown (TMU-DOC-002..020) and the source-lane enabler
-- [ ] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
+- [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
 ## M2 — 0%

@@ -3,7 +3,7 @@ id: TRACEABILITY
 title: Traceability matrix
 status: draft
 owner: DK
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PRD", "FR", "SCR-INDEX", "BE-03", "FE-12"]
 source_refs: ["Blueprint §4.1, §12"]
 ---
@@ -17,11 +17,11 @@ incomplete until its row is updated (docs-keeper). Rows with `—` are pending l
 
 | Goal | Stories | FRs | Screens | APIs | Tests | Tasks |
 |---|---|---|---|---|---|---|
-| G1 Fast reporting | US-010, US-011, US-013, US-014 | FR-REP-001..008, FR-AUTH-001 | SCR-004, SCR-003 | API-REP-01..08, API-UPL-01..03, API-META-01..04 | TC-REP-001..019, E2E-02, E2E-03 | — |
+| G1 Fast reporting | US-010..014, US-016 | FR-REP-001..008, FR-REP-010..011, FR-AUTH-001 | SCR-004, SCR-003 | API-REP-01..08, API-UPL-01..03, API-META-01..04 | TC-REP-001..019, E2E-02, E2E-03 | — |
 | G2 AI matching | US-020..026 | FR-SRC-001..006, FR-MAT-001..007 | SCR-005, SCR-008 | API-REP-02, API-SRC-01, API-MAT-01..04 | TC-SRC-001..018, TC-MAT-001..019, E2E-04, E2E-05 | — |
 | G3 Verified return | US-030..037 | FR-CLM-001..009, FR-CHT-001..004, FR-HND-001..003 | SCR-006, SCR-010..012 | API-CLM-01..10, API-CHT-01..04 | TC-CLM-001..022, TC-CHT-001..007, TC-HND-001..005, E2E-06..09 | — |
-| G4 Moderation | US-050..056 | FR-ADM-001..009, FR-MGT-001..002, FR-REP-010 | SCR-009, SCR-017..022 | API-ADM-01..17, API-REP-03/06/07 | TC-ADM-001..014, E2E-11, E2E-12 | — |
-| G5 Lawful & trustworthy | US-004, US-015, US-042 | FR-AUTH-005, FR-REP-009, FR-NTF-006, NFR-030..035 | SCR-014, SCR-016, SCR-018 | API-ME-03..05, API-REP-09 (masking) | TC-AUTH-006..008, TC-REP-020/024, security checklist | — |
+| G4 Moderation | US-050..057 | FR-ADM-001..009, FR-MGT-001..002, FR-REP-010 | SCR-009, SCR-017..022 | API-ADM-01..17, API-REP-03/06/07 | TC-ADM-001..014, E2E-11, E2E-12 | — |
+| G5 Lawful & trustworthy | US-004, US-015, US-040..045, US-060 | FR-AUTH-005, FR-REP-009, FR-NTF-001..007, FR-I18N-001..003, NFR-030..035 | SCR-013, SCR-014, SCR-016, SCR-018 | API-ME-03..05, API-REP-09 (masking), API-NTF-01..04 | TC-AUTH-006..008, TC-REP-020/024, security checklist | — |
 
 ## Requirements → APIs → screens
 
