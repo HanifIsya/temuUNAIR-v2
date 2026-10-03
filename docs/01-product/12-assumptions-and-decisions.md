@@ -39,6 +39,7 @@ docs-keeper after every merge. Changing a default requires an ADR (`docs/03-arch
 | DEC-022 | OQ-3: real drop-point list and operating hours unknown at M1 | Defer the OQ-3 answer to stakeholders, due **M3 seeds**; DEC-005's provisional default stands meanwhile, with synthetic drop points flagged "contoh" (PRD §9) until the real list arrives | deferred — open (due M3 seeds) | Stakeholders |
 | DEC-023 | OQ-4: which sensitive categories are prohibited from public listing entirely needs a legal ruling | Defer the OQ-4 answer to Legal/DPO, due **M3 REPORT**; DEC-014 masking/sensitive-flag rules stand meanwhile | deferred — open (due M3 REPORT) | Legal / DPO |
 | DEC-024 | OQ-5: production hosting target undecided at M1 | Defer the OQ-5 answer to the Advisor, due **M9 deploy**; DEC-011 Docker Compose + CPU-ML default stands meanwhile | deferred — open (due M9 deploy) | Advisor |
+| DEC-025 | Human legal review of 13-legal-privacy-drafts.md | Engineering drafts (privacy notice, terms, guidelines, UU PDP mapping) reviewed for structure in M1 (TMU-DOC-009); formal legal sign-off deferred to UNAIR legal / DPO at M8/M9 before launch per DEC-017 and RISK-012 | deferred — open (due M8/M9 launch) | UNAIR legal / DPO |
 
 ## How to change a decision
 

@@ -1,18 +1,19 @@
 ---
 id: LEGAL
 title: Legal and privacy drafts (privacy notice, terms, community guidelines, UU PDP mapping)
-status: draft
+status: review
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["NFR", "DECISIONS"]
-source_refs: ["DEC-017", "DEC-014", "UU PDP — Law No. 27/2022", "Blueprint §9"]
+source_refs: ["DEC-017", "DEC-014", "DEC-025", "UU PDP — Law No. 27/2022", "Blueprint §9"]
 ---
 
 # Legal and privacy drafts
 
-> **REQUIRES HUMAN LEGAL REVIEW BEFORE LAUNCH (DEC-017, RISK-012).** These are engineering
-> drafts, not legal advice. A qualified reviewer (UNAIR legal / DPO) must approve or amend
-> before the platform is opened to real users. Anything below marked `OPEN` is unresolved.
+> **Status: REVIEW (DEC-025, DEC-017, RISK-012).** Engineering structure, completeness, data inventory and
+> UU PDP mapping were reviewed in M1 (TMU-DOC-009). These are engineering drafts, not qualified legal advice.
+> Formal legal sign-off by qualified legal counsel / UNAIR DPO is formally deferred to M8/M9 before production
+> launch per DEC-025. Anything below marked `OPEN` is an engineering tracking note for that review.
 
 ## 1. Data inventory (what we collect and why)
 

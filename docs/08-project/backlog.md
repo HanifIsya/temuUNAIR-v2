@@ -35,7 +35,7 @@
 | [TMU-DOC-006](tasks/TMU-DOC-006.md) | M1 | docs | DONE | P2 | Review and approve the acceptance-criteria and glossary docs | TMU-DOC-002 |
 | [TMU-DOC-007](tasks/TMU-DOC-007.md) | M1 | docs | DONE | P2 | Review and approve the risk register and roadmap | TMU-DOC-002 |
 | [TMU-DOC-008](tasks/TMU-DOC-008.md) | M1 | docs | DONE | P2 | Review and approve the success-metrics and decisions docs | TMU-DOC-003 |
-| [TMU-DOC-009](tasks/TMU-DOC-009.md) | M1 | docs | TODO | P2 | Review the legal/privacy drafts and record the human legal-review requirement | TMU-DOC-002 |
+| [TMU-DOC-009](tasks/TMU-DOC-009.md) | M1 | docs | DONE | P2 | Review the legal/privacy drafts and record the human legal-review requirement | TMU-DOC-002 |
 | [TMU-DOC-010](tasks/TMU-DOC-010.md) | M1 | docs | TODO | P2 | Review and approve the operations-model and user-research docs | TMU-DOC-002 |
 | [TMU-DOC-011](tasks/TMU-DOC-011.md) | M1 | docs | TODO | P2 | Review and approve the design foundations (principles, brand, tokens) | TMU-DOC-002 |
 | [TMU-DOC-012](tasks/TMU-DOC-012.md) | M1 | docs | TODO | P2 | Review and approve information architecture and user flows | TMU-DOC-002 |
