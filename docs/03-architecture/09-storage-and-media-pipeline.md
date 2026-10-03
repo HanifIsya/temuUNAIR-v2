@@ -1,9 +1,9 @@
 ---
 id: ARCH-MEDIA
 title: Storage and media pipeline
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-ERD", "BE-10", "DEC-010", "DEC-014"]
 source_refs: ["Blueprint §5A.3 API-UPL-*, §5A.5"]
 ---
