@@ -55,7 +55,7 @@
 | [TMU-ARC-003](tasks/TMU-ARC-003.md) | M2 | arch | DONE | P2 | Review and approve Data Model and ERD (03-data-model-erd.md) | TMU-DOC-020, TMU-CTR-006 |
 | [TMU-ARC-004](tasks/TMU-ARC-004.md) | M2 | arch | DONE | P2 | Review and approve State Machines (04-state-machines.md) | TMU-DOC-020 |
 | [TMU-ARC-005](tasks/TMU-ARC-005.md) | M2 | arch | DONE | P2 | Review and approve Matching Algorithm Spec (05-matching-algorithm-spec.md) | TMU-DOC-020 |
-| [TMU-ARC-006](tasks/TMU-ARC-006.md) | M2 | arch | TODO | P2 | Review and approve ML Service Design (06-ml-service-design.md) | TMU-DOC-020 |
+| [TMU-ARC-006](tasks/TMU-ARC-006.md) | M2 | arch | DONE | P2 | Review and approve ML Service Design (06-ml-service-design.md) | TMU-DOC-020 |
 | [TMU-ARC-007](tasks/TMU-ARC-007.md) | M2 | arch | TODO | P2 | Review and approve ML Evaluation Plan (07-ml-evaluation-plan.md) | TMU-DOC-020 |
 | [TMU-ARC-008](tasks/TMU-ARC-008.md) | M2 | arch | TODO | P2 | Review and approve Async Jobs and Queues (08-async-jobs-and-queues.md) | TMU-DOC-020 |
 | [TMU-ARC-009](tasks/TMU-ARC-009.md) | M2 | arch | TODO | P2 | Review and approve Storage and Media Pipeline (09-storage-and-media-pipeline.md) | TMU-DOC-020 |
