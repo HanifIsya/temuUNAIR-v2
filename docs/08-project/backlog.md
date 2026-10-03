@@ -63,7 +63,7 @@
 | [TMU-ARC-011](tasks/TMU-ARC-011.md) | M2 | arch | DONE | P2 | Review and approve Notification Design (11-notification-design.md) | TMU-DOC-020 |
 | [TMU-ARC-012](tasks/TMU-ARC-012.md) | M2 | arch | DONE | P2 | Review and approve Chat Design (12-chat-design.md) | TMU-DOC-020 |
 | [TMU-ARC-013](tasks/TMU-ARC-013.md) | M2 | arch | DONE | P2 | Review and approve Search Design (13-search-design.md) | TMU-DOC-020 |
-| [TMU-ARC-014](tasks/TMU-ARC-014.md) | M2 | sec | TODO | P2 | Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md) | TMU-DOC-020 |
+| [TMU-ARC-014](tasks/TMU-ARC-014.md) | M2 | sec | DONE | P2 | Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md) | TMU-DOC-020 |
 | [TMU-ARC-015](tasks/TMU-ARC-015.md) | M2 | arch | TODO | P2 | Review and approve Observability, Capacity, Topology, i18n and ADRs | TMU-DOC-020 |
 | [TMU-CTR-001](tasks/TMU-CTR-001.md) | M2 | contracts | TODO | P2 | Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04) | TMU-DOC-020, TMU-ARC-001 |
 | [TMU-CTR-002](tasks/TMU-CTR-002.md) | M2 | contracts | TODO | P2 | Author contract schemas for reports (API-REP-01..08) | TMU-DOC-020, TMU-CTR-001, TMU-ARC-004 |

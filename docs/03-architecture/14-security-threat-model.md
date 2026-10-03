@@ -1,9 +1,9 @@
 ---
 id: THREAT-MODEL
 title: Security threat model (STRIDE)
-status: draft
+status: approved
 owner: SR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-OVERVIEW", "NFR", "ARCH-AUTH", "ARCH-MEDIA"]
 source_refs: ["Blueprint §9", "DEC-014", "DEC-017", "DEC-018"]
 ---
