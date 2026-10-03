@@ -52,7 +52,7 @@
 | [TMU-OPS-033](tasks/TMU-OPS-033.md) | M1 | ops | DONE | P1 | Widen the docs lane to docs/_source/** (M1 source intake enabler) | TMU-DOC-001 |
 | [TMU-ARC-001](tasks/TMU-ARC-001.md) | M2 | arch | DONE | P2 | Review and approve System Overview (01-system-overview.md) | TMU-DOC-020 |
 | [TMU-ARC-002](tasks/TMU-ARC-002.md) | M2 | arch | DONE | P2 | Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md) | TMU-DOC-020 |
-| [TMU-ARC-003](tasks/TMU-ARC-003.md) | M2 | arch | TODO | P2 | Review and approve Data Model and ERD (03-data-model-erd.md) | TMU-DOC-020, TMU-CTR-006 |
+| [TMU-ARC-003](tasks/TMU-ARC-003.md) | M2 | arch | DONE | P2 | Review and approve Data Model and ERD (03-data-model-erd.md) | TMU-DOC-020, TMU-CTR-006 |
 | [TMU-ARC-004](tasks/TMU-ARC-004.md) | M2 | arch | TODO | P2 | Review and approve State Machines (04-state-machines.md) | TMU-DOC-020 |
 | [TMU-ARC-005](tasks/TMU-ARC-005.md) | M2 | arch | TODO | P2 | Review and approve Matching Algorithm Spec (05-matching-algorithm-spec.md) | TMU-DOC-020 |
 | [TMU-ARC-006](tasks/TMU-ARC-006.md) | M2 | ml | TODO | P2 | Review and approve ML Service Design (06-ml-service-design.md) | TMU-DOC-020 |
