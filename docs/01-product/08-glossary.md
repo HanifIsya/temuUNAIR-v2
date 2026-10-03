@@ -1,11 +1,11 @@
 ---
 id: GLOSSARY
 title: Glossary — Indonesian ↔ English
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PRD"]
-source_refs: ["proposal.pdf (pending extract)", "Blueprint §4.2"]
+source_refs: ["proposal.pdf (via docs/_source/proposal-extract.md)", "Blueprint §4.2"]
 ---
 
 # Glossary
