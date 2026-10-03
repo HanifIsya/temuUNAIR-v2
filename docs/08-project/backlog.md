@@ -60,7 +60,7 @@
 | [TMU-ARC-008](tasks/TMU-ARC-008.md) | M2 | arch | DONE | P2 | Review and approve Async Jobs and Queues (08-async-jobs-and-queues.md) | TMU-DOC-020 |
 | [TMU-ARC-009](tasks/TMU-ARC-009.md) | M2 | arch | DONE | P2 | Review and approve Storage and Media Pipeline (09-storage-and-media-pipeline.md) | TMU-DOC-020 |
 | [TMU-ARC-010](tasks/TMU-ARC-010.md) | M2 | arch | DONE | P2 | Review and approve Auth and RBAC (10-auth-and-rbac.md) | TMU-DOC-020 |
-| [TMU-ARC-011](tasks/TMU-ARC-011.md) | M2 | arch | TODO | P2 | Review and approve Notification Design (11-notification-design.md) | TMU-DOC-020 |
+| [TMU-ARC-011](tasks/TMU-ARC-011.md) | M2 | arch | DONE | P2 | Review and approve Notification Design (11-notification-design.md) | TMU-DOC-020 |
 | [TMU-ARC-012](tasks/TMU-ARC-012.md) | M2 | arch | TODO | P2 | Review and approve Chat Design (12-chat-design.md) | TMU-DOC-020 |
 | [TMU-ARC-013](tasks/TMU-ARC-013.md) | M2 | arch | TODO | P2 | Review and approve Search Design (13-search-design.md) | TMU-DOC-020 |
 | [TMU-ARC-014](tasks/TMU-ARC-014.md) | M2 | sec | TODO | P2 | Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md) | TMU-DOC-020 |

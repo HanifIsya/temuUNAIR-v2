@@ -58,9 +58,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 52%
+## M2 — 57%
 
-TODO: 11 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 12 · CANCELLED: 0
+TODO: 10 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 13 · CANCELLED: 0
 
 - [x] TMU-ARC-001 — Review and approve System Overview (01-system-overview.md)
 - [x] TMU-ARC-002 — Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md)
@@ -72,7 +72,7 @@ TODO: 11 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 12 · CANCELLED: 
 - [x] TMU-ARC-008 — Review and approve Async Jobs and Queues (08-async-jobs-and-queues.md)
 - [x] TMU-ARC-009 — Review and approve Storage and Media Pipeline (09-storage-and-media-pipeline.md)
 - [x] TMU-ARC-010 — Review and approve Auth and RBAC (10-auth-and-rbac.md)
-- [ ] TMU-ARC-011 — Review and approve Notification Design (11-notification-design.md)
+- [x] TMU-ARC-011 — Review and approve Notification Design (11-notification-design.md)
 - [ ] TMU-ARC-012 — Review and approve Chat Design (12-chat-design.md)
 - [ ] TMU-ARC-013 — Review and approve Search Design (13-search-design.md)
 - [ ] TMU-ARC-014 — Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md)

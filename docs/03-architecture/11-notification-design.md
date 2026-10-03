@@ -1,9 +1,9 @@
 ---
 id: ARCH-NOTIF
 title: Notification design
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-JOBS", "BE-08", "NOTIF-TEMPLATES"]
 source_refs: ["Blueprint §5A.10"]
 ---
