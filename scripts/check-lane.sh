@@ -4,8 +4,12 @@ set -euo pipefail
 BR="$(git branch --show-current)"
 [[ "$BR" =~ ^agent/([a-z]+)/(TMU-[A-Z]+-[0-9]+) ]] || { echo "lane check skipped (not an agent branch)"; exit 0; }
 LANE="${BASH_REMATCH[1]}"; TASK="${BASH_REMATCH[2]}"
-git fetch origin main --quiet
-mapfile -t FILES < <(git diff --name-only origin/main...HEAD; git diff --name-only; git diff --name-only --cached)
+git fetch origin main --quiet || true
+BASE="origin/main"
+if git rev-parse --verify main >/dev/null 2>&1 && git merge-base --is-ancestor "$BASE" main 2>/dev/null; then
+  BASE="main"
+fi
+mapfile -t FILES < <(git diff --name-only "$BASE"...HEAD; git diff --name-only; git diff --name-only --cached)
 node -e '
   const lanes = require("./.agent/lanes.json");
   const [lane, task, ...files] = process.argv.slice(1); // task kept for messages
