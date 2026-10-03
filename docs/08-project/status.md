@@ -30,9 +30,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 - [x] TMU-OPS-020 — Clear the advisory audit red (postcss under next)
 - [x] TMU-OPS-021 — Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
 
-## M1 — 83%
+## M1 — 87%
 
-TODO: 4 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 19 · CANCELLED: 0
+TODO: 3 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 20 · CANCELLED: 0
 
 - [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 - [x] TMU-DOC-002 — Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md
@@ -51,7 +51,7 @@ TODO: 4 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 19 · CANCELLED: 0
 - [x] TMU-DOC-015 — Review and approve the component inventory and content/microcopy docs
 - [x] TMU-DOC-016 — Review and approve the accessibility and responsive/motion docs
 - [x] TMU-DOC-017 — Review and approve the state designs and notification templates
-- [ ] TMU-DOC-018 — Review and approve the admin-console design and onboarding docs
+- [x] TMU-DOC-018 — Review and approve the admin-console design and onboarding docs
 - [ ] TMU-DOC-019 — M1 cross-document consistency and traceability pass
 - [ ] TMU-DOC-020 — M1 exit checklist, docs-approval evidence and M2 handoff
 - [x] TMU-META-004 — File the M1 task breakdown (TMU-DOC-002..020) and the source-lane enabler

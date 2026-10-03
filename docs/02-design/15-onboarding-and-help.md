@@ -1,9 +1,9 @@
 ---
 id: ONBOARDING
 title: Onboarding and help
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["COPY", "SCR-015", "DESIGN-PRINCIPLES"]
 source_refs: ["Blueprint §4.3", "DEC-014"]
 ---
