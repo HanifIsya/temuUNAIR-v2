@@ -5,7 +5,7 @@ status: draft
 owner: SW
 updated: 2026-09-29
 depends_on: ["PRD", "ROADMAP", "METRICS"]
-source_refs: ["proposal.pdf (pending extract)", "Blueprint §4.9"]
+source_refs: ["proposal.pdf (via docs/_source/proposal-extract.md)", "Blueprint §4.9"]
 ---
 
 # Course deliverables mapping
