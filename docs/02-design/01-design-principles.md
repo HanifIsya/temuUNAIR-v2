@@ -1,9 +1,9 @@
 ---
 id: DESIGN-PRINCIPLES
 title: Design principles
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["VISION", "PERSONAS", "NFR"]
 source_refs: ["Blueprint §4.3", "DEC-008", "DEC-018"]
 ---

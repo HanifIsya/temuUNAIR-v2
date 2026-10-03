@@ -1,18 +1,20 @@
 ---
 id: BRAND
 title: Brand and logo
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["DESIGN-PRINCIPLES"]
-source_refs: ["proposal.pdf (pending extract)", "docs/_source/logo.png (missing)", "Blueprint §4.3"]
+source_refs: ["proposal.pdf §C.1 Logo dan Filosofi (via docs/_source/proposal-extract.md)", "docs/_source/logo.png (placeholder)", "Blueprint §4.3"]
 ---
 
 # Brand and logo
 
-> **BLOCKED INPUT:** `docs/_source/logo.png` is not in the repo yet. Everything below is the
-> agreed *intent* from the blueprint; exact colours and shapes must be sampled from the real
-> logo in TMU-DSG-001 before M1 approval. Do not invent pixel-perfect claims.
+> **Placeholder-logo caveat (`SRC-README`, `TMU-DSG-001`).** The currently tracked `docs/_source/logo.png`
+> is a generated placeholder (magnifier + yellow dot, brand placeholder colours). The real logo was identified
+> in `proposal.pdf §C.1 p. 3` (figure 2, magnifier + backpack inside a location-pin, "Lost Today, Found Together")
+> and will be sampled in `TMU-DSG-001`. The philosophy, usage rules, and clear space below represent the agreed
+> design intent and match the proposal's mark.
 
 ## Name and tagline
 
