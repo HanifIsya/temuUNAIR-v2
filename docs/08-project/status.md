@@ -58,9 +58,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 61%
+## M2 — 65%
 
-TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 14 · CANCELLED: 0
+TODO: 8 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 15 · CANCELLED: 0
 
 - [x] TMU-ARC-001 — Review and approve System Overview (01-system-overview.md)
 - [x] TMU-ARC-002 — Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md)
@@ -74,7 +74,7 @@ TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 14 · CANCELLED: 0
 - [x] TMU-ARC-010 — Review and approve Auth and RBAC (10-auth-and-rbac.md)
 - [x] TMU-ARC-011 — Review and approve Notification Design (11-notification-design.md)
 - [x] TMU-ARC-012 — Review and approve Chat Design (12-chat-design.md)
-- [ ] TMU-ARC-013 — Review and approve Search Design (13-search-design.md)
+- [x] TMU-ARC-013 — Review and approve Search Design (13-search-design.md)
 - [ ] TMU-ARC-014 — Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md)
 - [ ] TMU-ARC-015 — Review and approve Observability, Capacity, Topology, i18n and ADRs
 - [ ] TMU-CTR-001 — Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04)

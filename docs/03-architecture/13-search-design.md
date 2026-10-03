@@ -1,9 +1,9 @@
 ---
 id: ARCH-SEARCH
 title: Search design
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-ERD", "MATCH-SPEC", "FR-SRC"]
 source_refs: ["Blueprint §5A.3 API-SRC-01, §5A.9", "DEC-003"]
 ---
