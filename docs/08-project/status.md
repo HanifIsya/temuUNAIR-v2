@@ -86,9 +86,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M3 — 21%
+## M3 — 25%
 
-TODO: 19 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 5 · CANCELLED: 0
+TODO: 18 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 6 · CANCELLED: 0
 
 - [ ] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [ ] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
@@ -101,7 +101,7 @@ TODO: 19 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 5 · CANCELLED: 0
 - [x] TMU-DB-001 — Core tables migration — users, Auth.js adapter, locations, drop_points
 - [x] TMU-DB-002 — Reports base migration — reports, report_images, verification_hints
 - [x] TMU-DB-003 — Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches
-- [ ] TMU-DB-004 — Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes)
+- [x] TMU-DB-004 — Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes)
 - [ ] TMU-DB-005 — Ops migration — notifications, prefs, flags, audit_logs (+BE-05 indexes) and M3 seeds
 - [ ] TMU-FE-001 — Login flow — landing → Google OAuth → callback, auth errors (SCR-001/002)
 - [ ] TMU-FE-002 — App shell — navigation, locale switcher, notification bell slot (SCR-003 frame)

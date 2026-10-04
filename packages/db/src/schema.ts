@@ -22,6 +22,7 @@ import {
   vector,
   numeric,
   unique,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 // citext lives in the database (0001_init creates the extension); drizzle-orm has no
@@ -62,6 +63,15 @@ export const matchState = pgEnum("match_state", [
   "DISMISSED",
   "CLAIMED",
   "INVALIDATED",
+]);
+export const claimStatus = pgEnum("claim_status", [
+  "SUBMITTED",
+  "APPROVED",
+  "REJECTED",
+  "DISPUTED",
+  "COMPLETED",
+  "CANCELLED",
+  "EXPIRED",
 ]);
 
 export const users = pgTable(
@@ -288,5 +298,73 @@ export const matches = pgTable(
       table.lostReportId,
       table.foundReportId,
     ),
+  ],
+);
+
+export const claims = pgTable(
+  "claims",
+  {
+    id: uuid("id").primaryKey(),
+    foundReportId: uuid("found_report_id")
+      .notNull()
+      .references(() => reports.id),
+    lostReportId: uuid("lost_report_id").references(() => reports.id),
+    claimantId: uuid("claimant_id")
+      .notNull()
+      .references(() => users.id),
+    status: claimStatus("status").notNull().default("SUBMITTED"),
+    note: text("note"),
+    handoverPlace: text("handover_place"),
+    handoverAt: timestamp("handover_at", { withTimezone: true }),
+    finderConfirmedAt: timestamp("finder_confirmed_at", { withTimezone: true }),
+    claimantConfirmedAt: timestamp("claimant_confirmed_at", { withTimezone: true }),
+    decidedBy: uuid("decided_by").references(() => users.id),
+    decisionReason: text("decision_reason"),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("claims_one_active_per_claimant")
+      .on(table.foundReportId, table.claimantId)
+      .where(sql`${table.status} IN ('SUBMITTED', 'APPROVED', 'DISPUTED')`),
+    uniqueIndex("claims_one_approved_per_report")
+      .on(table.foundReportId)
+      .where(sql`${table.status} = 'APPROVED'`),
+    index("claims_status_idx").on(table.status, table.createdAt),
+  ],
+);
+
+export const claimAnswers = pgTable(
+  "claim_answers",
+  {
+    claimId: uuid("claim_id")
+      .notNull()
+      .references(() => claims.id, { onDelete: "cascade" }),
+    hintId: uuid("hint_id")
+      .notNull()
+      .references(() => verificationHints.id),
+    answer: text("answer").notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.claimId, table.hintId] })],
+);
+
+export const messages = pgTable(
+  "messages",
+  {
+    id: uuid("id").primaryKey(),
+    claimId: uuid("claim_id")
+      .notNull()
+      .references(() => claims.id),
+    senderId: uuid("sender_id")
+      .notNull()
+      .references(() => users.id),
+    body: text("body").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    readAt: timestamp("read_at", { withTimezone: true }),
+  },
+  (table) => [
+    check("messages_body_length_check", sql`char_length(${table.body}) <= 1000`),
+    index("messages_claim_created_idx").on(table.claimId, table.createdAt.desc()),
   ],
 );
