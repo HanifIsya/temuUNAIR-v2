@@ -81,7 +81,7 @@
 | [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | TODO | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |
 | [TMU-BE-007](tasks/TMU-BE-007.md) | M3 | be | TODO | P1 | report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub | TMU-BE-006 |
 | [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | TODO | P1 | Ops hardening — idempotency + rate-limit middleware, Schemathesis mock to real handlers | TMU-BE-007 |
-| [TMU-DB-001](tasks/TMU-DB-001.md) | M3 | db | BLOCKED | P1 | Core tables migration — users, Auth.js adapter, locations, drop_points | TMU-CTR-007 |
+| [TMU-DB-001](tasks/TMU-DB-001.md) | M3 | db | DONE | P1 | Core tables migration — users, Auth.js adapter, locations, drop_points | TMU-CTR-007, TMU-OPS-035 |
 | [TMU-DB-002](tasks/TMU-DB-002.md) | M3 | db | TODO | P1 | Reports base migration — reports, report_images, verification_hints | TMU-DB-001 |
 | [TMU-DB-003](tasks/TMU-DB-003.md) | M3 | db | TODO | P1 | Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches | TMU-DB-002 |
 | [TMU-DB-004](tasks/TMU-DB-004.md) | M3 | db | TODO | P1 | Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes) | TMU-DB-003 |
