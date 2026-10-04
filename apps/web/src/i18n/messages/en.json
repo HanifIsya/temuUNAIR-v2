@@ -17,7 +17,33 @@
     "copy": "Copy",
     "copied": "Copied",
     "offline": "You are offline",
-    "unknownError": "Something went wrong. Try again."
+    "unknownError": "Something went wrong. Try again.",
+    "signIn": "Sign in",
+    "home": "Home",
+    "skipToContent": "Skip to content"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "google": "Continue with Google",
+      "note": {
+        "domain": "Use your UNAIR account"
+      },
+      "network": "Connection problem. Please try again.",
+      "terms": "By continuing, you agree to the",
+      "privacy": "Privacy policy"
+    },
+    "error": {
+      "title": "Unable to sign in",
+      "domain": "This is not a UNAIR account. Sign in with your campus email.",
+      "generic": "Sign-in failed. Please try again.",
+      "action": {
+        "another": "Try another account"
+      },
+      "suspended": {
+        "title": "Account suspended"
+      }
+    }
   },
   "landing": {
     "hero": {

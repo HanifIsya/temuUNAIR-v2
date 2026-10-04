@@ -17,7 +17,33 @@
     "copy": "Salin",
     "copied": "Tersalin",
     "offline": "Kamu sedang offline",
-    "unknownError": "Terjadi kesalahan. Coba lagi ya."
+    "unknownError": "Terjadi kesalahan. Coba lagi ya.",
+    "signIn": "Masuk",
+    "home": "Beranda",
+    "skipToContent": "Lewati ke konten"
+  },
+  "auth": {
+    "login": {
+      "title": "Masuk",
+      "google": "Lanjutkan dengan Google",
+      "note": {
+        "domain": "Gunakan akun UNAIR kamu"
+      },
+      "network": "Koneksi bermasalah. Coba lagi ya.",
+      "terms": "Dengan melanjutkan, kamu menyetujui",
+      "privacy": "Kebijakan privasi"
+    },
+    "error": {
+      "title": "Tidak bisa masuk",
+      "domain": "Akun ini bukan akun UNAIR. Masuk dengan email kampus.",
+      "generic": "Gagal masuk. Coba lagi.",
+      "action": {
+        "another": "Coba akun lain"
+      },
+      "suspended": {
+        "title": "Akun ditangguhkan"
+      }
+    }
   },
   "landing": {
     "hero": {
