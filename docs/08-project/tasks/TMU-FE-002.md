@@ -1,25 +1,25 @@
 ---
 id: TMU-FE-002
 title: App shell — navigation, locale switcher, notification bell slot (SCR-003 frame)
-status: BLOCKED
-blocked_by: BLK-005
+status: TODO
 lane: fe
 slug: fe-app-shell
 milestone: M3
 priority: P1
 owner: frontend-dev
 deps: [TMU-FE-001]
-refs: [FE-01, IA, SCR-003, FR-AUTH-006]
+refs: [FE-01, IA, SCR-003, FR-I18N-001, FR-AUTH-004]
 created: 2026-10-03
 updated: 2026-10-05
 ---
 
 # TMU-FE-002 — App shell — navigation, locale switcher, notification bell slot (SCR-003 frame)
 
-> **BLOCKED (DoR #3)** — `refs` contains `FR-AUTH-006`, which does not exist (FR table ends
-> at `FR-AUTH-005`). Blocker: `docs/08-project/blockers/BLK-005.md` (options: correct the
-> refs to `FR-I18N-001` + `FR-AUTH-004`, or author `FR-AUTH-006`). Do not start until the
-> blocker is resolved.
+> **DoR history**: originally ref'd a nonexistent `FR-AUTH-006` → `BLOCKED` via BLK-005
+> (2026-10-05); human decision (option 1) corrected the refs to `FR-I18N-001` +
+> `FR-AUTH-004` and re-enabled the task. Observation: `07-acceptance-criteria.md` has no
+> Gherkin block for the locale round-trip (`FR-I18N-001`) — docs-lane follow-up, tracked
+> in the progress log; DoR #5 is met by the task ACs + IA nav rows + SCR-003 states.
 
 ## Goal
 

@@ -88,7 +88,7 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 
 ## M3 — 69%
 
-TODO: 7 · IN_PROGRESS: 0 · BLOCKED: 1 · REVIEW: 0 · DONE: 18 · CANCELLED: 0
+TODO: 8 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 18 · CANCELLED: 0
 
 - [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [x] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
