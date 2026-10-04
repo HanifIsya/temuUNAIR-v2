@@ -86,14 +86,14 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M3 — 42%
+## M3 — 46%
 
-TODO: 14 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 10 · CANCELLED: 0
+TODO: 13 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 11 · CANCELLED: 0
 
 - [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [x] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
 - [x] TMU-BE-003 — ME + preferences handlers (API-ME-01..05)
-- [ ] TMU-BE-004 — Upload handshake (API-UPL-01..03) — presign, validation, complete
+- [x] TMU-BE-004 — Upload handshake (API-UPL-01..03) — presign, validation, complete
 - [ ] TMU-BE-005 — META handlers (API-META-01..04) — categories, campuses, locations, drop points
 - [ ] TMU-BE-006 — Report create/read (API-REP-01/02/04) with visibility and masking mappers
 - [ ] TMU-BE-007 — report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub
