@@ -10,12 +10,18 @@
     "test:unit": "vitest run"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1146.0",
+    "@aws-sdk/s3-request-presigner": "^3.1146.0",
+    "pg": "^8.23.1",
     "pg-boss": "^10.4.2",
+    "pino": "^10.4.0",
     "zod": "3.25.76"
   },
   "devDependencies": {
     "@temuunair/config": "workspace:*",
     "@types/node": "^26.6.3",
+    "@types/pg": "^8.23.1",
+    "drizzle-orm": "^0.45.3",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"

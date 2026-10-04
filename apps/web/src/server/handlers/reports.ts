@@ -8,7 +8,7 @@ import { DomainError, ErrorCode } from "../errors";
 import { getIdempotencyStore } from "../idempotency";
 import { getReportLimiter, isRateLimitEnabled } from "../rate-limit";
 import { PgReportsRepository } from "../repositories/reports";
-import { getReportProcessQueue } from "../services/report-queue";
+import { getReportProcessQueue } from "../jobs/report-process";
 import { createReport, getReportView, listReports } from "../services/reports";
 import { parseReportConfig } from "../config";
 import { getStorage } from "../storage";

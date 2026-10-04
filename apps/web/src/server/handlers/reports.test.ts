@@ -27,7 +27,7 @@ const h = vi.hoisted(() => {
 
 vi.mock("../db", () => ({ getDb: h.getDb }));
 vi.mock("../storage", () => ({ getStorage: () => ({ presignGet: h.presignGet }) }));
-vi.mock("../services/report-queue", () => ({
+vi.mock("../jobs/report-process", () => ({
   getReportProcessQueue: () => ({ enqueue: h.enqueue }),
 }));
 

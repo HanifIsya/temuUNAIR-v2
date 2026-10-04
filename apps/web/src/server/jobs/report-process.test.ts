@@ -1,10 +1,11 @@
 import { randomUUID } from "node:crypto";
 import { describe, expect, it, vi } from "vitest";
-import { REPORT_PROCESS_QUEUE_NAME, ReportProcessQueue } from "./report-queue";
+import { REPORT_PROCESS_QUEUE_NAME, ReportProcessQueue } from "./report-process";
 
-// TMU-BE-006 (red evidence): report.process enqueue semantics (BE-07 R1) —
-// one in-flight process per report via singletonKey, 3 retries / 30 s expiry,
-// dedupe-safe when pg-boss returns null for a pending singleton.
+// TMU-BE-006/007 (red evidence): report.process enqueue semantics (BE-07 R1) —
+// one in-flight process per report via singletonKey, 3 attempts with a 30 s
+// backoff base and 30 s expiry, dedupe-safe when pg-boss returns null for a
+// pending singleton.
 
 interface FakeBoss {
   start: ReturnType<typeof vi.fn>;
@@ -52,7 +53,13 @@ describe("ReportProcessQueue", () => {
     expect(boss.send).toHaveBeenCalledWith(
       REPORT_PROCESS_QUEUE_NAME,
       { reportId },
-      { singletonKey: reportId, retryLimit: 3, expireInSeconds: 30 },
+      {
+        singletonKey: reportId,
+        retryLimit: 3,
+        retryDelay: 30,
+        retryBackoff: true,
+        expireInSeconds: 30,
+      },
     );
   });
 

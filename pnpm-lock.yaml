@@ -132,9 +132,21 @@ importers:
 
   apps/worker:
     dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.1146.0
+        version: 3.1146.0
+      '@aws-sdk/s3-request-presigner':
+        specifier: ^3.1146.0
+        version: 3.1146.0
+      pg:
+        specifier: ^8.23.1
+        version: 8.23.1
       pg-boss:
         specifier: ^10.4.2
         version: 10.4.2
+      pino:
+        specifier: ^10.4.0
+        version: 10.4.0
       zod:
         specifier: 3.25.76
         version: 3.25.76
@@ -145,6 +157,12 @@ importers:
       '@types/node':
         specifier: ^26.6.3
         version: 26.6.3
+      '@types/pg':
+        specifier: ^8.23.1
+        version: 8.23.1
+      drizzle-orm:
+        specifier: ^0.45.3
+        version: 0.45.3(@types/pg@8.23.1)(pg@8.23.1)
       tsx:
         specifier: ^4.23.15
         version: 4.23.15

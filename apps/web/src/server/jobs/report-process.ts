@@ -1,7 +1,8 @@
-// apps/web/src/server/services/report-queue.ts
-// pg-boss wrapper for the report.process queue (BE-07 R1): enqueued on report
-// create, one in-flight process per report (singletonKey), 3 retries with a
-// 30 s expiry. Dedupes against a pending singleton (send returns null).
+// apps/web/src/server/jobs/report-process.ts
+// pg-boss enqueue for the report.process queue (BE-07 R1): enqueued on report
+// create, one in-flight process per report (singletonKey), 3 attempts with
+// exponential backoff (30 s base) and a 30 s expiry. Dedupes against a pending
+// singleton (send returns null).
 
 import PgBoss from "pg-boss";
 import { parseConfig } from "../config";
@@ -20,9 +21,22 @@ export interface ReportBossLike {
   send(
     name: string,
     data: unknown,
-    options?: { singletonKey?: string; retryLimit?: number; expireInSeconds?: number },
+    options?: {
+      singletonKey?: string;
+      retryLimit?: number;
+      retryDelay?: number;
+      retryBackoff?: boolean;
+      expireInSeconds?: number;
+    },
   ): Promise<string | null>;
 }
+
+/** BE-07 retry policy: 3 attempts, exponential backoff with a 30 s base. */
+export const REPORT_PROCESS_RETRY = {
+  retryLimit: 3,
+  retryDelay: 30,
+  retryBackoff: true,
+} as const;
 
 export interface ReportProcessQueueLike {
   enqueue(reportId: string): Promise<string | null>;
@@ -57,7 +71,7 @@ export class ReportProcessQueue implements ReportProcessQueueLike {
     return this.boss.send(
       REPORT_PROCESS_QUEUE_NAME,
       { reportId },
-      { singletonKey: reportId, retryLimit: 3, expireInSeconds: 30 },
+      { singletonKey: reportId, ...REPORT_PROCESS_RETRY, expireInSeconds: 30 },
     );
   }
 }
