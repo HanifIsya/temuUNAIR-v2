@@ -1,8 +1,19 @@
 diff --git a/api.js b/api.js
-index f4ecb91959f62fc938416a0585458c0a710af161..70122e0ac37422bb2ab0ab6703c68e5879f41037 100644
+index f4ecb91959f62fc938416a0585458c0a710af161..4c34d4a4fd9499921b17ed95295394396bb56e97 100644
 --- a/api.js
 +++ b/api.js
-@@ -75272,6 +75272,14 @@ var pushSchema = async (imports, drizzleInstance, schemaFilters, tablesFilter, e
+@@ -23756,7 +23756,9 @@ WHERE
+       column6.column_default = column6.column_default.replace(/::(.*?)(?<![^\w"])(?=$)/, "");
+       const columnDefaultAsString = column6.column_default.toString();
+       if (isArray) {
+-        return `'{${columnDefaultAsString.slice(2, -2).split(/\s*,\s*/g).map((value) => {
++        const inner = columnDefaultAsString.slice(2, -2).trim();
++        if (inner === "") return "'{}'";
++        return `'{${inner.split(/\s*,\s*/g).map((value) => {
+           if (["integer", "smallint", "bigint", "double precision", "real"].includes(column6.data_type.slice(0, -2))) {
+             return value;
+           } else if (column6.data_type.startsWith("timestamp")) {
+@@ -75272,6 +75274,14 @@ var pushSchema = async (imports, drizzleInstance, schemaFilters, tablesFilter, e
    );
    const db = {
      query: async (query, params) => {
@@ -18,10 +29,21 @@ index f4ecb91959f62fc938416a0585458c0a710af161..70122e0ac37422bb2ab0ab6703c68e58
        return res.rows;
      }
 diff --git a/api.mjs b/api.mjs
-index a940272dfb05accf57a472c46c52652ec9ad0080..a1345893116616b05223c308c0a458bc96b16a93 100644
+index a940272dfb05accf57a472c46c52652ec9ad0080..1e15a7eeea4e14456ebde3b34979ca344190e331 100644
 --- a/api.mjs
 +++ b/api.mjs
-@@ -75301,6 +75301,14 @@ var pushSchema = async (imports, drizzleInstance, schemaFilters, tablesFilter, e
+@@ -23772,7 +23772,9 @@ WHERE
+       column6.column_default = column6.column_default.replace(/::(.*?)(?<![^\w"])(?=$)/, "");
+       const columnDefaultAsString = column6.column_default.toString();
+       if (isArray) {
+-        return `'{${columnDefaultAsString.slice(2, -2).split(/\s*,\s*/g).map((value) => {
++        const inner = columnDefaultAsString.slice(2, -2).trim();
++        if (inner === "") return "'{}'";
++        return `'{${inner.split(/\s*,\s*/g).map((value) => {
+           if (["integer", "smallint", "bigint", "double precision", "real"].includes(column6.data_type.slice(0, -2))) {
+             return value;
+           } else if (column6.data_type.startsWith("timestamp")) {
+@@ -75301,6 +75303,14 @@ var pushSchema = async (imports, drizzleInstance, schemaFilters, tablesFilter, e
    );
    const db = {
      query: async (query, params) => {

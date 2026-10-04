@@ -10,7 +10,7 @@ overrides:
 
 patchedDependencies:
   drizzle-kit@0.31.11:
-    hash: dbe0d34e293f9a9d7faa32b435a381f3c60449df0d19670bf9394455bbeba915
+    hash: 68fcaf72bf072c2b0a26d0938d06477e5377c4a942cb66af89416025f37b3bae
     path: patches/drizzle-kit@0.31.11.patch
 
 importers:
@@ -174,7 +174,7 @@ importers:
         version: 8.23.1
       drizzle-kit:
         specifier: ^0.31.11
-        version: 0.31.11(patch_hash=dbe0d34e293f9a9d7faa32b435a381f3c60449df0d19670bf9394455bbeba915)
+        version: 0.31.11(patch_hash=68fcaf72bf072c2b0a26d0938d06477e5377c4a942cb66af89416025f37b3bae)
       prettier:
         specifier: ^3.6.2
         version: 3.9.9
@@ -4725,7 +4725,7 @@ snapshots:
 
   dom-accessibility-api@0.5.16: {}
 
-  drizzle-kit@0.31.11(patch_hash=dbe0d34e293f9a9d7faa32b435a381f3c60449df0d19670bf9394455bbeba915):
+  drizzle-kit@0.31.11(patch_hash=68fcaf72bf072c2b0a26d0938d06477e5377c4a942cb66af89416025f37b3bae):
     dependencies:
       '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5

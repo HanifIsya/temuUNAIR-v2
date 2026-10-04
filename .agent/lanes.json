@@ -1,6 +1,7 @@
 {
   "_common": [
     "pnpm-lock.yaml",
+    "patches/**",
     "docs/08-project/tasks/**",
     "docs/08-project/reviews/**",
     "docs/08-project/blockers/**",
@@ -75,7 +76,6 @@
     "opencode.json",
     ".agent/lanes.json",
     "package.json",
-    "patches/**",
     "turbo.json",
     "pnpm-workspace.yaml",
     ".npmrc",
