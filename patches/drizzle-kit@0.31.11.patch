@@ -1,0 +1,38 @@
+diff --git a/api.js b/api.js
+index f4ecb91959f62fc938416a0585458c0a710af161..70122e0ac37422bb2ab0ab6703c68e5879f41037 100644
+--- a/api.js
++++ b/api.js
+@@ -75272,6 +75272,14 @@ var pushSchema = async (imports, drizzleInstance, schemaFilters, tablesFilter, e
+   );
+   const db = {
+     query: async (query, params) => {
++      if (params && params.length > 0) {
++        let q = query;
++        params.forEach((p, i) => {
++          q = q.replace(`$${i + 1}::regnamespace`, `'${p}'::regnamespace`).replace(`$${i + 1}`, `'${p}'`);
++        });
++        const res = await drizzleInstance.execute(sql.raw(q));
++        return res.rows;
++      }
+       const res = await drizzleInstance.execute(sql.raw(query));
+       return res.rows;
+     }
+diff --git a/api.mjs b/api.mjs
+index a940272dfb05accf57a472c46c52652ec9ad0080..a1345893116616b05223c308c0a458bc96b16a93 100644
+--- a/api.mjs
++++ b/api.mjs
+@@ -75301,6 +75301,14 @@ var pushSchema = async (imports, drizzleInstance, schemaFilters, tablesFilter, e
+   );
+   const db = {
+     query: async (query, params) => {
++      if (params && params.length > 0) {
++        let q = query;
++        params.forEach((p, i) => {
++          q = q.replace(`$${i + 1}::regnamespace`, `'${p}'::regnamespace`).replace(`$${i + 1}`, `'${p}'`);
++        });
++        const res = await drizzleInstance.execute(sql.raw(q));
++        return res.rows;
++      }
+       const res = await drizzleInstance.execute(sql.raw(query));
+       return res.rows;
+     }

@@ -86,9 +86,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M3 — 4%
+## M3 — 8%
 
-TODO: 22 · IN_PROGRESS: 0 · BLOCKED: 1 · REVIEW: 0 · DONE: 1 · CANCELLED: 0
+TODO: 21 · IN_PROGRESS: 0 · BLOCKED: 1 · REVIEW: 0 · DONE: 2 · CANCELLED: 0
 
 - [ ] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [ ] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
@@ -112,7 +112,7 @@ TODO: 22 · IN_PROGRESS: 0 · BLOCKED: 1 · REVIEW: 0 · DONE: 1 · CANCELLED: 0
 - [x] TMU-META-007 — File the M3 task breakdown (TMU-DB-001..005, TMU-BE-001..008, TMU-FE-001..006)
 - [ ] TMU-META-008 — Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index
 - [ ] TMU-OPS-034 — M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton
-- [ ] TMU-OPS-035 — Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002)
+- [x] TMU-OPS-035 — Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002)
 - [ ] TMU-QA-001 — M3 walking-skeleton E2E demo — login, create report, read it back
 
 ## M7 — 100%
