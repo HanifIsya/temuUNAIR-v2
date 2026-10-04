@@ -78,7 +78,7 @@
 | [TMU-BE-003](tasks/TMU-BE-003.md) | M3 | be | DONE | P1 | ME + preferences handlers (API-ME-01..05) | TMU-BE-002 |
 | [TMU-BE-004](tasks/TMU-BE-004.md) | M3 | be | DONE | P1 | Upload handshake (API-UPL-01..03) — presign, validation, complete | TMU-BE-003 |
 | [TMU-BE-005](tasks/TMU-BE-005.md) | M3 | be | DONE | P1 | META handlers (API-META-01..04) — categories, campuses, locations, drop points | TMU-BE-003 |
-| [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | TODO | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |
+| [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | DONE | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |
 | [TMU-BE-007](tasks/TMU-BE-007.md) | M3 | be | TODO | P1 | report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub | TMU-BE-006 |
 | [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | TODO | P1 | Ops hardening — idempotency + rate-limit middleware, Schemathesis mock to real handlers | TMU-BE-007 |
 | [TMU-DB-001](tasks/TMU-DB-001.md) | M3 | db | DONE | P1 | Core tables migration — users, Auth.js adapter, locations, drop_points | TMU-CTR-007, TMU-OPS-035 |

@@ -13,6 +13,8 @@ export interface DispatchInput {
   request: Request;
   repo: PgMeRepository;
   userId: string;
+  role: "USER" | "MODERATOR" | "ADMIN";
+  moderatorCampus: string | null;
   requestId: string;
   now: Date;
 }
@@ -29,7 +31,15 @@ export async function dispatch(
     if (needsCsrf) {
       assertMutationCsrf(request);
     }
-    return await run({ request, repo, userId: user.id, requestId, now: new Date() });
+    return await run({
+      request,
+      repo,
+      userId: user.id,
+      role: user.role,
+      moderatorCampus: user.moderatorCampus,
+      requestId,
+      now: new Date(),
+    });
   } catch (err) {
     const status = err instanceof DomainError ? err.httpStatus : 500;
     const headers: Record<string, string> = { "X-Request-Id": requestId };

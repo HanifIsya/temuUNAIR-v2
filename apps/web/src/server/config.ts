@@ -139,3 +139,24 @@ export function parseConfig(env: Record<string, string | undefined>): AppConfig 
     nextPublicAppUrl: d.NEXT_PUBLIC_APP_URL,
   };
 }
+
+const reportConfigSchema = envSchema.pick({ FIELD_ENCRYPTION_KEY: true, REPORT_TTL_DAYS: true });
+
+/**
+ * Request-path accessor for the two report-creation vars. The full env is
+ * validated by parseConfig at boot (getDb); this narrow parse reuses the same
+ * Zod rules so handlers never read process.env directly.
+ */
+export function parseReportConfig(
+  env: Record<string, string | undefined> = process.env,
+): Pick<AppConfig, "fieldEncryptionKey" | "reportTtlDays"> {
+  const result = reportConfigSchema.safeParse(env);
+  if (!result.success) {
+    const issues = result.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`).join("\n");
+    throw new Error(`Invalid report configuration:\n${issues}`);
+  }
+  return {
+    fieldEncryptionKey: result.data.FIELD_ENCRYPTION_KEY,
+    reportTtlDays: result.data.REPORT_TTL_DAYS,
+  };
+}

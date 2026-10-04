@@ -4,6 +4,12 @@
 
 export const UPLOAD_INIT_RATE = { limit: 30, windowMs: 3_600_000 } as const;
 
+/** BE-12: POST /reports is limited to 3/hour AND 10/day per user. */
+export const REPORT_CREATE_RATES = [
+  { scope: "report.hour", limit: 3, windowMs: 3_600_000 },
+  { scope: "report.day", limit: 10, windowMs: 86_400_000 },
+] as const;
+
 export interface RateLimitResult {
   allowed: boolean;
   retryAfterSeconds: number;
@@ -45,6 +51,12 @@ const uploadLimiter = createRateLimiter();
 
 export function getUploadLimiter(): RateLimiter {
   return uploadLimiter;
+}
+
+const reportLimiter = createRateLimiter();
+
+export function getReportLimiter(): RateLimiter {
+  return reportLimiter;
 }
 
 export function isRateLimitEnabled(): boolean {
