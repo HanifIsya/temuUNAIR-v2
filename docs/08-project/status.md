@@ -58,9 +58,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 96%
+## M2 — 100%
 
-TODO: 1 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 22 · CANCELLED: 0
+TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 
 - [x] TMU-ARC-001 — Review and approve System Overview (01-system-overview.md)
 - [x] TMU-ARC-002 — Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md)
@@ -83,7 +83,7 @@ TODO: 1 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 22 · CANCELLED: 0
 - [x] TMU-CTR-004 — Author contract schemas for claims, chat and handover (API-CLM-01..10, API-CHT-01..04)
 - [x] TMU-CTR-005 — Author contract schemas for notifications and admin operations (API-NTF-01..04, API-ADM-01..17)
 - [x] TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
-- [ ] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
+- [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
 ## M7 — 0%
