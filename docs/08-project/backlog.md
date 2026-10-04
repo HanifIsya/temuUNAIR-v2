@@ -75,7 +75,7 @@
 | [TMU-META-006](tasks/TMU-META-006.md) | M2 | meta | DONE | P1 | File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007) | TMU-DOC-020 |
 | [TMU-BE-001](tasks/TMU-BE-001.md) | M3 | be | DONE | P1 | Server config, env validation and typed error mapping (BE-11/BE-01/BE-04) | TMU-DB-005 |
 | [TMU-BE-002](tasks/TMU-BE-002.md) | M3 | be | DONE | P1 | Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021) | TMU-BE-001 |
-| [TMU-BE-003](tasks/TMU-BE-003.md) | M3 | be | TODO | P1 | ME + preferences handlers (API-ME-01..05) | TMU-BE-002 |
+| [TMU-BE-003](tasks/TMU-BE-003.md) | M3 | be | DONE | P1 | ME + preferences handlers (API-ME-01..05) | TMU-BE-002 |
 | [TMU-BE-004](tasks/TMU-BE-004.md) | M3 | be | TODO | P1 | Upload handshake (API-UPL-01..03) — presign, validation, complete | TMU-BE-003 |
 | [TMU-BE-005](tasks/TMU-BE-005.md) | M3 | be | TODO | P1 | META handlers (API-META-01..04) — categories, campuses, locations, drop points | TMU-BE-003 |
 | [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | TODO | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |

@@ -22,13 +22,22 @@ export interface AuthConfigInput {
   databaseUrl: string;
 }
 
+/** Optional hooks for the mounting route (FR-AUTH-005 re-login cancellation). */
+export interface AuthConfigExtras {
+  onSignIn?: (userId: string) => void | Promise<void>;
+}
+
 /**
  * Build the Auth.js options object.
  * Accepts explicit inputs so it is testable without process.env.
  */
-export function buildAuthOptions(input: AuthConfigInput): NextAuthConfig {
+export function buildAuthOptions(
+  input: AuthConfigInput,
+  extras?: AuthConfigExtras,
+): NextAuthConfig {
   const pool = new Pool({ connectionString: input.databaseUrl });
   const db = drizzle(pool, { schema });
+  const onSignIn = extras?.onSignIn;
 
   return {
     providers: [
@@ -53,6 +62,15 @@ export function buildAuthOptions(input: AuthConfigInput): NextAuthConfig {
         },
       },
     },
+    ...(onSignIn
+      ? {
+          events: {
+            async signIn({ user }: { user?: { id?: string } }) {
+              if (user?.id) await onSignIn(user.id);
+            },
+          },
+        }
+      : {}),
     callbacks: {
       async signIn({ user }) {
         // Post-callback domain check (BE-09): reject before user row is created.
@@ -74,18 +92,22 @@ let _options: NextAuthConfig | null = null;
 /**
  * The Auth.js options object, built from process.env on first access.
  * In tests, call buildAuthOptions() directly instead.
+ * `extras` only apply to the first call (the route module calls this once).
  */
-export function getAuthOptions(): NextAuthConfig {
+export function getAuthOptions(extras?: AuthConfigExtras): NextAuthConfig {
   if (!_options) {
-    _options = buildAuthOptions({
-      googleId: process.env.AUTH_GOOGLE_ID ?? "",
-      googleSecret: process.env.AUTH_GOOGLE_SECRET ?? "",
-      allowedDomains: (process.env.AUTH_ALLOWED_DOMAINS ?? "")
-        .split(",")
-        .map((d) => d.trim().toLowerCase())
-        .filter(Boolean),
-      databaseUrl: process.env.DATABASE_URL ?? "",
-    });
+    _options = buildAuthOptions(
+      {
+        googleId: process.env.AUTH_GOOGLE_ID ?? "",
+        googleSecret: process.env.AUTH_GOOGLE_SECRET ?? "",
+        allowedDomains: (process.env.AUTH_ALLOWED_DOMAINS ?? "")
+          .split(",")
+          .map((d) => d.trim().toLowerCase())
+          .filter(Boolean),
+        databaseUrl: process.env.DATABASE_URL ?? "",
+      },
+      extras,
+    );
   }
   return _options;
 }
