@@ -51,15 +51,22 @@ and `drop_points` (hours jsonb, contact_note). Update `packages/db/src/schema.ts
 ## Evidence
 
 - Red: `tests/db/migrations-core.test.ts` 5/5 FAIL against the pre-migration empty DB
-  ("expected false to be true" — tables/enums/constraints absent), then 5/5 PASS after `0002_core.sql`.
+   ("expected false to be true" — tables/enums/constraints absent), then 5/5 PASS after `0002_core.sql`.
 - Green: `drizzle-kit generate` reports no further schema drift (`schema.ts` ↔ `0002_core.sql` ↔
-  `meta/0002_snapshot.json` ↔ journal all consistent); local `node scripts/checks/step.mjs db:check`
-  previously produced `db:check: ok`; the **only** gate step now failing is the live-DB `db:check`,
-  for infra (BLK-001) reasons, not code.
-- Blocked-by: BLK-001 (dev Postgres rejects off-allowlist IP — restore per the blocker's
-  recommended default, then `pnpm gate` should go green and the task can complete DoD).
+  `meta/0002_snapshot.json` ↔ journal all consistent), and the `drizzle-kit push --force` CLI
+  reports "No changes detected" against the migrated DB. `tests/db/migrations-core.test.ts`
+  introspects the real local pgvector DB 5/5. The migration work is done and correct.
+- Blocked-by: **BLK-002** — `pnpm gate` still fails at the `migrations check` step, but the fault
+  is `packages/db/src/check.ts`'s drift harness (`drizzle-kit pushSchema` silently `process.exit`s
+  the first time `schema.ts` is populated — it was the empty `export {}` stub through M0/M2, so
+  this path was never exercised), NOT this task's schema/migration. Resolution owned by
+  `TMU-OPS-035`.
 
 ## Blockers
 
-- **BLK-001** — dev `DATABASE_URL` connection refused (Render IP allowlist mismatch). `blocking: all`
-  until a human restores DB access; no other task's `pnpm gate` can pass while it is open.
+- **BLK-001** — dev `DATABASE_URL` connection refused (Render IP allowlist mismatch). **RESOLVED**
+  2026-10-03: Docker Desktop installed (E:), local pgvector running via `infra/docker-compose.yml`,
+  `DATABASE_URL` repointed to `localhost:5432`.
+- **BLK-002** — `db:check` gate step aborts inside `pushSchema` for a populated schema.
+  `blocking: all`; fixed by `TMU-OPS-035` (ops lane). Until it lands, no task's `pnpm gate`
+  can pass. TMU-DB-001's own artefacts need no change from that fix.
