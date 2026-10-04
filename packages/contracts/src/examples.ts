@@ -851,4 +851,38 @@ export const examples: Record<ApiId, unknown> = {
     resolvedBy: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
     createdAt: "2026-10-03T10:00:00+07:00",
   },
+  "API-ADM-18": {
+    data: [
+      {
+        id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e7f",
+        campus: "KAMPUS_B",
+        name: "Perpustakaan",
+        building: "Gedung A",
+      },
+    ],
+    page: { nextCursor: null, hasMore: false },
+  },
+  "API-ADM-19": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e7f",
+    campus: "KAMPUS_B",
+    name: "Perpustakaan Pusat",
+    building: "Gedung A",
+  },
+  "API-ADM-20": {
+    data: [
+      {
+        id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e80",
+        campus: "KAMPUS_B",
+        name: "Pos Keamanan Utama",
+        active: true,
+      },
+    ],
+    page: { nextCursor: null, hasMore: false },
+  },
+  "API-ADM-21": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e80",
+    campus: "KAMPUS_B",
+    name: "Pos Keamanan Timur",
+    active: true,
+  },
 };

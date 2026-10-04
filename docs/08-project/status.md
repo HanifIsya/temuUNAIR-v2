@@ -86,9 +86,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M7 — 0%
+## M7 — 100%
 
-TODO: 1 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 0 · CANCELLED: 0
+TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 1 · CANCELLED: 0
 
-- [ ] TMU-CTR-008 — Split BE-03 admin locations/drop-points combined rows into per-method API IDs
+- [x] TMU-CTR-008 — Split BE-03 admin locations/drop-points combined rows into per-method API IDs
 

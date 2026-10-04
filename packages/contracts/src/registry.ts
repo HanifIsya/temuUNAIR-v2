@@ -1,6 +1,6 @@
 // Route registry: the single source of truth for API ids, auth, schemas and error codes
 // (docs/04-contracts/README.md; BE-02). The generator derives every artefact from this list.
-// The minimal M0 set is frozen by TMU-OPS-004; the full catalogue lands in TMU-CTR-001..005.
+// The minimal M0 set is frozen by TMU-OPS-004; the full catalogue lands in TMU-CTR-001..005,008.
 import { z } from "zod";
 import {
   AccountDeletionResponse,
@@ -640,6 +640,42 @@ export const registry: readonly RouteDef[] = [
     request: FlagResolveRequest,
     response: Flag,
     errors: ["AUTH_REQUIRED", "FORBIDDEN", "VALIDATION_FAILED"],
+  },
+  {
+    id: "API-ADM-18",
+    method: "get",
+    path: "/api/v1/admin/locations",
+    auth: "admin",
+    request: null,
+    response: paged(LocationMeta),
+    errors: ["AUTH_REQUIRED", "FORBIDDEN"],
+  },
+  {
+    id: "API-ADM-19",
+    method: "patch",
+    path: "/api/v1/admin/locations/{id}",
+    auth: "admin",
+    request: LocationUpsert,
+    response: LocationMeta,
+    errors: ["AUTH_REQUIRED", "FORBIDDEN", "NOT_FOUND", "VALIDATION_FAILED"],
+  },
+  {
+    id: "API-ADM-20",
+    method: "get",
+    path: "/api/v1/admin/drop-points",
+    auth: "admin",
+    request: null,
+    response: paged(DropPointMeta),
+    errors: ["AUTH_REQUIRED", "FORBIDDEN"],
+  },
+  {
+    id: "API-ADM-21",
+    method: "patch",
+    path: "/api/v1/admin/drop-points/{id}",
+    auth: "admin",
+    request: DropPointUpsert,
+    response: DropPointMeta,
+    errors: ["AUTH_REQUIRED", "FORBIDDEN", "NOT_FOUND", "VALIDATION_FAILED"],
   },
 ];
 

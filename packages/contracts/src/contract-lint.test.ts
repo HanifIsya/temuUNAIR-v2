@@ -6,12 +6,18 @@
 // Fixtures are synthetic; no real people or real UNAIR data (AGENTS.md rule 5). Import order is
 // deliberate: "./lint.ts" precedes "yaml" so the RED run fails on the missing implementation
 // before resolving the not-yet-installed YAML parser.
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { lintOpenApi, type Finding } from "./lint.ts";
 import { generateAll, type GeneratedFile } from "./generate.ts";
 import { parse } from "yaml";
 
-const VERSION = "1.0.0";
+// Track the real contract version file: the lint rule under test asserts the generated
+// document matches CONTRACT_VERSION, so the fixture must follow it (TMU-CTR-008 minor bump).
+const VERSION = readFileSync(
+  new URL("../../../docs/04-contracts/CONTRACT_VERSION", import.meta.url),
+  "utf8",
+).trim();
 const OPENAPI_PATH = "docs/04-contracts/backend/BE-02-openapi.yaml";
 const ERROR_ENVELOPE_REF = "#/components/schemas/ErrorEnvelope";
 const REQUEST_ID_HEADER = "X-Request-Id";

@@ -13,6 +13,10 @@ Every entry links the PR. Versioning rules: `README.md` §Governance.
 ### Changed
 - `BE-05` database contract (TMU-CTR-006): relocated the post-init DDL additions (needs_reprocess column, full-text search trigger, retention indexes) to their respective domain migration tasks (TMU-DB-003..005) instead of instructing their inclusion in the extensions-only 0001_init.sql.
 
+### Added
+- `BE-03` + registry (TMU-CTR-001..005): full route catalogue implemented — 62 operations (ME/UPL/META-02/04, reports, search, matches, claims, chat, notifications, admin) with Zod schemas and synthetic examples; `packages/contracts/src/generate.ts` now emits request bodies and path parameters.
+- `BE-03` + registry (TMU-CTR-008): split the former combined rows `GET/POST/PATCH /admin/locations[/{id}]` and `…/drop-points[/{id}]` into per-method IDs `API-ADM-18..21` (locations list/update, drop-points list/update); `API-ADM-12/13` restate the create surfaces only. Additive contract minor — `CONTRACT_VERSION` 1.0.0 → 1.1.0.
+
 ## [1.0.0] — 2026-09-29
 
 ### Added

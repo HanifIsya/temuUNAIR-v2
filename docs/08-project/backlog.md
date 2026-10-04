@@ -73,4 +73,4 @@
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | DONE | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
 | [TMU-CTR-007](tasks/TMU-CTR-007.md) | M2 | contracts | DONE | P1 | M2 exit checklist, contracts/architecture approval evidence and M3 handoff | TMU-ARC-001, TMU-ARC-002, TMU-ARC-003, TMU-ARC-004, TMU-ARC-005, TMU-ARC-006, TMU-ARC-007, TMU-ARC-008, TMU-ARC-009, TMU-ARC-010, TMU-ARC-011, TMU-ARC-012, TMU-ARC-013, TMU-ARC-014, TMU-ARC-015, TMU-CTR-001, TMU-CTR-002, TMU-CTR-003, TMU-CTR-004, TMU-CTR-005, TMU-CTR-006 |
 | [TMU-META-006](tasks/TMU-META-006.md) | M2 | meta | DONE | P1 | File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007) | TMU-DOC-020 |
-| [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | TODO | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |
+| [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | DONE | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |

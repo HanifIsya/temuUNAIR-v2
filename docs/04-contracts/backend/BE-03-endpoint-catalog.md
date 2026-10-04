@@ -3,7 +3,7 @@ id: BE-03
 title: Endpoint catalog
 status: draft
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["BE-01", "BE-04", "BE-05"]
 source_refs: ["Blueprint §5A.3, §5A.4"]
 ---
@@ -178,12 +178,21 @@ Example `POST /claims`:
 | API-ADM-09 | `POST /admin/users/{id}/unsuspend` | A | → `AdminUser` | — |
 | API-ADM-10 | `PATCH /admin/users/{id}/role` | A | `{role}` → `AdminUser` | `FORBIDDEN` (cannot demote self) |
 | API-ADM-11 | `GET /admin/stats?from&to&campus` | M | → `AdminStats` | — |
-| API-ADM-12 | `GET/POST/PATCH /admin/locations[/{id}]` | A | `LocationUpsert` | `VALIDATION_FAILED` |
-| API-ADM-13 | `GET/POST/PATCH /admin/drop-points[/{id}]` | A | `DropPointUpsert` | — |
+| API-ADM-12 | `POST /admin/locations` | A | `LocationUpsert` → `LocationMeta` | `VALIDATION_FAILED` |
+| API-ADM-13 | `POST /admin/drop-points` | A | `DropPointUpsert` → `DropPointMeta` | `VALIDATION_FAILED` |
 | API-ADM-14 | `GET /admin/audit-logs` | A | filters → `Paged<AuditLog>` | — |
 | API-ADM-15 | `POST /admin/matching/reindex` | A | `{scope}` → `202` | `RATE_LIMITED` |
 | API-ADM-16 | `GET /admin/flags` | M | → `Paged<Flag>` | — |
 | API-ADM-17 | `POST /admin/flags/{id}/resolve` | M | `{action,note}` → `Flag` | — |
+| API-ADM-18 | `GET /admin/locations?campus=` | A | → `Paged<LocationMeta>` | — |
+| API-ADM-19 | `PATCH /admin/locations/{id}` | A | `LocationUpsert` → `LocationMeta` | `VALIDATION_FAILED` |
+| API-ADM-20 | `GET /admin/drop-points?campus=` | A | → `Paged<DropPointMeta>` | — |
+| API-ADM-21 | `PATCH /admin/drop-points/{id}` | A | `DropPointUpsert` → `DropPointMeta` | — |
+
+<!-- TMU-CTR-008: the former combined rows `GET/POST/PATCH /admin/locations[/{id}]` and
+`…/drop-points[/{id}]` (one ID per resource) were split into per-method IDs, because the
+route registry enforces one method per unique operationId. API-ADM-12/13 keep their merged
+create semantics; list and update surfaces are API-ADM-18..21 (additive, contract minor bump). -->
 
 Example `GET /admin/stats`:
 ```json
