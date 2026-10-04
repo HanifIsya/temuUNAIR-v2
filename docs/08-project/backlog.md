@@ -80,7 +80,7 @@
 | [TMU-BE-005](tasks/TMU-BE-005.md) | M3 | be | DONE | P1 | META handlers (API-META-01..04) — categories, campuses, locations, drop points | TMU-BE-003 |
 | [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | DONE | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |
 | [TMU-BE-007](tasks/TMU-BE-007.md) | M3 | be | DONE | P1 | report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub | TMU-BE-006 |
-| [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | BLOCKED | P1 | Ops hardening — idempotency + rate-limit middleware, Schemathesis mock to real handlers | TMU-BE-007 |
+| [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | TODO | P1 | Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12) | TMU-BE-007 |
 | [TMU-DB-001](tasks/TMU-DB-001.md) | M3 | db | DONE | P1 | Core tables migration — users, Auth.js adapter, locations, drop_points | TMU-CTR-007, TMU-OPS-035 |
 | [TMU-DB-002](tasks/TMU-DB-002.md) | M3 | db | DONE | P1 | Reports base migration — reports, report_images, verification_hints | TMU-DB-001 |
 | [TMU-DB-003](tasks/TMU-DB-003.md) | M3 | db | DONE | P1 | Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches | TMU-DB-002 |
@@ -96,5 +96,5 @@
 | [TMU-META-008](tasks/TMU-META-008.md) | M3 | meta | TODO | P2 | Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index | TMU-CTR-008 |
 | [TMU-OPS-034](tasks/TMU-OPS-034.md) | M3 | ops | TODO | P1 | M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton | TMU-DB-005, TMU-BE-008 |
 | [TMU-OPS-035](tasks/TMU-OPS-035.md) | M3 | ops | DONE | P1 | Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002) | TMU-OPS-005 |
-| [TMU-QA-001](tasks/TMU-QA-001.md) | M3 | qa | TODO | P1 | M3 walking-skeleton E2E demo — login, create report, read it back | TMU-FE-006, TMU-OPS-034 |
+| [TMU-QA-001](tasks/TMU-QA-001.md) | M3 | qa | TODO | P1 | Contract runner boots the real Next handlers; clear Schemathesis warnings (REV-TMU-CTR-007/008) | TMU-BE-008 |
 | [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | DONE | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |

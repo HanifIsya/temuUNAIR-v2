@@ -88,7 +88,7 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 
 ## M3 — 58%
 
-TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 1 · REVIEW: 0 · DONE: 14 · CANCELLED: 0
+TODO: 10 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 14 · CANCELLED: 0
 
 - [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [x] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
@@ -97,7 +97,7 @@ TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 1 · REVIEW: 0 · DONE: 14 · CANCELLED: 0
 - [x] TMU-BE-005 — META handlers (API-META-01..04) — categories, campuses, locations, drop points
 - [x] TMU-BE-006 — Report create/read (API-REP-01/02/04) with visibility and masking mappers
 - [x] TMU-BE-007 — report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub
-- [ ] TMU-BE-008 — Ops hardening — idempotency + rate-limit middleware, Schemathesis mock to real handlers
+- [ ] TMU-BE-008 — Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12)
 - [x] TMU-DB-001 — Core tables migration — users, Auth.js adapter, locations, drop_points
 - [x] TMU-DB-002 — Reports base migration — reports, report_images, verification_hints
 - [x] TMU-DB-003 — Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches
@@ -113,7 +113,7 @@ TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 1 · REVIEW: 0 · DONE: 14 · CANCELLED: 0
 - [ ] TMU-META-008 — Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index
 - [ ] TMU-OPS-034 — M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton
 - [x] TMU-OPS-035 — Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002)
-- [ ] TMU-QA-001 — M3 walking-skeleton E2E demo — login, create report, read it back
+- [ ] TMU-QA-001 — Contract runner boots the real Next handlers; clear Schemathesis warnings (REV-TMU-CTR-007/008)
 
 ## M7 — 100%
 
