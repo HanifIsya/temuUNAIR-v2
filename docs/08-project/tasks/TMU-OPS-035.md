@@ -2,11 +2,11 @@
 id: TMU-OPS-035
 title: Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002)
 status: TODO
-lane: ops
+lane: db
 slug: db-check-noninteractive
 milestone: M3
 priority: P1
-owner: ops-dev
+owner: backend-dev
 deps: [TMU-OPS-005]
 refs: [BE-05, BLK-002, TMU-OPS-005, NFR]
 created: 2026-10-03
@@ -25,6 +25,9 @@ populate it, and now the gate step hard-exits silently. Restore a gate step that
 prompts for input, (b) prints a named `db:check: ok` / `db:check: failed: <reason>` /
 `db:check: drift: …` verdict on stdout/stderr like before, and (c) keeps the frozen
 `runCheck(options, deps)` interface, the two-thread worker split and the live-test 5 s path.
+
+This is a **db-lane** change (lane follows files: `packages/db/**` + `tests/db/**`; `ops`
+owns scripts/infra) and gates every subsequent task.
 
 ## Context / acceptance from BLK-002
 

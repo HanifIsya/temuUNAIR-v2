@@ -95,6 +95,6 @@
 | [TMU-META-007](tasks/TMU-META-007.md) | M3 | meta | DONE | P1 | File the M3 task breakdown (TMU-DB-001..005, TMU-BE-001..008, TMU-FE-001..006) | TMU-CTR-007 |
 | [TMU-META-008](tasks/TMU-META-008.md) | M3 | meta | TODO | P2 | Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index | TMU-CTR-008 |
 | [TMU-OPS-034](tasks/TMU-OPS-034.md) | M3 | ops | TODO | P1 | M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton | TMU-DB-005, TMU-BE-008 |
-| [TMU-OPS-035](tasks/TMU-OPS-035.md) | M3 | ops | TODO | P1 | Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002) | TMU-OPS-005 |
+| [TMU-OPS-035](tasks/TMU-OPS-035.md) | M3 | db | TODO | P1 | Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002) | TMU-OPS-005 |
 | [TMU-QA-001](tasks/TMU-QA-001.md) | M3 | qa | TODO | P1 | M3 walking-skeleton E2E demo — login, create report, read it back | TMU-FE-006, TMU-OPS-034 |
 | [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | DONE | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |
