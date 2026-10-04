@@ -96,5 +96,6 @@
 | [TMU-META-008](tasks/TMU-META-008.md) | M3 | meta | TODO | P2 | Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index | TMU-CTR-008 |
 | [TMU-OPS-034](tasks/TMU-OPS-034.md) | M3 | ops | TODO | P1 | M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton | TMU-DB-005, TMU-BE-008 |
 | [TMU-OPS-035](tasks/TMU-OPS-035.md) | M3 | ops | DONE | P1 | Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002) | TMU-OPS-005 |
+| [TMU-OPS-036](tasks/TMU-OPS-036.md) | M3 | ops | DONE | P1 | Lane map — grant be lane access to tests/contract/** (BLK-003 option 2) |  |
 | [TMU-QA-001](tasks/TMU-QA-001.md) | M3 | qa | TODO | P1 | Contract runner boots the real Next handlers; clear Schemathesis warnings (REV-TMU-CTR-007/008) | TMU-BE-008 |
 | [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | DONE | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |
