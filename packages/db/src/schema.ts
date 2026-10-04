@@ -19,6 +19,9 @@ import {
   customType,
   smallint,
   index,
+  vector,
+  numeric,
+  unique,
 } from "drizzle-orm/pg-core";
 
 // citext lives in the database (0001_init creates the extension); drizzle-orm has no
@@ -53,6 +56,12 @@ export const reportStatus = pgEnum("report_status", [
   "EXPIRED",
   "CANCELLED",
   "REMOVED",
+]);
+export const matchState = pgEnum("match_state", [
+  "SUGGESTED",
+  "DISMISSED",
+  "CLAIMED",
+  "INVALIDATED",
 ]);
 
 export const users = pgTable(
@@ -166,6 +175,7 @@ export const reports = pgTable(
     expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
     resolvedAt: timestamp("resolved_at", { withTimezone: true }),
     searchTsv: tsvector("search_tsv"),
+    needsReprocess: boolean("needs_reprocess").notNull().default(false),
     version: integer("version").notNull().default(1),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
@@ -216,3 +226,67 @@ export const verificationHints = pgTable("verification_hints", {
   prompt: text("prompt").notNull(),
   answerEnc: bytea("answer_enc").notNull(),
 });
+
+export const imageFeatures = pgTable("image_features", {
+  imageId: uuid("image_id")
+    .primaryKey()
+    .references(() => reportImages.id, { onDelete: "cascade" }),
+  embedding: vector("embedding", { dimensions: 512 }).notNull(),
+  detection: jsonb("detection"),
+  quality: jsonb("quality"),
+  categoryScores: jsonb("category_scores"),
+  modelVersions: jsonb("model_versions").notNull(),
+});
+
+export const reportFeatures = pgTable(
+  "report_features",
+  {
+    reportId: uuid("report_id")
+      .primaryKey()
+      .references(() => reports.id, { onDelete: "cascade" }),
+    imageEmbedding: vector("image_embedding", { dimensions: 512 }),
+    clipTextEmbedding: vector("clip_text_embedding", { dimensions: 512 }),
+    sentenceEmbedding: vector("sentence_embedding", { dimensions: 384 }),
+    attributes: jsonb("attributes").notNull().default({}),
+    modelVersions: jsonb("model_versions").notNull(),
+    processedAt: timestamp("processed_at", { withTimezone: true }).notNull(),
+  },
+  (table) => [
+    index("report_features_img_hnsw").using("hnsw", table.imageEmbedding.op("vector_cosine_ops")),
+    index("report_features_txt_hnsw").using(
+      "hnsw",
+      table.clipTextEmbedding.op("vector_cosine_ops"),
+    ),
+    index("report_features_sent_hnsw").using(
+      "hnsw",
+      table.sentenceEmbedding.op("vector_cosine_ops"),
+    ),
+  ],
+);
+
+export const matches = pgTable(
+  "matches",
+  {
+    id: uuid("id").primaryKey(),
+    lostReportId: uuid("lost_report_id")
+      .notNull()
+      .references(() => reports.id),
+    foundReportId: uuid("found_report_id")
+      .notNull()
+      .references(() => reports.id),
+    score: numeric("score", { precision: 4, scale: 3 }).notNull(),
+    band: text("band").notNull(),
+    reasons: jsonb("reasons").notNull(),
+    components: jsonb("components").notNull(),
+    state: matchState("state").notNull().default("SUGGESTED"),
+    algoVersion: text("algo_version").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    unique("matches_lost_report_id_found_report_id_unique").on(
+      table.lostReportId,
+      table.foundReportId,
+    ),
+  ],
+);

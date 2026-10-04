@@ -159,9 +159,6 @@ describe.skipIf(!process.env.DATABASE_URL)(
         ]),
       );
 
-      // needs_reprocess must NOT exist yet (owned by TMU-DB-003)
-      expect(cols).not.toContain("needs_reprocess");
-
       // CHECK ((type = 'FOUND') = (custody IS NOT NULL))
       expect(
         intro.constraints.some(
