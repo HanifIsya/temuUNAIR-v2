@@ -10,8 +10,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.11.3",
+    "@temuunair/db": "workspace:*",
+    "drizzle-orm": "^0.45.3",
     "next": "^15.5.27",
+    "next-auth": "5.0.0-beta.29",
     "next-intl": "^3.26.5",
+    "pg": "^8.23.1",
     "pino": "^10.4.0",
     "pino-pretty": "^13.1.3",
     "react": "^19.3.0",
@@ -23,6 +28,7 @@
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^26.6.3",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "jest-axe": "^11.0.0",
