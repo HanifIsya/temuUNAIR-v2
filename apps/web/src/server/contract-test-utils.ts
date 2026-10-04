@@ -39,3 +39,24 @@ export function loadContractApi(): Promise<ContractTestApi> {
   })();
   return cached;
 }
+
+const enumsSpecifier = "@temuunair/contracts/src/enums";
+
+export interface ContractEnums {
+  Category: readonly string[];
+  Campus: readonly string[];
+}
+
+let enumsCached: Promise<ContractEnums> | null = null;
+
+/** Shared enums straight from the merged contract (same TS5097 escape hatch). */
+export function loadContractEnums(): Promise<ContractEnums> {
+  enumsCached ??= (async () => {
+    const mod = (await import(enumsSpecifier)) as {
+      Category: { options: readonly string[] };
+      Campus: { options: readonly string[] };
+    };
+    return { Category: mod.Category.options, Campus: mod.Campus.options };
+  })();
+  return enumsCached;
+}
