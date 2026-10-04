@@ -86,9 +86,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M3 — 64%
+## M3 — 65%
 
-TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 16 · CANCELLED: 0
+TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 17 · CANCELLED: 0
 
 - [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [x] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
@@ -114,6 +114,7 @@ TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 16 · CANCELLED: 0
 - [ ] TMU-OPS-034 — M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton
 - [x] TMU-OPS-035 — Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002)
 - [x] TMU-OPS-036 — Lane map — grant be lane access to tests/contract/** (BLK-003 option 2)
+- [x] TMU-OPS-037 — Vitest — resolve `@/*` via vite-tsconfig-paths (FE lane unblocker)
 - [ ] TMU-QA-001 — Contract runner boots the real Next handlers; clear Schemathesis warnings (REV-TMU-CTR-007/008)
 
 ## M7 — 100%
