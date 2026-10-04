@@ -86,11 +86,11 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M3 — 29%
+## M3 — 33%
 
-TODO: 17 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 7 · CANCELLED: 0
+TODO: 16 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 8 · CANCELLED: 0
 
-- [ ] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
+- [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [ ] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
 - [ ] TMU-BE-003 — ME + preferences handlers (API-ME-01..05)
 - [ ] TMU-BE-004 — Upload handshake (API-UPL-01..03) — presign, validation, complete

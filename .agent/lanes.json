@@ -1,6 +1,7 @@
 {
   "_common": [
     "pnpm-lock.yaml",
+    ".agent/lanes.json",
     "patches/**",
     "docs/08-project/tasks/**",
     "docs/08-project/reviews/**",
@@ -31,6 +32,7 @@
   "be": [
     "apps/web/src/server/**",
     "apps/web/src/app/api/**",
+    "apps/web/package.json",
     "apps/worker/**",
     "**/*.test.ts"
   ],
