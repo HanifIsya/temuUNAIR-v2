@@ -60,3 +60,37 @@ export const UserRole = z.enum(["USER", "MODERATOR", "ADMIN"]);
 export const UserStatus = z.enum(["ACTIVE", "SUSPENDED", "DELETED"]);
 
 export const UploadStatus = z.enum(["PENDING", "READY", "REJECTED"]);
+
+export const FlagStatus = z.enum(["OPEN", "RESOLVED"]);
+
+export const DisputeDecision = z.enum(["APPROVE", "REJECT"]);
+
+export const NotificationType = z.enum([
+  "MATCH_SUGGESTED",
+  "MATCH_INVITE",
+  "CLAIM_SUBMITTED",
+  "CLAIM_APPROVED",
+  "CLAIM_REJECTED",
+  "CLAIM_REMINDER",
+  "MESSAGE_RECEIVED",
+  "HANDOVER_PLANNED",
+  "HANDOVER_CONFIRMED",
+  "REPORT_RETURNED",
+  "REPORT_EXPIRING",
+  "REPORT_EXPIRED",
+  "REPORT_REMOVED",
+  "REPORT_APPROVED",
+  "ADMIN_DISPUTE",
+]);
+
+export const LocationKind = z.enum([
+  "BUILDING",
+  "ROOM",
+  "CANTEEN",
+  "LIBRARY",
+  "PARKING",
+  "PRAYER",
+  "SPORT",
+  "OUTDOOR",
+  "OTHER",
+]);

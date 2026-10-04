@@ -79,8 +79,25 @@ describe("registry", () => {
     }
   });
 
-  it("ships the route set including TMU-CTR-001..004 additions", () => {
+  it("ships the route set including TMU-CTR-001..005 additions", () => {
     expect(registry.map((route) => route.id).sort()).toEqual([
+      "API-ADM-01",
+      "API-ADM-02",
+      "API-ADM-03",
+      "API-ADM-04",
+      "API-ADM-05",
+      "API-ADM-06",
+      "API-ADM-07",
+      "API-ADM-08",
+      "API-ADM-09",
+      "API-ADM-10",
+      "API-ADM-11",
+      "API-ADM-12",
+      "API-ADM-13",
+      "API-ADM-14",
+      "API-ADM-15",
+      "API-ADM-16",
+      "API-ADM-17",
       "API-CHT-01",
       "API-CHT-02",
       "API-CHT-03",
@@ -108,6 +125,10 @@ describe("registry", () => {
       "API-META-02",
       "API-META-03",
       "API-META-04",
+      "API-NTF-01",
+      "API-NTF-02",
+      "API-NTF-03",
+      "API-NTF-04",
       "API-REP-01",
       "API-REP-02",
       "API-REP-03",
@@ -139,6 +160,9 @@ describe("registry", () => {
     expect(routeFor("API-MAT-01").path).toBe("/api/v1/reports/{id}/matches");
     expect(routeFor("API-CLM-01").path).toBe("/api/v1/reports/{id}/challenge");
     expect(routeFor("API-CHT-01").path).toBe("/api/v1/claims/{id}/messages");
+    expect(routeFor("API-NTF-01").path).toBe("/api/v1/notifications");
+    expect(routeFor("API-ADM-01").auth).toBe("moderator");
+    expect(routeFor("API-ADM-07").auth).toBe("admin");
   });
 });
 

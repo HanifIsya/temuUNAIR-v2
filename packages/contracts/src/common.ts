@@ -6,8 +6,12 @@ import {
   Category,
   ClaimStatus,
   Custody,
+  DisputeDecision,
+  FlagStatus,
+  LocationKind,
   MatchBand,
   MatchState,
+  NotificationType,
   ReportStatus,
   ReportType,
   UploadStatus,
@@ -354,4 +358,115 @@ export const ChatStreamEvent = z.object({
 
 export const ChatReadReceiptRequest = z.object({
   upToMessageId: Uuid,
+});
+
+export const Notification = z.object({
+  id: Uuid,
+  type: NotificationType,
+  title: z.string(),
+  body: z.string(),
+  payload: z.record(z.unknown()),
+  deepLink: z.string().optional(),
+  readAt: IsoDateTime.nullable().optional(),
+  createdAt: IsoDateTime,
+});
+
+export const UnreadCount = z.object({
+  count: z.number().int().nonnegative(),
+});
+
+export const AdminUser = z.object({
+  id: Uuid,
+  email: z.string().email(),
+  displayName: z.string(),
+  role: UserRole,
+  status: UserStatus,
+  moderatorCampus: Campus.optional(),
+  reportCount: z.number().int().nonnegative().optional(),
+  createdAt: IsoDateTime,
+});
+
+export const AdminStats = z.object({
+  from: z.string(),
+  to: z.string(),
+  campus: Campus.nullable(),
+  activeReports: z.number().int().nonnegative(),
+  pendingReview: z.number().int().nonnegative(),
+  pendingClaims: z.number().int().nonnegative(),
+  disputes: z.number().int().nonnegative(),
+  returned: z.number().int().nonnegative(),
+  avgReturnDays: z.number().nonnegative(),
+});
+
+export const AuditLog = z.object({
+  id: Uuid,
+  actorId: Uuid.nullable(),
+  actorName: z.string().optional(),
+  action: z.string(),
+  entityType: z.string(),
+  entityId: Uuid.nullable(),
+  before: z.record(z.unknown()).nullable().optional(),
+  after: z.record(z.unknown()).nullable().optional(),
+  requestId: z.string().nullable().optional(),
+  createdAt: IsoDateTime,
+});
+
+export const Flag = z.object({
+  id: Uuid,
+  reportId: Uuid,
+  reporterId: Uuid,
+  reason: z.string(),
+  note: z.string().optional(),
+  status: FlagStatus,
+  resolvedBy: Uuid.nullable().optional(),
+  createdAt: IsoDateTime,
+});
+
+export const LocationUpsert = z.object({
+  campus: Campus,
+  name: z.string().min(2).max(100),
+  kind: LocationKind,
+  parentId: Uuid.nullable().optional(),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
+  active: z.boolean().optional(),
+});
+
+export const DropPointUpsert = z.object({
+  campus: Campus,
+  locationId: Uuid.nullable().optional(),
+  name: z.string().min(2).max(100),
+  hours: z.record(z.unknown()).optional(),
+  contactNote: z.string().max(200).optional(),
+  active: z.boolean().optional(),
+});
+
+export const AdminRemoveReportRequest = z.object({
+  reason: z.string().min(3).max(500),
+});
+
+export const DisputeResolveRequest = z.object({
+  decision: DisputeDecision,
+  note: z.string().min(3).max(500),
+});
+
+export const SuspendUserRequest = z.object({
+  reason: z.string().min(3).max(500),
+});
+
+export const ChangeRoleRequest = z.object({
+  role: UserRole,
+});
+
+export const ReindexRequest = z.object({
+  scope: z.string(),
+});
+
+export const FlagResolveRequest = z.object({
+  action: z.string(),
+  note: z.string().max(500).optional(),
+});
+
+export const ReindexResponse = z.object({
+  enqueued: z.boolean(),
 });
