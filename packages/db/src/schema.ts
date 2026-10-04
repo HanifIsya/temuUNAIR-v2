@@ -17,6 +17,8 @@ import {
   primaryKey,
   check,
   customType,
+  smallint,
+  index,
 } from "drizzle-orm/pg-core";
 
 // citext lives in the database (0001_init creates the extension); drizzle-orm has no
@@ -27,8 +29,31 @@ const citext = customType<{ data: string }>({
   },
 });
 
+const tsvector = customType<{ data: string }>({
+  dataType() {
+    return "tsvector";
+  },
+});
+
+const bytea = customType<{ data: Buffer }>({
+  dataType() {
+    return "bytea";
+  },
+});
+
 export const userRole = pgEnum("user_role", ["USER", "MODERATOR", "ADMIN"]);
 export const campus = pgEnum("campus", ["KAMPUS_A", "KAMPUS_B", "KAMPUS_C", "BANYUWANGI"]);
+export const reportType = pgEnum("report_type", ["LOST", "FOUND"]);
+export const reportStatus = pgEnum("report_status", [
+  "PENDING_REVIEW",
+  "OPEN",
+  "MATCHED",
+  "IN_VERIFICATION",
+  "RETURNED",
+  "EXPIRED",
+  "CANCELLED",
+  "REMOVED",
+]);
 
 export const users = pgTable(
   "users",
@@ -112,4 +137,82 @@ export const dropPoints = pgTable("drop_points", {
   hours: jsonb("hours"),
   contactNote: text("contact_note"),
   active: boolean("active").notNull().default(true),
+});
+
+export const reports = pgTable(
+  "reports",
+  {
+    id: uuid("id").primaryKey(),
+    type: reportType("type").notNull(),
+    status: reportStatus("status").notNull().default("OPEN"),
+    reporterId: uuid("reporter_id")
+      .notNull()
+      .references(() => users.id),
+    category: text("category").notNull(),
+    isSensitive: boolean("is_sensitive").notNull().default(false),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    colors: text("colors").array().notNull().default([]),
+    brand: text("brand"),
+    campus: campus("campus").notNull(),
+    locationId: uuid("location_id").references(() => locations.id),
+    locationNote: text("location_note"),
+    lat: doublePrecision("lat"),
+    lng: doublePrecision("lng"),
+    occurredFrom: timestamp("occurred_from", { withTimezone: true }).notNull(),
+    occurredTo: timestamp("occurred_to", { withTimezone: true }),
+    custody: text("custody"),
+    dropPointId: uuid("drop_point_id").references(() => dropPoints.id),
+    expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+    resolvedAt: timestamp("resolved_at", { withTimezone: true }),
+    searchTsv: tsvector("search_tsv"),
+    version: integer("version").notNull().default(1),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    check("reports_custody_check", sql`(${table.custody} IN ('HELD_BY_FINDER', 'AT_DROP_POINT'))`),
+    check(
+      "reports_found_custody_check",
+      sql`(${table.type} = 'FOUND') = (${table.custody} IS NOT NULL)`,
+    ),
+    index("reports_browse_idx").on(table.type, table.status, table.campus, table.createdAt.desc()),
+    index("reports_reporter_idx").on(table.reporterId, table.createdAt.desc()),
+    index("reports_tsv_idx").using("gin", table.searchTsv),
+    index("reports_expiry_idx")
+      .on(table.expiresAt)
+      .where(sql`${table.status} IN ('OPEN', 'MATCHED')`),
+  ],
+);
+
+export const reportImages = pgTable(
+  "report_images",
+  {
+    id: uuid("id").primaryKey(),
+    reportId: uuid("report_id").references(() => reports.id, { onDelete: "cascade" }),
+    uploaderId: uuid("uploader_id")
+      .notNull()
+      .references(() => users.id),
+    storageKey: text("storage_key").notNull(),
+    thumbKey: text("thumb_key"),
+    maskedKey: text("masked_key"),
+    mime: text("mime").notNull(),
+    width: integer("width"),
+    height: integer("height"),
+    sha256: text("sha256"),
+    status: text("status").notNull().default("PENDING"),
+    position: smallint("position").notNull().default(0),
+  },
+  (table) => [
+    check("report_images_status_check", sql`${table.status} IN ('PENDING', 'READY', 'REJECTED')`),
+  ],
+);
+
+export const verificationHints = pgTable("verification_hints", {
+  id: uuid("id").primaryKey(),
+  reportId: uuid("report_id")
+    .notNull()
+    .references(() => reports.id, { onDelete: "cascade" }),
+  prompt: text("prompt").notNull(),
+  answerEnc: bytea("answer_enc").notNull(),
 });
