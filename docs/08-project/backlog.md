@@ -73,4 +73,27 @@
 | [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | DONE | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
 | [TMU-CTR-007](tasks/TMU-CTR-007.md) | M2 | contracts | DONE | P1 | M2 exit checklist, contracts/architecture approval evidence and M3 handoff | TMU-ARC-001, TMU-ARC-002, TMU-ARC-003, TMU-ARC-004, TMU-ARC-005, TMU-ARC-006, TMU-ARC-007, TMU-ARC-008, TMU-ARC-009, TMU-ARC-010, TMU-ARC-011, TMU-ARC-012, TMU-ARC-013, TMU-ARC-014, TMU-ARC-015, TMU-CTR-001, TMU-CTR-002, TMU-CTR-003, TMU-CTR-004, TMU-CTR-005, TMU-CTR-006 |
 | [TMU-META-006](tasks/TMU-META-006.md) | M2 | meta | DONE | P1 | File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007) | TMU-DOC-020 |
+| [TMU-BE-001](tasks/TMU-BE-001.md) | M3 | be | TODO | P1 | Server config, env validation and typed error mapping (BE-11/BE-01/BE-04) | TMU-DB-005 |
+| [TMU-BE-002](tasks/TMU-BE-002.md) | M3 | be | TODO | P1 | Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021) | TMU-BE-001 |
+| [TMU-BE-003](tasks/TMU-BE-003.md) | M3 | be | TODO | P1 | ME + preferences handlers (API-ME-01..05) | TMU-BE-002 |
+| [TMU-BE-004](tasks/TMU-BE-004.md) | M3 | be | TODO | P1 | Upload handshake (API-UPL-01..03) — presign, validation, complete | TMU-BE-003 |
+| [TMU-BE-005](tasks/TMU-BE-005.md) | M3 | be | TODO | P1 | META handlers (API-META-01..04) — categories, campuses, locations, drop points | TMU-BE-003 |
+| [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | TODO | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |
+| [TMU-BE-007](tasks/TMU-BE-007.md) | M3 | be | TODO | P1 | report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub | TMU-BE-006 |
+| [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | TODO | P1 | Ops hardening — idempotency + rate-limit middleware, Schemathesis mock to real handlers | TMU-BE-007 |
+| [TMU-DB-001](tasks/TMU-DB-001.md) | M3 | db | TODO | P1 | Core tables migration — users, Auth.js adapter, locations, drop_points | TMU-CTR-007 |
+| [TMU-DB-002](tasks/TMU-DB-002.md) | M3 | db | TODO | P1 | Reports base migration — reports, report_images, verification_hints | TMU-DB-001 |
+| [TMU-DB-003](tasks/TMU-DB-003.md) | M3 | db | TODO | P1 | Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches | TMU-DB-002 |
+| [TMU-DB-004](tasks/TMU-DB-004.md) | M3 | db | TODO | P1 | Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes) | TMU-DB-003 |
+| [TMU-DB-005](tasks/TMU-DB-005.md) | M3 | db | TODO | P1 | Ops migration — notifications, prefs, flags, audit_logs (+BE-05 indexes) and M3 seeds | TMU-DB-004 |
+| [TMU-FE-001](tasks/TMU-FE-001.md) | M3 | fe | TODO | P1 | Login flow — landing → Google OAuth → callback, auth errors (SCR-001/002) | TMU-BE-002 |
+| [TMU-FE-002](tasks/TMU-FE-002.md) | M3 | fe | TODO | P1 | App shell — navigation, locale switcher, notification bell slot (SCR-003 frame) | TMU-FE-001 |
+| [TMU-FE-003](tasks/TMU-FE-003.md) | M3 | fe | TODO | P1 | Report wizard steps 1–2 — category/type choice + photos with upload hooks (SCR-004) | TMU-BE-004, TMU-FE-002 |
+| [TMU-FE-004](tasks/TMU-FE-004.md) | M3 | fe | TODO | P1 | Report wizard steps 3–5 + review/submit with hint and custody fields (SCR-004) | TMU-FE-003 |
+| [TMU-FE-005](tasks/TMU-FE-005.md) | M3 | fe | TODO | P1 | Browse list + report detail via generated client (SCR-005/006) | TMU-BE-006, TMU-FE-002 |
+| [TMU-FE-006](tasks/TMU-FE-006.md) | M3 | fe | TODO | P1 | Home dashboard — my-reports summary, CTAs, seed demo pass (SCR-003) | TMU-FE-005 |
+| [TMU-META-007](tasks/TMU-META-007.md) | M3 | meta | DONE | P1 | File the M3 task breakdown (TMU-DB-001..005, TMU-BE-001..008, TMU-FE-001..006) | TMU-CTR-007 |
+| [TMU-META-008](tasks/TMU-META-008.md) | M3 | meta | TODO | P2 | Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index | TMU-CTR-008 |
+| [TMU-OPS-034](tasks/TMU-OPS-034.md) | M3 | ops | TODO | P1 | M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton | TMU-DB-005, TMU-BE-008 |
+| [TMU-QA-001](tasks/TMU-QA-001.md) | M3 | qa | TODO | P1 | M3 walking-skeleton E2E demo — login, create report, read it back | TMU-FE-006, TMU-OPS-034 |
 | [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | DONE | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |
