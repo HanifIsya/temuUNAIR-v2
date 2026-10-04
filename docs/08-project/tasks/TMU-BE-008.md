@@ -1,7 +1,7 @@
 ---
 id: TMU-BE-008
 title: Ops hardening — idempotency + rate-limit middleware, Schemathesis mock to real handlers
-status: TODO
+status: BLOCKED
 lane: be
 slug: be-ops-hardening
 milestone: M3
@@ -10,7 +10,7 @@ owner: backend-dev
 deps: [TMU-BE-007]
 refs: [BE-01, BE-12, BE-13, NFR, TMU-CTR-007]
 created: 2026-10-03
-updated: 2026-10-03
+updated: 2026-10-04
 ---
 
 # TMU-BE-008 — Ops hardening — idempotency + rate-limit middleware, Schemathesis mock to real handlers
@@ -37,3 +37,11 @@ far (API-SYS/ME/UPL/META/REP), clearing the Schemathesis 404/405/`422` warnings 
 - `tests/contract/run-contract.mjs`
 - matching tests
 - `docs/08-project/tasks/TMU-BE-008.md`
+
+## Blocked
+
+DoR check #6 fails: `tests/contract/run-contract.mjs` belongs to the `qa` lane
+(`tests/**` in `.agent/lanes.json`), so a `be` branch touching it would fail
+`scripts/check-lane.sh` (and therefore the gate — AC #4). Per WF-LANES cross-lane rule 5,
+stopping and filing **BLK-003** (split into a `qa` follow-up task vs. an `ops` lane-map
+change). Not started.
