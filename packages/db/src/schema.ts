@@ -368,3 +368,68 @@ export const messages = pgTable(
     index("messages_claim_created_idx").on(table.claimId, table.createdAt.desc()),
   ],
 );
+
+export const notifications = pgTable(
+  "notifications",
+  {
+    id: uuid("id").primaryKey(),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id),
+    type: text("type").notNull(),
+    payload: jsonb("payload").notNull(),
+    dedupeKey: text("dedupe_key").unique(),
+    readAt: timestamp("read_at", { withTimezone: true }),
+    emailedAt: timestamp("emailed_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index("notifications_user_created_idx").on(table.userId, table.createdAt.desc())],
+);
+
+export const notificationPrefs = pgTable("notification_prefs", {
+  userId: uuid("user_id")
+    .primaryKey()
+    .references(() => users.id),
+  emailEnabled: boolean("email_enabled").notNull().default(true),
+  mutedTypes: text("muted_types").array().notNull().default([]),
+});
+
+export const flags = pgTable(
+  "flags",
+  {
+    id: uuid("id").primaryKey(),
+    reportId: uuid("report_id")
+      .notNull()
+      .references(() => reports.id),
+    reporterId: uuid("reporter_id")
+      .notNull()
+      .references(() => users.id),
+    reason: text("reason").notNull(),
+    note: text("note"),
+    status: text("status").notNull().default("OPEN"),
+    resolvedBy: uuid("resolved_by").references(() => users.id),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    index("flags_report_idx")
+      .on(table.reportId)
+      .where(sql`${table.status} = 'OPEN'`),
+  ],
+);
+
+export const auditLogs = pgTable(
+  "audit_logs",
+  {
+    id: uuid("id").primaryKey(),
+    actorId: uuid("actor_id"),
+    action: text("action").notNull(),
+    entityType: text("entity_type").notNull(),
+    entityId: uuid("entity_id"),
+    before: jsonb("before"),
+    after: jsonb("after"),
+    ipHash: text("ip_hash"),
+    requestId: text("request_id"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [index("audit_logs_created_idx").on(table.createdAt.desc())],
+);
