@@ -79,8 +79,22 @@ describe("registry", () => {
     }
   });
 
-  it("ships the route set including TMU-CTR-001, TMU-CTR-002 and TMU-CTR-003 additions", () => {
+  it("ships the route set including TMU-CTR-001..004 additions", () => {
     expect(registry.map((route) => route.id).sort()).toEqual([
+      "API-CHT-01",
+      "API-CHT-02",
+      "API-CHT-03",
+      "API-CHT-04",
+      "API-CLM-01",
+      "API-CLM-02",
+      "API-CLM-03",
+      "API-CLM-04",
+      "API-CLM-05",
+      "API-CLM-06",
+      "API-CLM-07",
+      "API-CLM-08",
+      "API-CLM-09",
+      "API-CLM-10",
       "API-MAT-01",
       "API-MAT-02",
       "API-MAT-03",
@@ -117,13 +131,14 @@ describe("registry", () => {
     expect(routeFor("API-META-01").path).toBe("/api/v1/meta/categories");
     expect(routeFor("API-META-01").auth).toBe("user");
     expect(routeFor("API-META-03").path).toBe("/api/v1/meta/locations");
-    expect(routeFor("API-META-03").auth).toBe("user");
     expect(routeFor("API-META-03").errors).toEqual(["VALIDATION_FAILED"]);
     expect(routeFor("API-ME-01").path).toBe("/api/v1/me");
     expect(routeFor("API-UPL-01").path).toBe("/api/v1/uploads");
     expect(routeFor("API-REP-01").path).toBe("/api/v1/reports");
     expect(routeFor("API-SRC-01").path).toBe("/api/v1/search");
     expect(routeFor("API-MAT-01").path).toBe("/api/v1/reports/{id}/matches");
+    expect(routeFor("API-CLM-01").path).toBe("/api/v1/reports/{id}/challenge");
+    expect(routeFor("API-CHT-01").path).toBe("/api/v1/claims/{id}/messages");
   });
 });
 

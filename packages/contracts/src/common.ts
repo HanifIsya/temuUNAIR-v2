@@ -4,6 +4,7 @@ import { z } from "zod";
 import {
   Campus,
   Category,
+  ClaimStatus,
   Custody,
   MatchBand,
   MatchState,
@@ -257,4 +258,100 @@ export const RematchResponse = z.object({
 
 export const ActionStatusResponse = z.object({
   status: z.literal("ok"),
+});
+
+export const ChallengeItem = z.object({
+  hintId: Uuid,
+  prompt: z.string(),
+});
+
+export const Challenge = z.object({
+  reportId: Uuid,
+  items: z.array(ChallengeItem),
+});
+
+export const ClaimAnswerInput = z.object({
+  hintId: Uuid,
+  answer: z.string().min(1).max(200),
+});
+
+export const ClaimCreate = z.object({
+  foundReportId: Uuid,
+  lostReportId: Uuid.optional(),
+  answers: z.array(ClaimAnswerInput),
+  note: z.string().max(500).optional(),
+});
+
+export const ClaimAnswerView = z.object({
+  hintId: Uuid,
+  prompt: z.string(),
+  claimantAnswer: z.string(),
+  expectedAnswer: z.string().optional(),
+});
+
+export const ClaimView = z.object({
+  id: Uuid,
+  foundReportId: Uuid,
+  lostReportId: Uuid.optional(),
+  claimantId: Uuid,
+  claimantName: z.string(),
+  status: ClaimStatus,
+  answers: z.array(ClaimAnswerView),
+  note: z.string().optional(),
+  handoverPlace: z.string().optional(),
+  handoverAt: IsoDateTime.optional(),
+  finderConfirmedAt: IsoDateTime.optional(),
+  claimantConfirmedAt: IsoDateTime.optional(),
+  decisionReason: z.string().optional(),
+  expiresAt: IsoDateTime,
+  createdAt: IsoDateTime,
+  updatedAt: IsoDateTime,
+});
+
+export const ClaimDecisionRequest = z.object({
+  note: z.string().max(500).optional(),
+});
+
+export const ClaimRejectRequest = z.object({
+  reason: z.string().min(3).max(500),
+});
+
+export const HandoverPlanRequest = z.object({
+  place: z.string().min(3).max(100),
+  at: IsoDateTime,
+  note: z.string().max(500).optional(),
+});
+
+export const ClaimCancelRequest = z.object({
+  reason: z.string().max(500).optional(),
+});
+
+export const ClaimDisputeRequest = z.object({
+  reason: z.string().min(5).max(500),
+});
+
+export const ChatMessage = z.object({
+  id: Uuid,
+  claimId: Uuid,
+  senderId: Uuid,
+  senderName: z.string(),
+  body: z.string().max(1000),
+  createdAt: IsoDateTime,
+  readAt: IsoDateTime.nullable().optional(),
+  mine: z.boolean().optional(),
+});
+
+export const ChatMessageCreate = z.object({
+  body: z.string().min(1).max(1000),
+});
+
+// SSE event names (`message`, `claim.updated`) are lowercase by protocol convention (BE-03),
+// so `event` is a plain string rather than a SCREAMING_SNAKE enum.
+export const ChatStreamEvent = z.object({
+  event: z.string(),
+  data: z.string(),
+});
+
+export const ChatReadReceiptRequest = z.object({
+  upToMessageId: Uuid,
 });

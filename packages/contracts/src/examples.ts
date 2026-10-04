@@ -373,4 +373,211 @@ export const examples: Record<ApiId, unknown> = {
   "API-MAT-04": {
     enqueued: true,
   },
+  "API-CLM-01": {
+    reportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    items: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+      },
+    ],
+  },
+  "API-CLM-02": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "SUBMITTED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+      },
+    ],
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-03T10:00:00+07:00",
+  },
+  "API-CLM-03": {
+    data: [
+      {
+        id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+        foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+        claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+        claimantName: "Budi S.",
+        status: "SUBMITTED",
+        answers: [
+          {
+            hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+            prompt: "Apa warna gantungan kunci?",
+            claimantAnswer: "Kuning",
+          },
+        ],
+        expiresAt: "2026-10-06T10:00:00+07:00",
+        createdAt: "2026-10-03T10:00:00+07:00",
+        updatedAt: "2026-10-03T10:00:00+07:00",
+      },
+    ],
+    page: {
+      nextCursor: null,
+      hasMore: false,
+    },
+  },
+  "API-CLM-04": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "SUBMITTED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+        expectedAnswer: "Bebek kuning",
+      },
+    ],
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-03T10:00:00+07:00",
+  },
+  "API-CLM-05": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "APPROVED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+      },
+    ],
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-03T10:00:00+07:00",
+  },
+  "API-CLM-06": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "REJECTED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+      },
+    ],
+    decisionReason: "Jawaban salah",
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-03T10:00:00+07:00",
+  },
+  "API-CLM-07": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "APPROVED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+      },
+    ],
+    handoverPlace: "Pos Keamanan Utama",
+    handoverAt: "2026-10-04T15:00:00+07:00",
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-03T10:00:00+07:00",
+  },
+  "API-CLM-08": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "COMPLETED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+      },
+    ],
+    finderConfirmedAt: "2026-10-04T15:10:00+07:00",
+    claimantConfirmedAt: "2026-10-04T15:12:00+07:00",
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-04T15:12:00+07:00",
+  },
+  "API-CLM-09": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "CANCELLED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+      },
+    ],
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-03T10:00:00+07:00",
+  },
+  "API-CLM-10": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    foundReportId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e84",
+    claimantId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    claimantName: "Budi S.",
+    status: "DISPUTED",
+    answers: [
+      {
+        hintId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e86",
+        prompt: "Apa warna gantungan kunci?",
+        claimantAnswer: "Kuning",
+      },
+    ],
+    expiresAt: "2026-10-06T10:00:00+07:00",
+    createdAt: "2026-10-03T10:00:00+07:00",
+    updatedAt: "2026-10-03T10:00:00+07:00",
+  },
+  "API-CHT-01": {
+    data: [
+      {
+        id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e88",
+        claimId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+        senderId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+        senderName: "Budi S.",
+        body: "Halo, saya bisa ambil jam 3 sore.",
+        createdAt: "2026-10-03T10:05:00+07:00",
+      },
+    ],
+    page: {
+      nextCursor: null,
+      hasMore: false,
+    },
+  },
+  "API-CHT-02": {
+    id: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e88",
+    claimId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e87",
+    senderId: "018f2c6e-4b3a-7c9d-8e1f-2a3b4c5d6e81",
+    senderName: "Budi S.",
+    body: "Halo, saya bisa ambil jam 3 sore.",
+    createdAt: "2026-10-03T10:05:00+07:00",
+  },
+  "API-CHT-03": {
+    event: "message",
+    data: "Halo",
+  },
+  "API-CHT-04": {
+    status: "ok",
+  },
 };

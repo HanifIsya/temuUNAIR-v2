@@ -1200,6 +1200,873 @@ paths:
           required: true
           schema:
             type: string
+  /api/v1/reports/{id}/challenge:
+    get:
+      operationId: API-CLM-01
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-01Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: SELF_CLAIM_NOT_ALLOWED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - SELF_CLAIM_NOT_ALLOWED
+        "409":
+          description: "Error: REPORT_NOT_CLAIMABLE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - REPORT_NOT_CLAIMABLE
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/claims:
+    post:
+      operationId: API-CLM-02
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "409":
+          description: "Error: CLAIM_ALREADY_ACTIVE, REPORT_NOT_CLAIMABLE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CLAIM_ALREADY_ACTIVE
+            - REPORT_NOT_CLAIMABLE
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+        "429":
+          description: "Error: CLAIM_LIMIT_EXCEEDED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CLAIM_LIMIT_EXCEEDED
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CLM-02Request"
+    get:
+      operationId: API-CLM-03
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-03Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+  /api/v1/claims/{id}:
+    get:
+      operationId: API-CLM-04
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/claims/{id}/approve:
+    post:
+      operationId: API-CLM-05
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CLM-05Request"
+  /api/v1/claims/{id}/reject:
+    post:
+      operationId: API-CLM-06
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CLM-06Request"
+  /api/v1/claims/{id}/handover-plan:
+    put:
+      operationId: API-CLM-07
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CLM-07Request"
+  /api/v1/claims/{id}/confirm-handover:
+    post:
+      operationId: API-CLM-08
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/claims/{id}/cancel:
+    post:
+      operationId: API-CLM-09
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CLM-09Request"
+  /api/v1/claims/{id}/dispute:
+    post:
+      operationId: API-CLM-10
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CLM-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CLM-10Request"
+  /api/v1/claims/{id}/messages:
+    get:
+      operationId: API-CHT-01
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CHT-01Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+        "404":
+          description: "Error: NOT_FOUND"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - NOT_FOUND
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+    post:
+      operationId: API-CHT-02
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CHT-02Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "409":
+          description: "Error: CONFLICT_STATE"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - CONFLICT_STATE
+        "422":
+          description: "Error: VALIDATION_FAILED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - VALIDATION_FAILED
+        "429":
+          description: "Error: RATE_LIMITED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - RATE_LIMITED
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CHT-02Request"
+  /api/v1/claims/{id}/stream:
+    get:
+      operationId: API-CHT-03
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-CHT-03Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+  /api/v1/claims/{id}/messages/read:
+    post:
+      operationId: API-CHT-04
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Success
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/API-MAT-03Response"
+        "401":
+          description: "Error: AUTH_REQUIRED"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - AUTH_REQUIRED
+        "403":
+          description: "Error: FORBIDDEN"
+          headers:
+            X-Request-Id:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorEnvelope"
+          x-error-codes:
+            - FORBIDDEN
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/API-CHT-04Request"
 components:
   securitySchemes:
     cookieAuth:
@@ -2780,4 +3647,417 @@ components:
           type: boolean
       required:
         - enqueued
+      additionalProperties: false
+    API-CLM-01Response:
+      type: object
+      properties:
+        reportId:
+          type: string
+          format: uuid
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              hintId:
+                type: string
+                format: uuid
+              prompt:
+                type: string
+            required:
+              - hintId
+              - prompt
+            additionalProperties: false
+      required:
+        - reportId
+        - items
+      additionalProperties: false
+    API-CLM-02Response:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        foundReportId:
+          type: string
+          format: uuid
+        lostReportId:
+          type: string
+          format: uuid
+        claimantId:
+          type: string
+          format: uuid
+        claimantName:
+          type: string
+        status:
+          type: string
+          enum:
+            - SUBMITTED
+            - APPROVED
+            - REJECTED
+            - DISPUTED
+            - COMPLETED
+            - CANCELLED
+            - EXPIRED
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              hintId:
+                type: string
+                format: uuid
+              prompt:
+                type: string
+              claimantAnswer:
+                type: string
+              expectedAnswer:
+                type: string
+            required:
+              - hintId
+              - prompt
+              - claimantAnswer
+            additionalProperties: false
+        note:
+          type: string
+        handoverPlace:
+          type: string
+        handoverAt:
+          type: string
+          format: date-time
+        finderConfirmedAt:
+          type: string
+          format: date-time
+        claimantConfirmedAt:
+          type: string
+          format: date-time
+        decisionReason:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - foundReportId
+        - claimantId
+        - claimantName
+        - status
+        - answers
+        - expiresAt
+        - createdAt
+        - updatedAt
+      additionalProperties: false
+    API-CLM-02Request:
+      type: object
+      properties:
+        foundReportId:
+          type: string
+          format: uuid
+        lostReportId:
+          type: string
+          format: uuid
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              hintId:
+                type: string
+                format: uuid
+              answer:
+                type: string
+                minLength: 1
+                maxLength: 200
+            required:
+              - hintId
+              - answer
+            additionalProperties: false
+        note:
+          type: string
+          maxLength: 500
+      required:
+        - foundReportId
+        - answers
+      additionalProperties: false
+    API-CLM-03Response:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              foundReportId:
+                type: string
+                format: uuid
+              lostReportId:
+                type: string
+                format: uuid
+              claimantId:
+                type: string
+                format: uuid
+              claimantName:
+                type: string
+              status:
+                type: string
+                enum:
+                  - SUBMITTED
+                  - APPROVED
+                  - REJECTED
+                  - DISPUTED
+                  - COMPLETED
+                  - CANCELLED
+                  - EXPIRED
+              answers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    hintId:
+                      type: string
+                      format: uuid
+                    prompt:
+                      type: string
+                    claimantAnswer:
+                      type: string
+                    expectedAnswer:
+                      type: string
+                  required:
+                    - hintId
+                    - prompt
+                    - claimantAnswer
+                  additionalProperties: false
+              note:
+                type: string
+              handoverPlace:
+                type: string
+              handoverAt:
+                type: string
+                format: date-time
+              finderConfirmedAt:
+                type: string
+                format: date-time
+              claimantConfirmedAt:
+                type: string
+                format: date-time
+              decisionReason:
+                type: string
+              expiresAt:
+                type: string
+                format: date-time
+              createdAt:
+                type: string
+                format: date-time
+              updatedAt:
+                type: string
+                format: date-time
+            required:
+              - id
+              - foundReportId
+              - claimantId
+              - claimantName
+              - status
+              - answers
+              - expiresAt
+              - createdAt
+              - updatedAt
+            additionalProperties: false
+        page:
+          type: object
+          properties:
+            nextCursor:
+              type:
+                - string
+                - "null"
+            hasMore:
+              type: boolean
+          required:
+            - nextCursor
+            - hasMore
+          additionalProperties: false
+      required:
+        - data
+        - page
+      additionalProperties: false
+    API-CLM-05Request:
+      type: object
+      properties:
+        note:
+          type: string
+          maxLength: 500
+      additionalProperties: false
+    API-CLM-06Request:
+      type: object
+      properties:
+        reason:
+          type: string
+          minLength: 3
+          maxLength: 500
+      required:
+        - reason
+      additionalProperties: false
+    API-CLM-07Request:
+      type: object
+      properties:
+        place:
+          type: string
+          minLength: 3
+          maxLength: 100
+        at:
+          type: string
+          format: date-time
+        note:
+          type: string
+          maxLength: 500
+      required:
+        - place
+        - at
+      additionalProperties: false
+    API-CLM-09Request:
+      type: object
+      properties:
+        reason:
+          type: string
+          maxLength: 500
+      additionalProperties: false
+    API-CLM-10Request:
+      type: object
+      properties:
+        reason:
+          type: string
+          minLength: 5
+          maxLength: 500
+      required:
+        - reason
+      additionalProperties: false
+    API-CHT-01Response:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              claimId:
+                type: string
+                format: uuid
+              senderId:
+                type: string
+                format: uuid
+              senderName:
+                type: string
+              body:
+                type: string
+                maxLength: 1000
+              createdAt:
+                type: string
+                format: date-time
+              readAt:
+                type:
+                  - string
+                  - "null"
+                format: date-time
+              mine:
+                type: boolean
+            required:
+              - id
+              - claimId
+              - senderId
+              - senderName
+              - body
+              - createdAt
+            additionalProperties: false
+        page:
+          type: object
+          properties:
+            nextCursor:
+              type:
+                - string
+                - "null"
+            hasMore:
+              type: boolean
+          required:
+            - nextCursor
+            - hasMore
+          additionalProperties: false
+      required:
+        - data
+        - page
+      additionalProperties: false
+    API-CHT-02Response:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        claimId:
+          type: string
+          format: uuid
+        senderId:
+          type: string
+          format: uuid
+        senderName:
+          type: string
+        body:
+          type: string
+          maxLength: 1000
+        createdAt:
+          type: string
+          format: date-time
+        readAt:
+          type:
+            - string
+            - "null"
+          format: date-time
+        mine:
+          type: boolean
+      required:
+        - id
+        - claimId
+        - senderId
+        - senderName
+        - body
+        - createdAt
+      additionalProperties: false
+    API-CHT-02Request:
+      type: object
+      properties:
+        body:
+          type: string
+          minLength: 1
+          maxLength: 1000
+      required:
+        - body
+      additionalProperties: false
+    API-CHT-03Response:
+      type: object
+      properties:
+        event:
+          type: string
+        data:
+          type: string
+      required:
+        - event
+        - data
+      additionalProperties: false
+    API-CHT-04Request:
+      type: object
+      properties:
+        upToMessageId:
+          type: string
+          format: uuid
+      required:
+        - upToMessageId
       additionalProperties: false

@@ -83,6 +83,48 @@ export interface paths {
   "/api/v1/reports/{id}/rematch": {
     post: operations["API-MAT-04"];
   };
+  "/api/v1/reports/{id}/challenge": {
+    get: operations["API-CLM-01"];
+  };
+  "/api/v1/claims": {
+    post: operations["API-CLM-02"];
+  };
+  "/api/v1/claims": {
+    get: operations["API-CLM-03"];
+  };
+  "/api/v1/claims/{id}": {
+    get: operations["API-CLM-04"];
+  };
+  "/api/v1/claims/{id}/approve": {
+    post: operations["API-CLM-05"];
+  };
+  "/api/v1/claims/{id}/reject": {
+    post: operations["API-CLM-06"];
+  };
+  "/api/v1/claims/{id}/handover-plan": {
+    put: operations["API-CLM-07"];
+  };
+  "/api/v1/claims/{id}/confirm-handover": {
+    post: operations["API-CLM-08"];
+  };
+  "/api/v1/claims/{id}/cancel": {
+    post: operations["API-CLM-09"];
+  };
+  "/api/v1/claims/{id}/dispute": {
+    post: operations["API-CLM-10"];
+  };
+  "/api/v1/claims/{id}/messages": {
+    get: operations["API-CHT-01"];
+  };
+  "/api/v1/claims/{id}/messages": {
+    post: operations["API-CHT-02"];
+  };
+  "/api/v1/claims/{id}/stream": {
+    get: operations["API-CHT-03"];
+  };
+  "/api/v1/claims/{id}/messages/read": {
+    post: operations["API-CHT-04"];
+  };
 }
 
 export interface components {
@@ -115,6 +157,20 @@ export interface components {
     "API-MAT-02Response": { "id": string; "state": "SUGGESTED" | "DISMISSED" | "CLAIMED" | "INVALIDATED"; "band": "STRONG" | "POSSIBLE"; "reasons": Array<{ "code": string; "labelKey": string; }>; "other": { "id": string; "type": "LOST" | "FOUND"; "status": "PENDING_REVIEW" | "OPEN" | "MATCHED" | "IN_VERIFICATION" | "RETURNED" | "EXPIRED" | "CANCELLED" | "REMOVED"; "category": "ID_CARD" | "BANK_CARD" | "WALLET" | "PHONE" | "LAPTOP_TABLET" | "EARPHONES" | "CHARGER_CABLE" | "KEYS" | "BAG" | "CLOTHING" | "GLASSES" | "BOTTLE" | "BOOK_DOCUMENT" | "STATIONERY" | "ACCESSORY" | "SPORTS_GEAR" | "UMBRELLA" | "HELMET" | "OTHER"; "isSensitive": boolean; "title": string; "description": string; "colors": Array<string>; "brand"?: string; "images": Array<{ "id": string; "url": string | null; "thumbUrl"?: string | null; "isMasked"?: boolean; }>; "campus": "KAMPUS_A" | "KAMPUS_B" | "KAMPUS_C" | "BANYUWANGI"; "locationName"?: string; "occurredAt": { "from": string; "to"?: string; }; "custody"?: "HELD_BY_FINDER" | "AT_DROP_POINT"; "dropPointName"?: string; "createdAt": string; }; "createdAt": string; };
     "API-MAT-03Response": { "status": "ok"; };
     "API-MAT-04Response": { "enqueued": boolean; };
+    "API-CLM-01Response": { "reportId": string; "items": Array<{ "hintId": string; "prompt": string; }>; };
+    "API-CLM-02Response": { "id": string; "foundReportId": string; "lostReportId"?: string; "claimantId": string; "claimantName": string; "status": "SUBMITTED" | "APPROVED" | "REJECTED" | "DISPUTED" | "COMPLETED" | "CANCELLED" | "EXPIRED"; "answers": Array<{ "hintId": string; "prompt": string; "claimantAnswer": string; "expectedAnswer"?: string; }>; "note"?: string; "handoverPlace"?: string; "handoverAt"?: string; "finderConfirmedAt"?: string; "claimantConfirmedAt"?: string; "decisionReason"?: string; "expiresAt": string; "createdAt": string; "updatedAt": string; };
+    "API-CLM-02Request": { "foundReportId": string; "lostReportId"?: string; "answers": Array<{ "hintId": string; "answer": string; }>; "note"?: string; };
+    "API-CLM-03Response": { "data": Array<{ "id": string; "foundReportId": string; "lostReportId"?: string; "claimantId": string; "claimantName": string; "status": "SUBMITTED" | "APPROVED" | "REJECTED" | "DISPUTED" | "COMPLETED" | "CANCELLED" | "EXPIRED"; "answers": Array<{ "hintId": string; "prompt": string; "claimantAnswer": string; "expectedAnswer"?: string; }>; "note"?: string; "handoverPlace"?: string; "handoverAt"?: string; "finderConfirmedAt"?: string; "claimantConfirmedAt"?: string; "decisionReason"?: string; "expiresAt": string; "createdAt": string; "updatedAt": string; }>; "page": { "nextCursor": string | null; "hasMore": boolean; }; };
+    "API-CLM-05Request": { "note"?: string; };
+    "API-CLM-06Request": { "reason": string; };
+    "API-CLM-07Request": { "place": string; "at": string; "note"?: string; };
+    "API-CLM-09Request": { "reason"?: string; };
+    "API-CLM-10Request": { "reason": string; };
+    "API-CHT-01Response": { "data": Array<{ "id": string; "claimId": string; "senderId": string; "senderName": string; "body": string; "createdAt": string; "readAt"?: string | null; "mine"?: boolean; }>; "page": { "nextCursor": string | null; "hasMore": boolean; }; };
+    "API-CHT-02Response": { "id": string; "claimId": string; "senderId": string; "senderName": string; "body": string; "createdAt": string; "readAt"?: string | null; "mine"?: boolean; };
+    "API-CHT-02Request": { "body": string; };
+    "API-CHT-03Response": { "event": string; "data": string; };
+    "API-CHT-04Request": { "upToMessageId": string; };
   };
   securitySchemes: {
     cookieAuth: { type: "apiKey"; in: "cookie"; name: "__Secure-temuunair.session" };
@@ -388,6 +444,203 @@ export interface operations {
       401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
       404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
       429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-01": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-02": {
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CLM-02Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-03": {
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-03Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-04": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-05": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CLM-05Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-06": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CLM-06Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-07": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CLM-07Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-08": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-09": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CLM-09Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CLM-10": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CLM-10Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CLM-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CHT-01": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CHT-01Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      404: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CHT-02": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CHT-02Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CHT-02Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      429: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      409: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      422: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CHT-03": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-CHT-03Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+    };
+  };
+  "API-CHT-04": {
+    parameters: {
+      path: {
+        "id": string;
+      };
+    };
+    requestBody?: {
+      content: { "application/json": components["schemas"]["API-CHT-04Request"] };
+    };
+    responses: {
+      200: { content: { "application/json": components["schemas"]["API-MAT-03Response"] } };
+      401: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
+      403: { content: { "application/json": components["schemas"]["ErrorEnvelope"] } };
     };
   };
 }
