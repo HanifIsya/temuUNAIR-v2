@@ -87,7 +87,7 @@
 | [TMU-DB-004](tasks/TMU-DB-004.md) | M3 | db | DONE | P1 | Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes) | TMU-DB-003 |
 | [TMU-DB-005](tasks/TMU-DB-005.md) | M3 | db | DONE | P1 | Ops migration — notifications, prefs, flags, audit_logs (+BE-05 indexes) and M3 seeds | TMU-DB-004 |
 | [TMU-FE-001](tasks/TMU-FE-001.md) | M3 | fe | DONE | P1 | Login flow — landing → Google OAuth → callback, auth errors (SCR-001/002) | TMU-BE-002 |
-| [TMU-FE-002](tasks/TMU-FE-002.md) | M3 | fe | TODO | P1 | App shell — navigation, locale switcher, notification bell slot (SCR-003 frame) | TMU-FE-001 |
+| [TMU-FE-002](tasks/TMU-FE-002.md) | M3 | fe | BLOCKED | P1 | App shell — navigation, locale switcher, notification bell slot (SCR-003 frame) | TMU-FE-001 |
 | [TMU-FE-003](tasks/TMU-FE-003.md) | M3 | fe | TODO | P1 | Report wizard steps 1–2 — category/type choice + photos with upload hooks (SCR-004) | TMU-BE-004, TMU-FE-002 |
 | [TMU-FE-004](tasks/TMU-FE-004.md) | M3 | fe | TODO | P1 | Report wizard steps 3–5 + review/submit with hint and custody fields (SCR-004) | TMU-FE-003 |
 | [TMU-FE-005](tasks/TMU-FE-005.md) | M3 | fe | TODO | P1 | Browse list + report detail via generated client (SCR-005/006) | TMU-BE-006, TMU-FE-002 |
