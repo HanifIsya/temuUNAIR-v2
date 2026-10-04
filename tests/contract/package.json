@@ -10,6 +10,6 @@
     "@temuunair/config": "workspace:*",
     "@temuunair/contracts": "workspace:*",
     "@types/node": "^26.6.3",
-    "vitest": "^3.2.4"
+    "vitest": "^5.0.3"
   }
 }
