@@ -22,17 +22,11 @@ export interface paths {
   };
   "/api/v1/me": {
     get: operations["API-ME-01"];
-  };
-  "/api/v1/me": {
     patch: operations["API-ME-02"];
-  };
-  "/api/v1/me": {
     delete: operations["API-ME-03"];
   };
   "/api/v1/me/notification-preferences": {
     get: operations["API-ME-04"];
-  };
-  "/api/v1/me/notification-preferences": {
     put: operations["API-ME-05"];
   };
   "/api/v1/uploads": {
@@ -46,8 +40,6 @@ export interface paths {
   };
   "/api/v1/reports": {
     post: operations["API-REP-01"];
-  };
-  "/api/v1/reports": {
     get: operations["API-REP-02"];
   };
   "/api/v1/reports/mine": {
@@ -55,8 +47,6 @@ export interface paths {
   };
   "/api/v1/reports/{id}": {
     get: operations["API-REP-04"];
-  };
-  "/api/v1/reports/{id}": {
     patch: operations["API-REP-05"];
   };
   "/api/v1/reports/{id}/cancel": {
@@ -88,8 +78,6 @@ export interface paths {
   };
   "/api/v1/claims": {
     post: operations["API-CLM-02"];
-  };
-  "/api/v1/claims": {
     get: operations["API-CLM-03"];
   };
   "/api/v1/claims/{id}": {
@@ -115,8 +103,6 @@ export interface paths {
   };
   "/api/v1/claims/{id}/messages": {
     get: operations["API-CHT-01"];
-  };
-  "/api/v1/claims/{id}/messages": {
     post: operations["API-CHT-02"];
   };
   "/api/v1/claims/{id}/stream": {
@@ -172,9 +158,11 @@ export interface paths {
   };
   "/api/v1/admin/locations": {
     post: operations["API-ADM-12"];
+    get: operations["API-ADM-18"];
   };
   "/api/v1/admin/drop-points": {
     post: operations["API-ADM-13"];
+    get: operations["API-ADM-20"];
   };
   "/api/v1/admin/audit-logs": {
     get: operations["API-ADM-14"];
@@ -188,14 +176,8 @@ export interface paths {
   "/api/v1/admin/flags/{id}/resolve": {
     post: operations["API-ADM-17"];
   };
-  "/api/v1/admin/locations": {
-    get: operations["API-ADM-18"];
-  };
   "/api/v1/admin/locations/{id}": {
     patch: operations["API-ADM-19"];
-  };
-  "/api/v1/admin/drop-points": {
-    get: operations["API-ADM-20"];
   };
   "/api/v1/admin/drop-points/{id}": {
     patch: operations["API-ADM-21"];

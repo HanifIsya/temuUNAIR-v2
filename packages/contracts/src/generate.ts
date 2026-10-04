@@ -332,10 +332,18 @@ const buildOpenApiFile = (version: string, doc: JsonObject): string =>
 const buildTypesFile = (version: string, model: OpenApiModel): string => {
   const lines: string[] = [tsBanner(version), ""];
 
-  lines.push("export interface paths {");
+  const methodsByPath = new Map<string, { method: string; id: string }[]>();
   for (const route of registry) {
-    lines.push(`  ${jsonLiteral(route.path)}: {`);
-    lines.push(`    ${route.method}: operations[${jsonLiteral(route.id)}];`);
+    const entries = methodsByPath.get(route.path) ?? [];
+    entries.push({ method: route.method, id: route.id });
+    methodsByPath.set(route.path, entries);
+  }
+  lines.push("export interface paths {");
+  for (const [path, entries] of methodsByPath) {
+    lines.push(`  ${jsonLiteral(path)}: {`);
+    for (const entry of entries) {
+      lines.push(`    ${entry.method}: operations[${jsonLiteral(entry.id)}];`);
+    }
     lines.push("  };");
   }
   lines.push("}", "");
