@@ -20,7 +20,26 @@
     "unknownError": "Terjadi kesalahan. Coba lagi ya.",
     "signIn": "Masuk",
     "home": "Beranda",
-    "skipToContent": "Lewati ke konten"
+    "skipToContent": "Lewati ke konten",
+    "nav": {
+      "mainNavigation": "Navigasi utama",
+      "topNavigation": "Navigasi atas",
+      "home": "Beranda",
+      "browse": "Cari",
+      "report": "Lapor",
+      "claims": "Klaim",
+      "settings": "Akun",
+      "profile": "Profil",
+      "myReports": "Laporan saya",
+      "accountSettings": "Pengaturan",
+      "signOut": "Keluar",
+      "admin": "Panel admin",
+      "notificationsCount": "{count, plural, =0 {0 belum dibaca} other {# belum dibaca}}"
+    },
+    "localeSwitcher": {
+      "label": "Bahasa",
+      "changed": "Bahasa diubah ke {language}"
+    }
   },
   "auth": {
     "login": {

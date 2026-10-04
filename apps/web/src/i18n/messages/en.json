@@ -20,7 +20,26 @@
     "unknownError": "Something went wrong. Try again.",
     "signIn": "Sign in",
     "home": "Home",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "nav": {
+      "mainNavigation": "Main navigation",
+      "topNavigation": "Top navigation",
+      "home": "Home",
+      "browse": "Search",
+      "report": "Report",
+      "claims": "Claims",
+      "settings": "Account",
+      "profile": "Profile",
+      "myReports": "My reports",
+      "accountSettings": "Settings",
+      "signOut": "Sign out",
+      "admin": "Admin panel",
+      "notificationsCount": "{count, plural, =0 {0 unread} other {# unread}}"
+    },
+    "localeSwitcher": {
+      "label": "Language",
+      "changed": "Language changed to {language}"
+    }
   },
   "auth": {
     "login": {
