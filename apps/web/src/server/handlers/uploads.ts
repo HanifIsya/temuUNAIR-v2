@@ -1,13 +1,18 @@
-// apps/web/src/server/handlers/uploads.ts
+﻿// apps/web/src/server/handlers/uploads.ts
 // API-UPL-01 (POST /uploads), API-UPL-02 (POST /uploads/{id}/complete),
-// API-UPL-03 (GET /uploads/{id}).
+// API-UPL-03 (GET /uploads/{id}). TMU-BE-008: POST /uploads composes the
+// BE-01 idempotency middleware (outer) around the BE-12 rate tier (inner).
 
-import { createHash } from "node:crypto";
 import { z } from "zod";
 import { getDb } from "../db";
-import { DomainError, ErrorCode } from "../errors";
-import { getIdempotencyStore } from "../idempotency";
-import { getUploadLimiter } from "../rate-limit";
+import {
+  fingerprint,
+  readJsonBody,
+  requireIdempotencyKey,
+  withIdempotency,
+} from "../middleware/idempotency";
+import { withRateLimit } from "../middleware/rate-limit";
+import { UPLOAD_INIT_RATE } from "../rate-limit";
 import { PgUploadsRepository } from "../repositories/uploads";
 import { completeUpload, getUploadState, initUpload } from "../services/uploads";
 import { getStorage } from "../storage";
@@ -29,41 +34,34 @@ function json(body: unknown, requestId: string, status = 200): Response {
 
 export async function POST(request: Request): Promise<Response> {
   return dispatch(request, true, async ({ request: req, userId, requestId, now }) => {
-    const text = await req.text();
-    let raw: unknown;
-    try {
-      raw = JSON.parse(text);
-    } catch {
-      throw new DomainError(ErrorCode.VALIDATION_FAILED, "Body must be valid JSON", {
-        fields: [],
-      });
-    }
+    const { text, raw } = await readJsonBody(req);
     const parsed = uploadInitSchema.safeParse(raw);
     if (!parsed.success) throw zodToValidationFailed(parsed.error);
 
-    const idempotencyKey = req.headers.get("idempotency-key")?.trim();
-    if (!idempotencyKey) {
-      throw new DomainError(ErrorCode.VALIDATION_FAILED, "Idempotency-Key header is required", {
-        fields: [{ path: "Idempotency-Key" }],
-      });
-    }
-    const bodyHash = createHash("sha256").update(text).digest("hex");
+    const idempotencyKey = requireIdempotencyKey(req);
 
     const repo = new PgUploadsRepository(getDb());
-    const deps = { storage: getStorage(), limiter: getUploadLimiter() };
-    const { value } = await getIdempotencyStore().run(
-      { scope: "POST /api/v1/uploads", subject: userId, key: idempotencyKey, bodyHash },
+    const deps = { storage: getStorage() };
+    const { value } = await withIdempotency(
+      {
+        scope: "POST /api/v1/uploads",
+        subject: userId,
+        key: idempotencyKey,
+        bodyHash: fingerprint(text),
+      },
       () =>
-        initUpload(
-          repo,
-          deps,
-          {
-            userId,
-            mime: parsed.data.mime,
-            sizeBytes: parsed.data.sizeBytes,
-            sha256: parsed.data.sha256,
-          },
-          now,
+        withRateLimit([UPLOAD_INIT_RATE], userId, () =>
+          initUpload(
+            repo,
+            deps,
+            {
+              userId,
+              mime: parsed.data.mime,
+              sizeBytes: parsed.data.sizeBytes,
+              sha256: parsed.data.sha256,
+            },
+            now,
+          ),
         ),
     );
     return json(value, requestId);
@@ -78,7 +76,7 @@ export async function COMPLETE(request: Request, ctx: IdContext): Promise<Respon
   const { id } = await ctx.params;
   return dispatch(request, true, async ({ userId, requestId }) => {
     const repo = new PgUploadsRepository(getDb());
-    const deps = { storage: getStorage(), limiter: getUploadLimiter() };
+    const deps = { storage: getStorage() };
     const state = await completeUpload(repo, deps, { userId, uploadId: id });
     return json(state, requestId);
   });
@@ -88,7 +86,7 @@ export async function GET_BY_ID(request: Request, ctx: IdContext): Promise<Respo
   const { id } = await ctx.params;
   return dispatch(request, false, async ({ userId, requestId }) => {
     const repo = new PgUploadsRepository(getDb());
-    const deps = { storage: getStorage(), limiter: getUploadLimiter() };
+    const deps = { storage: getStorage() };
     const state = await getUploadState(repo, deps, { userId, uploadId: id });
     return json(state, requestId);
   });

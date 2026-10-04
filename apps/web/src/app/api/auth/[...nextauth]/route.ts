@@ -6,7 +6,9 @@
 import NextAuth from "next-auth";
 import { getAuthOptions } from "@/server/auth/config";
 import { getDb } from "@/server/db";
-import { logger } from "@/server/logging";
+import { DomainError, ErrorCode, toErrorResponse } from "@/server/errors";
+import { generateRequestId, logger } from "@/server/logging";
+import { enforceAuthIpRate } from "@/server/middleware/rate-limit";
 import { PgMeRepository } from "@/server/repositories/me";
 import { getDeletionQueue } from "@/server/services/deletion-queue";
 import { cancelPendingDeletion } from "@/server/services/me";
@@ -23,4 +25,25 @@ const handler = NextAuth(
   }),
 );
 
-export { handler as GET, handler as POST };
+// TMU-BE-008 / BE-12: auth endpoints are limited to 20/minute per IP.
+// The rate error is mapped to the BE-01 envelope here because this route
+// sits outside handlers/dispatch.ts.
+async function withAuthRateLimit(request: Request): Promise<Response> {
+  const requestId = generateRequestId(request.headers.get("X-Request-Id"));
+  try {
+    enforceAuthIpRate(request);
+  } catch (err) {
+    const status = err instanceof DomainError ? err.httpStatus : 500;
+    const headers: Record<string, string> = { "X-Request-Id": requestId };
+    if (err instanceof DomainError && err.code === ErrorCode.RATE_LIMITED) {
+      const details = err.details as { retryAfterSeconds?: number } | undefined;
+      if (typeof details?.retryAfterSeconds === "number") {
+        headers["Retry-After"] = String(details.retryAfterSeconds);
+      }
+    }
+    return Response.json(toErrorResponse(err, requestId), { status, headers });
+  }
+  return handler(request);
+}
+
+export { withAuthRateLimit as GET, withAuthRateLimit as POST };

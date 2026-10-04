@@ -9,7 +9,6 @@ import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { DomainError, ErrorCode } from "../errors";
 import { logger } from "../logging";
-import { REPORT_CREATE_RATES, type RateLimiter } from "../rate-limit";
 import { zodToValidationFailed } from "../validation";
 import { encryptFieldAnswer } from "./field-crypto";
 import {
@@ -191,10 +190,8 @@ export interface ReportsReadDeps {
 
 export interface CreateReportDeps extends ReportsReadDeps {
   queue: { enqueue(reportId: string): Promise<string | null> };
-  limiter: RateLimiter;
   fieldEncryptionKey: string;
   reportTtlDays: number;
-  isRateLimitEnabled: () => boolean;
 }
 
 export interface CreateReportContext {
@@ -382,17 +379,6 @@ export async function createReport(
   ctx: CreateReportContext,
 ): Promise<ReportOwnerView> {
   const input = parseReportCreate(raw);
-
-  if (deps.isRateLimitEnabled()) {
-    for (const rate of REPORT_CREATE_RATES) {
-      const result = deps.limiter.check(rate.scope, ctx.userId, rate.limit, rate.windowMs);
-      if (!result.allowed) {
-        throw new DomainError(ErrorCode.RATE_LIMITED, "Report creation rate limit exceeded", {
-          retryAfterSeconds: result.retryAfterSeconds,
-        });
-      }
-    }
-  }
 
   const sensitive = assertCrossFieldRules(input, ctx.now);
 

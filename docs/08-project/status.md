@@ -86,9 +86,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M3 — 60%
+## M3 — 64%
 
-TODO: 10 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 15 · CANCELLED: 0
+TODO: 9 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 16 · CANCELLED: 0
 
 - [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [x] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
@@ -97,7 +97,7 @@ TODO: 10 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 15 · CANCELLED: 
 - [x] TMU-BE-005 — META handlers (API-META-01..04) — categories, campuses, locations, drop points
 - [x] TMU-BE-006 — Report create/read (API-REP-01/02/04) with visibility and masking mappers
 - [x] TMU-BE-007 — report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub
-- [ ] TMU-BE-008 — Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12)
+- [x] TMU-BE-008 — Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12)
 - [x] TMU-DB-001 — Core tables migration — users, Auth.js adapter, locations, drop_points
 - [x] TMU-DB-002 — Reports base migration — reports, report_images, verification_hints
 - [x] TMU-DB-003 — Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches

@@ -7,6 +7,7 @@ import { requireSessionUser } from "../auth/request-user";
 import { getDb } from "../db";
 import { DomainError, ErrorCode, toErrorResponse } from "../errors";
 import { generateRequestId } from "../logging";
+import { enforceGlobalIpRate } from "../middleware/rate-limit";
 import { PgMeRepository } from "../repositories/me";
 
 export interface DispatchInput {
@@ -26,6 +27,7 @@ export async function dispatch(
 ): Promise<Response> {
   const requestId = generateRequestId(request.headers.get("X-Request-Id"));
   try {
+    enforceGlobalIpRate(request);
     const repo = new PgMeRepository(getDb());
     const user = await requireSessionUser(request, repo);
     if (needsCsrf) {

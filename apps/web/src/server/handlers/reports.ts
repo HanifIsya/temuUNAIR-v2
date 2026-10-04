@@ -1,12 +1,17 @@
 // apps/web/src/server/handlers/reports.ts
 // TMU-BE-006: API-REP-01 (POST /reports), API-REP-02 (GET /reports),
-// API-REP-04 (GET /reports/{id}).
+// API-REP-04 (GET /reports/{id}). TMU-BE-008: POST /reports composes the
+// BE-01 idempotency middleware (outer) around the BE-12 rate tiers (inner).
 
-import { createHash } from "node:crypto";
 import { getDb } from "../db";
-import { DomainError, ErrorCode } from "../errors";
-import { getIdempotencyStore } from "../idempotency";
-import { getReportLimiter, isRateLimitEnabled } from "../rate-limit";
+import {
+  fingerprint,
+  readJsonBody,
+  requireIdempotencyKey,
+  withIdempotency,
+} from "../middleware/idempotency";
+import { withRateLimit } from "../middleware/rate-limit";
+import { REPORT_CREATE_RATES } from "../rate-limit";
 import { PgReportsRepository } from "../repositories/reports";
 import { getReportProcessQueue } from "../jobs/report-process";
 import { createReport, getReportView, listReports } from "../services/reports";
@@ -24,35 +29,25 @@ function readDeps() {
 
 export async function POST(request: Request): Promise<Response> {
   return dispatch(request, true, async ({ request: req, userId, requestId, now }) => {
-    const text = await req.text();
-    let raw: unknown;
-    try {
-      raw = JSON.parse(text);
-    } catch {
-      throw new DomainError(ErrorCode.VALIDATION_FAILED, "Body must be valid JSON", {
-        fields: [],
-      });
-    }
-    const idempotencyKey = req.headers.get("idempotency-key")?.trim();
-    if (!idempotencyKey) {
-      throw new DomainError(ErrorCode.VALIDATION_FAILED, "Idempotency-Key header is required", {
-        fields: [{ path: "Idempotency-Key", key: "error.VALIDATION_FAILED.Idempotency-Key" }],
-      });
-    }
-    const bodyHash = createHash("sha256").update(text).digest("hex");
+    const { text, raw } = await readJsonBody(req);
+    const idempotencyKey = requireIdempotencyKey(req);
 
     const config = parseReportConfig();
     const deps = {
       ...readDeps(),
       queue: getReportProcessQueue(),
-      limiter: getReportLimiter(),
       fieldEncryptionKey: config.fieldEncryptionKey,
       reportTtlDays: config.reportTtlDays,
-      isRateLimitEnabled,
     };
-    const { value } = await getIdempotencyStore().run(
-      { scope: "POST /api/v1/reports", subject: userId, key: idempotencyKey, bodyHash },
-      () => createReport(deps, raw, { userId, now }),
+    const { value } = await withIdempotency(
+      {
+        scope: "POST /api/v1/reports",
+        subject: userId,
+        key: idempotencyKey,
+        bodyHash: fingerprint(text),
+      },
+      () =>
+        withRateLimit(REPORT_CREATE_RATES, userId, () => createReport(deps, raw, { userId, now })),
     );
     return json(value, requestId, 201);
   });

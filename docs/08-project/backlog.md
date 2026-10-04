@@ -80,7 +80,7 @@
 | [TMU-BE-005](tasks/TMU-BE-005.md) | M3 | be | DONE | P1 | META handlers (API-META-01..04) — categories, campuses, locations, drop points | TMU-BE-003 |
 | [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | DONE | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |
 | [TMU-BE-007](tasks/TMU-BE-007.md) | M3 | be | DONE | P1 | report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub | TMU-BE-006 |
-| [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | TODO | P1 | Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12) | TMU-BE-007 |
+| [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | DONE | P1 | Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12) | TMU-BE-007 |
 | [TMU-DB-001](tasks/TMU-DB-001.md) | M3 | db | DONE | P1 | Core tables migration — users, Auth.js adapter, locations, drop_points | TMU-CTR-007, TMU-OPS-035 |
 | [TMU-DB-002](tasks/TMU-DB-002.md) | M3 | db | DONE | P1 | Reports base migration — reports, report_images, verification_hints | TMU-DB-001 |
 | [TMU-DB-003](tasks/TMU-DB-003.md) | M3 | db | DONE | P1 | Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches | TMU-DB-002 |

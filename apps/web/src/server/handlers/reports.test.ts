@@ -6,6 +6,8 @@ import { migrate } from "drizzle-orm/node-postgres/migrator";
 import * as schema from "@temuunair/db/src/schema";
 import { loadContractApi } from "../contract-test-utils";
 import { SESSION_COOKIE_NAME } from "../auth/session";
+import { GLOBAL_IP_RATE, getGlobalIpLimiter } from "../rate-limit";
+import { ipSubjectFor } from "../middleware/rate-limit";
 import { decryptFieldAnswer } from "../services/field-crypto";
 import { GET_BY_ID, GET_LIST, POST } from "./reports";
 
@@ -75,7 +77,7 @@ async function expectFieldPath(res: Response, path: string): Promise<void> {
 function createRequest(
   token: string,
   body: unknown,
-  opts: { csrf?: boolean; idempotencyKey?: string | null } = {},
+  opts: { csrf?: boolean; idempotencyKey?: string | null; forwardedFor?: string } = {},
 ): Request {
   const headers = new Headers({ "content-type": "application/json" });
   headers.set("cookie", cookieHeader(token));
@@ -85,6 +87,9 @@ function createRequest(
   }
   if (opts.idempotencyKey !== null) {
     headers.set("idempotency-key", opts.idempotencyKey ?? `key-${randomBytes(6).toString("hex")}`);
+  }
+  if (opts.forwardedFor) {
+    headers.set("x-forwarded-for", opts.forwardedFor);
   }
   return new Request(REPORTS_URL, { method: "POST", headers, body: JSON.stringify(body) });
 }
@@ -606,6 +611,30 @@ describe.skipIf(!process.env.DATABASE_URL)(
           expect(Number(res.headers.get("Retry-After"))).toBeGreaterThan(0);
         } finally {
           process.env.RATE_LIMIT_ENABLED = "false";
+        }
+      });
+
+      it("returns 429 + Retry-After when the global per-IP tier is exhausted (BE-12)", async () => {
+        process.env.RATE_LIMIT_ENABLED = "true";
+        process.env.AUTH_SECRET = Buffer.from("2".repeat(32)).toString("base64");
+        try {
+          const ip = "203.0.113.44";
+          const subject = ipSubjectFor(ip);
+          expect(subject).not.toBeNull();
+          for (let i = 0; i < GLOBAL_IP_RATE.limit; i += 1) {
+            getGlobalIpLimiter().check(
+              GLOBAL_IP_RATE.scope,
+              subject as string,
+              GLOBAL_IP_RATE.limit,
+              GLOBAL_IP_RATE.windowMs,
+            );
+          }
+          const res = await POST(createRequest("sess-u1", lostBody(), { forwardedFor: ip }));
+          await expectEnvelope(res, 429, "RATE_LIMITED");
+          expect(Number(res.headers.get("Retry-After"))).toBeGreaterThan(0);
+        } finally {
+          process.env.RATE_LIMIT_ENABLED = "false";
+          delete process.env.AUTH_SECRET;
         }
       });
     });

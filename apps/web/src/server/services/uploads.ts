@@ -8,8 +8,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import sharp from "sharp";
 import { DomainError, ErrorCode } from "../errors";
-import { isRateLimitEnabled, UPLOAD_INIT_RATE } from "../rate-limit";
-import type { RateLimiter } from "../rate-limit";
 import type { StorageClient } from "../storage";
 
 export const ALLOWED_UPLOAD_MIME = ["image/jpeg", "image/png", "image/webp", "image/heic"] as const;
@@ -54,7 +52,6 @@ export interface UploadsRepository {
 
 export interface UploadDeps {
   storage: StorageClient;
-  limiter: RateLimiter;
 }
 
 export interface UploadInitInput {
@@ -134,19 +131,6 @@ export async function initUpload(
   }
   if (input.sizeBytes > MAX_UPLOAD_BYTES) {
     throw new DomainError(ErrorCode.UPLOAD_TOO_LARGE, `Upload exceeds ${MAX_UPLOAD_BYTES} bytes`);
-  }
-  if (isRateLimitEnabled()) {
-    const result = deps.limiter.check(
-      "uploads:init",
-      input.userId,
-      UPLOAD_INIT_RATE.limit,
-      UPLOAD_INIT_RATE.windowMs,
-    );
-    if (!result.allowed) {
-      throw new DomainError(ErrorCode.RATE_LIMITED, "Too many uploads", {
-        retryAfterSeconds: result.retryAfterSeconds,
-      });
-    }
   }
 
   const uploadId = randomUUID();
