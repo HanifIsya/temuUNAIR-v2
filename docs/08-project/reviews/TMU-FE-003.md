@@ -1,210 +1,203 @@
 ---
 id: TMU-FE-003
 reviewer: reviewer
-verdict: REQUEST_CHANGES
-cycle: 1
+verdict: APPROVE
+cycle: 2
 date: 2026-10-05
 ---
 
-# Review — TMU-FE-003
+# Review — TMU-FE-003 (cycle 2)
 
-**Scope**: `git diff 9df6156..a29ffaa` (33 files, HEAD `a29ffaa`, branch
-`agent/fe/TMU-FE-003-fe-wizard-photos`, tree clean — only the parallel security review and
-this file are untracked). Fresh context; read-only for product code; this file is the only
-artefact written. Reviewed against `docs/08-project/tasks/TMU-FE-003.md` (ACs, D-1..D-7,
-O-1..O-3), FE-01/02/03/04/05/06/08/09/11/12, SCR-004, BE-01/04/10/12, `.agent/lanes.json`
-and `docs/05-workflow/05-definition-of-ready-done.md`. Cross-referenced the parallel
-`TMU-FE-003-security.md` (verdict PASS) and took over its handoff items.
+**Scope**: `git diff a29ffaa..HEAD` — 23 files (+578/−76), HEAD `73552e9`, branch
+`agent/fe/TMU-FE-003-fe-wizard-photos`, working tree clean. Commits reviewed:
+`aa010f9` (be import-depth + lanes + BLK-006), `9311904` (cycle-1 fixes B-1/M-1/n-5/n-7/n-9
++ docs), `379a907` (next-auth handler fix), `73552e9` (docs/CI evidence). This file replaces
+the cycle-1 text; every cycle-1 finding is dispositioned below (the cycle-1 verdict itself is
+preserved in `tasks/TMU-FE-003.md:141`). Fresh context; product code read-only — the only
+file written is this one. Reviewed against FE-01/05/09/11/12, SCR-004, `WF-REVIEW`
+(`docs/05-workflow/06-code-review-checklist.md`) and `05-definition-of-ready-done.md`;
+cross-referenced the parallel `TMU-FE-003-security.md` (PASS) and `blockers/BLK-006.md`.
 
-## Checklist (DoD)
+## Disposition of cycle-1 findings
 
-| # | Check | Result |
-|---|---|---|
-| 1 | Red evidence existed first and failed for the right reason | PASS — task L121/L130: `Test Files 9 failed (9)`, every file failing on a not-yet-written module; `contract-parity.test.ts` added later is disclosed at L46 and L123. Reviewer cannot replay red without rewriting history; the claim is internally consistent (see MINOR n-9 for one count slip) |
-| 2 | All new/updated tests pass; full `pnpm gate` green | PASS (env caveat disclosed) — reviewer re-ran the FE-003 suite: **10 files / 66 tests green**, plus `apps/web/src/i18n` (5 tests) green. Full `pnpm test:unit` → 62/73 files pass; the 11 failures are **only** live-DB suites (`role "temuunair" does not exist` ×10 suites, 1 `db:check` test) — the D-7 remote-`DATABASE_URL` drift, not this diff. `pnpm gate` was attempted by the reviewer and cannot run in this environment (`WSL … execvpe(/bin/bash) failed` — bash shim absent; `i18n:check`/lint/typecheck and `gh` are blocked by reviewer permission rules), so the gate rests on the recorded tail (L125/L136-139: `73 files / 577 tests`, `contracts:check OK (1.1.0)`, `db:check: ok`, `OK gate(quick) passed`) and CI, which the reviewer could not query. **No test was weakened**: the diff touches no pre-existing test file (name-only list) and contains no `.only`/`.skip` |
-| 3 | Contract tests for every touched `API-*` | PASS — `contract-parity.test.ts:16,36-38` loads the *real* `ReportCreate`/`CategoryMeta` through the non-literal dynamic import (reviewer ran it green, proving no alias/mock shadowing) with sample-for-sample parity incl. failure cases and parsed output (`:50-96`); upload handshake asserted against generated `mswHandlers` with captured `x-requested-with` + `idempotency-key` (`use-upload.test.tsx:55`); `API-META-01` success + failure envelope exercised (`use-categories.test.tsx`) |
-| 4 | Auth/RBAC asserted; state transitions covered | PASS with note — page runs under the `(app)` layout guard (`getAppUser()` → `/login`, `layout.test.tsx`); wizard transitions tested (`page.test.tsx` advances/blocks FOUND until a photo is ready, restores draft; `wizard-steps.test.ts` LOST 5 / FOUND 7 gates). **Note**: the middleware cheap gate misses this page (folded into B-1) |
-| 5 | Privacy: no hint answers, emails, embeddings, sensitive URLs returned/logged | PASS — zero `console.*`/log calls in the diff (grep, eslint `no-console`); the only `localStorage` writer stores `{type, category, imageIds}` (`report-wizard.tsx:53`, `draft.ts:28-38`); presigned PUT URL kept as a local variable, `thumbUrl` in memory only; fixtures synthetic. Agrees with the security review rows 1/3/5/12 |
-| 6 | i18n keys in both `id` and `en`, incl. `error.<code>` | PASS — +48 keys per locale (`report.wizard.*`, `category.*`, `sensitive.notice.*`) under FE-08's declared namespaces (FE-08:20-22); `messages.test.ts` green (key parity, every BE-04 code, identical ICU placeholders); reviewer spot-checked every key the new code references (`common.back/next/retry/unknownError/offline`, `report.wizard.stepOf/step.*.title/needCategory/photos.*`, `error.UPLOAD_*`) exists in both locales. `pnpm i18n:check` not runnable by the reviewer (permissions); implementer recorded `i18n:check passed (147 keys per locale)` |
-| 7 | A11y: states + keyboard path + zero axe violations | **CONCERN → MAJOR M-1** — 4 `axe(container)` runs green (`wizard-shell.test.tsx:164`, `category-picker.test.tsx:135`, `photo-uploader.test.tsx:183`, `sensitive-notice.test.tsx:41`) and keyboard tests pass, but axe does not check live regions/roles: four FE-09 component rows are unmet (announcement, control semantics, `role="note"`) |
-| 8 | Docs updated: status, Progress log, evidence, CHANGELOG (contracts) | PASS with MINOR n-9 — task status `REVIEW`, DoR/AC boxes, D/O/deferral tables, Progress log and Evidence all present; backlog/status regenerated; traceability covered by goal row G1 (`traceability-matrix.md:20`, SCR-004 + API-UPL/META already listed); no `docs/04-contracts/**` change → no CHANGELOG entry required (correct) |
-| 9 | Generated files in sync, no hand edits | PASS — the name-only diff contains **no** `packages/contracts/generated/**`, `BE-02-openapi.yaml`, `msw-handlers.ts` or `.opencode/**`/`opencode.json`; `contracts:check OK (1.1.0)` recorded (not re-runnable here) |
-| 10 | Fresh-context reviewer verdict in this file | PASS — this file, cycle 1 |
-| 11 | Security review for a sensitive task (uploads/privacy) | PASS — parallel `TMU-FE-003-security.md` verdict PASS (gitleaks clean, no secrets, upload/presign/draft privacy audited). Reviewer took over its 5 handoffs (see Notes) |
-| 12 | Lane: every touched path inside `.agent/lanes.json` | PASS — all 33 files are under `fe` globs (`app/(app)/**`, `app/*.tsx`, `components/**`, `features/**`, `hooks/**`, `lib/**`, `i18n/**`) or `_common` (`apps/web/package.json`, `pnpm-lock.yaml`, `docs/08-project/{tasks,backlog,status}.md`); no ops/contracts/DB/migration/`.opencode` file touched |
-
-## Findings
-
-### BLOCKER
-
-**B-1 — The wizard is implemented at `/report/new`, but the merged route contract (and the
-app's own shipped nav) say `/reports/new`.**
-
-- Implemented: `apps/web/src/app/(app)/report/new/page.tsx` — the **only** page under
-  `(app)`; prescribed by the task file itself (`tasks/TMU-FE-003.md:50` "expected",
-  `:56` "changed"), so assignment and contract disagree.
-- Contract (merged, law): `FE-01-route-map.md:22` `/reports/new?type=lost|found`, repeated in
-  `FE-02:58`, `FE-05:23,33`, `FE-06:20`, `FE-01:55`; approved screen spec
-  `SCR-004-report-wizard.md:11`; `04-information-architecture.md:21-22`;
-  `06-wireframes.md:23`. No contract anywhere lists a singular `/report/new`.
-- Already-merged code points at the contract path: `features/shell/nav-items.ts:18,35`
-  (top- and bottom-nav "Lapor"), asserted by `components/nav/bottom-nav.test.tsx:65,85,88`,
-  `top-nav.test.tsx:98`, `features/shell/nav-items.test.ts:28,43`,
-  `features/auth/next-path.test.ts:9`.
-- Effect: the primary "Lapor" CTA (and SCR-003's dashboard exits) **404** — no redirect in
-  `apps/web/next.config.ts`, no route alias; `bottom-nav.test.tsx:85-88` expects
-  `aria-current="page"` at `/reports/new`, which can never match. This is both contract
-  drift (behaviour not in a merged contract — AGENTS.md hard rule 1) and a broken
-  integration with merged FE-002 code.
-- Secondary: the middleware cheap gate skips the page — `features/shell/guard.ts:6`
-  `APP_AUTH_MATCHER` lists `/reports` but not `/report`. The authoritative check in
-  `(app)/layout.tsx` still applies (not an authz hole; the security review row 8 agrees),
-  but the defence-in-depth layer is missing for the wizard.
-- Fix (pick one, then update the task file): **(preferred)** rename
-  `app/(app)/report/new` → `app/(app)/reports/new` and correct task-file L50/L56/evidence;
-  **or**, if the singular path were genuinely intended, a `TMU-CTR-*` FE-01 change plus
-  nav/SCR/IA updates (not recommended — `/reports` browse and `/reports/new` coexist
-  fine in the App Router). Do **not** ship an undocumented redirect.
-- Loop: BLOCKER → back to step 5.
-
-### MAJOR
-
-**M-1 — Four of the five wizard components miss their FE-09 component requirements;
-axe-green does not discharge them.**
-
-| Component | FE-09 requirement | Implemented | Gap |
+| ID | Cycle-1 finding | Disposition | Evidence (file:line) |
 |---|---|---|---|
-| `WizardShell` | "step count announced (Langkah 3 dari 5)" (`FE-09:43`) | plain `<p data-testid="wizard-step-count">` — `components/report/wizard-shell.tsx:44-46` | no `role="status"`/`aria-live`; SR users never hear the step count (focus-move to heading `:37-39,72-79` is correct ✓) |
-| `CategoryPicker` | "radio-group semantics **or** listbox with keyboard arrow navigation; selected announced" (`FE-09:44`) | `fieldset/legend` + toggle buttons with `aria-pressed` — `components/report/category-picker.tsx:61-75` | keyboard-operable via Tab (`category-picker.test.tsx:125-133` ✓) but neither permitted pattern and no arrow-key roving focus; `aria-pressed` is the `ReportFilterBar` pattern (`FE-09:40`), not this component's |
-| `PhotoUploader` | "real `<button>` opens the picker; progress announced; rejection reason linked" (`FE-09:45`) | `<label>` + `sr-only <input type=file>` `photo-uploader.tsx:54-68`; progress `%` in a plain `<span>` `:38-41,106`; error `<p role="alert">` `:129-138` | not a real button; progress never announced; alert is announced but not `aria-describedby`-linked to the item — and the "reason" is always the generic string `report.wizard.photos.rejected` `:32` (see n-2) |
-| `SensitiveNotice` | "`role="note"`" (`FE-09:50`) | `<aside>` — `components/report/sensitive-notice.tsx:15-19` | `<aside>` = implicit `complementary`, not `note` |
+| **B-1** | Wizard at `/report/new` vs merged FE-01 `/reports/new`; nav 404; middleware gate missed | **RESOLVED** | rename in `git diff --stat`: `…/(app)/{report => reports}/new/page.tsx` (similarity 100) + `page.test.tsx` (88); no singular remnant anywhere (`glob apps/web/src/app/**/report/**` → 0 files; grep `report/new` in `apps/` → 0 hits); nav already targeted the contract path — `features/shell/nav-items.ts:18,35` now resolves; cheap gate now covers it — `features/shell/guard.ts:6` `APP_AUTH_MATCHER` includes `/reports`; task paths corrected `tasks/TMU-FE-003.md:50,56`; dependent task corrected `tasks/TMU-FE-004.md:36`; test suite renamed `page.test.tsx:87` (`describe("reports/new wizard")`); no redirect shipped (correct — the singular path never merged) |
+| **M-1a** | `WizardShell` step count not announced (`FE-09:43`) | **RESOLVED** | `components/report/wizard-shell.tsx:44` `role="status"` on `wizard-step-count`; asserted behaviourally at `wizard-shell.test.tsx:68`; axe run still green (`wizard-shell.test.tsx`, 7 tests green in reviewer run) |
+| **M-1b** | `CategoryPicker` neither radio-group nor listbox, no arrow keys, stray `aria-pressed` (`FE-09:44`) | **RESOLVED** | native radios in a `fieldset/legend` — `category-picker.tsx:32-35,63-81`, shared group `name` from `useId` (`:28,74`), `checked`+`onChange` (`:76-77`); no `aria-pressed` left in the component (grep: only remaining occurrence in the app is `components/locale-switcher.tsx:40`, an unrelated FE-09 `LocaleSwitcher` row); arrow-key walk + selection asserted with user-event keyboard semantics `category-picker.test.tsx:129-139` (`{ArrowDown}` moves focus **and** fires `onChange("BAG")`), `checked` asserted `:84-91` and `:98-100`; page-level radio flow `page.test.tsx:109-117,137,206-212,237-240` |
+| **M-1c** | `PhotoUploader`: label not a real button; progress unannounced; reason not linked (`FE-09:45`) | **RESOLVED** | real `<button data-testid="photo-uploader-add">` driving `inputRef.current?.click()` — `photo-uploader.tsx:56-64` (file input `:65-80`, `tabIndex={-1}` at `:74`), asserted `photo-uploader.test.tsx:78` + keyboard `:193-201` (assertion quality → n-10); progress `role="status"` on the status span `photo-uploader.tsx:118-124`, asserted `photo-uploader.test.tsx:100-106` (contains `40%`); rejection reason linked: `li[aria-describedby]` `:105` ↔ `p[id][role="alert"]` `:148-151`, asserted `:139-146`; errors still `role="alert"` `:151` |
+| **M-1d** | `SensitiveNotice` `<aside>` ≠ `role="note"` (`FE-09:50`) | **RESOLVED** | `components/report/sensitive-notice.tsx:18` `role="note"` (explicit role overrides the implicit `complementary`); asserted `sensitive-notice.test.tsx:36` |
+| **n-1** | `PENDING` from `API-UPL-02` rendered as "rejected" (latent) | **RESOLVED (recorded)** | task observation **O-4** `tasks/TMU-FE-003.md:111` (names the `TMU-CTR-*`), plus Deferrals `:122` |
+| **n-2** | Server `rejectionReason` never reaches the user | **RESOLVED (recorded)** | task observation **O-5** `tasks/TMU-FE-003.md:112` (two-sided gap, BE then FE-004) + Deferrals `:122-123` |
+| **n-3** | FE-11 `RATE_LIMITED` toast missing and undeclared | **RESOLVED (recorded)** | Deferrals `tasks/TMU-FE-003.md:119-120` — names n-3, the reason (no `ToastProvider`) and the target (FE-004) |
+| **n-4** | FE-05 #5 / FE-01:55 leave-guard missing and undeclared | **RESOLVED (recorded)** | Deferrals `tasks/TMU-FE-003.md:121-122` — names n-4, notes the autosave mitigation, targets FE-004 |
+| **n-5** | Steps ≥3: disabled Next with no explanation | **RESOLVED** | `features/report/report-wizard.tsx:85` `blockedHint()` now returns `report.wizard.step.pending` for `current > 2` (was `return null`); rendered by `wizard-shell.tsx:103-112` as `wizard-next-hint`; asserted at page level `page.test.tsx:172-175` (Next disabled **and** hint text); key exists in both locales `i18n/messages/id.json:173` / `en.json:173` |
+| **n-6** | Hand-written MSW shapes in meta tests | **RESOLVED (recorded)** | Deferrals `tasks/TMU-FE-003.md:123-125` — names n-6, the mitigation (parity lock) and FE-004 preference for `mswHandlers` |
+| **n-7** | Touch targets < 44 px (retry/remove, back/next) | **RESOLVED (wizard scope)** | `min-h-11` on photo add `photo-uploader.tsx:61`, retry `:130`, remove `:141`, category retry `category-picker.tsx:55`, category options `:66`, wizard back `wizard-shell.tsx:89`, next `:99`; asserted `photo-uploader.test.tsx:203-217`; systemic remainder (FE-002's identical buttons) recorded in Deferrals `tasks/TMU-FE-003.md:125-127` |
+| **n-8** | FE-03 CMP-009/010/011 prop/event drift unrecorded | **RESOLVED (recorded)** | task observation **O-6** `tasks/TMU-FE-003.md:113` (all three shapes, FE-03 `TMU-CTR-*` at FE-004) + Deferrals `:123` |
+| **n-9** | Evidence slips: "dropzone", 9-vs-10 file inconsistency | **RESOLVED** | `tasks/TMU-FE-003.md:74` now reads "button-triggered file picker"; grep `dropzone` in the task file → 0 hits; counts reconciled `:44-46` and `:153-155` (nine files/63 → 10 files/66 once `contract-parity` joined) vs cycle-1 red/green `:156-161` (`17 failed/44 passed` → 10 files/69) |
 
-The four `axe` runs (`wizard-shell.test.tsx:164`, `category-picker.test.tsx:135`,
-`photo-uploader.test.tsx:183`, `sensitive-notice.test.tsx:41`) are green and keyboard paths
-are tested, but axe does not verify live regions, control semantics or `aria-describedby` —
-so DoD row 7's evidence does not cover these rows. All four fixes are small (live region on
-the count and on progress, `role="note"`, `aria-describedby`, radio/roving-focus group); if
-a deviation is *intended*, it must be recorded as an FE-03/FE-09 `TMU-CTR-*` change instead
-of silent divergence.
+No cycle-1 finding is PARTIAL or NOT-ADDRESSED.
 
-### MINOR
+## Definition of Done (12 rows)
 
-- **n-1 (latent state machine) — `PENDING` from `API-UPL-02` is rendered as "rejected".**
-  `hooks/use-upload.ts:127-135` maps any non-`READY` complete response to
-  `phase:"rejected"`, but `API-UPL-02Response.status` allows `PENDING`
-  (`BE-02-openapi.yaml:3674-3679`) and `BE-10:20` says "poll `UploadState` while
-  processing". Today's server never does — `server/services/uploads.ts:150-228` completes
-  synchronously to READY/REJECTED (idempotent replay `:158`) — and the FE contract has no
-  PENDING state (`FE-03:29`, `FE-06:50`), so nothing is broken in production. Latent only:
-  if BE ever makes `complete` async the UI shows a false "rejected" with no retry path
-  (retry is offered only for `phase:"failed"`, `photo-uploader.tsx:107`). Record as a task
-  observation → `TMU-CTR-*` (drop `PENDING` from the complete response, or specify the FE
-  poll).
-- **n-2 — server `rejectionReason` never reaches the user.** `BE-10:58` defines
-  `rejectionReason` ("i18n key when REJECTED") and `FE-06:50`/`FE-03:70` promise
-  `rejected(reason)`; the client discards it (`use-upload.ts:133-135`) and always renders
-  the generic string (`photo-uploader.tsx:32`). The server omits it too
-  (`server/services/uploads.ts:116-121` `toState` returns `{id,status,mime,thumbUrl}`) —
-  a two-sided gap: BE/`TMU-CTR-*` follow-up, then FE-004 wiring. Users cannot tell *why* an
-  image was rejected.
-- **n-3 — FE-11 `RATE_LIMITED` behaviour missing and not declared deferred.** `FE-11:33`
-  requires "toast with countdown from `Retry-After`"; upload init is rate-limited
-  (BE-12 30/h) and the code only renders inline `error.RATE_LIMITED`
-  (`photo-uploader.tsx:34`). No `ToastProvider` exists yet, and the Deferrals block
-  (`tasks/TMU-FE-003.md:109-113`) does not list it → add it there (or to FE-004) so it is
-  not lost.
-- **n-4 — FE-05 #5 leave-guard absent and not declared deferred.** `FE-05:60` and
-  `FE-01:55` require a confirm dialog when leaving the wizard with a draft;
-  `report-wizard.tsx` has no router block/`beforeunload`. No data loss (draft autosaves on
-  step change, `report-wizard.tsx:89-99`) — but the requirement is unmet and unlisted in
-  Deferrals → track explicitly for FE-004.
-- **n-5 — steps ≥3 are a dead end: disabled Next with no explanation.**
-  `report-wizard.tsx:76` forces `canProceed=false` for `current>2` and `blockedHint()`
-  (`:78-86`) returns `null`, so `wizard-shell.tsx:103` renders no hint. Steps 1–2 do this
-  correctly (`:78-87`); add a pending hint for `current>2` (D-6 discloses the pending body,
-  not the silent control).
-- **n-6 — hand-written MSW response shapes.** `FE-12:36` / `FE-04:124`: "tests never
-  hand-write response shapes". `app/(app)/report/new/page.test.tsx:47-49` overrides the
-  generated handler with `HttpResponse.json(CATEGORIES)` and
-  `features/report/use-categories.test.tsx:49-50` hand-writes the 500 envelope. Mitigated:
-  the success path is parsed by `categoryListSchema` (`use-categories.ts:30`), which is
-  parity-locked to the contract (`contract-parity.test.ts:79-96`), and the error shape only
-  exists because `API-META-01` declares `errors: []` (task O-1). Upload endpoints correctly
-  use generated `mswHandlers` — prefer that pattern here too.
-- **n-7 — touch targets below FE-09 #5 (≥44×44 px, `FE-09:25`).** retry/remove
-  (`photo-uploader.tsx:113,123`, `py-1` ≈ 28 px) and back/next (`wizard-shell.tsx:89,99`,
-  `py-2` ≈ 36 px). Systemic (FE-002's buttons look identical) → design/token follow-up, not
-  wizard-specific; axe does not catch it here.
-- **n-8 — FE-03 CMP-009/010/011 prop/event contract drifted.** `FE-03:27` gives
-  `WizardShell` an `onSaveDraft` event (implementation saves from `report-wizard.tsx:89-99`
-  instead); `FE-03:29` gives `PhotoUploader` an `onError` event (absent from
-  `photo-uploader.tsx:7-15`) and types `value: UploadState[]` while the component takes the
-  local `PhotoEntry[]` superset with `phase` instead of `status` (`use-upload.ts:12-22`);
-  `FE-03:28` says CategoryPicker is an "icon grid" (rendered as a text grid). Behaviour is
-  covered, but the divergence is unrecorded → add a decision/observation (and an FE-03
-  `TMU-CTR-*` if the shapes are meant to change).
-- **n-9 — evidence/doc slips.** Task `:134-135` says "`Test Files 9 passed (9)`, `Tests 66
-  passed (66)` … (10 files incl. `contract-parity.test.ts`)" — 9 vs 10 inconsistency
-  (`:46` states it correctly: 9 files/63 tests → 10 files/66); `:74` calls
-  `photo-uploader` a "dropzone" but the component has no drag-and-drop (label + file input,
-  which FE-03 explicitly allows — "not drop-zone only"; the code is right, the description
-  is not).
+| # | Check | Result / evidence |
+|---|---|---|
+| 1 | Red tests existed first, failed for the right reason | **PASS** — `tasks/TMU-FE-003.md:148-161`: original red `Test Files 9 failed (9)` on unwritten modules, plus a **cycle-1 red** recorded before the fix commits: `Test Files 5 failed \| 4 passed (9)` / `Tests 17 failed \| 44 passed (61)`, each failure an M-1/n-5/n-7 assertion (radios, roles, `aria-describedby`, `min-h-11`, step-3 hint). Reviewer cannot replay red without rewriting history; the 17 red assertions correspond to the 17 now-green assertions I re-ran |
+| 2 | All new/updated tests pass; full `pnpm gate` green | **PASS with environment caveat (disclosed)** — reviewer run of the four FE-003 paths → **10 files / 69 tests green**; full `pnpm test:unit` → 73 files, **62 passed / 11 failed**, the 11 being live-DB suites failing on the session `DATABASE_URL` (remote Render host, `code: '57P01'`, D-7 — identical shape to cycle 1), **zero FE-003-scoped failures**. `pnpm gate` **could not be run by the reviewer** (see Verification runs) → gate status rests on the implementer's recorded tails (`:139` `OK gate(quick) passed` 73/577; `:144` full gate green, 73/580 in commit `379a907`) and on CI. No test weakened: the diff changes assertions only where the DOM semantics changed (button→radio), adds 3 photo-uploader tests, and contains no `.only`/`.skip` (grep, 0 hits in `*.test.tsx`) |
+| 3 | Contract tests for every touched `API-*` | **PASS** — no endpoint behaviour changed (the five touched routes are one-line re-exports); reviewer ran the contract-facing suites green: `contract-parity.test.ts` (3 — real `ReportCreate`/`CategoryMeta` through the non-literal import), `use-categories.test.tsx` (2 — `API-META-01` success + failure envelope), `use-upload.test.tsx` (8 — BE-10 handshake against generated `mswHandlers`) |
+| 4 | Auth/RBAC asserted; state transitions covered | **PASS with note** — page runs under the `(app)` guard and now also inside the middleware cheap gate (`guard.ts:6`); transitions covered: `page.test.tsx` (advance/block FOUND until a photo is ready, draft save/restore, step-3 block) + `wizard-steps.test.ts` (LOST 5 / FOUND 7 gates). **Note:** the fixed auth route has no test of its own → n-11 below |
+| 5 | Privacy: no hint answers/emails/embeddings/sensitive URLs logged or returned | **PASS** — the cycle-2 diff introduces no logging, no new data flow and no new persistence: only roles, refs, classes and i18n lookups in `apps/**`; grep of the new hunks shows no `console.*`, no URL/PII material; `BLK-006.md` records no credentials and none appear in the diff; the parallel security review (PASS) stands and its handoffs were carried into cycle 1 |
+| 6 | i18n keys in `id` + `en`, incl. `error.<code>` | **PASS** — the fixes add **no new keys** (they reuse existing ones); the one newly referenced string `report.wizard.step.pending` exists in both locales (`id.json:173`, `en.json:173`); no literal UI strings added to JSX (grep). Implementer's `i18n:check passed (147 keys per locale)` (`:138`) is unrerunnable here (permission) |
+| 7 | A11y: states + keyboard path + zero axe violations | **PASS** — 4 `axe(container)` runs green inside the reviewer's focused run (wizard-shell, category-picker, photo-uploader, sensitive-notice), **plus** behavioural assertions for every row axe cannot check: `wizard-shell.test.tsx:68`, `category-picker.test.tsx:129-139` (arrow-key radio walk), `photo-uploader.test.tsx:100-106,139-146,203-217`, `sensitive-notice.test.tsx:36`, `page.test.tsx:172-175` |
+| 8 | Docs: task status, Progress log, evidence, CHANGELOG (contracts) | **PASS with n-12** — status `REVIEW`, Progress steps 8–11 (`:141-144`), Evidence block (`:146-185`), Deferrals and O-4…O-6 all present; `TMU-FE-004.md` cross-ref fixed; **no `docs/04-contracts/**` change → no CHANGELOG entry required** (correct: all FE-09 fixes implement already-merged contract rows) |
+| 9 | Generated files in sync, no hand edits | **PASS** — the 23-file diff contains no `packages/contracts/generated/**`, no `BE-02-openapi.yaml`, no `msw-handlers.ts`, no `.opencode/**`/`opencode.json`; CI `contracts` job green on head |
+| 10 | Fresh-context reviewer verdict in this file | **PASS** — this file, cycle 2, fresh context |
+| 11 | Security review for a sensitive task | **PASS** — parallel `TMU-FE-003-security.md` verdict PASS; `BLK-006.md` records both human answers and matches the diff exactly (see Notes) |
+| 12 | Every touched path inside `.agent/lanes.json` | **PASS (logic replicated, script not runnable)** — see Verification runs #6: all 44 files of `git diff main...HEAD` fall under `fe` globs or `_common`; `.agent/lanes.json` gained **exactly 6** explicit paths and nothing else |
 
-## Verification runs (reviewer-executed)
+## New findings (cycle 2)
 
-- `git diff 9df6156..a29ffaa --name-only` (33 files), `git status`, `git log` — lane,
-  scope and "no generated files" checks; `git show a29ffaa:<path>` for per-file review.
-- `pnpm test:unit` on the FE-003 paths → **10 files / 66 tests passed** (page 6,
-  photo-uploader 14, category-picker 8, wizard-shell 7, use-upload 8, sensitive-notice 2,
-  use-categories 2, draft 8, wizard-steps 8, contract-parity 3).
-- `pnpm test:unit apps/web/src/i18n apps/web/src/lib/api` → 1 file / 5 tests passed
-  (locale parity, BE-04 `error.*`, BE-08 notification keys, ICU placeholders, id-as-source).
-- `pnpm test:unit` (full) → 73 files: 62 passed, 11 failed — **all** live-DB suites failing
-  with `role "temuunair" does not exist` / `57P01` (D-7 env; reviewer cannot set
-  `DATABASE_URL` under its permission rules). Zero FE-003-scoped failures.
-- `pnpm gate` → attempted, fails before running: `WSL (11 - Relay) ERROR:
-  CreateProcessCommon:817: execvpe(/bin/bash) failed` (no bash in this environment).
-  `pnpm i18n:check`, lint, typecheck and `gh pr checks` are outside the reviewer's
-  permission allow-list. **Disclosed, not silently skipped**: gate/CI status rests on the
-  implementer's recorded tail and CI.
+No BLOCKER, no MAJOR. Four MINORs (non-blocking; per DoD they must be **filed**, not
+silently dropped — suggested homes given):
+
+- **n-10 — the "keyboard operable" test does not prove the button opens the picker.**
+  `components/report/photo-uploader.test.tsx:193-201`: after `{Enter}` it asserts
+  `expect(screen.getByTestId("photo-uploader-input")).toBeTruthy()`, which is true even if
+  `onClick` were removed (the input is always rendered). The implementation is correct
+  (`photo-uploader.tsx:60`), but the FE-09 "real `<button>` opens the picker" row rests on
+  that vacuous assertion. *Direction:* spy on `input.click()`/`onChange` (or assert via
+  `user.upload` after the Enter). MINOR — the row is covered elsewhere by the button-presence
+  and upload tests; file with TMU-FE-004.
+- **n-11 — the fixed next-auth route has no test (severity: MINOR, not MAJOR).**
+  `app/api/auth/[...nextauth]/route.ts:17,47` dispatches `{handlers}.POST/GET` by
+  `request.method`; grep across `apps/` finds **zero** test references to that route
+  (pre-existing: it had none before the fix either). Rated MINOR because: (a) the defect and
+  the absence of a test both predate this diff — the diff *repairs* a broken route; (b) the
+  fix was explicitly human-authorized as a one-file minimal change (`BLK-006.md:58-76`,
+  answer "Authorize this one-file fix"); (c) a route test (`*.test.ts` under `app/api/**`)
+  would itself need a be-lane exception, so the omission is lane-driven, not neglect;
+  (d) `next build` typechecks the dispatch (CI `build` green on head) and next-auth
+  β29's object return is verified in `BLK-006.md:63-65`. *Direction:* file a small be-lane
+  follow-up (assert GET/POST dispatch + the rate-limit error envelope).
+- **n-12 — two task-file bookkeeping slips.** (a) `tasks/TMU-FE-003.md:87-89` lists the five
+  `meta/uploads` routes under **Files changed** but omits the sixth be-lane file actually
+  touched, `app/api/auth/[...nextauth]/route.ts` (it *is* disclosed at `:144`, `BLK-006.md`
+  and `:185` — the list is just incomplete); (b) the Evidence **Gate tail** (`:162-165`)
+  still shows the pre-fix `73 files / 577 tests` while Progress step 11 and commit
+  `379a907` record the post-fix `73 files / 580 tests`. *Direction:* one-line edits when the
+  task file is next touched.
+- **n-13 — the sr-only file input duplicates the visible button's accessible name.**
+  `components/report/photo-uploader.tsx:56-69`: the `<button>` text and the input's
+  `aria-label` (`:69`) are the same string, so a screen-reader virtual cursor meets two
+  adjacent controls called "Tambah foto". axe is green and the input is correctly
+  non-tabbable (`tabIndex={-1}`, `:74`), so nothing breaks. *Direction:* either drop the
+  `aria-label` or exclude the inert input from the accessibility tree (verify axe stays
+  green); fold into the FE-004 a11y pass.
+
+## Verification runs (reviewer-executed, 2026-10-05)
+
+1. **Focused FE-003 suite** — `pnpm test:unit apps/web/src/components/report
+   apps/web/src/features/report apps/web/src/hooks "apps/web/src/app/(app)/reports"` →
+   `Test Files 10 passed (10)` / `Tests 69 passed (69)` (page 6, photo-uploader 17,
+   category-picker 8, wizard-shell 7, use-upload 8, draft 8, wizard-steps 8,
+   contract-parity 3, use-categories 2, sensitive-notice 2).
+2. **Full unit suite** — `pnpm test:unit` →
+   `Test Files 11 failed | 62 passed (73)`, `Tests 1 failed | 448 passed | 131 skipped (580)`.
+   Every error I sampled is a Postgres `FATAL … code: '57P01' terminating connection`
+   from the **remote** Render host named in the session `DATABASE_URL` (D-7 env drift, not
+   this diff); a targeted `pnpm test:unit tests/db …` run reproduced it as
+   `6 failed | 3 passed (9)` with `tests/db/{reports-base,ops-seeds,claims-chat}.test.ts`
+   failing — i.e. the failures are confined to live-DB suites. Zero FE-003-scoped failures.
+   (The session's DB URL embeds a credential that vitest echoes in those error dumps; I am
+   not reproducing it here — pre-existing D-7/ops concern, outside this diff.)
+3. **Gate — attempted, NOT runnable by me.** `pnpm gate` →
+   `WSL (8991 - Relay) ERROR: CreateProcessCommon:817: execvpe(/bin/bash) failed: No such
+   file or directory` / `ELIFECYCLE Command failed with exit code 1`. The suggested
+   fallbacks — `& "C:\Program Files\Git\bin\bash.exe" scripts/gate.sh quick`,
+   `scripts/check-lane.sh` and `gh pr checks 46` — are **denied by my permission
+   allow-list** (only `git status/diff/log/show`, `pnpm gate*`, `pnpm test*` pass).
+   **Disclosed, not silently skipped:** gate status rests on the implementer's recorded
+   tails plus CI, and the lane check on the manual replication below.
+4. **CI on the actual head** — `gh pr checks` blocked, so I queried the public GitHub API
+   check-runs for head `73552e9` (run `37261312155`, PR #46): `build` success, `e2e`
+   success, `unit` success, `lint-typecheck` success, `contracts` success, `contract-fuzz`
+   success, `integration` success, `migrations` success, `ml` success, `secret-scan`
+   success, `docker-build` skipped, `audit` **failure** — advisory only
+   (`.github/workflows/ci.yml:171` `continue-on-error: true`, pre-existing next-auth/next-intl
+   advisories per security M-6). The task's cited run `37261127595` (head `379a907`) is the
+   preceding green run; both are green, so Evidence `:182-185` is accurate.
+5. **Diff hygiene** — `git diff a29ffaa..HEAD --stat` (23 files, list reviewed hunk by
+   hunk): no generated files, no secrets, no `--no-verify` in any commit subject/body
+   (`git log a29ffaa..HEAD --format=%B` — all four are Conventional Commits with
+   `Task: TMU-FE-003` trailers plus `Refs:`/`Agent:`), no `.only`/`.skip` (grep → 0),
+   no drive-by refactors; the task-file diff (`git diff a29ffaa..HEAD -- docs/…/TMU-FE-003.md`)
+   only corrects paths/wording and appends O-4…O-6, deferrals, steps 8–11 and Evidence —
+   no acceptance criterion was weakened.
+6. **Lane (check-lane logic replicated by hand — script itself not runnable, see #3)** —
+   `git diff --name-only main...HEAD` → 44 files; each matched against `.agent/lanes.json`
+   `fe` globs + `_common`: app/pages/components/features/hooks/lib/i18n under `fe`; the 6
+   `app/api/**` files under the **new explicit fe entries**; `.agent/lanes.json`,
+   `pnpm-lock.yaml`, `docs/08-project/{tasks,reviews,blockers}/*`, `backlog.md`, `status.md`
+   under `_common`; `apps/web/package.json` in both `fe` and `be` (overlap allowed).
+   **Out-of-lane edits: 0.** The `.agent/lanes.json` diff is exactly
+   `+6` lines (`app/api/auth/[...nextauth]/route.ts`, 4 × `v1/meta/*/route.ts`,
+   `v1/uploads/[id]/complete/route.ts`) and nothing else.
+7. **Route-depth regression check** — each of the five one-line diffs adds exactly one `../`
+   and is otherwise byte-identical; hand-resolved: `app/api/v1/meta/<x>/route.ts` +
+   `../../../../../server/handlers/meta` → `apps/web/src/server/handlers/meta.ts` (exists);
+   `app/api/v1/uploads/[id]/complete/route.ts` + `../../../../../../server/handlers/uploads`
+   → `apps/web/src/server/handlers/uploads.ts` (exists). The ad-hoc `scan-routes.js` from
+   `BLK-006` is not committed, so I could not re-run the scanner — CI `build`/`e2e` green on
+   head is the equivalent proof. The other 6 API routes were not touched.
+8. **Greps** — `report/new|"/report` in `apps/` → only unrelated `report-*` module names;
+   `aria-pressed` → `locale-switcher.tsx` only; `dropzone` in the task file → 0;
+   `continue-on-error` → `.github/workflows/ci.yml:171`; i18n `pending` → both locales.
 
 ## Notes
 
-- **Handoffs taken from `TMU-FE-003-security.md`**: (1) route drift → escalated to **B-1**
-  above (the security review classified it MINOR M-5 "for the main reviewer"; given the
-  shipped nav 404 and FE-01 being a merged contract, this review treats it as BLOCKER);
-  (2) gate re-run — attempted, environment-blocked, disclosed above; (3) the red CI `audit`
-  job is advisory (`continue-on-error`) and entirely pre-existing (`next-auth@5.0.0-beta.29`
-  / `next-intl@3.26.5` — security M-6) with none of this task's three new deps in any
-  advisory path → ops/BE follow-up task, **not** a finding against this diff; (4) FE-004
-  must repeat the privacy check when text/hint fields join the draft; (5) hardening notes
-  M-1…M-4 (per-browser draft key, `error.INTERNAL` fallback, `*.uploadUrl`/`*.thumbUrl`
-  redaction, `labelKey` pattern) stand as filed — the reviewer re-checked M-4/M-2 and
-  agrees they are hardening-only (server-controlled input today).
-- **What is genuinely good**: D-1 is the right shape — mirrors built from contract enums
-  (`schemas.ts:15`) with a runtime parity lock that loads the *real* contract through the
-  established non-literal import hatch (`contract-parity.test.ts:16,36-38`), so drift breaks
-  CI instead of drifting silently; FE-04 conformance is exact (`metaKey("categories")` +
-  1 h staleTime `use-categories.ts:8,20,32`, retry policy network/5xx ×2 never 4xx,
-  mutations `retry:false` — `lib/api/provider.tsx:9-15,23`); draft hygiene is solid
-  (versioned envelope, closed schema, 24 h expiry, drop-on-any-mismatch —
-  `draft.ts:64-74`); i18n has no literal UI strings in JSX (grep: literals exist only in
-  the message files); D-7 env drift was diagnosed honestly rather than papered over; and
-  the task file's observations O-1..O-3 are real contract gaps recorded instead of absorbed.
-- **Undeclared gaps** are the recurring theme: `RATE_LIMITED` toast (n-3) and the
-  leave-guard (n-4) are contract requirements that are neither implemented nor listed in
-  Deferrals — add them so FE-004 inherits them deliberately.
-- Review-cycle budget: 1 of max 2 used (`docs/05-workflow/05-definition-of-ready-done.md`).
+- **BLK-006 vs the diff — record matches exactly.** Authorization 1 ("Authorize lane
+  exception") → 5 explicit `route.ts` paths added to the fe lane + one `../` per import
+  (`aa010f9`); authorization 2 ("Authorize this one-file fix") → 6th path + `{handlers}`
+  dispatch by `request.method` with a `NextRequest` parameter (`379a907`,
+  `route.ts:7,17,47`). Nothing beyond those two authorizations was changed in be-lane code:
+  the five imports are single-character diffs and the auth route changes only the dispatch
+  line and the parameter type. `BLK-006.md` status `resolved`, follow-up item 3 (keep or
+  re-home the 6 paths) correctly left open for ops.
+- **Regression judgement on the two be-lane fixes:** both are strictly improvements
+  (broken module resolution → resolves; runtime `TypeError` on every `/api/auth/*` →
+  dispatches). The import files carry no logic; the auth route's behaviour before the fix
+  was "throw", so no previously-working path changed.
+- **What I deliberately did not re-open:** the pre-fix implementation approved in cycle 1
+  (draft schema/parity lock, FE-04 retry/staleTime, BE-10 handshake, i18n key set, privacy
+  shape) — cycle 2 reviews the fixes and the new diff only.
+- **Security:** no new endpoint, no new data flow, no authz change beyond the page moving
+  *into* the middleware `/reports` cheap gate; the parallel security review's handoffs
+  (route drift → B-1 resolved; gate re-run → attempted again, environment-blocked;
+  advisory audit job → confirmed `continue-on-error`; FE-004 privacy re-check → still open
+  for FE-004) are all accounted for.
+- Review-cycle budget: **2 of 2 used** (`05-definition-of-ready-done.md`). The four MINORs
+  above must be filed as follow-ups (n-10/n-12/n-13 → TMU-FE-004; n-11 → a be-lane test
+  task) — none blocks this PR.
 
 ## Verdict
 
-**REQUEST_CHANGES** — the wizard itself is well built: tests-first with honest red
-evidence, contract-parity locked, FE-04/FE-05 behaviour conformant, privacy and i18n
-clean, lane-perfect, and a parallel security PASS. But it ships at the wrong URL
-(**B-1**): `/report/new` instead of the merged contract's `/reports/new`, so the app's own
-"Lapor" nav CTA 404s and the middleware gate misses the page — contract drift plus a
-functional break with merged FE-002 code. Four FE-09 component rows are also unmet
-(**M-1**); axe-green does not cover them. Fix B-1 (rename + task-file evidence) and M-1
-(four small semantic/announcement changes), record n-3/n-4 as explicit deferrals, and
-re-request review on cycle 2. The nine MINORs may be filed as follow-ups where noted; none
-on its own would block.
+**APPROVE.** Both cycle-1 blocking findings are genuinely fixed and verified behaviourally,
+not cosmetically: **B-1** now lives at the contract URL `/reports/new` (git rename, zero
+singular remnants, nav and middleware gate both match, dependent task corrected), and
+**M-1**'s four FE-09 rows are implemented with tests that assert the semantics themselves —
+`role="status"` step count and upload progress, a native radio group walked with arrow keys
+in a `fieldset` (the stray `aria-pressed` pattern is gone), a real `<button>` opening the
+picker with the rejection reason `aria-describedby`-linked and errors still `role="alert"`,
+and `role="note"` on the sensitive notice — plus the n-5 pending hint and n-7 44 px targets,
+all nine minors dispositioned (four recorded as O-4…O-6, four in Deferrals, two fixed with
+their evidence corrected). I re-ran the FE-003 suite (10 files / 69 tests green) and CI on
+the actual head commit (all required jobs green; `audit` advisory only); the two human
+authorizations in BLK-006 correspond one-to-one with what the diff did, lane membership
+checks out by manual replication, and no generated file, secret, weakened assertion or
+out-of-lane edit appears anywhere. Honest caveats: I could not execute `pnpm gate` or
+`scripts/check-lane.sh` in this environment (WSL `bash` missing and the `git bash`
+invocation denied by my permission rules) and `gh pr checks` was likewise denied, so those
+three verifications rest on the implementer's recorded tails, my manual replication of the
+lane logic, and the GitHub check-runs API respectively. The four new findings are MINOR and
+non-blocking; file them as follow-ups before marking the task DONE.

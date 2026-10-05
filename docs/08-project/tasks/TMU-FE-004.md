@@ -10,7 +10,7 @@ owner: frontend-dev
 deps: [TMU-FE-003]
 refs: [FE-05, SCR-004, FR-REP-003, FR-REP-004, ADR-0007, API-REP-01]
 created: 2026-10-03
-updated: 2026-10-03
+updated: 2026-10-05
 ---
 
 # TMU-FE-004 — Report wizard steps 3–5 + review/submit with hint and custody fields (SCR-004)
@@ -36,3 +36,18 @@ redirects to the new report detail.
 - `apps/web/src/app/(app)/reports/**` (steps 3–5, review), `apps/web/src/features/report/**`
 - matching tests; i18n files
 - `docs/08-project/tasks/TMU-FE-004.md`
+
+## Inherited from TMU-FE-003 review (cycle 2 MINORs, filed per DoD)
+
+- **n-10** — `components/report/photo-uploader.test.tsx:193-201`: the keyboard test after
+  `{Enter}` asserts the always-present file input exists instead of proving the button
+  *opens the picker* (vacuous; `onClick` could be removed and it would still pass).
+  Fix: spy on `input.click()`/`onChange`, or `user.upload` after Enter.
+- **n-13** — `components/report/photo-uploader.tsx:56-69`: the sr-only file input's
+  `aria-label` duplicates the visible button's accessible name (axe is green, input is
+  `tabIndex={-1}`; a virtual cursor meets two controls with the same name). Fold into this
+  task's a11y pass: drop the `aria-label` or hide the inert input from the a11y tree, then
+  re-verify axe.
+- (Also inherited from cycle 1 via TMU-FE-003 Deferrals: RATE_LIMITED toast n-3, leave-guard
+  n-4, generated MSW shapes n-6, systemic ≥44 px targets n-7 — see
+  `tasks/TMU-FE-003.md` § Deferrals; FE-03 prop/event shapes O-6.)

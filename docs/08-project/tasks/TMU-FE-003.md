@@ -87,6 +87,10 @@ retry, 8 MB/type errors surfaced via FE-11), draft autosave to `localStorage` ke
 - `apps/web/src/app/api/v1/{meta/{campuses,categories,drop-points,locations},uploads/[id]/complete}/route.ts`
   — import-depth off-by-one fixed (CI build/e2e); be-lane files touched under the
   human-authorized lane exception recorded in `blockers/BLK-006.md`
+- `apps/web/src/app/api/auth/[...nextauth]/route.ts` — dispatch `NextAuth()`'s `{handlers}`
+  by `request.method` instead of calling the non-callable result (next-auth β29; type error
+  + runtime `TypeError` on `/api/auth/*`); sixth be-lane file, second human-authorized
+  one-file lane exception in the same blocker
 - `docs/08-project/{backlog.md,status.md}` — regenerated
 
 ## Decisions
@@ -142,6 +146,7 @@ FE-002's identical `py-2` buttons need a design/token pass) ✗.
 | 2026-10-05 | frontend-dev | 9 B-1 fix | `git mv app/(app)/report → reports` (renames the page to the contract path — also brings it under the middleware `APP_AUTH_MATCHER` `/reports` gate); task-file paths L50/L56 + TMU-FE-003 in TMU-FE-004 corrected. CI `build`/`e2e` additionally failed on an import off-by-one in 5 be-lane `route.ts` files (`../../server` vs `../../../server`) — human **authorized a lane exception** (question answered in session); recorded in `blockers/BLK-006.md`, the 5 explicit paths added to `.agent/lanes.json` fe, imports fixed; scanner `broken: 0`, `check-lane.sh` green. |
 | 2026-10-05 | frontend-dev | 10 M-1 + n-5 + n-7 fix | Tests first: updated/added 17 assertions (radios, roles, `aria-describedby`, touch targets, step-3 hint) → red **`17 failed / 44 passed`** (all failing on the old implementation) → implemented FE-09 rows: `WizardShell` step count `role="status"`; `CategoryPicker` native radio group in `fieldset` (arrow-key walk + `checked` announced, replaces `aria-pressed` buttons); `PhotoUploader` real `<button>` → file picker, status span `role="status"` (progress announced), rejection reason `aria-describedby`-linked, `min-h-11` controls; `SensitiveNotice` `role="note"`; steps ≥3 disabled Next now hints `report.wizard.step.pending` (n-5); wizard back/next + category retry ≥44 px (n-7) → focused green **9 files / 61 tests** (incl. 4 axe runs). |
 | 2026-10-05 | frontend-dev | 11 CI build/e2e green | After B-1's import fix, CI typecheck reached a pre-existing defect in `app/api/auth/[...nextauth]/route.ts:46` (`handler(request)` vs next-auth β29's non-callable result — type error + runtime `TypeError` on `/api/auth/*`; masked because `origin/main` carries no api routes). Human answered **"Authorize this one-file fix"** → second lane exception recorded in BLK-006, 6th path added to the fe lane, `{handlers}` dispatch by `request.method`. Local `pnpm build` red → green; full gate green; CI run `37261127595`: **build pass, e2e pass**, all required checks green (`audit` red = advisory `continue-on-error`, pre-existing per security M-6); PR merge state BLOCKED → UNSTABLE. |
+| 2026-10-05 | reviewer | 12 review cycle 2 | **APPROVE** (`reviews/TMU-FE-003.md`, cycle 2 of 2): every cycle-1 finding RESOLVED (B-1 + M-1a..d verified with file:line, n-1…n-9 dispositioned), DoD 12/12, no BLOCKER/MAJOR. Four new MINORs filed per DoD: **n-10** + **n-13** → TMU-FE-004 (inherited-findings section), **n-11** → new task TMU-BE-009, **n-12** (task-file bookkeeping) fixed in this step. Reviewer reran the FE-003 suite (10 files / 69 green) and CI on head via the check-runs API (all required jobs green). |
 
 ## Evidence
 
@@ -159,10 +164,12 @@ FE-002's identical `py-2` buttons need a design/token pass) ✗.
   against the old implementation; **green**: focused `9 files / 61 tests` (the path
   filter omits `hooks/use-upload.test.tsx`) — full FE-003-scoped suite is
   `10 files / 69 tests` (photo-uploader 14 → 17).
-- **Gate tail**: `Test Files 73 passed (73)` → `Tests 577 passed (577)` →
+- **Gate tail** (post-cycle-1 fixes, local-Docker `DATABASE_URL` per D-7):
+  `Test Files 73 passed (73)` → `Tests 580 passed (580)` →
   `contracts:check OK (version 1.1.0)` → `contracts:lint OK` → `db:check: ok` → ML
-  `All checks passed!` / `7 passed` → `OK gate(quick) passed` (local-Docker
-  `DATABASE_URL`, D-7).
+  `All checks passed!` / `7 passed` → `OK gate(quick) passed` (re-verified green after the
+  next-auth fix in step 11; one intermediate run lost a single `config-presets` ESLint test
+  to load-flake, green in isolation and on the full re-run).
 - **i18n**: `i18n:check passed (147 keys per locale)` (+48 vs the 99 baseline).
 - **A11y**: 4 `axe(container)` runs (wizard-shell, category-picker, photo-uploader,
   sensitive-notice) — all green (FE-09), plus behavioural coverage of the rows axe cannot
@@ -173,10 +180,10 @@ FE-002's identical `py-2` buttons need a design/token pass) ✗.
   with captured requests in `use-upload.test.tsx`; `API-REP-01Request` types the draft
   shape; mirrors locked by `contract-parity.test.ts` against
   `ReportCreate.pick(...)`/`CategoryMeta`.
-- **Review**: cycle 1 `REQUEST_CHANGES` → `docs/08-project/reviews/TMU-FE-003.md`
-  (B-1 + M-1 + n-1…n-9 fixed or recorded: B-1 done, M-1/n-5/n-7 code + tests, n-3/n-4 in
-  Deferrals, n-1/n-2/n-8 as O-4/O-5/O-6, n-6/n-9 recorded; security PASS
-  `docs/08-project/reviews/TMU-FE-003-security.md`); cycle 2 requested.
+- **Review**: cycle 1 `REQUEST_CHANGES` → cycle 2 **`APPROVE`** (2 of 2 cycles used) in
+  `docs/08-project/reviews/TMU-FE-003.md` — B-1 + M-1 + n-1…n-9 all RESOLVED with file:line
+  evidence, DoD 12/12; security PASS `docs/08-project/reviews/TMU-FE-003-security.md`.
+  Cycle-2 MINORs filed: n-10/n-13 → TMU-FE-004, n-11 → TMU-BE-009, n-12 fixed above.
 - **PR**: [#46](https://github.com/HanifIsya/temuUNAIR-v2/pull/46) (draft,
   `agent/fe/TMU-FE-003-fe-wizard-photos`).
 - **CI** (run `37261127595`, head `379a907`): build ✓, e2e ✓, unit ✓, lint-typecheck ✓,
