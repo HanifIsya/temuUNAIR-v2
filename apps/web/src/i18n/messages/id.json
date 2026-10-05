@@ -165,5 +165,69 @@
       "title": "Sengketa baru perlu ditinjau",
       "body": "Klaim {claimShortId} disengketakan. Buka antrian untuk meninjau."
     }
+  },
+  "report": {
+    "wizard": {
+      "stepOf": "Langkah {current} dari {total}",
+      "step": {
+        "pending": "Langkah berikutnya sedang disiapkan.",
+        "category": { "title": "Kategori" },
+        "photos": { "title": "Foto" },
+        "details": { "title": "Detail" },
+        "where": { "title": "Lokasi & waktu" },
+        "custody": { "title": "Penitipan" },
+        "hints": { "title": "Pertanyaan verifikasi" },
+        "review": { "title": "Tinjau & kirim" }
+      },
+      "type": {
+        "label": "Jenis laporan",
+        "lost": "Barang hilang",
+        "found": "Barang ditemukan"
+      },
+      "category": { "legend": "Pilih kategori" },
+      "needCategory": "Pilih jenis dan kategori untuk lanjut.",
+      "photos": {
+        "add": "Tambah foto",
+        "required": "Minimal 1 foto untuk laporan barang ditemukan.",
+        "uploading": "Mengunggah…",
+        "processing": "Memproses…",
+        "ready": "Foto siap.",
+        "rejected": "Foto tidak dapat diproses.",
+        "restored": "Foto dipulihkan",
+        "remove": "Hapus foto",
+        "retry": "Coba lagi",
+        "settled": "Tunggu foto selesai diunggah."
+      },
+      "draftSaved": "Draft tersimpan",
+      "draftRestored": "Draft dipulihkan"
+    }
+  },
+  "category": {
+    "ID_CARD": "Kartu identitas",
+    "BANK_CARD": "Kartu bank",
+    "WALLET": "Dompet",
+    "PHONE": "Ponsel",
+    "LAPTOP_TABLET": "Laptop/tablet",
+    "EARPHONES": "Earphone",
+    "CHARGER_CABLE": "Kabel charger",
+    "KEYS": "Kunci",
+    "BAG": "Tas",
+    "CLOTHING": "Pakaian",
+    "GLASSES": "Kacamata",
+    "BOTTLE": "Botol",
+    "BOOK_DOCUMENT": "Buku/dokumen",
+    "STATIONERY": "Alat tulis",
+    "ACCESSORY": "Aksesori",
+    "SPORTS_GEAR": "Peralatan olahraga",
+    "UMBRELLA": "Payung",
+    "HELMET": "Helm",
+    "OTHER": "Lainnya"
+  },
+  "sensitive": {
+    "notice": {
+      "title": "Item sensitif",
+      "body": "Foto akan disamarkan untuk melindungi data pribadi.",
+      "dropPoint": "Serahkan ke drop point resmi bila memungkinkan."
+    }
   }
 }

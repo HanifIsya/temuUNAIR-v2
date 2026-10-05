@@ -86,9 +86,9 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 - [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
 - [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
 
-## M3 — 70%
+## M3 — 74%
 
-TODO: 8 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 19 · CANCELLED: 0
+TODO: 6 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 1 · DONE: 20 · CANCELLED: 0
 
 - [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
 - [x] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
@@ -105,7 +105,7 @@ TODO: 8 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 19 · CANCELLED: 0
 - [x] TMU-DB-004 — Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes)
 - [x] TMU-DB-005 — Ops migration — notifications, prefs, flags, audit_logs (+BE-05 indexes) and M3 seeds
 - [x] TMU-FE-001 — Login flow — landing → Google OAuth → callback, auth errors (SCR-001/002)
-- [ ] TMU-FE-002 — App shell — navigation, locale switcher, notification bell slot (SCR-003 frame)
+- [x] TMU-FE-002 — App shell — navigation, locale switcher, notification bell slot (SCR-003 frame)
 - [ ] TMU-FE-003 — Report wizard steps 1–2 — category/type choice + photos with upload hooks (SCR-004)
 - [ ] TMU-FE-004 — Report wizard steps 3–5 + review/submit with hint and custody fields (SCR-004)
 - [ ] TMU-FE-005 — Browse list + report detail via generated client (SCR-005/006)

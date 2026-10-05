@@ -165,5 +165,69 @@
       "title": "A new dispute needs review",
       "body": "Claim {claimShortId} was disputed. Open the queue to review."
     }
+  },
+  "report": {
+    "wizard": {
+      "stepOf": "Step {current} of {total}",
+      "step": {
+        "pending": "The next step is being prepared.",
+        "category": { "title": "Category" },
+        "photos": { "title": "Photos" },
+        "details": { "title": "Details" },
+        "where": { "title": "Location & time" },
+        "custody": { "title": "Custody" },
+        "hints": { "title": "Verification questions" },
+        "review": { "title": "Review & submit" }
+      },
+      "type": {
+        "label": "Report type",
+        "lost": "Lost item",
+        "found": "Found item"
+      },
+      "category": { "legend": "Choose a category" },
+      "needCategory": "Choose a type and category to continue.",
+      "photos": {
+        "add": "Add photos",
+        "required": "At least 1 photo is required for a found-item report.",
+        "uploading": "Uploading…",
+        "processing": "Processing…",
+        "ready": "Photo ready.",
+        "rejected": "This photo could not be processed.",
+        "restored": "Restored photo",
+        "remove": "Remove photo",
+        "retry": "Try again",
+        "settled": "Wait for the uploads to finish."
+      },
+      "draftSaved": "Draft saved",
+      "draftRestored": "Draft restored"
+    }
+  },
+  "category": {
+    "ID_CARD": "ID card",
+    "BANK_CARD": "Bank card",
+    "WALLET": "Wallet",
+    "PHONE": "Phone",
+    "LAPTOP_TABLET": "Laptop/tablet",
+    "EARPHONES": "Earphones",
+    "CHARGER_CABLE": "Charger cable",
+    "KEYS": "Keys",
+    "BAG": "Bag",
+    "CLOTHING": "Clothing",
+    "GLASSES": "Glasses",
+    "BOTTLE": "Bottle",
+    "BOOK_DOCUMENT": "Book/document",
+    "STATIONERY": "Stationery",
+    "ACCESSORY": "Accessory",
+    "SPORTS_GEAR": "Sports gear",
+    "UMBRELLA": "Umbrella",
+    "HELMET": "Helmet",
+    "OTHER": "Other"
+  },
+  "sensitive": {
+    "notice": {
+      "title": "Sensitive item",
+      "body": "Photos will be masked to protect personal data.",
+      "dropPoint": "Hand it in at an official drop point when possible."
+    }
   }
 }
