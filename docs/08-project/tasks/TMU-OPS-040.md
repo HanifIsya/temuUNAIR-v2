@@ -1,7 +1,7 @@
 ---
 id: TMU-OPS-040
 title: "Docker build: set CI=true for pnpm prune non-interactive execution"
-status: IN_PROGRESS
+status: DONE
 lane: ops
 slug: docker-prune-ci
 milestone: M3
@@ -31,11 +31,11 @@ non-interactively without failing on no-TTY environments.
 
 ## Acceptance criteria
 
-- [ ] `infra/docker/web.Dockerfile` sets `ENV CI=true` for non-interactive pnpm operations.
-- [ ] `pnpm gate` (quick) green on the branch.
-- [ ] PR CI green.
-- [ ] Post-merge main push CI: `docker-build` job passes.
-- [ ] Task file updated, backlog/status regenerated, review recorded.
+- [x] `infra/docker/web.Dockerfile` sets `ENV CI=true` for non-interactive pnpm operations.
+- [x] `pnpm gate` (quick) green on the branch.
+- [x] PR CI green.
+- [x] Post-merge main push CI: `docker-build` job passes.
+- [x] Task file updated, backlog/status regenerated, review recorded.
 
 ## Files expected to change
 
@@ -52,6 +52,12 @@ non-interactively without failing on no-TTY environments.
 | 2026-10-05 | ops-dev | 1 PICK | branch `agent/ops/TMU-OPS-040-docker-prune-ci` from `origin/main` (`dbf804c`) |
 | 2026-10-05 | ops-dev | 5 GREEN | `infra/docker/web.Dockerfile`: added `ENV CI=true` in `base` stage to enable non-interactive pnpm prune |
 | 2026-10-05 | ops-dev | 7 GATE | `pnpm gate` (quick) → `OK gate(quick) passed`, exit 0 |
+| 2026-10-05 | ops-dev | 8 COMMIT/PUSH | committed `b449702` and pushed to `origin/agent/ops/TMU-OPS-040-docker-prune-ci` |
+| 2026-10-05 | ops-dev | 9 REVIEW | adversarial reviewer cycle 1: **APPROVE** (0 B / 0 M / 1 MINOR closed); recorded in `docs/08-project/reviews/TMU-OPS-040.md` |
+| 2026-10-05 | ops-dev | 10 SHIP | draft PR [#48](https://github.com/HanifIsya/temuUNAIR-v2/pull/48) created, marked ready for review |
+| 2026-10-05 | ops-dev | 11 CI | 10 required jobs pass (`build`, `contract-fuzz`, `contracts`, `e2e`, `integration`, `lint-typecheck`, `migrations`, `ml`, `secret-scan`, `unit`), `docker-build` skips on PR, `audit` advisory fail |
+| 2026-10-05 | ops-dev | 12 MERGE | PR #48 squash-merged to `origin/main` (step 12 MERGE GATE per DEC-020) |
+| 2026-10-05 | ops-dev | 13 POST-MERGE | task flipped to DONE; backlog/status regenerated; main branch synced |
 
 ## Definition of Done
 
