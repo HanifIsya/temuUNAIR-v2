@@ -11,6 +11,8 @@ WORKDIR /app
 
 # Copy root workspace manifests and package manifests
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+# Patch files referenced by pnpm.patchedDependencies must exist before install
+COPY patches/ ./patches/
 COPY packages/config/package.json ./packages/config/
 COPY packages/contracts/package.json ./packages/contracts/
 COPY packages/db/package.json ./packages/db/
