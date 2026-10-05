@@ -1,1 +1,1 @@
-export { COMPLETE as POST } from "../../../../../server/handlers/uploads";
+export { COMPLETE as POST } from "../../../../../../server/handlers/uploads";

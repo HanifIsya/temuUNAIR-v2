@@ -1,1 +1,1 @@
-export { GET_CATEGORIES as GET } from "../../../../server/handlers/meta";
+export { GET_CATEGORIES as GET } from "../../../../../server/handlers/meta";
