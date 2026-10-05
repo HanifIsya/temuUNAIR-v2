@@ -1,7 +1,7 @@
 ---
 id: TMU-FE-003
 title: Report wizard steps 1–2 — category/type choice + photos with upload hooks (SCR-004)
-status: REVIEW
+status: DONE
 lane: fe
 slug: fe-wizard-photos
 milestone: M3
@@ -147,6 +147,7 @@ FE-002's identical `py-2` buttons need a design/token pass) ✗.
 | 2026-10-05 | frontend-dev | 10 M-1 + n-5 + n-7 fix | Tests first: updated/added 17 assertions (radios, roles, `aria-describedby`, touch targets, step-3 hint) → red **`17 failed / 44 passed`** (all failing on the old implementation) → implemented FE-09 rows: `WizardShell` step count `role="status"`; `CategoryPicker` native radio group in `fieldset` (arrow-key walk + `checked` announced, replaces `aria-pressed` buttons); `PhotoUploader` real `<button>` → file picker, status span `role="status"` (progress announced), rejection reason `aria-describedby`-linked, `min-h-11` controls; `SensitiveNotice` `role="note"`; steps ≥3 disabled Next now hints `report.wizard.step.pending` (n-5); wizard back/next + category retry ≥44 px (n-7) → focused green **9 files / 61 tests** (incl. 4 axe runs). |
 | 2026-10-05 | frontend-dev | 11 CI build/e2e green | After B-1's import fix, CI typecheck reached a pre-existing defect in `app/api/auth/[...nextauth]/route.ts:46` (`handler(request)` vs next-auth β29's non-callable result — type error + runtime `TypeError` on `/api/auth/*`; masked because `origin/main` carries no api routes). Human answered **"Authorize this one-file fix"** → second lane exception recorded in BLK-006, 6th path added to the fe lane, `{handlers}` dispatch by `request.method`. Local `pnpm build` red → green; full gate green; CI run `37261127595`: **build pass, e2e pass**, all required checks green (`audit` red = advisory `continue-on-error`, pre-existing per security M-6); PR merge state BLOCKED → UNSTABLE. |
 | 2026-10-05 | reviewer | 12 review cycle 2 | **APPROVE** (`reviews/TMU-FE-003.md`, cycle 2 of 2): every cycle-1 finding RESOLVED (B-1 + M-1a..d verified with file:line, n-1…n-9 dispositioned), DoD 12/12, no BLOCKER/MAJOR. Four new MINORs filed per DoD: **n-10** + **n-13** → TMU-FE-004 (inherited-findings section), **n-11** → new task TMU-BE-009, **n-12** (task-file bookkeeping) fixed in this step. Reviewer reran the FE-003 suite (10 files / 69 green) and CI on head via the check-runs API (all required jobs green). |
+| 2026-10-05 | frontend-dev | 13 SHIP | Follow-ups filed (commit with this step), PR body refreshed (cycle-2 APPROVE linked, gate tail 580, `/reports/new` correction), marked ready for review; gate green; CI green on head; squashing to `main` (DEC-020). |
 
 ## Evidence
 
@@ -184,8 +185,8 @@ FE-002's identical `py-2` buttons need a design/token pass) ✗.
   `docs/08-project/reviews/TMU-FE-003.md` — B-1 + M-1 + n-1…n-9 all RESOLVED with file:line
   evidence, DoD 12/12; security PASS `docs/08-project/reviews/TMU-FE-003-security.md`.
   Cycle-2 MINORs filed: n-10/n-13 → TMU-FE-004, n-11 → TMU-BE-009, n-12 fixed above.
-- **PR**: [#46](https://github.com/HanifIsya/temuUNAIR-v2/pull/46) (draft,
-  `agent/fe/TMU-FE-003-fe-wizard-photos`).
+- **PR**: [#46](https://github.com/HanifIsya/temuUNAIR-v2/pull/46) (ready for review,
+  `agent/fe/TMU-FE-003-fe-wizard-photos`; squash-merged to `main`).
 - **CI** (run `37261127595`, head `379a907`): build ✓, e2e ✓, unit ✓, lint-typecheck ✓,
   contracts ✓, integration ✓, migrations ✓, contract-fuzz ✓, ml ✓, secret-scan ✓;
   `audit` red = advisory `continue-on-error` (pre-existing next-auth/next-intl advisories,
