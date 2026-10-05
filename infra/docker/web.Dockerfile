@@ -3,6 +3,7 @@
 
 # Stage 1: Base image with globally installed pnpm
 FROM node:24.12.0-bookworm-slim AS base
+ENV CI=true
 RUN npm install -g pnpm@10.34.6
 
 # Stage 2: Install workspace dependencies
