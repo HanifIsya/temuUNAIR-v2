@@ -141,6 +141,7 @@ FE-002's identical `py-2` buttons need a design/token pass) ✗.
 | 2026-10-05 | reviewer | 8 review cycle 1 | `REQUEST_CHANGES` (`reviews/TMU-FE-003.md`): **B-1** route `/report/new` vs FE-01 `/reports/new`, **M-1** four FE-09 component rows, minors n-1…n-9; parallel security review `PASS` (`reviews/TMU-FE-003-security.md`). |
 | 2026-10-05 | frontend-dev | 9 B-1 fix | `git mv app/(app)/report → reports` (renames the page to the contract path — also brings it under the middleware `APP_AUTH_MATCHER` `/reports` gate); task-file paths L50/L56 + TMU-FE-003 in TMU-FE-004 corrected. CI `build`/`e2e` additionally failed on an import off-by-one in 5 be-lane `route.ts` files (`../../server` vs `../../../server`) — human **authorized a lane exception** (question answered in session); recorded in `blockers/BLK-006.md`, the 5 explicit paths added to `.agent/lanes.json` fe, imports fixed; scanner `broken: 0`, `check-lane.sh` green. |
 | 2026-10-05 | frontend-dev | 10 M-1 + n-5 + n-7 fix | Tests first: updated/added 17 assertions (radios, roles, `aria-describedby`, touch targets, step-3 hint) → red **`17 failed / 44 passed`** (all failing on the old implementation) → implemented FE-09 rows: `WizardShell` step count `role="status"`; `CategoryPicker` native radio group in `fieldset` (arrow-key walk + `checked` announced, replaces `aria-pressed` buttons); `PhotoUploader` real `<button>` → file picker, status span `role="status"` (progress announced), rejection reason `aria-describedby`-linked, `min-h-11` controls; `SensitiveNotice` `role="note"`; steps ≥3 disabled Next now hints `report.wizard.step.pending` (n-5); wizard back/next + category retry ≥44 px (n-7) → focused green **9 files / 61 tests** (incl. 4 axe runs). |
+| 2026-10-05 | frontend-dev | 11 CI build/e2e green | After B-1's import fix, CI typecheck reached a pre-existing defect in `app/api/auth/[...nextauth]/route.ts:46` (`handler(request)` vs next-auth β29's non-callable result — type error + runtime `TypeError` on `/api/auth/*`; masked because `origin/main` carries no api routes). Human answered **"Authorize this one-file fix"** → second lane exception recorded in BLK-006, 6th path added to the fe lane, `{handlers}` dispatch by `request.method`. Local `pnpm build` red → green; full gate green; CI run `37261127595`: **build pass, e2e pass**, all required checks green (`audit` red = advisory `continue-on-error`, pre-existing per security M-6); PR merge state BLOCKED → UNSTABLE. |
 
 ## Evidence
 
@@ -178,3 +179,7 @@ FE-002's identical `py-2` buttons need a design/token pass) ✗.
   `docs/08-project/reviews/TMU-FE-003-security.md`); cycle 2 requested.
 - **PR**: [#46](https://github.com/HanifIsya/temuUNAIR-v2/pull/46) (draft,
   `agent/fe/TMU-FE-003-fe-wizard-photos`).
+- **CI** (run `37261127595`, head `379a907`): build ✓, e2e ✓, unit ✓, lint-typecheck ✓,
+  contracts ✓, integration ✓, migrations ✓, contract-fuzz ✓, ml ✓, secret-scan ✓;
+  `audit` red = advisory `continue-on-error` (pre-existing next-auth/next-intl advisories,
+  security M-6 → ops follow-up). Two authorized be-lane fixes recorded in `BLK-006.md`.
