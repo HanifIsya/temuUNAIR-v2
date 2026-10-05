@@ -1,11 +1,11 @@
 ---
 id: FR
 title: Functional requirements
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PRD", "US", "BE-03", "BE-05", "FE-01"]
-source_refs: ["proposal.pdf §Fitur 1–4 (pending extract)", "Blueprint §5A", "DEC-004", "DEC-005", "DEC-007", "DEC-012", "DEC-014"]
+source_refs: ["proposal.pdf §C.2 Fitur 1–4 (via docs/_source/proposal-extract.md)", "Blueprint §5A", "DEC-004", "DEC-005", "DEC-007", "DEC-012", "DEC-014"]
 ---
 
 # Functional requirements

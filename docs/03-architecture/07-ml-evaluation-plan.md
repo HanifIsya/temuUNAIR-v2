@@ -1,9 +1,9 @@
 ---
 id: ML-EVAL
 title: ML evaluation plan
-status: draft
+status: approved
 owner: ML
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["MATCH-SPEC", "ARCH-ML", "METRICS"]
 source_refs: ["Blueprint §5A.9", "DEC-003", "DEC-012"]
 ---

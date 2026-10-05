@@ -8,6 +8,41 @@
       "when": 1790816743459,
       "tag": "0001_init",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791083536190,
+      "tag": "0002_core",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791109899443,
+      "tag": "0003_reports",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1791111557331,
+      "tag": "0004_reports_additions_matching",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791112168316,
+      "tag": "0005_claims_chat",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791114118601,
+      "tag": "0006_ops",
+      "breakpoints": true
     }
   ]
 }

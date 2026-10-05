@@ -61,6 +61,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
+  --container-card: 400px;
   --z-index-sticky: 100;
   --z-index-modal: 1000;
   --z-index-toast: 1100;

@@ -1,9 +1,9 @@
 ---
 id: RESPONSIVE
 title: Responsive design and motion
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["TOKENS", "WIREFRAMES"]
 source_refs: ["NFR-043, NFR-061", "Blueprint §5B.11"]
 ---

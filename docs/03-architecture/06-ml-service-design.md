@@ -1,9 +1,9 @@
 ---
 id: ARCH-ML
 title: ML service design
-status: draft
+status: approved
 owner: ML
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["MATCH-SPEC", "ARCH-STACK", "BE-06"]
 source_refs: ["Blueprint §5A.8", "DEC-003", "DEC-011", "DEC-015", "DEC-016"]
 ---

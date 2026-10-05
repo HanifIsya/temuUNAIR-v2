@@ -175,8 +175,9 @@ describe("generated artefacts", () => {
     for (const route of registry) {
       const example = examples[route.id];
       if (example === undefined) throw new Error(`examples is missing an entry for ${route.id}`);
+      const pattern = route.path.replace(/\{([^}]+)\}/g, ":$1");
       expect(handlers, route.id).toContain(
-        `http.${route.method}("*${route.path}", () => HttpResponse.json(${JSON.stringify(example)}))`,
+        `http.${route.method}("*${pattern}", () => HttpResponse.json(${JSON.stringify(example)}))`,
       );
     }
   });
@@ -187,6 +188,30 @@ describe("generated artefacts", () => {
       const example = JSON.stringify(examples[route.id]);
       expect(handlers, route.id).toContain(`HttpResponse.json(${example})`);
     }
+  });
+
+  it("types.ts declares every path key exactly once (no duplicate interface members)", () => {
+    const types = contentOf(generateAll(VERSION), TYPES_PATH);
+    const keys = [...types.matchAll(/^ {2}"((?:[^"\\]|\\.)*)": \{$/gm)].map(
+      (match) => match[1] ?? "",
+    );
+    expect(keys.length).toBeGreaterThan(0);
+    expect(new Set(keys).size, `duplicates: ${keys.filter((k, i) => keys.indexOf(k) !== i)}`).toBe(
+      keys.length,
+    );
+  });
+
+  it("types.ts groups all methods of /api/v1/me under one path member", () => {
+    const lines = contentOf(generateAll(VERSION), TYPES_PATH).split("\n");
+    const key = '  "/api/v1/me": {';
+    expect(lines.filter((line) => line === key)).toHaveLength(1);
+    const body: string[] = [];
+    for (let i = lines.indexOf(key) + 1; i < lines.length && lines[i] !== "  };"; i += 1) {
+      body.push(lines[i] ?? "");
+    }
+    expect(body.join("\n")).toContain('    get: operations["API-ME-01"];');
+    expect(body.join("\n")).toContain('    patch: operations["API-ME-02"];');
+    expect(body.join("\n")).toContain('    delete: operations["API-ME-03"];');
   });
 });
 

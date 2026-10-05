@@ -3,7 +3,7 @@ id: BE-05
 title: Database contract
 status: draft
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-ERD", "BE-01"]
 source_refs: ["Blueprint §5A.5", "DEC-002", "DEC-014"]
 ---
@@ -63,6 +63,7 @@ CREATE TABLE reports (
   custody text CHECK (custody IN ('HELD_BY_FINDER','AT_DROP_POINT')), drop_point_id uuid REFERENCES drop_points(id),
   expires_at timestamptz NOT NULL, resolved_at timestamptz,
   search_tsv tsvector,                  -- 'simple' config: Postgres has no built-in Indonesian dictionary
+  needs_reprocess boolean NOT NULL DEFAULT false, -- report processing marker (BE-07 dead-letter behaviour)
   version int NOT NULL DEFAULT 1, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(),
   CHECK ((type = 'FOUND') = (custody IS NOT NULL))
 );
@@ -123,18 +124,17 @@ CREATE TABLE audit_logs (id uuid PRIMARY KEY, actor_id uuid, action text NOT NUL
 -- pg-boss creates its own `pgboss` schema.
 ```
 
-## Additions required by the docs (to be included in `0001_init.sql`)
+## Domain additions and index migrations (landing in `TMU-DB-001..005`)
+
+The baseline migration (`0001_init.sql`, shipped in M0 via `TMU-OPS-005`) is strictly
+**extensions-only** (`vector`, `citext`). Domain tables, triggers, and auxiliary indexes
+land with their respective M3 migrations (`TMU-DB-001..005`) rather than in `0001_init.sql`:
+
+### `TMU-DB-003` — Reports, processing marker and full-text search
 
 ```sql
--- report processing marker (BE-07 dead-letter behaviour)
-ALTER TABLE reports ADD COLUMN needs_reprocess boolean NOT NULL DEFAULT false;
-
--- retention helpers
-CREATE INDEX messages_claim_created_idx ON messages (claim_id, created_at DESC);
-CREATE INDEX notifications_user_created_idx ON notifications (user_id, created_at DESC);
-CREATE INDEX audit_logs_created_idx ON audit_logs (created_at DESC);
-CREATE INDEX flags_report_idx ON flags (report_id) WHERE status = 'OPEN';
-CREATE INDEX claims_status_idx ON claims (status, created_at);
+-- report processing marker (BE-07 dead-letter behaviour, included in reports definition or added here)
+ALTER TABLE reports ADD COLUMN IF NOT EXISTS needs_reprocess boolean NOT NULL DEFAULT false;
 
 -- full-text maintenance (trigger keeps search_tsv fresh)
 CREATE FUNCTION reports_tsv_update() RETURNS trigger AS $$
@@ -146,6 +146,29 @@ BEGIN
 END $$ LANGUAGE plpgsql;
 CREATE TRIGGER reports_tsv_trg BEFORE INSERT OR UPDATE OF title, description, brand, colors
   ON reports FOR EACH ROW EXECUTE FUNCTION reports_tsv_update();
+```
+
+### `TMU-DB-004` — Claims, disputes and chat retention index
+
+```sql
+-- claims status and lifecycle index
+CREATE INDEX claims_status_idx ON claims (status, created_at);
+
+-- chat message retention and pagination helper
+CREATE INDEX messages_claim_created_idx ON messages (claim_id, created_at DESC);
+```
+
+### `TMU-DB-005` — Notifications, moderation flags and audit logging
+
+```sql
+-- notification feed pagination and retention index
+CREATE INDEX notifications_user_created_idx ON notifications (user_id, created_at DESC);
+
+-- audit log query and retention index
+CREATE INDEX audit_logs_created_idx ON audit_logs (created_at DESC);
+
+-- moderation triage partial index
+CREATE INDEX flags_report_idx ON flags (report_id) WHERE status = 'OPEN';
 ```
 
 ## Index rationale

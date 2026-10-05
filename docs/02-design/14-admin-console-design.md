@@ -1,9 +1,9 @@
 ---
 id: ADMIN-DESIGN
 title: Admin console design
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-017..022", "CMP", "TOKENS"]
 source_refs: ["Blueprint §4.3", "FR-ADM-001..009"]
 ---

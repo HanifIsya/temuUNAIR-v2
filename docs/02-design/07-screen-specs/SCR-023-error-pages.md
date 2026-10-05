@@ -1,9 +1,9 @@
 ---
 id: SCR-023
 title: Error pages
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "FE-11"]
 source_refs: ["FE-01", "FE-11", "5A.14-error-catalog"]
 ---

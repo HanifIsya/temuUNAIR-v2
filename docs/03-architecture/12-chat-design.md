@@ -1,9 +1,9 @@
 ---
 id: ARCH-CHAT
 title: Chat design
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-STATES", "FR-CHT", "DEC-009"]
 source_refs: ["Blueprint §5A.3 API-CHT-*, §5A.6", "DEC-009"]
 ---

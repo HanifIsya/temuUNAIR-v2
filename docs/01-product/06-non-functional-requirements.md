@@ -1,17 +1,18 @@
 ---
 id: NFR
 title: Non-functional requirements
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PRD", "BE-11", "FE-09", "06-performance-budget"]
 source_refs: ["Blueprint §2, §9", "DEC-007", "DEC-011", "DEC-013", "DEC-017", "DEC-018"]
 ---
 
 # Non-functional requirements
 
-Numbers marked `TBD` are filled in M2 by the architect after the tech-stack review; they are
-**budgets agents must design against**, not aspirations.
+Non-functional requirement targets serve as **concrete budgets agents must design and test against**,
+not aspirations. Performance, reliability, security, privacy and accessibility budgets are enforced
+in CI and the project gate.
 
 ## Performance
 

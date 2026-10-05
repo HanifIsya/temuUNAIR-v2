@@ -1,9 +1,9 @@
 ---
 id: A11Y
 title: Accessibility plan (WCAG 2.2 AA)
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["DESIGN-PRINCIPLES", "TOKENS", "FE-09"]
 source_refs: ["NFR-040..043", "Blueprint §5B.8"]
 ---

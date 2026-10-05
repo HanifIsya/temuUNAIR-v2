@@ -1,9 +1,9 @@
 ---
 id: SCR-011
 title: Claim challenge form
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-006", "FE-05", "CMP"]
 source_refs: ["FE-01", "API-CLM-01", "API-CLM-02", "FR-CLM-001", "FR-CLM-006..008", "DEC-004"]
 ---

@@ -1,9 +1,9 @@
 ---
 id: NOTIF-TEMPLATES
 title: Notification and email templates
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["COPY", "BE-08", "FR-NTF"]
 source_refs: ["Blueprint §5A.10"]
 ---

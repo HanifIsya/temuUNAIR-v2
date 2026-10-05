@@ -1,9 +1,9 @@
 ---
 id: IA
 title: Information architecture
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["DESIGN-PRINCIPLES", "FE-01"]
 source_refs: ["Blueprint §5B.1"]
 ---

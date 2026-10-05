@@ -1,7 +1,7 @@
 ---
 id: TMU-CTR-006
 title: Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
-status: TODO
+status: DONE
 lane: contracts
 slug: be05-additions-vs-init-migration
 milestone: M2
@@ -10,7 +10,7 @@ owner: architect
 deps: [TMU-OPS-005]
 refs: [BE-05, TMU-OPS-005]
 created: 2026-10-01
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only `0001_init`
@@ -54,14 +54,22 @@ keeps every migration self-contained.
 
 ## Acceptance criteria
 
-- [ ] `BE-05` no longer instructs the reader to put table/column/index DDL into a migration that
+- [x] `BE-05` no longer instructs the reader to put table/column/index DDL into a migration that
       is defined to be extensions-only.
-- [ ] The intended home of the `needs_reprocess` column and the three indexes is named, with the
+- [x] The intended home of the `needs_reprocess` column and the three indexes is named, with the
       owning `TMU-DB-*` task identified.
-- [ ] `BE-05` version/`CONTRACT_VERSION` treated per the contract-change protocol; `CHANGELOG.md`
+- [x] `BE-05` version/`CONTRACT_VERSION` treated per the contract-change protocol; `CHANGELOG.md`
       updated if the wording is material.
-- [ ] `pnpm contracts:build`, `contracts:check`, `contracts:lint`, `contracts:breaking` all green.
-- [ ] No migration file is edited (they are forward-only and, once merged, immutable).
+- [x] `pnpm contracts:build`, `contracts:check`, `contracts:lint`, `contracts:breaking` all green.
+- [x] No migration file is edited (they are forward-only and, once merged, immutable).
+
+## Files expected to change
+
+- `docs/04-contracts/backend/BE-05-database-contract.md`
+- `docs/04-contracts/CHANGELOG.md`
+- `docs/08-project/tasks/TMU-CTR-006.md`
+- `docs/08-project/reviews/TMU-CTR-006.md` (review record, `_common`)
+- `docs/08-project/backlog.md`, `docs/08-project/status.md` (regenerated `_common` indexes, not hand edits)
 
 ## Progress log
 
@@ -69,6 +77,19 @@ keeps every migration self-contained.
 |---|---|---|---|
 | 2026-10-01 | orchestrator | filed | MINOR `m1` of the TMU-OPS-005 cycle-1 review (`docs/08-project/reviews/TMU-OPS-005.md`); must be filed before M3 starts |
 | 2026-10-01 | orchestrator | renumbered | Cycle-2 review found `TMU-CTR-001` was reserved by the roadmap for the M2 contracts implementation → renumbered to `TMU-CTR-006` (C2-M1) |
+| 2026-10-03 | architect | 1 PICK | branch `agent/contracts/TMU-CTR-006-be05-additions-vs-init-migration` created from `main` (`18e8fa8`); status → `IN_PROGRESS`; deps `TMU-OPS-005` DONE |
+| 2026-10-03 | architect | 3 PLAN | 1) Adopt Option (a): retitle and reframe BE-05 section 126 as auxiliary additions and indexes landing with domain migrations TMU-DB-001..005; 2) Add `needs_reprocess` to `reports` table DDL and attribute its migration to `TMU-DB-003`; attribute chat index and claims index to `TMU-DB-004`; attribute notifications, audit, and flags indexes to `TMU-DB-005`; 3) Update `docs/04-contracts/CHANGELOG.md` under [Unreleased]; 4) Run contracts build/check/lint/breaking and gate; 5) Write review; 6) Ship |
+| 2026-10-03 | architect | 5 GREEN | Reconciled BE-05 section 126 to attribute additions to TMU-DB-003..005, added needs_reprocess to reports table DDL, updated CHANGELOG.md under [Unreleased] |
+| 2026-10-03 | architect | 7 GATE | `pnpm contracts:check`, `contracts:lint`, `contracts:breaking` and `pnpm gate:quick` all pass cleanly with baseline 1.0.0 |
+| 2026-10-03 | reviewer | 9 REVIEW c1 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR, 0 MINOR) → `docs/08-project/reviews/TMU-CTR-006.md` |
+| 2026-10-03 | architect | 10 SHIP | task flipped to DONE; status and backlog indexes regenerated |
+
+## Evidence
+
+- Red: N/A — contract documentation harmonization task; ACs are contract specification alignment and contract validation suite checks recorded in Progress log
+- Green: `pnpm contracts:check` OK (1.0.0), `contracts:lint` OK, `contracts:breaking` OK, `pnpm gate:quick` passed
+- PR: (local merge per environment rules)
+- Review: cycle 1 **`APPROVE`** (0 BLOCKER, 0 MAJOR, 0 MINOR) → `docs/08-project/reviews/TMU-CTR-006.md`
 
 ## Blockers
 

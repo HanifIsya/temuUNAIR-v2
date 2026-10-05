@@ -1,7 +1,7 @@
 ---
 id: TMU-DOC-019
 title: M1 cross-document consistency and traceability pass
-status: TODO
+status: DONE
 lane: docs
 slug: m1-consistency-traceability
 milestone: M1
@@ -10,7 +10,7 @@ owner: spec-writer
 deps: [TMU-DOC-003, TMU-DOC-004, TMU-DOC-005, TMU-DOC-006, TMU-DOC-007, TMU-DOC-008, TMU-DOC-009, TMU-DOC-010, TMU-DOC-011, TMU-DOC-012, TMU-DOC-013, TMU-DOC-014, TMU-DOC-015, TMU-DOC-016, TMU-DOC-017, TMU-DOC-018]
 refs: [BLUEPRINT, TRACEABILITY]
 created: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # TMU-DOC-019 — M1 cross-document consistency and traceability pass
@@ -47,28 +47,44 @@ After every per-group review task has landed, sweep the whole of `docs/01-produc
 
 ## Acceptance criteria
 
-- [ ] Every cross-reference between `docs/01-product/**` and `docs/02-design/**` resolves to an
+- [x] Every cross-reference between `docs/01-product/**` and `docs/02-design/**` resolves to an
       existing ID/anchor; the broken-reference list produced by the sweep is empty or filed as
       follow-up task files (IDs in the Progress log).
-- [ ] Every document in both trees has `status: approved` or `review` with a filed follow-up
+- [x] Every document in both trees has `status: approved` or `review` with a filed follow-up
       naming its blocker; `updated:` is consistent with the review that last touched it.
-- [ ] Handoff recorded: matrix rows that are missing or reference non-existent backlog IDs are
+- [x] Handoff recorded: matrix rows that are missing or reference non-existent backlog IDs are
       listed in this task's Progress log for `TMU-META-005`, which owns
       `docs/08-project/traceability-matrix.md`.
-- [ ] `docs/_source/README.md` table matches what `TMU-DOC-002` actually committed.
-- [ ] `pnpm gate` green.
+- [x] `docs/_source/README.md` table matches what `TMU-DOC-002` actually committed.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
-- `docs/01-product/**` and `docs/02-design/**` (as the sweep finds defects)
-- `docs/_source/README.md` (if stale)
-- `docs/08-project/tasks/TMU-DOC-019.md` (+ any follow-up task files)
+- `docs/09-course/README.md`
+- `docs/09-course/demo-script.md`
+- `docs/08-project/tasks/TMU-DOC-019.md`
+- `docs/08-project/reviews/TMU-DOC-019.md` (review record, `_common`)
+- `docs/08-project/backlog.md`, `docs/08-project/status.md` (regenerated `_common` indexes, not hand edits)
 
 ## Progress log
 
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-02 | orchestrator | filed | TMU-META-004 M1 backlog breakdown |
+| 2026-10-03 | orchestrator | 1 PICK | branch `agent/docs/TMU-DOC-019-m1-consistency-traceability` created from `main` (`c9944d8`); status → `IN_PROGRESS`; deps `TMU-DOC-003..018` all DONE |
+| 2026-10-03 | orchestrator | 3 PLAN | 1) Sweep source_refs across all remaining docs, refreshing docs/09-course/{README,demo-script}.md from (pending extract) to (via docs/_source/proposal-extract.md); 2) Verify all cross-references across docs/01-product and docs/02-design (0 broken references); 3) Verify all 53 docs have status approved (or review with DEC-025); 4) Verify docs/_source/README.md matches committed proposal.pdf; 5) Record traceability matrix handoff for TMU-META-005; 6) Run pnpm gate; 7) Write review REV-TMU-DOC-019; 8) Ship |
+| 2026-10-03 | orchestrator | 5 GREEN | Refreshed remaining (pending extract) in docs/09-course/{README,demo-script}.md; verified all 53 product and design docs have status approved (or review with DEC-025) and updated 2026-10-03; verified 0 broken cross-references across SCR, CMP, FR, DEC |
+| 2026-10-03 | orchestrator | 7 GATE | `pnpm gate` → `OK gate(quick) passed` — lane check exit 0, prettier, lint, typecheck, i18n 70 keys, 140/140 unit, contracts:check+lint, db:check, ml ruff+7 pytest |
+| 2026-10-03 | orchestrator | handoff | for `TMU-META-005` (meta lane owns `docs/08-project/traceability-matrix.md`): add stories US-012, US-016 to Goal G1; add US-057 to Goal G4; add US-044, US-045 to Goal G5 / Notifications |
+| 2026-10-03 | reviewer | 9 REVIEW c1 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR, 0 MINOR) → `docs/08-project/reviews/TMU-DOC-019.md`; 0 broken cross-refs, 0 stale extract refs |
+| 2026-10-03 | orchestrator | 10 SHIP | task flipped to DONE; status and backlog indexes regenerated |
+
+## Evidence
+
+- Red: N/A — documentation review/sweep task; ACs are global cross-reference, status, and source reference integrity checks recorded in Progress log
+- Green: `pnpm gate` → `OK gate(quick) passed` (lane check exit 0, prettier, lint, typecheck, i18n 70 keys, 140/140 unit tests, contracts, db, ml)
+- PR: (local merge per environment rules)
+- Review: cycle 1 **`APPROVE`** (0 BLOCKER, 0 MAJOR, 0 MINOR) → `docs/08-project/reviews/TMU-DOC-019.md`
 
 ## Blockers
 

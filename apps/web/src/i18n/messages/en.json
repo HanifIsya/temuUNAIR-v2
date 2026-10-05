@@ -17,7 +17,52 @@
     "copy": "Copy",
     "copied": "Copied",
     "offline": "You are offline",
-    "unknownError": "Something went wrong. Try again."
+    "unknownError": "Something went wrong. Try again.",
+    "signIn": "Sign in",
+    "home": "Home",
+    "skipToContent": "Skip to content",
+    "nav": {
+      "mainNavigation": "Main navigation",
+      "topNavigation": "Top navigation",
+      "home": "Home",
+      "browse": "Search",
+      "report": "Report",
+      "claims": "Claims",
+      "settings": "Account",
+      "profile": "Profile",
+      "myReports": "My reports",
+      "accountSettings": "Settings",
+      "signOut": "Sign out",
+      "admin": "Admin panel",
+      "notificationsCount": "{count, plural, =0 {0 unread} other {# unread}}"
+    },
+    "localeSwitcher": {
+      "label": "Language",
+      "changed": "Language changed to {language}"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "google": "Continue with Google",
+      "note": {
+        "domain": "Use your UNAIR account"
+      },
+      "network": "Connection problem. Please try again.",
+      "terms": "By continuing, you agree to the",
+      "privacy": "Privacy policy"
+    },
+    "error": {
+      "title": "Unable to sign in",
+      "domain": "This is not a UNAIR account. Sign in with your campus email.",
+      "generic": "Sign-in failed. Please try again.",
+      "action": {
+        "another": "Try another account"
+      },
+      "suspended": {
+        "title": "Account suspended"
+      }
+    }
   },
   "landing": {
     "hero": {
@@ -119,6 +164,70 @@
     "ADMIN_DISPUTE": {
       "title": "A new dispute needs review",
       "body": "Claim {claimShortId} was disputed. Open the queue to review."
+    }
+  },
+  "report": {
+    "wizard": {
+      "stepOf": "Step {current} of {total}",
+      "step": {
+        "pending": "The next step is being prepared.",
+        "category": { "title": "Category" },
+        "photos": { "title": "Photos" },
+        "details": { "title": "Details" },
+        "where": { "title": "Location & time" },
+        "custody": { "title": "Custody" },
+        "hints": { "title": "Verification questions" },
+        "review": { "title": "Review & submit" }
+      },
+      "type": {
+        "label": "Report type",
+        "lost": "Lost item",
+        "found": "Found item"
+      },
+      "category": { "legend": "Choose a category" },
+      "needCategory": "Choose a type and category to continue.",
+      "photos": {
+        "add": "Add photos",
+        "required": "At least 1 photo is required for a found-item report.",
+        "uploading": "Uploading…",
+        "processing": "Processing…",
+        "ready": "Photo ready.",
+        "rejected": "This photo could not be processed.",
+        "restored": "Restored photo",
+        "remove": "Remove photo",
+        "retry": "Try again",
+        "settled": "Wait for the uploads to finish."
+      },
+      "draftSaved": "Draft saved",
+      "draftRestored": "Draft restored"
+    }
+  },
+  "category": {
+    "ID_CARD": "ID card",
+    "BANK_CARD": "Bank card",
+    "WALLET": "Wallet",
+    "PHONE": "Phone",
+    "LAPTOP_TABLET": "Laptop/tablet",
+    "EARPHONES": "Earphones",
+    "CHARGER_CABLE": "Charger cable",
+    "KEYS": "Keys",
+    "BAG": "Bag",
+    "CLOTHING": "Clothing",
+    "GLASSES": "Glasses",
+    "BOTTLE": "Bottle",
+    "BOOK_DOCUMENT": "Book/document",
+    "STATIONERY": "Stationery",
+    "ACCESSORY": "Accessory",
+    "SPORTS_GEAR": "Sports gear",
+    "UMBRELLA": "Umbrella",
+    "HELMET": "Helmet",
+    "OTHER": "Other"
+  },
+  "sensitive": {
+    "notice": {
+      "title": "Sensitive item",
+      "body": "Photos will be masked to protect personal data.",
+      "dropPoint": "Hand it in at an official drop point when possible."
     }
   }
 }

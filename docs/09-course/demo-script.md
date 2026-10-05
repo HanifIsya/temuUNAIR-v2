@@ -5,7 +5,7 @@ status: draft
 owner: SW
 updated: 2026-09-29
 depends_on: ["FLOWS", "SEEDS", "ROADMAP"]
-source_refs: ["proposal.pdf §Cara Kerja (pending extract)", "Blueprint §4.9"]
+source_refs: ["proposal.pdf §D figure, p. 4 (via docs/_source/proposal-extract.md)", "Blueprint §4.9"]
 ---
 
 # Demo script

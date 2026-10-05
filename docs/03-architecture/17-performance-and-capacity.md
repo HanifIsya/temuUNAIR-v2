@@ -1,9 +1,9 @@
 ---
 id: PERFORMANCE
 title: Performance and capacity
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["NFR", "ARCH-ML", "ARCH-JOBS"]
 source_refs: ["NFR-001..006, NFR-070..072", "DEC-011"]
 ---

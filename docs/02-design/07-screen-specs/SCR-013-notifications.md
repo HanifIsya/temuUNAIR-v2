@@ -1,9 +1,9 @@
 ---
 id: SCR-013
 title: Notifications
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "FE-02", "CMP"]
 source_refs: ["FE-01", "API-NTF-01..04", "BE-08", "FR-NTF-001..007"]
 ---

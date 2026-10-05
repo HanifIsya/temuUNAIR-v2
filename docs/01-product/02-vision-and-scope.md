@@ -1,11 +1,11 @@
 ---
 id: VISION
 title: Vision and scope
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PRD", "BLUEPRINT"]
-source_refs: ["proposal.pdf §A (pending extract)", "DEC-011", "DEC-018", "Blueprint §1.4"]
+source_refs: ["proposal.pdf §A (via docs/_source/proposal-extract.md)", "DEC-011", "DEC-018", "Blueprint §1.4"]
 ---
 
 # Vision and scope
@@ -41,6 +41,18 @@ it stores the minimum needed to reunite people with their belongings.
 Native apps · payments/rewards · automatic item release · anonymous public browsing ·
 sharing phone numbers/emails by default · voice/video · multi-university · item shipping ·
 insurance · OCR owner notification (stretch, DEC-014) · YOLO fine-tuning (stretch, DEC-015).
+
+## Campuses covered
+
+TemuUNAIR operates as a single-tenant deployment serving all four Universitas Airlangga campuses,
+with campus-scoped moderation and drop points (DEC-006, DEC-010):
+
+| Campus | Locations & faculties | Moderation scope |
+|---|---|---|
+| **Kampus A** | Jl. Mayjen Prof. Dr. Moestopo 47 (FK, FKG) | Campus A moderators |
+| **Kampus B** | Jl. Dharmawangsa Dalam (FEB, FH, FISIP, FIB, FPsi, FF, Pascasarjana) | Campus B moderators |
+| **Kampus C** | Jl. Dr. Ir. H. Soekarno, Mulyorejo (FST, FPK, FKH, FKM, FTMM, RSUA) | Campus C moderators |
+| **Banyuwangi (FIKKIA)** | Kampus Giri & Kampus Sobo, Banyuwangi (FIKKIA) | FIKKIA moderators |
 
 ## Release slicing
 

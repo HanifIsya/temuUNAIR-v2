@@ -39,7 +39,16 @@ describe("Worker bootstrap", () => {
     expect(worker.boss.work).toHaveBeenCalledTimes(8);
 
     for (const queue of Object.keys(QUEUES)) {
-      expect(worker.boss.work).toHaveBeenCalledWith(queue, expect.any(Function));
+      if (queue === "report.process") {
+        // BE-07 needs job metadata (retryCount/retryLimit) for dead-letter detection.
+        expect(worker.boss.work).toHaveBeenCalledWith(
+          queue,
+          { includeMetadata: true },
+          expect.any(Function),
+        );
+      } else {
+        expect(worker.boss.work).toHaveBeenCalledWith(queue, expect.any(Function));
+      }
     }
   });
 
@@ -50,27 +59,37 @@ describe("Worker bootstrap", () => {
   });
 
   it("executes registered queue handler on incoming jobs and validates payload", async () => {
-    const worker = createWorker({ connectionString: "postgres://user:pass@localhost:5432/db" });
+    const runner = vi.fn(async () => undefined);
+    const worker = createWorker({
+      connectionString: "postgres://user:pass@localhost:5432/db",
+      reportProcess: runner,
+    });
     await worker.start();
 
     const workMock = worker.boss.work as unknown as ReturnType<typeof vi.fn>;
     const reportProcessCall = workMock.mock.calls.find((call) => call[0] === "report.process");
     expect(reportProcessCall).toBeDefined();
-    const handler = reportProcessCall![1];
+    expect(reportProcessCall![1]).toEqual({ includeMetadata: true });
+    const handler = reportProcessCall![2] as (jobs: unknown[]) => Promise<void>;
 
-    // Valid job execution succeeds
+    // Valid job execution reaches the injected report.process runner
     const validJob = {
       id: "job-123",
       data: { reportId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11" },
+      retryCount: 0,
+      retryLimit: 3,
     };
     await expect(handler([validJob])).resolves.not.toThrow();
+    expect(runner).toHaveBeenCalledTimes(1);
+    expect(runner).toHaveBeenCalledWith([validJob]);
 
-    // Invalid job execution throws ZodError
+    // Invalid job execution throws ZodError before the runner is invoked
     const invalidJob = {
       id: "job-456",
       data: { reportId: "not-a-uuid" },
     };
     await expect(handler([invalidJob])).rejects.toThrow();
+    expect(runner).toHaveBeenCalledTimes(1);
 
     // Cron sweep job with null data succeeds without crashing
     const sweepCall = workMock.mock.calls.find((call) => call[0] === "report.expire-sweep");

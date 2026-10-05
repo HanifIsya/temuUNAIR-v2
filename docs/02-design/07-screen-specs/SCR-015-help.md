@@ -1,9 +1,9 @@
 ---
 id: SCR-015
 title: Help and safety
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "SCR-016"]
 source_refs: ["FE-01", "API-META-04", "FR-HND-003"]
 ---

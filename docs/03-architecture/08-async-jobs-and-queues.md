@@ -1,9 +1,9 @@
 ---
 id: ARCH-JOBS
 title: Async jobs and queues
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-STATES", "BE-07", "DEC-013"]
 source_refs: ["Blueprint §5A.7", "DEC-013"]
 ---

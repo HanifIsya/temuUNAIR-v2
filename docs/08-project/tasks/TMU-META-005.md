@@ -1,7 +1,7 @@
 ---
 id: TMU-META-005
 title: Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
-status: TODO
+status: DONE
 lane: meta
 slug: sync-meta-registers-m1
 milestone: M1
@@ -10,7 +10,7 @@ owner: docs-keeper
 deps: [TMU-DOC-003, TMU-DOC-008, TMU-DOC-019]
 refs: [DECISIONS, TRACEABILITY, BLUEPRINT]
 created: 2026-10-02
-updated: 2026-10-02
+updated: 2026-10-03
 ---
 
 # TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
@@ -44,22 +44,23 @@ meta lane owns.
 
 ## Acceptance criteria
 
-- [ ] Every DEC entry added by `TMU-DOC-003`/`TMU-DOC-008` (as listed in their Progress logs)
+- [x] Every DEC entry added by `TMU-DOC-003`/`TMU-DOC-008` (as listed in their Progress logs)
       appears in `docs/08-project/decisions-log.md` with matching IDs; the log's existing
       format/order conventions are preserved.
-- [ ] `docs/08-project/traceability-matrix.md` has no orphan row and lists the M1 filed tasks
+- [x] `docs/08-project/traceability-matrix.md` has no orphan row and lists the M1 filed tasks
       (per `TMU-DOC-019`'s handoff): Tasks column entries all match real backlog IDs.
-- [ ] This branch's content edits are limited to the two registers (`decisions-log.md`,
+- [x] This branch's content edits are limited to the two registers (`decisions-log.md`,
       `traceability-matrix.md`); every changed path — including regenerated `_common` indexes —
       is reachable from the meta lane, so `bash scripts/check-lane.sh` passes.
-- [ ] `node scripts/backlog-index.mjs` regenerated if statuses changed.
-- [ ] `pnpm gate` green.
+- [x] `node scripts/backlog-index.mjs` regenerated if statuses changed.
+- [x] `pnpm gate` green.
 
 ## Files expected to change
 
 - `docs/08-project/decisions-log.md`
 - `docs/08-project/traceability-matrix.md`
 - `docs/08-project/tasks/TMU-META-005.md`
+- `docs/08-project/reviews/TMU-META-005.md` (review record, `_common`)
 - `docs/08-project/backlog.md` / `status.md` (regenerated, `_common`, only if statuses change)
 
 ## Progress log
@@ -67,6 +68,19 @@ meta lane owns.
 | Time | Agent | Step | Evidence |
 |---|---|---|---|
 | 2026-10-02 | orchestrator | filed | TMU-META-004 review cycle 1, finding 3 (lane conflicts in DOC-003/008/019) |
+| 2026-10-03 | docs-keeper | 1 PICK | branch `agent/meta/TMU-META-005-sync-meta-registers-m1` created from `main` (`18e8fa8`); status → `IN_PROGRESS`; deps `TMU-DOC-003, 008, 019` all DONE |
+| 2026-10-03 | docs-keeper | 3 PLAN | 1) Apply DEC-021..025 to `docs/08-project/decisions-log.md` matching `12-assumptions-and-decisions.md`; 2) Update `docs/08-project/traceability-matrix.md` with US-012, US-016, US-044, US-045, US-057; 3) Run pnpm gate; 4) Write review REV-TMU-META-005; 5) Ship |
+| 2026-10-03 | docs-keeper | 5 GREEN | Applied DEC-021..025 to decisions-log.md; synchronized traceability-matrix.md across Goals G1, G4, and G5; both updated bumped to 2026-10-03 |
+| 2026-10-03 | docs-keeper | 7 GATE | `pnpm gate` → `OK gate(quick) passed` — lane check exit 0, prettier, lint, typecheck, i18n 70 keys, 140/140 unit, contracts:check+lint, db:check, ml ruff+7 pytest |
+| 2026-10-03 | reviewer | 9 REVIEW c1 | verdict **`APPROVE`** (0 BLOCKER, 0 MAJOR, 0 MINOR) → `docs/08-project/reviews/TMU-META-005.md`; DEC log and traceability matrix fully synchronized |
+| 2026-10-03 | docs-keeper | 10 SHIP | task flipped to DONE; status and backlog indexes regenerated |
+
+## Evidence
+
+- Red: N/A — meta register synchronization task; ACs are artifact alignment and lane boundary checks recorded in Progress log
+- Green: `pnpm gate` → `OK gate(quick) passed` (lane check exit 0, prettier, lint, typecheck, i18n 70 keys, 140/140 unit tests, contracts, db, ml)
+- PR: (local merge per environment rules)
+- Review: cycle 1 **`APPROVE`** (0 BLOCKER, 0 MAJOR, 0 MINOR) → `docs/08-project/reviews/TMU-META-005.md`
 
 ## Blockers
 

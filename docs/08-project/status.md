@@ -30,37 +30,98 @@ TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 24 · CANCELLED: 0
 - [x] TMU-OPS-020 — Clear the advisory audit red (postcss under next)
 - [x] TMU-OPS-021 — Review follow-ups from TMU-OPS-005 cycle 1 (MINOR findings)
 
-## M1 — 22%
+## M1 — 100%
 
-TODO: 18 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 5 · CANCELLED: 0
+TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 
 - [x] TMU-DOC-001 — M0 exit roadmap update and M1 documentation milestone kickoff
 - [x] TMU-DOC-002 — Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md
 - [x] TMU-DOC-003 — Resolve OQ-1..OQ-5 (answer OQ-1 from source; defer OQ-2..5 with DECs)
-- [ ] TMU-DOC-004 — Review and approve the M1 core product docs (PRD, VISION, PERSONAS)
-- [ ] TMU-DOC-005 — Review and approve the requirements docs (US, FR, NFR)
-- [ ] TMU-DOC-006 — Review and approve the acceptance-criteria and glossary docs
-- [ ] TMU-DOC-007 — Review and approve the risk register and roadmap
-- [ ] TMU-DOC-008 — Review and approve the success-metrics and decisions docs
-- [ ] TMU-DOC-009 — Review the legal/privacy drafts and record the human legal-review requirement
-- [ ] TMU-DOC-010 — Review and approve the operations-model and user-research docs
-- [ ] TMU-DOC-011 — Review and approve the design foundations (principles, brand, tokens)
-- [ ] TMU-DOC-012 — Review and approve information architecture and user flows
-- [ ] TMU-DOC-013 — Review and approve wireframes
-- [ ] TMU-DOC-014 — Review and approve the screen specs (SCR-001..023)
-- [ ] TMU-DOC-015 — Review and approve the component inventory and content/microcopy docs
-- [ ] TMU-DOC-016 — Review and approve the accessibility and responsive/motion docs
-- [ ] TMU-DOC-017 — Review and approve the state designs and notification templates
-- [ ] TMU-DOC-018 — Review and approve the admin-console design and onboarding docs
-- [ ] TMU-DOC-019 — M1 cross-document consistency and traceability pass
-- [ ] TMU-DOC-020 — M1 exit checklist, docs-approval evidence and M2 handoff
+- [x] TMU-DOC-004 — Review and approve the M1 core product docs (PRD, VISION, PERSONAS)
+- [x] TMU-DOC-005 — Review and approve the requirements docs (US, FR, NFR)
+- [x] TMU-DOC-006 — Review and approve the acceptance-criteria and glossary docs
+- [x] TMU-DOC-007 — Review and approve the risk register and roadmap
+- [x] TMU-DOC-008 — Review and approve the success-metrics and decisions docs
+- [x] TMU-DOC-009 — Review the legal/privacy drafts and record the human legal-review requirement
+- [x] TMU-DOC-010 — Review and approve the operations-model and user-research docs
+- [x] TMU-DOC-011 — Review and approve the design foundations (principles, brand, tokens)
+- [x] TMU-DOC-012 — Review and approve information architecture and user flows
+- [x] TMU-DOC-013 — Review and approve wireframes
+- [x] TMU-DOC-014 — Review and approve the screen specs (SCR-001..023)
+- [x] TMU-DOC-015 — Review and approve the component inventory and content/microcopy docs
+- [x] TMU-DOC-016 — Review and approve the accessibility and responsive/motion docs
+- [x] TMU-DOC-017 — Review and approve the state designs and notification templates
+- [x] TMU-DOC-018 — Review and approve the admin-console design and onboarding docs
+- [x] TMU-DOC-019 — M1 cross-document consistency and traceability pass
+- [x] TMU-DOC-020 — M1 exit checklist, docs-approval evidence and M2 handoff
 - [x] TMU-META-004 — File the M1 task breakdown (TMU-DOC-002..020) and the source-lane enabler
-- [ ] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
+- [x] TMU-META-005 — Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix)
 - [x] TMU-OPS-033 — Widen the docs lane to docs/_source/** (M1 source intake enabler)
 
-## M2 — 0%
+## M2 — 100%
 
-TODO: 1 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 0 · CANCELLED: 0
+TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 23 · CANCELLED: 0
 
-- [ ] TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
+- [x] TMU-ARC-001 — Review and approve System Overview (01-system-overview.md)
+- [x] TMU-ARC-002 — Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md)
+- [x] TMU-ARC-003 — Review and approve Data Model and ERD (03-data-model-erd.md)
+- [x] TMU-ARC-004 — Review and approve State Machines (04-state-machines.md)
+- [x] TMU-ARC-005 — Review and approve Matching Algorithm Spec (05-matching-algorithm-spec.md)
+- [x] TMU-ARC-006 — Review and approve ML Service Design (06-ml-service-design.md)
+- [x] TMU-ARC-007 — Review and approve ML Evaluation Plan (07-ml-evaluation-plan.md)
+- [x] TMU-ARC-008 — Review and approve Async Jobs and Queues (08-async-jobs-and-queues.md)
+- [x] TMU-ARC-009 — Review and approve Storage and Media Pipeline (09-storage-and-media-pipeline.md)
+- [x] TMU-ARC-010 — Review and approve Auth and RBAC (10-auth-and-rbac.md)
+- [x] TMU-ARC-011 — Review and approve Notification Design (11-notification-design.md)
+- [x] TMU-ARC-012 — Review and approve Chat Design (12-chat-design.md)
+- [x] TMU-ARC-013 — Review and approve Search Design (13-search-design.md)
+- [x] TMU-ARC-014 — Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md)
+- [x] TMU-ARC-015 — Review and approve Observability, Capacity, Topology, i18n and ADRs
+- [x] TMU-CTR-001 — Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04)
+- [x] TMU-CTR-002 — Author contract schemas for reports (API-REP-01..08)
+- [x] TMU-CTR-003 — Author contract schemas for search and matching (API-SRC-01, API-MAT-01..04)
+- [x] TMU-CTR-004 — Author contract schemas for claims, chat and handover (API-CLM-01..10, API-CHT-01..04)
+- [x] TMU-CTR-005 — Author contract schemas for notifications and admin operations (API-NTF-01..04, API-ADM-01..17)
+- [x] TMU-CTR-006 — Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init
+- [x] TMU-CTR-007 — M2 exit checklist, contracts/architecture approval evidence and M3 handoff
+- [x] TMU-META-006 — File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007)
+
+## M3 — 75%
+
+TODO: 7 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 21 · CANCELLED: 0
+
+- [x] TMU-BE-001 — Server config, env validation and typed error mapping (BE-11/BE-01/BE-04)
+- [x] TMU-BE-002 — Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021)
+- [x] TMU-BE-003 — ME + preferences handlers (API-ME-01..05)
+- [x] TMU-BE-004 — Upload handshake (API-UPL-01..03) — presign, validation, complete
+- [x] TMU-BE-005 — META handlers (API-META-01..04) — categories, campuses, locations, drop points
+- [x] TMU-BE-006 — Report create/read (API-REP-01/02/04) with visibility and masking mappers
+- [x] TMU-BE-007 — report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub
+- [x] TMU-BE-008 — Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12)
+- [ ] TMU-BE-009 — Test GET/POST dispatch in the next-auth catch-all route (TMU-FE-003 n-11)
+- [x] TMU-CTR-009 — Generator bug — types.ts emits duplicate path keys, breaking typecheck for every generated-client consumer
+- [x] TMU-DB-001 — Core tables migration — users, Auth.js adapter, locations, drop_points
+- [x] TMU-DB-002 — Reports base migration — reports, report_images, verification_hints
+- [x] TMU-DB-003 — Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches
+- [x] TMU-DB-004 — Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes)
+- [x] TMU-DB-005 — Ops migration — notifications, prefs, flags, audit_logs (+BE-05 indexes) and M3 seeds
+- [x] TMU-FE-001 — Login flow — landing → Google OAuth → callback, auth errors (SCR-001/002)
+- [x] TMU-FE-002 — App shell — navigation, locale switcher, notification bell slot (SCR-003 frame)
+- [x] TMU-FE-003 — Report wizard steps 1–2 — category/type choice + photos with upload hooks (SCR-004)
+- [ ] TMU-FE-004 — Report wizard steps 3–5 + review/submit with hint and custody fields (SCR-004)
+- [ ] TMU-FE-005 — Browse list + report detail via generated client (SCR-005/006)
+- [ ] TMU-FE-006 — Home dashboard — my-reports summary, CTAs, seed demo pass (SCR-003)
+- [x] TMU-META-007 — File the M3 task breakdown (TMU-DB-001..005, TMU-BE-001..008, TMU-FE-001..006)
+- [ ] TMU-META-008 — Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index
+- [ ] TMU-OPS-034 — M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton
+- [x] TMU-OPS-035 — Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002)
+- [x] TMU-OPS-036 — Lane map — grant be lane access to tests/contract/** (BLK-003 option 2)
+- [x] TMU-OPS-037 — Vitest — resolve `@/*` via vite-tsconfig-paths (FE lane unblocker)
+- [ ] TMU-QA-001 — Contract runner boots the real Next handlers; clear Schemathesis warnings (REV-TMU-CTR-007/008)
+
+## M7 — 100%
+
+TODO: 0 · IN_PROGRESS: 0 · BLOCKED: 0 · REVIEW: 0 · DONE: 1 · CANCELLED: 0
+
+- [x] TMU-CTR-008 — Split BE-03 admin locations/drop-points combined rows into per-method API IDs
 

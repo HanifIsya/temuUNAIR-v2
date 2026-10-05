@@ -11,6 +11,10 @@ vi.mock("next-intl/server", () => ({
   getMessages: mocks.getMessages,
 }));
 
+vi.mock("next-auth/react", () => ({
+  SessionProvider: ({ children }: { children: import("react").ReactNode }) => <>{children}</>,
+}));
+
 import { useTranslations } from "next-intl";
 
 import RootLayout from "./layout";

@@ -1,9 +1,9 @@
 ---
 id: OBSERVABILITY
 title: Observability
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-OVERVIEW", "ARCH-JOBS", "NFR"]
 source_refs: ["NFR-081, NFR-082", "Blueprint §5A.7"]
 ---

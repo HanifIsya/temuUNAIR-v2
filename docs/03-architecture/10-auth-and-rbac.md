@@ -1,9 +1,9 @@
 ---
 id: ARCH-AUTH
 title: Auth and RBAC
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-OVERVIEW", "BE-09", "DEC-001", "DEC-006"]
 source_refs: ["Blueprint §5A.11"]
 ---

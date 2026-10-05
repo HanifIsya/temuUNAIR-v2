@@ -1,9 +1,9 @@
 ---
 id: COPY
 title: Content and microcopy (id-ID with English mirror)
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["DESIGN-PRINCIPLES", "GLOSSARY", "FE-08"]
 source_refs: ["Blueprint §4.3", "DEC-008"]
 ---

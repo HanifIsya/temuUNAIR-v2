@@ -3,7 +3,7 @@ id: DECISIONS-LOG
 title: Decisions log
 status: draft
 owner: DK
-updated: 2026-09-30
+updated: 2026-10-03
 depends_on: ["DECISIONS", "ADR-README"]
 source_refs: ["Blueprint §1.3, §4.9"]
 ---
@@ -38,6 +38,11 @@ in `docs/03-architecture/adr/`.
 | DEC-018 | Login required for all browsing | accepted | Team | 2026-09-29 |
 | DEC-019 | Orchestrator holds merge authority at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs stop for a human | superseded (on merge authority by DEC-020; no-approval-count stands) | Repo owner | 2026-09-30 |
 | DEC-020 | Any agent may merge at loop step 12; a human may still merge; breaking/irreversible contract or migration PRs still stop for a human | accepted | Repo owner | 2026-09-30 |
+| DEC-021 | OQ-2: real UNAIR domains unknown at M1 (defer to UNAIR DTI, due M3 AUTH) | deferred — open | UNAIR DTI / advisor | 2026-10-02 |
+| DEC-022 | OQ-3: real drop points unknown at M1 (defer to stakeholders, due M3 seeds; synthetic drop points meanwhile) | deferred — open | Stakeholders | 2026-10-02 |
+| DEC-023 | OQ-4: prohibited sensitive categories ruling (defer to Legal/DPO, due M3 REPORT; DEC-014 masking stands) | deferred — open | Legal / DPO | 2026-10-02 |
+| DEC-024 | OQ-5: production hosting target undecided at M1 (defer to Advisor, due M9 deploy; Compose/CPU default stands) | deferred — open | Advisor | 2026-10-02 |
+| DEC-025 | Human legal review of 13-legal-privacy-drafts.md (defer formal legal sign-off to UNAIR legal / DPO before launch) | deferred — open | UNAIR legal / DPO | 2026-10-03 |
 
 ## ADR entries
 

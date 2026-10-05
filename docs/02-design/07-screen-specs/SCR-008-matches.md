@@ -1,9 +1,9 @@
 ---
 id: SCR-008
 title: Match suggestions
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-006", "CMP"]
 source_refs: ["FE-01", "API-MAT-01..04", "FR-MAT-001..005"]
 ---

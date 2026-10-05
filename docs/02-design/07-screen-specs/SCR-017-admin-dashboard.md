@@ -1,9 +1,9 @@
 ---
 id: SCR-017
 title: Admin dashboard
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "14-admin-console-design", "CMP"]
 source_refs: ["FE-01", "API-ADM-11", "FR-ADM-006"]
 ---

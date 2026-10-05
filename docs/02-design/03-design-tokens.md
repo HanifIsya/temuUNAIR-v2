@@ -1,11 +1,11 @@
 ---
 id: TOKENS
 title: Design tokens
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["BRAND", "FE-07"]
-source_refs: ["Blueprint §5B.11", "docs/_source/logo.png (missing)"]
+source_refs: ["Blueprint §5B.11", "docs/_source/logo.png (placeholder)"]
 ---
 
 # Design tokens

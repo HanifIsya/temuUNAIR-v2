@@ -1,9 +1,9 @@
 ---
 id: SCR-012
 title: Claim room
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-010", "CMP", "FE-04"]
 source_refs: ["FE-01", "API-CLM-04..10", "API-CHT-01..04", "FR-CLM-002..009", "FR-CHT-001..004", "FR-HND-001..003"]
 ---

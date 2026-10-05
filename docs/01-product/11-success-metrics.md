@@ -1,11 +1,11 @@
 ---
 id: METRICS
 title: Success metrics and instrumentation
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["PRD", "FR", "FE-10", "ADM-11"]
-source_refs: ["proposal.pdf §Tujuan 1–5 (pending extract)", "Blueprint §5B.9, §5B.10"]
+source_refs: ["proposal.pdf §B Tujuan 1–5 (via docs/_source/proposal-extract.md)", "Blueprint §5B.9, §5B.10"]
 ---
 
 # Success metrics

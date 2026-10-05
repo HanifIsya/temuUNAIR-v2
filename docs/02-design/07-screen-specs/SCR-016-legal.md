@@ -1,9 +1,9 @@
 ---
 id: SCR-016
 title: Legal pages
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["SCR-015", "LEGAL"]
 source_refs: ["FE-01", "DEC-017", "13-legal-privacy-drafts.md"]
 ---

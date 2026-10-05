@@ -5,6 +5,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { AuthProvider } from "@/features/auth/providers";
+import { ApiProvider } from "@/lib/api/provider";
+
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
@@ -18,7 +21,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     <html lang={locale}>
       <body className="bg-surface font-sans text-text antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <AuthProvider>
+            <ApiProvider>{children}</ApiProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

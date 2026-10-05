@@ -30,24 +30,75 @@
 | [TMU-DOC-001](tasks/TMU-DOC-001.md) | M1 | docs | DONE | P1 | M0 exit roadmap update and M1 documentation milestone kickoff | TMU-OPS-010 |
 | [TMU-DOC-002](tasks/TMU-DOC-002.md) | M1 | docs | DONE | P1 | Source intake: commit proposal.pdf, draft proposal-extract.md, refresh _source/README.md | TMU-DOC-001, TMU-OPS-033 |
 | [TMU-DOC-003](tasks/TMU-DOC-003.md) | M1 | docs | DONE | P1 | Resolve OQ-1..OQ-5 (answer OQ-1 from source; defer OQ-2..5 with DECs) | TMU-DOC-002 |
-| [TMU-DOC-004](tasks/TMU-DOC-004.md) | M1 | docs | TODO | P2 | Review and approve the M1 core product docs (PRD, VISION, PERSONAS) | TMU-DOC-003 |
-| [TMU-DOC-005](tasks/TMU-DOC-005.md) | M1 | docs | TODO | P2 | Review and approve the requirements docs (US, FR, NFR) | TMU-DOC-002 |
-| [TMU-DOC-006](tasks/TMU-DOC-006.md) | M1 | docs | TODO | P2 | Review and approve the acceptance-criteria and glossary docs | TMU-DOC-002 |
-| [TMU-DOC-007](tasks/TMU-DOC-007.md) | M1 | docs | TODO | P2 | Review and approve the risk register and roadmap | TMU-DOC-002 |
-| [TMU-DOC-008](tasks/TMU-DOC-008.md) | M1 | docs | TODO | P2 | Review and approve the success-metrics and decisions docs | TMU-DOC-003 |
-| [TMU-DOC-009](tasks/TMU-DOC-009.md) | M1 | docs | TODO | P2 | Review the legal/privacy drafts and record the human legal-review requirement | TMU-DOC-002 |
-| [TMU-DOC-010](tasks/TMU-DOC-010.md) | M1 | docs | TODO | P2 | Review and approve the operations-model and user-research docs | TMU-DOC-002 |
-| [TMU-DOC-011](tasks/TMU-DOC-011.md) | M1 | docs | TODO | P2 | Review and approve the design foundations (principles, brand, tokens) | TMU-DOC-002 |
-| [TMU-DOC-012](tasks/TMU-DOC-012.md) | M1 | docs | TODO | P2 | Review and approve information architecture and user flows | TMU-DOC-002 |
-| [TMU-DOC-013](tasks/TMU-DOC-013.md) | M1 | docs | TODO | P2 | Review and approve wireframes | TMU-DOC-002 |
-| [TMU-DOC-014](tasks/TMU-DOC-014.md) | M1 | docs | TODO | P2 | Review and approve the screen specs (SCR-001..023) | TMU-DOC-002 |
-| [TMU-DOC-015](tasks/TMU-DOC-015.md) | M1 | docs | TODO | P2 | Review and approve the component inventory and content/microcopy docs | TMU-DOC-002 |
-| [TMU-DOC-016](tasks/TMU-DOC-016.md) | M1 | docs | TODO | P2 | Review and approve the accessibility and responsive/motion docs | TMU-DOC-002 |
-| [TMU-DOC-017](tasks/TMU-DOC-017.md) | M1 | docs | TODO | P2 | Review and approve the state designs and notification templates | TMU-DOC-002 |
-| [TMU-DOC-018](tasks/TMU-DOC-018.md) | M1 | docs | TODO | P2 | Review and approve the admin-console design and onboarding docs | TMU-DOC-002 |
-| [TMU-DOC-019](tasks/TMU-DOC-019.md) | M1 | docs | TODO | P2 | M1 cross-document consistency and traceability pass | TMU-DOC-003, TMU-DOC-004, TMU-DOC-005, TMU-DOC-006, TMU-DOC-007, TMU-DOC-008, TMU-DOC-009, TMU-DOC-010, TMU-DOC-011, TMU-DOC-012, TMU-DOC-013, TMU-DOC-014, TMU-DOC-015, TMU-DOC-016, TMU-DOC-017, TMU-DOC-018 |
-| [TMU-DOC-020](tasks/TMU-DOC-020.md) | M1 | docs | TODO | P1 | M1 exit checklist, docs-approval evidence and M2 handoff | TMU-DOC-019, TMU-META-005 |
+| [TMU-DOC-004](tasks/TMU-DOC-004.md) | M1 | docs | DONE | P2 | Review and approve the M1 core product docs (PRD, VISION, PERSONAS) | TMU-DOC-003 |
+| [TMU-DOC-005](tasks/TMU-DOC-005.md) | M1 | docs | DONE | P2 | Review and approve the requirements docs (US, FR, NFR) | TMU-DOC-002 |
+| [TMU-DOC-006](tasks/TMU-DOC-006.md) | M1 | docs | DONE | P2 | Review and approve the acceptance-criteria and glossary docs | TMU-DOC-002 |
+| [TMU-DOC-007](tasks/TMU-DOC-007.md) | M1 | docs | DONE | P2 | Review and approve the risk register and roadmap | TMU-DOC-002 |
+| [TMU-DOC-008](tasks/TMU-DOC-008.md) | M1 | docs | DONE | P2 | Review and approve the success-metrics and decisions docs | TMU-DOC-003 |
+| [TMU-DOC-009](tasks/TMU-DOC-009.md) | M1 | docs | DONE | P2 | Review the legal/privacy drafts and record the human legal-review requirement | TMU-DOC-002 |
+| [TMU-DOC-010](tasks/TMU-DOC-010.md) | M1 | docs | DONE | P2 | Review and approve the operations-model and user-research docs | TMU-DOC-002 |
+| [TMU-DOC-011](tasks/TMU-DOC-011.md) | M1 | docs | DONE | P2 | Review and approve the design foundations (principles, brand, tokens) | TMU-DOC-002 |
+| [TMU-DOC-012](tasks/TMU-DOC-012.md) | M1 | docs | DONE | P2 | Review and approve information architecture and user flows | TMU-DOC-002 |
+| [TMU-DOC-013](tasks/TMU-DOC-013.md) | M1 | docs | DONE | P2 | Review and approve wireframes | TMU-DOC-002 |
+| [TMU-DOC-014](tasks/TMU-DOC-014.md) | M1 | docs | DONE | P2 | Review and approve the screen specs (SCR-001..023) | TMU-DOC-002 |
+| [TMU-DOC-015](tasks/TMU-DOC-015.md) | M1 | docs | DONE | P2 | Review and approve the component inventory and content/microcopy docs | TMU-DOC-002 |
+| [TMU-DOC-016](tasks/TMU-DOC-016.md) | M1 | docs | DONE | P2 | Review and approve the accessibility and responsive/motion docs | TMU-DOC-002 |
+| [TMU-DOC-017](tasks/TMU-DOC-017.md) | M1 | docs | DONE | P2 | Review and approve the state designs and notification templates | TMU-DOC-002 |
+| [TMU-DOC-018](tasks/TMU-DOC-018.md) | M1 | docs | DONE | P2 | Review and approve the admin-console design and onboarding docs | TMU-DOC-002 |
+| [TMU-DOC-019](tasks/TMU-DOC-019.md) | M1 | docs | DONE | P2 | M1 cross-document consistency and traceability pass | TMU-DOC-003, TMU-DOC-004, TMU-DOC-005, TMU-DOC-006, TMU-DOC-007, TMU-DOC-008, TMU-DOC-009, TMU-DOC-010, TMU-DOC-011, TMU-DOC-012, TMU-DOC-013, TMU-DOC-014, TMU-DOC-015, TMU-DOC-016, TMU-DOC-017, TMU-DOC-018 |
+| [TMU-DOC-020](tasks/TMU-DOC-020.md) | M1 | docs | DONE | P1 | M1 exit checklist, docs-approval evidence and M2 handoff | TMU-DOC-019, TMU-META-005 |
 | [TMU-META-004](tasks/TMU-META-004.md) | M1 | meta | DONE | P1 | File the M1 task breakdown (TMU-DOC-002..020) and the source-lane enabler | TMU-DOC-001 |
-| [TMU-META-005](tasks/TMU-META-005.md) | M1 | meta | TODO | P1 | Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix) | TMU-DOC-003, TMU-DOC-008, TMU-DOC-019 |
+| [TMU-META-005](tasks/TMU-META-005.md) | M1 | meta | DONE | P1 | Sync meta-lane registers after M1 doc reviews (decisions log, traceability matrix) | TMU-DOC-003, TMU-DOC-008, TMU-DOC-019 |
 | [TMU-OPS-033](tasks/TMU-OPS-033.md) | M1 | ops | DONE | P1 | Widen the docs lane to docs/_source/** (M1 source intake enabler) | TMU-DOC-001 |
-| [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | TODO | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
+| [TMU-ARC-001](tasks/TMU-ARC-001.md) | M2 | arch | DONE | P2 | Review and approve System Overview (01-system-overview.md) | TMU-DOC-020 |
+| [TMU-ARC-002](tasks/TMU-ARC-002.md) | M2 | arch | DONE | P2 | Review and approve Tech Stack and Versions (02-tech-stack-and-versions.md) | TMU-DOC-020 |
+| [TMU-ARC-003](tasks/TMU-ARC-003.md) | M2 | arch | DONE | P2 | Review and approve Data Model and ERD (03-data-model-erd.md) | TMU-DOC-020, TMU-CTR-006 |
+| [TMU-ARC-004](tasks/TMU-ARC-004.md) | M2 | arch | DONE | P2 | Review and approve State Machines (04-state-machines.md) | TMU-DOC-020 |
+| [TMU-ARC-005](tasks/TMU-ARC-005.md) | M2 | arch | DONE | P2 | Review and approve Matching Algorithm Spec (05-matching-algorithm-spec.md) | TMU-DOC-020 |
+| [TMU-ARC-006](tasks/TMU-ARC-006.md) | M2 | arch | DONE | P2 | Review and approve ML Service Design (06-ml-service-design.md) | TMU-DOC-020 |
+| [TMU-ARC-007](tasks/TMU-ARC-007.md) | M2 | arch | DONE | P2 | Review and approve ML Evaluation Plan (07-ml-evaluation-plan.md) | TMU-DOC-020 |
+| [TMU-ARC-008](tasks/TMU-ARC-008.md) | M2 | arch | DONE | P2 | Review and approve Async Jobs and Queues (08-async-jobs-and-queues.md) | TMU-DOC-020 |
+| [TMU-ARC-009](tasks/TMU-ARC-009.md) | M2 | arch | DONE | P2 | Review and approve Storage and Media Pipeline (09-storage-and-media-pipeline.md) | TMU-DOC-020 |
+| [TMU-ARC-010](tasks/TMU-ARC-010.md) | M2 | arch | DONE | P2 | Review and approve Auth and RBAC (10-auth-and-rbac.md) | TMU-DOC-020 |
+| [TMU-ARC-011](tasks/TMU-ARC-011.md) | M2 | arch | DONE | P2 | Review and approve Notification Design (11-notification-design.md) | TMU-DOC-020 |
+| [TMU-ARC-012](tasks/TMU-ARC-012.md) | M2 | arch | DONE | P2 | Review and approve Chat Design (12-chat-design.md) | TMU-DOC-020 |
+| [TMU-ARC-013](tasks/TMU-ARC-013.md) | M2 | arch | DONE | P2 | Review and approve Search Design (13-search-design.md) | TMU-DOC-020 |
+| [TMU-ARC-014](tasks/TMU-ARC-014.md) | M2 | sec | DONE | P2 | Review and approve Security Threat Model and Privacy (14-security-threat-model.md, 15-privacy-and-data-retention.md) | TMU-DOC-020 |
+| [TMU-ARC-015](tasks/TMU-ARC-015.md) | M2 | arch | DONE | P2 | Review and approve Observability, Capacity, Topology, i18n and ADRs | TMU-DOC-020 |
+| [TMU-CTR-001](tasks/TMU-CTR-001.md) | M2 | contracts | DONE | P2 | Author contract schemas for ME, preferences and uploads (API-ME-*, API-UPL-*, API-META-02/04) | TMU-DOC-020, TMU-ARC-001 |
+| [TMU-CTR-002](tasks/TMU-CTR-002.md) | M2 | contracts | DONE | P2 | Author contract schemas for reports (API-REP-01..08) | TMU-DOC-020, TMU-CTR-001, TMU-ARC-004 |
+| [TMU-CTR-003](tasks/TMU-CTR-003.md) | M2 | contracts | DONE | P2 | Author contract schemas for search and matching (API-SRC-01, API-MAT-01..04) | TMU-DOC-020, TMU-CTR-002, TMU-ARC-005 |
+| [TMU-CTR-004](tasks/TMU-CTR-004.md) | M2 | contracts | DONE | P2 | Author contract schemas for claims, chat and handover (API-CLM-01..10, API-CHT-01..04) | TMU-DOC-020, TMU-CTR-002, TMU-ARC-004 |
+| [TMU-CTR-005](tasks/TMU-CTR-005.md) | M2 | contracts | DONE | P2 | Author contract schemas for notifications and admin operations (API-NTF-01..04, API-ADM-01..17) | TMU-DOC-020, TMU-CTR-004, TMU-ARC-010 |
+| [TMU-CTR-006](tasks/TMU-CTR-006.md) | M2 | contracts | DONE | P2 | Reconcile BE-05 "Additions required by the docs" with the extensions-only 0001_init | TMU-OPS-005 |
+| [TMU-CTR-007](tasks/TMU-CTR-007.md) | M2 | contracts | DONE | P1 | M2 exit checklist, contracts/architecture approval evidence and M3 handoff | TMU-ARC-001, TMU-ARC-002, TMU-ARC-003, TMU-ARC-004, TMU-ARC-005, TMU-ARC-006, TMU-ARC-007, TMU-ARC-008, TMU-ARC-009, TMU-ARC-010, TMU-ARC-011, TMU-ARC-012, TMU-ARC-013, TMU-ARC-014, TMU-ARC-015, TMU-CTR-001, TMU-CTR-002, TMU-CTR-003, TMU-CTR-004, TMU-CTR-005, TMU-CTR-006 |
+| [TMU-META-006](tasks/TMU-META-006.md) | M2 | meta | DONE | P1 | File the M2 task breakdown (TMU-ARC-001..015, TMU-CTR-001..005, TMU-CTR-007) | TMU-DOC-020 |
+| [TMU-BE-001](tasks/TMU-BE-001.md) | M3 | be | DONE | P1 | Server config, env validation and typed error mapping (BE-11/BE-01/BE-04) | TMU-DB-005 |
+| [TMU-BE-002](tasks/TMU-BE-002.md) | M3 | be | DONE | P1 | Auth — Auth.js + Google OAuth, domain allowlist, DB sessions (BE-09, DEC-001/021) | TMU-BE-001 |
+| [TMU-BE-003](tasks/TMU-BE-003.md) | M3 | be | DONE | P1 | ME + preferences handlers (API-ME-01..05) | TMU-BE-002 |
+| [TMU-BE-004](tasks/TMU-BE-004.md) | M3 | be | DONE | P1 | Upload handshake (API-UPL-01..03) — presign, validation, complete | TMU-BE-003 |
+| [TMU-BE-005](tasks/TMU-BE-005.md) | M3 | be | DONE | P1 | META handlers (API-META-01..04) — categories, campuses, locations, drop points | TMU-BE-003 |
+| [TMU-BE-006](tasks/TMU-BE-006.md) | M3 | be | DONE | P1 | Report create/read (API-REP-01/02/04) with visibility and masking mappers | TMU-BE-004, TMU-BE-005 |
+| [TMU-BE-007](tasks/TMU-BE-007.md) | M3 | be | DONE | P1 | report.process job + ML client (BE-07, BE-06) with needs_reprocess and ML_MODE=stub | TMU-BE-006 |
+| [TMU-BE-008](tasks/TMU-BE-008.md) | M3 | be | DONE | P1 | Ops hardening — idempotency + rate-limit middleware (BE-01, BE-12) | TMU-BE-007 |
+| [TMU-BE-009](tasks/TMU-BE-009.md) | M3 | be | TODO | P3 | Test GET/POST dispatch in the next-auth catch-all route (TMU-FE-003 n-11) | TMU-BE-002 |
+| [TMU-CTR-009](tasks/TMU-CTR-009.md) | M3 | contracts | DONE | P1 | Generator bug — types.ts emits duplicate path keys, breaking typecheck for every generated-client consumer |  |
+| [TMU-DB-001](tasks/TMU-DB-001.md) | M3 | db | DONE | P1 | Core tables migration — users, Auth.js adapter, locations, drop_points | TMU-CTR-007, TMU-OPS-035 |
+| [TMU-DB-002](tasks/TMU-DB-002.md) | M3 | db | DONE | P1 | Reports base migration — reports, report_images, verification_hints | TMU-DB-001 |
+| [TMU-DB-003](tasks/TMU-DB-003.md) | M3 | db | DONE | P1 | Reports additions + matching tables — needs_reprocess, FTS trigger, features, matches | TMU-DB-002 |
+| [TMU-DB-004](tasks/TMU-DB-004.md) | M3 | db | DONE | P1 | Claims and chat migration — claims, claim_answers, messages (+BE-05 indexes) | TMU-DB-003 |
+| [TMU-DB-005](tasks/TMU-DB-005.md) | M3 | db | DONE | P1 | Ops migration — notifications, prefs, flags, audit_logs (+BE-05 indexes) and M3 seeds | TMU-DB-004 |
+| [TMU-FE-001](tasks/TMU-FE-001.md) | M3 | fe | DONE | P1 | Login flow — landing → Google OAuth → callback, auth errors (SCR-001/002) | TMU-BE-002 |
+| [TMU-FE-002](tasks/TMU-FE-002.md) | M3 | fe | DONE | P1 | App shell — navigation, locale switcher, notification bell slot (SCR-003 frame) | TMU-FE-001 |
+| [TMU-FE-003](tasks/TMU-FE-003.md) | M3 | fe | DONE | P1 | Report wizard steps 1–2 — category/type choice + photos with upload hooks (SCR-004) | TMU-BE-004, TMU-FE-002 |
+| [TMU-FE-004](tasks/TMU-FE-004.md) | M3 | fe | TODO | P1 | Report wizard steps 3–5 + review/submit with hint and custody fields (SCR-004) | TMU-FE-003 |
+| [TMU-FE-005](tasks/TMU-FE-005.md) | M3 | fe | TODO | P1 | Browse list + report detail via generated client (SCR-005/006) | TMU-BE-006, TMU-FE-002 |
+| [TMU-FE-006](tasks/TMU-FE-006.md) | M3 | fe | TODO | P1 | Home dashboard — my-reports summary, CTAs, seed demo pass (SCR-003) | TMU-FE-005 |
+| [TMU-META-007](tasks/TMU-META-007.md) | M3 | meta | DONE | P1 | File the M3 task breakdown (TMU-DB-001..005, TMU-BE-001..008, TMU-FE-001..006) | TMU-CTR-007 |
+| [TMU-META-008](tasks/TMU-META-008.md) | M3 | meta | TODO | P2 | Contract-doc governance sweep — BE-*/FE-* status, traceability rows and M2 evidence index | TMU-CTR-008 |
+| [TMU-OPS-034](tasks/TMU-OPS-034.md) | M3 | ops | TODO | P1 | M3 compose bring-up — web + worker + postgres + minio up green for the walking skeleton | TMU-DB-005, TMU-BE-008 |
+| [TMU-OPS-035](tasks/TMU-OPS-035.md) | M3 | ops | DONE | P1 | Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002) | TMU-OPS-005 |
+| [TMU-OPS-036](tasks/TMU-OPS-036.md) | M3 | ops | DONE | P1 | Lane map — grant be lane access to tests/contract/** (BLK-003 option 2) |  |
+| [TMU-OPS-037](tasks/TMU-OPS-037.md) | M3 | ops | DONE | P1 | Vitest — resolve `@/*` via vite-tsconfig-paths (FE lane unblocker) |  |
+| [TMU-QA-001](tasks/TMU-QA-001.md) | M3 | qa | TODO | P1 | Contract runner boots the real Next handlers; clear Schemathesis warnings (REV-TMU-CTR-007/008) | TMU-BE-008 |
+| [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | DONE | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |

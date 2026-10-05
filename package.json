@@ -43,6 +43,7 @@
     "prettier": "^3.6.2",
     "turbo": "^2.6.3",
     "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^3.2.4"
   },
   "pnpm": {
@@ -52,6 +53,9 @@
     },
     "onlyBuiltDependencies": [
       "esbuild"
-    ]
+    ],
+    "patchedDependencies": {
+      "drizzle-kit@0.31.11": "patches/drizzle-kit@0.31.11.patch"
+    }
   }
 }

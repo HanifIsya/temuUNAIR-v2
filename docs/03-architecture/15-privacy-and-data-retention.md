@@ -1,9 +1,9 @@
 ---
 id: PRIVACY-RETENTION
 title: Privacy and data retention
-status: draft
+status: approved
 owner: SR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["THREAT-MODEL", "LEGAL", "DEC-017", "DEC-014"]
 source_refs: ["NFR-030..035", "UU PDP Law 27/2022"]
 ---

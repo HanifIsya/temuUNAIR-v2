@@ -1,9 +1,9 @@
 ---
 id: SCR-009
 title: My reports
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "FE-02", "CMP"]
 source_refs: ["FE-01", "API-REP-03", "API-REP-06", "API-REP-07", "FR-MGT-001"]
 ---

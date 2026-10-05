@@ -1,9 +1,9 @@
 ---
 id: STATES
 title: Empty, error and loading states
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["COPY", "CMP", "FE-06"]
 source_refs: ["Blueprint §5B.6"]
 ---

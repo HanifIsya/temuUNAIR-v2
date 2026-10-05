@@ -1,11 +1,11 @@
 ---
 id: FLOWS
 title: User flows
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["IA", "US", "05A.6-state-machines"]
-source_refs: ["proposal.pdf §Cara Kerja (pending extract)", "Blueprint §5A.6"]
+source_refs: ["proposal.pdf §D figure, p. 4 (via docs/_source/proposal-extract.md)", "Blueprint §5A.6"]
 ---
 
 # User flows

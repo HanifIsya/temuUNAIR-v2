@@ -1,9 +1,9 @@
 ---
 id: AC
 title: Acceptance criteria
-status: draft
+status: approved
 owner: SW
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["FR", "NFR", "US"]
 source_refs: ["Blueprint §4.1, §5A.6", "DEC-004", "DEC-007", "DEC-014"]
 ---

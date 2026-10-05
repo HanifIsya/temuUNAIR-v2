@@ -1,9 +1,9 @@
 ---
 id: ARCH-ERD
 title: Data model and ERD
-status: draft
+status: approved
 owner: AR
-updated: 2026-09-29
+updated: 2026-10-03
 depends_on: ["ARCH-OVERVIEW", "BE-05"]
 source_refs: ["Blueprint §5A.5", "DEC-014", "DEC-017"]
 ---
@@ -50,7 +50,7 @@ erDiagram
 | `accounts`, `sessions`, `verification_tokens` | Auth.js adapter | low | session cookie `__Secure-temuunair.session` |
 | `locations` | campus place tree | low | `parent_id` self-reference; soft `active` |
 | `drop_points` | custody locations | low | `hours jsonb`, `contact_note` |
-| `reports` | LOST/FOUND records | medium | status machine §5A.6; `search_tsv` FTS |
+| `reports` | LOST/FOUND records | medium | status machine §5A.6; `search_tsv` FTS; `needs_reprocess` marker (BE-07) |
 | `report_images` | uploads per report | medium | `storage_key`, `thumb_key`, `masked_key`, `sha256`, status |
 | `verification_hints` | hidden-detail prompts | low | `answer_enc bytea` AES-GCM (DEC-004) |
 | `image_features` | per-image embeddings + detections | medium | `vector(512)`, HNSW |

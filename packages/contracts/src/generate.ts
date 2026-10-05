@@ -95,6 +95,7 @@ type OpenApiModel = {
   doc: JsonObject;
   responseComponents: readonly ResponseComponent[];
   nameByRoute: ReadonlyMap<string, string>;
+  nameByRouteRequest: ReadonlyMap<string, string>;
 };
 
 const errorStatusesOf = (route: RouteDef): string[] => [
@@ -117,15 +118,38 @@ const ensureResponseComponent = (
   return component;
 };
 
+const ensureRequestComponent = (
+  route: RouteDef,
+  componentBySchema: Map<z.ZodTypeAny, ResponseComponent>,
+  components: ResponseComponent[],
+): ResponseComponent | null => {
+  if (route.request === null) return null;
+  const existing = componentBySchema.get(route.request);
+  if (existing !== undefined) return existing;
+  const component: ResponseComponent = {
+    name: `${route.id}Request`,
+    schema: toJsonSchema(route.request),
+  };
+  componentBySchema.set(route.request, component);
+  components.push(component);
+  return component;
+};
+
 const buildOpenApiModel = (version: string): OpenApiModel => {
   const componentBySchema = new Map<z.ZodTypeAny, ResponseComponent>();
   const responseComponents: ResponseComponent[] = [];
   const nameByRoute = new Map<string, string>();
+  const nameByRouteRequest = new Map<string, string>();
   const paths: JsonObject = {};
 
   for (const route of registry) {
     const component = ensureResponseComponent(route, componentBySchema, responseComponents);
     nameByRoute.set(route.id, component.name);
+
+    const reqComponent = ensureRequestComponent(route, componentBySchema, responseComponents);
+    if (reqComponent !== null) {
+      nameByRouteRequest.set(route.id, reqComponent.name);
+    }
 
     const responses: JsonObject = {
       "200": {
@@ -156,11 +180,35 @@ const buildOpenApiModel = (version: string): OpenApiModel => {
 
     const existingPath = paths[route.path];
     const pathItem: JsonObject = isJsonObject(existingPath) ? existingPath : {};
-    pathItem[route.method] = {
+    const operation: JsonObject = {
       operationId: route.id,
       security: route.auth === "public" ? [] : [{ cookieAuth: [] }],
       responses,
     };
+
+    const pathParams = [...route.path.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]);
+    if (pathParams.length > 0) {
+      operation["parameters"] = pathParams.map((param) => ({
+        name: param,
+        in: "path",
+        required: true,
+        schema: { type: "string" },
+      }));
+    }
+
+    if (reqComponent !== null) {
+      operation["requestBody"] = {
+        description: "Request body",
+        required: true,
+        content: {
+          "application/json": {
+            schema: { $ref: `#/components/schemas/${reqComponent.name}` },
+          },
+        },
+      };
+    }
+
+    pathItem[route.method] = operation;
     paths[route.path] = pathItem;
   }
 
@@ -183,6 +231,7 @@ const buildOpenApiModel = (version: string): OpenApiModel => {
     },
     responseComponents,
     nameByRoute,
+    nameByRouteRequest,
   };
 };
 
@@ -283,10 +332,18 @@ const buildOpenApiFile = (version: string, doc: JsonObject): string =>
 const buildTypesFile = (version: string, model: OpenApiModel): string => {
   const lines: string[] = [tsBanner(version), ""];
 
-  lines.push("export interface paths {");
+  const methodsByPath = new Map<string, { method: string; id: string }[]>();
   for (const route of registry) {
-    lines.push(`  ${jsonLiteral(route.path)}: {`);
-    lines.push(`    ${route.method}: operations[${jsonLiteral(route.id)}];`);
+    const entries = methodsByPath.get(route.path) ?? [];
+    entries.push({ method: route.method, id: route.id });
+    methodsByPath.set(route.path, entries);
+  }
+  lines.push("export interface paths {");
+  for (const [path, entries] of methodsByPath) {
+    lines.push(`  ${jsonLiteral(path)}: {`);
+    for (const entry of entries) {
+      lines.push(`    ${entry.method}: operations[${jsonLiteral(entry.id)}];`);
+    }
     lines.push("  };");
   }
   lines.push("}", "");
@@ -308,7 +365,25 @@ const buildTypesFile = (version: string, model: OpenApiModel): string => {
   lines.push("export interface operations {");
   for (const route of registry) {
     const name = requireComponentName(model, route.id);
+    const pathParams = [...route.path.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]);
     lines.push(`  ${jsonLiteral(route.id)}: {`);
+    if (pathParams.length > 0) {
+      lines.push("    parameters: {");
+      lines.push("      path: {");
+      for (const param of pathParams) {
+        lines.push(`        ${jsonLiteral(param)}: string;`);
+      }
+      lines.push("      };");
+      lines.push("    };");
+    }
+    const reqName = model.nameByRouteRequest.get(route.id);
+    if (reqName !== undefined) {
+      lines.push("    requestBody?: {");
+      lines.push(
+        `      content: { "application/json": components["schemas"][${jsonLiteral(reqName)}] };`,
+      );
+      lines.push("    };");
+    }
     lines.push("    responses: {");
     lines.push(
       `      200: { content: { "application/json": components["schemas"][${jsonLiteral(name)}] } };`,
@@ -350,8 +425,9 @@ const buildMswFile = (version: string): string => {
     if (example === undefined) {
       throw new Error(`examples is missing an entry for ${route.id}`);
     }
+    const pathPattern = route.path.replace(/\{([^}]+)\}/g, ":$1");
     lines.push(
-      `  http.${route.method}("*${route.path}", () => HttpResponse.json(${jsonLiteral(example)})),`,
+      `  http.${route.method}("*${pathPattern}", () => HttpResponse.json(${jsonLiteral(example)})),`,
     );
   }
   lines.push("];", "");
