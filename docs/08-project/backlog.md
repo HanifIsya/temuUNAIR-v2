@@ -100,7 +100,7 @@
 | [TMU-OPS-035](tasks/TMU-OPS-035.md) | M3 | ops | DONE | P1 | Fix db:check so a populated schema diff is non-interactive and self-reporting (BLK-002) | TMU-OPS-005 |
 | [TMU-OPS-036](tasks/TMU-OPS-036.md) | M3 | ops | DONE | P1 | Lane map — grant be lane access to tests/contract/** (BLK-003 option 2) |  |
 | [TMU-OPS-037](tasks/TMU-OPS-037.md) | M3 | ops | DONE | P1 | Vitest — resolve `@/*` via vite-tsconfig-paths (FE lane unblocker) |  |
-| [TMU-OPS-038](tasks/TMU-OPS-038.md) | M3 | ops | IN_PROGRESS | P1 | Fix main CI red — gitleaks allowlist coverage (secret-scan) + web image `patches/` COPY (docker-build) |  |
+| [TMU-OPS-038](tasks/TMU-OPS-038.md) | M3 | ops | DONE | P1 | Fix main CI red — gitleaks allowlist coverage (secret-scan) + web image `patches/` COPY (docker-build) |  |
 | [TMU-OPS-039](tasks/TMU-OPS-039.md) | M3 | ops | TODO | P2 | Upgrade `next-auth` / `next-intl` off production advisories (security M-6) + ADR for v3→v4 |  |
 | [TMU-QA-001](tasks/TMU-QA-001.md) | M3 | qa | TODO | P1 | Contract runner boots the real Next handlers; clear Schemathesis warnings (REV-TMU-CTR-007/008) | TMU-BE-008 |
 | [TMU-CTR-008](tasks/TMU-CTR-008.md) | M7 | contracts | DONE | P3 | Split BE-03 admin locations/drop-points combined rows into per-method API IDs | TMU-CTR-005 |
