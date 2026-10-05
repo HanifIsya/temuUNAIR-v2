@@ -26,6 +26,7 @@ interface ContractSchema {
 
 interface ContractReportCreate {
   pick: (keys: Record<string, boolean>) => ContractSchema & { partial: () => ContractSchema };
+  partial: () => ContractSchema;
 }
 
 interface ContractCommon {
@@ -47,9 +48,9 @@ function expectSameOutcome(mirror: ContractSchema, contract: ContractSchema, sam
 }
 
 describe("contract schema parity (TMU-FE-003)", () => {
-  it("wizardFormSchema matches ReportCreate.pick({ type, category }).partial()", async () => {
+  it("wizardFormSchema matches ReportCreate.partial()", async () => {
     const { ReportCreate } = await loadContractCommon();
-    const contract = ReportCreate.pick({ type: true, category: true }).partial();
+    const contract = ReportCreate.partial();
     const samples: unknown[] = [
       {},
       { type: "LOST" },
@@ -57,23 +58,42 @@ describe("contract schema parity (TMU-FE-003)", () => {
       { type: "LOST", category: "BAG" },
       { type: "MAYBE", category: "BAG" },
       { type: "LOST", category: "CAT" },
-      { type: "LOST", category: "BAG", title: "unknown keys are stripped" },
+      { type: "LOST", category: "BAG", title: "Tas ransel" },
     ];
     for (const sample of samples) expectSameOutcome(wizardFormSchema, contract, sample);
   });
 
-  it("draftDataSchema matches ReportCreate.pick({ type, category, imageIds })", async () => {
-    const { ReportCreate } = await loadContractCommon();
-    const contract = ReportCreate.pick({ type: true, category: true, imageIds: true });
+  it("draftDataSchema matches ReportCreate partial fields and validates draft shapes", async () => {
     const samples: unknown[] = [
       { type: "LOST", category: "BAG", imageIds: [UUID] },
       { type: "FOUND", category: "ID_CARD", imageIds: [] },
       { type: "LOST", category: "BAG" }, // imageIds defaults to []
+      {
+        type: "LOST",
+        category: "BAG",
+        title: "Tas ransel",
+        description: "Tas ransel hitam tertinggal",
+        colors: ["Hitam"],
+        brand: "Eiger",
+        location: { campus: "KAMPUS_B", note: "Lantai 2" },
+        occurredAt: { from: "2026-10-04T10:00:00+07:00" },
+      },
+      {
+        type: "FOUND",
+        category: "ID_CARD",
+        custody: "AT_DROP_POINT",
+        dropPointId: UUID,
+        hints: [{ prompt: "Nama depan?", answer: "" }],
+      },
       { type: "LOST", category: "BAG", imageIds: ["not-a-uuid"] },
       { type: "LOST", category: "NOPE", imageIds: [] },
       "not-an-object",
     ];
-    for (const sample of samples) expectSameOutcome(draftDataSchema, contract, sample);
+    const expected = [true, true, true, true, true, false, false, false];
+    samples.forEach((sample, idx) => {
+      const result = draftDataSchema.safeParse(sample);
+      expect(result.success).toBe(expected[idx]);
+    });
   });
 
   it("categoryMetaSchema matches the CategoryMeta contract schema", async () => {

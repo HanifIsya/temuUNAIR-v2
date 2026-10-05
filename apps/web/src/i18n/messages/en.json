@@ -199,7 +199,85 @@
         "settled": "Wait for the uploads to finish."
       },
       "draftSaved": "Draft saved",
-      "draftRestored": "Draft restored"
+      "draftRestored": "Draft restored",
+      "details": {
+        "titleLabel": "Report title",
+        "titlePlaceholder": "e.g. Navy blue Eiger backpack",
+        "titleHint": "3–80 characters",
+        "descLabel": "Item description",
+        "descPlaceholder": "Describe distinguishing marks, condition, stickers, charms, or other details...",
+        "descHint": "10–1000 characters",
+        "colorsLabel": "Colors (up to 3)",
+        "brandLabel": "Brand / maker (optional)",
+        "brandPlaceholder": "e.g. Eiger, Apple, Samsung"
+      },
+      "colors": {
+        "BLACK": "Black",
+        "WHITE": "White",
+        "BLUE": "Blue",
+        "RED": "Red",
+        "BROWN": "Brown",
+        "GRAY": "Gray",
+        "GREEN": "Green",
+        "YELLOW": "Yellow",
+        "GOLD": "Gold",
+        "SILVER": "Silver"
+      },
+      "where": {
+        "campusLabel": "Campus",
+        "campusPlaceholder": "Select campus...",
+        "locationLabel": "Specific location (optional)",
+        "locationPlaceholder": "Select building / room...",
+        "noteLabel": "Location note (optional)",
+        "notePlaceholder": "e.g. On the table near 2nd floor elevator",
+        "fromLabel": "Time occurred (start)",
+        "toLabel": "Until time (optional)",
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "timeRange": "Time range of occurrence"
+      },
+      "custody": {
+        "label": "Where is this item currently kept?",
+        "heldByFinder": "Kept by finder",
+        "heldByFinderDesc": "The item stays with finder until the owner submits a verified claim.",
+        "atDropPoint": "Deposited at Drop Point / Security Post",
+        "atDropPointDesc": "The item is handed over to an official campus desk for safekeeping.",
+        "dropPointSelect": "Select Drop Point",
+        "dropPointPlaceholder": "Select deposit location..."
+      },
+      "hints": {
+        "warning": "Do not show answers in photos or description!",
+        "desc": "Ask questions that only the rightful owner would know.",
+        "sensitiveWarning": "Sensitive categories require at least 2 verification questions.",
+        "suggestions": "Suggested questions:",
+        "promptLabel": "Question {index}",
+        "promptPlaceholder": "e.g. What sticker is on the inside?",
+        "answerLabel": "Expected answer",
+        "answerPlaceholder": "Secret answer (will never be shown publicly)",
+        "answerNotice": "This answer is secret; only you and moderators can verify claims.",
+        "addHint": "Add question",
+        "removeHint": "Remove question"
+      },
+      "review": {
+        "summary": "Report Summary",
+        "categoryTitle": "Type & Category",
+        "photosTitle": "Photos",
+        "photosCount": "{count} photos attached",
+        "detailsTitle": "Item Details",
+        "colorsLabel": "Colors: ",
+        "brandLabel": "Brand: ",
+        "locationTitle": "Location & Time",
+        "locationNoteLabel": "Note: ",
+        "timeLabel": "Time: ",
+        "timeRangeSeparator": " to ",
+        "custodyTitle": "Custody",
+        "hintsTitle": "Ownership Verification",
+        "hintsCount": "{count} verification questions configured",
+        "noPhotos": "No photos attached",
+        "submit": "Submit Report",
+        "submitting": "Submitting report…",
+        "success": "Report created successfully! We will notify you if matches are found."
+      }
     }
   },
   "category": {

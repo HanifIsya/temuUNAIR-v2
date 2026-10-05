@@ -199,7 +199,85 @@
         "settled": "Tunggu foto selesai diunggah."
       },
       "draftSaved": "Draft tersimpan",
-      "draftRestored": "Draft dipulihkan"
+      "draftRestored": "Draft dipulihkan",
+      "details": {
+        "titleLabel": "Judul laporan",
+        "titlePlaceholder": "Contoh: Tas ransel biru tua Eiger",
+        "titleHint": "3–80 karakter",
+        "descLabel": "Deskripsi barang",
+        "descPlaceholder": "Jelaskan ciri khusus, kondisi, stiker, gantungan, atau detail lainnya...",
+        "descHint": "10–1000 karakter",
+        "colorsLabel": "Warna (maksimal 3)",
+        "brandLabel": "Merek / brand (opsional)",
+        "brandPlaceholder": "Contoh: Eiger, Apple, Samsung"
+      },
+      "colors": {
+        "BLACK": "Hitam",
+        "WHITE": "Putih",
+        "BLUE": "Biru",
+        "RED": "Merah",
+        "BROWN": "Cokelat",
+        "GRAY": "Abu-abu",
+        "GREEN": "Hijau",
+        "YELLOW": "Kuning",
+        "GOLD": "Emas",
+        "SILVER": "Perak"
+      },
+      "where": {
+        "campusLabel": "Kampus",
+        "campusPlaceholder": "Pilih kampus...",
+        "locationLabel": "Lokasi spesifik (opsional)",
+        "locationPlaceholder": "Pilih gedung / ruangan...",
+        "noteLabel": "Catatan lokasi (opsional)",
+        "notePlaceholder": "Contoh: Di meja dekat lift lantai 2",
+        "fromLabel": "Waktu kejadian (mulai)",
+        "toLabel": "Sampai waktu (opsional)",
+        "today": "Hari ini",
+        "yesterday": "Kemarin",
+        "timeRange": "Rentang waktu kejadian"
+      },
+      "custody": {
+        "label": "Barang ini disimpan di mana?",
+        "heldByFinder": "Saya simpan sendiri",
+        "heldByFinderDesc": "Barang berada pada penemu hingga pemilik mengajukan klaim.",
+        "atDropPoint": "Dititipkan di Drop Point / Pos Keamanan",
+        "atDropPointDesc": "Barang diserahkan ke pos resmi kampus agar lebih aman.",
+        "dropPointSelect": "Pilih Drop Point",
+        "dropPointPlaceholder": "Pilih lokasi penitipan..."
+      },
+      "hints": {
+        "warning": "Jangan tampilkan jawaban di foto atau deskripsi!",
+        "desc": "Ajukan pertanyaan yang hanya diketahui oleh pemilik asli barang.",
+        "sensitiveWarning": "Kategori sensitif memerlukan minimal 2 pertanyaan verifikasi.",
+        "suggestions": "Saran pertanyaan:",
+        "promptLabel": "Pertanyaan {index}",
+        "promptPlaceholder": "Contoh: Ada stiker apa di bagian dalam?",
+        "answerLabel": "Jawaban yang diharapkan",
+        "answerPlaceholder": "Jawaban rahasia (tidak akan ditampilkan ke publik)",
+        "answerNotice": "Jawaban ini rahasia, hanya kamu dan moderator yang dapat memverifikasi.",
+        "addHint": "Tambah pertanyaan",
+        "removeHint": "Hapus pertanyaan"
+      },
+      "review": {
+        "summary": "Ringkasan Laporan",
+        "categoryTitle": "Jenis & Kategori",
+        "photosTitle": "Foto",
+        "photosCount": "{count} foto dilampirkan",
+        "detailsTitle": "Detail Barang",
+        "colorsLabel": "Warna: ",
+        "brandLabel": "Merek: ",
+        "locationTitle": "Lokasi & Waktu",
+        "locationNoteLabel": "Catatan: ",
+        "timeLabel": "Waktu: ",
+        "timeRangeSeparator": " s/d ",
+        "custodyTitle": "Penitipan",
+        "hintsTitle": "Verifikasi Kepemilikan",
+        "hintsCount": "{count} pertanyaan verifikasi disiapkan",
+        "noPhotos": "Tidak ada foto dilampirkan",
+        "submit": "Kirim Laporan",
+        "submitting": "Mengirim laporan…",
+        "success": "Laporan berhasil dibuat! Kami akan memberi tahu jika ada kecocokan."
+      }
     }
   },
   "category": {

@@ -25,10 +25,18 @@ export function saveDraft(
   data: ReportDraftData,
   now: Date = new Date(),
 ): void {
+  // Strip verification hint answers before persisting to localStorage (ADR-0007 / FE-04 privacy rule)
+  const sanitizedData: ReportDraftData = {
+    ...data,
+    hints: data.hints?.map((h) => ({
+      prompt: h.prompt,
+      answer: "",
+    })),
+  };
   const envelope: DraftEnvelope = {
     version: DRAFT_VERSION,
     savedAt: now.toISOString(),
-    data,
+    data: sanitizedData,
   };
   try {
     localStorage.setItem(draftKey(type), JSON.stringify(envelope));

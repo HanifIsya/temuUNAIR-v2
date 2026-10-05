@@ -12,7 +12,7 @@
 // (success flags *and* parsed output), so drift breaks CI. If ops later enables
 // `allowImportingTsExtensions`, these mirrors can be replaced with direct
 // `ReportCreate`/`CategoryMeta` imports.
-import { Category, ReportType } from "@temuunair/contracts/src/enums";
+import { Campus, Category, Custody, ReportType } from "@temuunair/contracts/src/enums";
 import { z } from "zod";
 
 /** Step 1 gate: both a type and a category are required before advancing. */
@@ -21,14 +21,92 @@ export const step1Schema = z.object({
   category: Category,
 });
 
-/** RHF step-1 form: fields fill in incrementally, so each one is optional. */
-export const wizardFormSchema = step1Schema.partial();
+/** Step 3 details schema. */
+export const step3DetailsSchema = z.object({
+  title: z.string().min(3).max(80),
+  description: z.string().min(10).max(1000),
+  colors: z.array(z.string()).max(3).default([]),
+  brand: z.string().max(60).optional(),
+});
 
-/** Draft payload: `ReportCreate.pick({ type, category, imageIds })` (imageIds default []). */
+/** Location input schema for Step 4. */
+export const locationInputSchema = z.object({
+  campus: Campus,
+  locationId: z.string().uuid().optional(),
+  note: z.string().max(200).optional(),
+});
+
+/** Time window schema for Step 4. */
+export const occurredAtWindowSchema = z.object({
+  from: z.string().datetime({ offset: true }),
+  to: z.string().datetime({ offset: true }).optional(),
+});
+
+/** Step 4 location and occurredAt schema. */
+export const step4LocationSchema = z.object({
+  location: locationInputSchema,
+  occurredAt: occurredAtWindowSchema,
+});
+
+/** Step 5 custody schema (FOUND only). */
+export const step5CustodySchema = z.object({
+  custody: Custody,
+  dropPointId: z.string().uuid().optional(),
+});
+
+/** Step 6 verification hint input schema (FOUND only). */
+export const verificationHintInputSchema = z.object({
+  prompt: z.string().min(3).max(200),
+  answer: z.string().min(1).max(200),
+});
+
+/** Safe verification hint schema for drafts (answer is strictly empty). */
+export const verificationHintDraftSchema = z.object({
+  prompt: z.string().min(3).max(200),
+  answer: z.literal("").default(""),
+});
+
+/** Full RHF wizard form schema (mirrors ReportCreate.partial()). */
+export const wizardFormSchema = z.object({
+  type: ReportType.optional(),
+  category: Category.optional(),
+  title: z.string().min(3).max(80).optional(),
+  description: z.string().min(10).max(1000).optional(),
+  colors: z.array(z.string()).default([]).optional(),
+  brand: z.string().optional(),
+  imageIds: z.array(z.string().uuid()).default([]).optional(),
+  location: locationInputSchema.optional(),
+  occurredAt: occurredAtWindowSchema.optional(),
+  custody: Custody.optional(),
+  dropPointId: z.string().uuid().optional(),
+  hints: z.array(verificationHintInputSchema).optional(),
+});
+
+/** Draft payload saved in localStorage. Hint answers MUST NOT be stored! */
 export const draftDataSchema = z.object({
   type: ReportType,
   category: Category,
   imageIds: z.array(z.string().uuid()).default([]),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  colors: z.array(z.string()).optional(),
+  brand: z.string().optional(),
+  location: z
+    .object({
+      campus: Campus,
+      locationId: z.string().uuid().optional(),
+      note: z.string().optional(),
+    })
+    .optional(),
+  occurredAt: z
+    .object({
+      from: z.string(),
+      to: z.string().optional(),
+    })
+    .optional(),
+  custody: Custody.optional(),
+  dropPointId: z.string().uuid().optional(),
+  hints: z.array(verificationHintDraftSchema).optional(),
 });
 
 /** One API-META-01 catalog row (`CategoryMeta` in the contract). */
