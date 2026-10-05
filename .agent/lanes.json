@@ -49,6 +49,7 @@
     "apps/web/src/app/(app)/**",
     "apps/web/src/app/(admin)/**",
     "apps/web/src/app/(public)/**",
+    "apps/web/src/app/api/auth/[...nextauth]/route.ts",
     "apps/web/src/app/api/v1/meta/campuses/route.ts",
     "apps/web/src/app/api/v1/meta/categories/route.ts",
     "apps/web/src/app/api/v1/meta/drop-points/route.ts",

@@ -4,6 +4,7 @@
 // (re-login within the cool-off restores the account).
 
 import NextAuth from "next-auth";
+import type { NextRequest } from "next/server";
 import { getAuthOptions } from "@/server/auth/config";
 import { getDb } from "@/server/db";
 import { DomainError, ErrorCode, toErrorResponse } from "@/server/errors";
@@ -13,7 +14,7 @@ import { PgMeRepository } from "@/server/repositories/me";
 import { getDeletionQueue } from "@/server/services/deletion-queue";
 import { cancelPendingDeletion } from "@/server/services/me";
 
-const handler = NextAuth(
+const { handlers } = NextAuth(
   getAuthOptions({
     onSignIn: (userId) => {
       cancelPendingDeletion(new PgMeRepository(getDb()), getDeletionQueue(), userId).catch(
@@ -28,7 +29,7 @@ const handler = NextAuth(
 // TMU-BE-008 / BE-12: auth endpoints are limited to 20/minute per IP.
 // The rate error is mapped to the BE-01 envelope here because this route
 // sits outside handlers/dispatch.ts.
-async function withAuthRateLimit(request: Request): Promise<Response> {
+async function withAuthRateLimit(request: NextRequest): Promise<Response> {
   const requestId = generateRequestId(request.headers.get("X-Request-Id"));
   try {
     enforceAuthIpRate(request);
@@ -43,7 +44,7 @@ async function withAuthRateLimit(request: Request): Promise<Response> {
     }
     return Response.json(toErrorResponse(err, requestId), { status, headers });
   }
-  return handler(request);
+  return request.method === "POST" ? handlers.POST(request) : handlers.GET(request);
 }
 
 export { withAuthRateLimit as GET, withAuthRateLimit as POST };
