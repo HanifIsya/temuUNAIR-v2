@@ -88,4 +88,29 @@ describe("report draft storage", () => {
     expect(localStorage.getItem(draftKey("LOST"))).toBeNull();
     expect(loadDraft("FOUND", LATER)).toEqual(foundData);
   });
+
+  it("NEVER persists verification hint answers in localStorage (privacy check)", () => {
+    const payloadWithHints = {
+      ...validData,
+      type: "FOUND" as const,
+      title: "Dompet cokelat",
+      description: "Ditemukan di lobi FK",
+      hints: [{ prompt: "Apa warna gantungan kunci?", answer: "KUNING_RAHASIA" }],
+    };
+
+    saveDraft("FOUND", payloadWithHints as unknown as typeof validData, NOW);
+
+    const rawStored = localStorage.getItem(draftKey("FOUND"));
+    expect(rawStored).not.toBeNull();
+    // Raw JSON in localStorage must NEVER contain the secret answer
+    expect(rawStored).not.toContain("KUNING_RAHASIA");
+
+    const loaded = loadDraft("FOUND", LATER) as typeof payloadWithHints;
+    expect(loaded).not.toBeNull();
+    if (loaded.hints) {
+      for (const hint of loaded.hints) {
+        expect(hint.answer).not.toBe("KUNING_RAHASIA");
+      }
+    }
+  });
 });

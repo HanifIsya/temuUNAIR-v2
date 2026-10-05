@@ -194,10 +194,13 @@ describe("PhotoUploader", () => {
     const user = userEvent.setup();
     renderUploader();
 
+    const input = screen.getByTestId("photo-uploader-input");
+    const clickSpy = vi.spyOn(input, "click");
+
     await user.tab();
     expect(document.activeElement).toBe(screen.getByRole("button", { name: "PROBE ADD" }));
     await user.keyboard("{Enter}");
-    expect(screen.getByTestId("photo-uploader-input")).toBeTruthy();
+    expect(clickSpy).toHaveBeenCalled();
   });
 
   it("keeps controls at a 44px touch target", () => {

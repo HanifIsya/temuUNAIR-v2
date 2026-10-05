@@ -66,7 +66,7 @@ export function PhotoUploader({
         ref={inputRef}
         type="file"
         data-testid="photo-uploader-input"
-        aria-label={t("report.wizard.photos.add")}
+        aria-hidden="true"
         accept="image/jpeg,image/png,image/webp,image/heic"
         multiple
         disabled={isFull}

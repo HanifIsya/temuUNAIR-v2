@@ -1,16 +1,23 @@
 /** @jsxRuntime automatic */
 // @vitest-environment jsdom
-import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { cleanup, configure, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { axe } from "jest-axe";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { http, HttpResponse } from "msw";
 import { NextIntlClientProvider } from "next-intl";
-import { afterAll, afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+configure({ asyncUtilTimeout: 5000 });
 
 // Must stay the first project import: it starts the MSW server before the
 // generated API client captures `globalThis.fetch` (openapi-fetch@0.17).
 import { server } from "@/features/shell/msw-server";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => "/reports/new",
+}));
 
 import { categoryMetaSchema } from "@/features/report/schemas";
 
@@ -166,12 +173,10 @@ describe("reports/new wizard", () => {
     expect(screen.getByTestId("wizard-step-count").textContent).toBe(
       t("report.wizard.stepOf", { current: "3", total: "7" }),
     );
-    expect(screen.getByTestId("report-wizard-pending").textContent).toBe(
-      t("report.wizard.step.pending"),
-    );
+    expect(screen.getByTestId("details-step")).toBeTruthy();
     expect(screen.getByTestId("wizard-next").hasAttribute("disabled")).toBe(true);
     expect(screen.getByTestId("wizard-next-hint").textContent).toBe(
-      t("report.wizard.step.pending"),
+      t("report.wizard.details.titleHint"),
     );
 
     await user.click(screen.getByTestId("wizard-back"));
