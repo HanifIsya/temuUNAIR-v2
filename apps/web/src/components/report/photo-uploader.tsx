@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useRef } from "react";
 
 import { MAX_UPLOAD_PHOTOS, type PhotoEntry } from "@/hooks/use-upload";
 
@@ -24,6 +25,7 @@ export function PhotoUploader({
   onRetry,
 }: PhotoUploaderProps) {
   const t = useTranslations();
+  const inputRef = useRef<HTMLInputElement>(null);
   const readyCount = value.filter((entry) => entry.phase === "ready").length;
   const isFull = value.length >= max;
   const showRequired = required && readyCount === 0;
@@ -51,22 +53,31 @@ export function PhotoUploader({
 
   return (
     <div className="flex flex-col gap-3">
-      <label className="w-fit cursor-pointer rounded-md border border-border px-4 py-2 text-sm text-text focus-within:outline-2 focus-within:outline-primary-700">
-        <span>{t("report.wizard.photos.add")}</span>
-        <input
-          type="file"
-          data-testid="photo-uploader-input"
-          accept="image/jpeg,image/png,image/webp,image/heic"
-          multiple
-          disabled={isFull}
-          className="sr-only"
-          onChange={(event) => {
-            const files = Array.from(event.target.files ?? []);
-            if (files.length > 0) onChange(files);
-            event.target.value = "";
-          }}
-        />
-      </label>
+      <button
+        type="button"
+        data-testid="photo-uploader-add"
+        disabled={isFull}
+        onClick={() => inputRef.current?.click()}
+        className="w-fit min-h-11 rounded-md border border-border px-4 py-2 text-sm text-text disabled:opacity-50"
+      >
+        {t("report.wizard.photos.add")}
+      </button>
+      <input
+        ref={inputRef}
+        type="file"
+        data-testid="photo-uploader-input"
+        aria-label={t("report.wizard.photos.add")}
+        accept="image/jpeg,image/png,image/webp,image/heic"
+        multiple
+        disabled={isFull}
+        tabIndex={-1}
+        className="sr-only"
+        onChange={(event) => {
+          const files = Array.from(event.target.files ?? []);
+          if (files.length > 0) onChange(files);
+          event.target.value = "";
+        }}
+      />
 
       {isFull || limitReached ? (
         <p data-testid="photo-uploader-limit" role="status" className="text-sm text-text-muted">
@@ -91,6 +102,7 @@ export function PhotoUploader({
                 key={entry.localId}
                 data-testid={`photo-uploader-item-${index}`}
                 aria-busy={isBusy}
+                aria-describedby={hasError ? `${entry.localId}-error` : undefined}
                 className="rounded-md border border-border p-2"
               >
                 <div className="flex items-center gap-3">
@@ -103,13 +115,19 @@ export function PhotoUploader({
                   ) : (
                     <div aria-hidden="true" className="h-12 w-12 rounded-sm bg-surface-muted" />
                   )}
-                  <span className="flex-1 text-sm text-text-muted">{status}</span>
+                  <span
+                    data-testid={`photo-uploader-status-${index}`}
+                    role={status !== null ? "status" : undefined}
+                    className="flex-1 text-sm text-text-muted"
+                  >
+                    {status}
+                  </span>
                   {entry.phase === "failed" && onRetry ? (
                     <button
                       type="button"
                       data-testid={`photo-uploader-retry-${index}`}
                       onClick={() => onRetry(entry.localId)}
-                      className="rounded-md border border-border px-3 py-1 text-sm text-text"
+                      className="min-h-11 rounded-md border border-border px-3 py-1 text-sm text-text"
                     >
                       {t("report.wizard.photos.retry")}
                     </button>
@@ -120,7 +138,7 @@ export function PhotoUploader({
                       data-testid={`photo-uploader-remove-${index}`}
                       aria-label={t("report.wizard.photos.remove")}
                       onClick={() => onRemove(entry.localId)}
-                      className="rounded-md border border-border px-3 py-1 text-sm text-text"
+                      className="min-h-11 rounded-md border border-border px-3 py-1 text-sm text-text"
                     >
                       {t("report.wizard.photos.remove")}
                     </button>
@@ -128,6 +146,7 @@ export function PhotoUploader({
                 </div>
                 {hasError ? (
                   <p
+                    id={`${entry.localId}-error`}
                     data-testid={`photo-uploader-error-${index}`}
                     role="alert"
                     className="mt-2 text-sm text-text-muted"

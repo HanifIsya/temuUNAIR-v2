@@ -33,6 +33,6 @@ redirects to the new report detail.
 
 ## Files expected to change
 
-- `apps/web/src/app/(app)/report/**` (steps 3–5, review), `apps/web/src/features/report/**`
+- `apps/web/src/app/(app)/reports/**` (steps 3–5, review), `apps/web/src/features/report/**`
 - matching tests; i18n files
 - `docs/08-project/tasks/TMU-FE-004.md`

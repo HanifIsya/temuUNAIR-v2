@@ -65,6 +65,7 @@ describe("WizardShell", () => {
     renderShell({ current: 2 });
 
     expect(screen.getByTestId("wizard-step-count").textContent).toBe("PROBE STEP 2/5");
+    expect(screen.getByTestId("wizard-step-count").getAttribute("role")).toBe("status");
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe("PROBE PHOTOS");
     expect(screen.getByText("PROBE BODY")).toBeTruthy();
     expect(screen.getAllByRole("listitem")).toHaveLength(5);

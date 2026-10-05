@@ -84,7 +84,7 @@ function stepHeading() {
   return screen.getByRole("heading", { level: 1 }).textContent;
 }
 
-describe("report/new wizard", () => {
+describe("reports/new wizard", () => {
   it("starts on step 1 with the URL type selected and blocks next until a category is chosen", async () => {
     const user = userEvent.setup();
     await renderWizard("found");
@@ -106,12 +106,14 @@ describe("report/new wizard", () => {
       t("report.wizard.needCategory"),
     );
 
-    const bag = await screen.findByRole("button", { name: t("category.BAG") });
+    const bag = await screen.findByRole("radio", { name: t("category.BAG") });
     expect(next.hasAttribute("disabled")).toBe(true);
 
     await user.click(bag);
     await waitFor(() => expect(next.hasAttribute("disabled")).toBe(false));
-    expect(screen.getByTestId("category-option-BAG").getAttribute("aria-pressed")).toBe("true");
+    expect(
+      (screen.getByRole("radio", { name: t("category.BAG") }) as HTMLInputElement).checked,
+    ).toBe(true);
     expect(screen.queryByTestId("sensitive-notice")).toBeNull();
   });
 
@@ -119,7 +121,7 @@ describe("report/new wizard", () => {
     const user = userEvent.setup();
     await renderWizard("found");
 
-    const option = await screen.findByRole("button", { name: t("category.ID_CARD") });
+    const option = await screen.findByRole("radio", { name: t("category.ID_CARD") });
     await user.click(option);
 
     const notice = screen.getByTestId("sensitive-notice");
@@ -132,7 +134,7 @@ describe("report/new wizard", () => {
     const user = userEvent.setup();
     await renderWizard("found");
 
-    const bag = await screen.findByRole("button", { name: t("category.BAG") });
+    const bag = await screen.findByRole("radio", { name: t("category.BAG") });
     await user.click(bag);
     await waitFor(() =>
       expect(screen.getByTestId("wizard-next").hasAttribute("disabled")).toBe(false),
@@ -167,6 +169,10 @@ describe("report/new wizard", () => {
     expect(screen.getByTestId("report-wizard-pending").textContent).toBe(
       t("report.wizard.step.pending"),
     );
+    expect(screen.getByTestId("wizard-next").hasAttribute("disabled")).toBe(true);
+    expect(screen.getByTestId("wizard-next-hint").textContent).toBe(
+      t("report.wizard.step.pending"),
+    );
 
     await user.click(screen.getByTestId("wizard-back"));
     expect(stepHeading()).toBe(t("report.wizard.step.photos.title"));
@@ -197,9 +203,11 @@ describe("report/new wizard", () => {
       true,
     );
 
-    const bag = await screen.findByRole("button", { name: t("category.BAG") });
+    const bag = await screen.findByRole("radio", { name: t("category.BAG") });
     await waitFor(() =>
-      expect(screen.getByTestId("category-option-BAG").getAttribute("aria-pressed")).toBe("true"),
+      expect(
+        (screen.getByRole("radio", { name: t("category.BAG") }) as HTMLInputElement).checked,
+      ).toBe(true),
     );
     expect(bag).toBeTruthy();
 
@@ -226,14 +234,14 @@ describe("report/new wizard", () => {
     await renderWizard("lost");
 
     expect(screen.queryByTestId("wizard-draft-restored")).toBeNull();
-    const bag = await screen.findByRole("button", { name: t("category.BAG") });
-    expect(bag.getAttribute("aria-pressed")).toBe("false");
+    const bag = await screen.findByRole("radio", { name: t("category.BAG") });
+    expect((bag as HTMLInputElement).checked).toBe(false);
     expect(screen.queryByTestId("photo-uploader-item-0")).toBeNull();
   });
 
   it("has no axe violations on step 1", async () => {
     const { container } = await renderWizard("found");
-    await screen.findByRole("button", { name: t("category.BAG") });
+    await screen.findByRole("radio", { name: t("category.BAG") });
 
     const results = await axe(container);
     expect(results.violations).toEqual([]);

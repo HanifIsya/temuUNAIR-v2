@@ -63,16 +63,16 @@ describe("CategoryPicker", () => {
     renderPicker();
 
     expect(screen.getByRole("group", { name: "PROBE LEGEND" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "PROBE IDCARD" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "PROBE BAG" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "PROBE KEYS" })).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "PROBE IDCARD" })).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "PROBE BAG" })).toBeTruthy();
+    expect(screen.getByRole("radio", { name: "PROBE KEYS" })).toBeTruthy();
   });
 
   it("emits the chosen value and reflects the new value when controlled", async () => {
     const user = userEvent.setup();
     const { props, rerender } = renderPicker();
 
-    await user.click(screen.getByRole("button", { name: "PROBE BAG" }));
+    await user.click(screen.getByRole("radio", { name: "PROBE BAG" }));
 
     expect(props.onChange).toHaveBeenCalledWith("BAG");
 
@@ -81,23 +81,27 @@ describe("CategoryPicker", () => {
         <CategoryPicker options={[...OPTIONS]} value="BAG" onChange={props.onChange} />
       </NextIntlClientProvider>,
     );
-    expect(screen.getByTestId("category-option-BAG").getAttribute("aria-pressed")).toBe("true");
-    expect(screen.getByTestId("category-option-ID_CARD").getAttribute("aria-pressed")).toBe(
-      "false",
+    expect((screen.getByRole("radio", { name: "PROBE BAG" }) as HTMLInputElement).checked).toBe(
+      true,
+    );
+    expect((screen.getByRole("radio", { name: "PROBE IDCARD" }) as HTMLInputElement).checked).toBe(
+      false,
     );
   });
 
   it("preselects the restored value", () => {
     renderPicker({ value: "KEYS" });
 
-    expect(screen.getByTestId("category-option-KEYS").getAttribute("aria-pressed")).toBe("true");
+    expect((screen.getByRole("radio", { name: "PROBE KEYS" }) as HTMLInputElement).checked).toBe(
+      true,
+    );
   });
 
   it("renders skeletons while loading", () => {
     renderPicker({ loading: true, options: [] });
 
     expect(screen.getByTestId("category-picker-skeleton")).toBeTruthy();
-    expect(screen.queryByRole("button", { name: "PROBE BAG" })).toBeNull();
+    expect(screen.queryByRole("radio", { name: "PROBE BAG" })).toBeNull();
   });
 
   it("renders an error with retry when loading failed", async () => {
@@ -122,14 +126,15 @@ describe("CategoryPicker", () => {
     expect(screen.queryByTestId("sensitive-notice")).toBeNull();
   });
 
-  it("is keyboard operable", async () => {
+  it("moves and selects with arrow keys", async () => {
     const user = userEvent.setup();
     const { props } = renderPicker();
 
     await user.tab();
-    expect(document.activeElement).toBe(screen.getByTestId("category-option-ID_CARD"));
-    await user.keyboard("{Enter}");
-    expect(props.onChange).toHaveBeenCalledWith("ID_CARD");
+    expect(document.activeElement).toBe(screen.getByRole("radio", { name: "PROBE IDCARD" }));
+    await user.keyboard("{ArrowDown}");
+    expect(document.activeElement).toBe(screen.getByRole("radio", { name: "PROBE BAG" }));
+    expect(props.onChange).toHaveBeenCalledWith("BAG");
   });
 
   it("has no axe violations", async () => {

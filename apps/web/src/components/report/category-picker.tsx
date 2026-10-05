@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { useId } from "react";
 
 import type { ApiCategories, CategoryValue } from "@/features/report/types";
 
@@ -24,6 +25,7 @@ export function CategoryPicker({
   onChange,
 }: CategoryPickerProps) {
   const t = useTranslations();
+  const groupId = useId();
   const selected = options.find((option) => option.value === value);
 
   return (
@@ -50,7 +52,7 @@ export function CategoryPicker({
             type="button"
             data-testid="category-picker-retry"
             onClick={onRetry}
-            className="w-fit rounded-md border border-border px-4 py-2 text-sm text-text"
+            className="w-fit min-h-11 rounded-md border border-border px-4 py-2 text-sm text-text"
           >
             {t("common.retry")}
           </button>
@@ -58,20 +60,25 @@ export function CategoryPicker({
       ) : (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {options.map((option) => (
-            <button
+            <label
               key={option.value}
-              type="button"
               data-testid={`category-option-${option.value}`}
-              aria-pressed={value === option.value}
-              onClick={() => onChange(option.value)}
-              className={`rounded-md border px-3 py-2 text-left text-sm focus-visible:outline-2 focus-visible:outline-primary-700 ${
+              className={`flex min-h-11 cursor-pointer items-center gap-2 rounded-md border px-3 py-2 text-sm text-text focus-within:outline-2 focus-within:outline-primary-700 ${
                 value === option.value
-                  ? "border-primary-700 bg-surface-muted font-semibold text-text"
-                  : "border-border text-text"
+                  ? "border-primary-700 bg-surface-muted font-semibold"
+                  : "border-border"
               }`}
             >
+              <input
+                type="radio"
+                name={groupId}
+                value={option.value}
+                checked={value === option.value}
+                onChange={() => onChange(option.value)}
+                className="h-4 w-4 accent-primary-700"
+              />
               {t(option.labelKey)}
-            </button>
+            </label>
           ))}
         </div>
       )}

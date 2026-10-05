@@ -33,6 +33,7 @@ describe("SensitiveNotice", () => {
 
     const notice = screen.getByTestId("sensitive-notice");
     expect(notice.getAttribute("data-category")).toBe("ID_CARD");
+    expect(notice.getAttribute("role")).toBe("note");
     expect(screen.getByText("PROBE SENSITIVE TITLE")).toBeTruthy();
     expect(screen.getByText("PROBE SENSITIVE BODY")).toBeTruthy();
     expect(screen.getByText("PROBE DROP POINT")).toBeTruthy();

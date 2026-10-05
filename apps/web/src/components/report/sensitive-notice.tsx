@@ -15,6 +15,7 @@ export function SensitiveNotice({ category }: SensitiveNoticeProps) {
     <aside
       data-testid="sensitive-notice"
       data-category={category}
+      role="note"
       className="flex flex-col gap-1 rounded-md border border-border bg-surface-muted p-3 text-sm"
     >
       <p className="font-semibold text-text">{t("sensitive.notice.title")}</p>

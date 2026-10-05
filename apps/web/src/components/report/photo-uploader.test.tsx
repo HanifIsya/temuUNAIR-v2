@@ -75,6 +75,7 @@ describe("PhotoUploader", () => {
     const input = screen.getByTestId("photo-uploader-input") as HTMLInputElement;
     expect(input.hasAttribute("disabled")).toBe(false);
     expect(input.getAttribute("accept")).toBe("image/jpeg,image/png,image/webp,image/heic");
+    expect(screen.getByRole("button", { name: "PROBE ADD" })).toBeTruthy();
     expect(screen.getByText("PROBE ADD")).toBeTruthy();
   });
 
@@ -94,6 +95,14 @@ describe("PhotoUploader", () => {
 
     expect(screen.getByTestId("photo-uploader-item-0").getAttribute("aria-busy")).toBe("true");
     expect(screen.getByText(/PROBE UPLOADING/)).toBeTruthy();
+  });
+
+  it("announces upload progress", () => {
+    renderUploader({ value: [entry({ localId: "p1", phase: "uploading", progress: 40 })] });
+
+    const status = screen.getByTestId("photo-uploader-status-0");
+    expect(status.getAttribute("role")).toBe("status");
+    expect(status.textContent).toContain("40%");
   });
 
   it("shows the processing state", () => {
@@ -125,6 +134,15 @@ describe("PhotoUploader", () => {
     renderUploader({ value: [entry({ localId: "p1", phase: "rejected" })] });
 
     expect(screen.getByTestId("photo-uploader-error-0").textContent).toContain("PROBE REJECTED");
+  });
+
+  it("links the rejection reason to the photo entry", () => {
+    renderUploader({ value: [entry({ localId: "p1", phase: "rejected" })] });
+
+    const alert = screen.getByTestId("photo-uploader-error-0");
+    const item = screen.getByTestId("photo-uploader-item-0");
+    expect(alert.id).toBeTruthy();
+    expect(item.getAttribute("aria-describedby")).toBe(alert.id);
   });
 
   it("labels a rehydrated entry", () => {
@@ -177,7 +195,25 @@ describe("PhotoUploader", () => {
     renderUploader();
 
     await user.tab();
-    expect(document.activeElement).toBe(screen.getByTestId("photo-uploader-input"));
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "PROBE ADD" }));
+    await user.keyboard("{Enter}");
+    expect(screen.getByTestId("photo-uploader-input")).toBeTruthy();
+  });
+
+  it("keeps controls at a 44px touch target", () => {
+    renderUploader({
+      value: [entry({ localId: "p1", phase: "failed", errorCode: "UPLOAD_TOO_LARGE" })],
+      onRetry: vi.fn(),
+      onRemove: vi.fn(),
+    });
+
+    for (const control of [
+      screen.getByRole("button", { name: "PROBE ADD" }),
+      screen.getByTestId("photo-uploader-retry-0"),
+      screen.getByTestId("photo-uploader-remove-0"),
+    ]) {
+      expect(control.className).toContain("min-h-11");
+    }
   });
 
   it("has no axe violations", async () => {

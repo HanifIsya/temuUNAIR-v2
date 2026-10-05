@@ -47,13 +47,13 @@ retry, 8 MB/type errors surfaced via FE-11), draft autosave to `localStorage` ke
 
 ## Files expected to change
 
-- `apps/web/src/app/(app)/report/**` (steps 1–2), `apps/web/src/features/report/**`, `apps/web/src/hooks/useUpload.ts`
+- `apps/web/src/app/(app)/reports/**` (steps 1–2), `apps/web/src/features/report/**`, `apps/web/src/hooks/useUpload.ts`
 - matching tests; i18n files
 - `docs/08-project/tasks/TMU-FE-003.md`
 
 ## Files changed
 
-- `apps/web/src/app/(app)/report/new/page.tsx` + test — server page reads `?type=lost|found`
+- `apps/web/src/app/(app)/reports/new/page.tsx` + test — server page reads `?type=lost|found`
 - `apps/web/src/features/report/report-wizard.tsx` — client wizard: `react-hook-form` +
   `zodResolver(wizardFormSchema)`, steps 1–2 rendering, draft autosave, sensitive notice
 - `apps/web/src/features/report/wizard-steps.ts` + test — LOST (5) / FOUND (7) step lists,
@@ -71,8 +71,8 @@ retry, 8 MB/type errors surfaced via FE-11), draft autosave to `localStorage` ke
 - `apps/web/src/components/report/category-picker.tsx` + test — radioset of category
   options, legend/labelled options
 - `apps/web/src/components/report/sensitive-notice.tsx` + test — `isSensitive` banner
-- `apps/web/src/components/report/photo-uploader.tsx` + test — dropzone, per-file phases,
-  retry/remove, `error.<code>` mapping (FE-11)
+- `apps/web/src/components/report/photo-uploader.tsx` + test — button-triggered file
+  picker, per-file phases, retry/remove, `error.<code>` mapping (FE-11)
 - `apps/web/src/hooks/use-upload.ts` + test — BE-10 handshake (presign → PUT → complete),
   client mirrors of MIME/8 MB/5-photo limits, offline + failure phases, `rehydrate`
 - `apps/web/src/lib/api/client.ts` — single access point re-exporting the generated
@@ -84,6 +84,9 @@ retry, 8 MB/type errors surfaced via FE-11), draft autosave to `localStorage` ke
   `category.*` (19), `sensitive.notice.*` (3)
 - `apps/web/package.json`, `pnpm-lock.yaml` — `react-hook-form`, `@hookform/resolvers`,
   `@tanstack/react-query` direct deps (D-3)
+- `apps/web/src/app/api/v1/{meta/{campuses,categories,drop-points,locations},uploads/[id]/complete}/route.ts`
+  — import-depth off-by-one fixed (CI build/e2e); be-lane files touched under the
+  human-authorized lane exception recorded in `blockers/BLK-006.md`
 - `docs/08-project/{backlog.md,status.md}` — regenerated
 
 ## Decisions
@@ -105,12 +108,23 @@ retry, 8 MB/type errors surfaced via FE-11), draft autosave to `localStorage` ke
 | O-1 | `API-META-01` (and likely other GETs) declare `errors: []` in the registry → generated client types non-2xx as `never` while the runtime returns the standard error envelope. Needs a `TMU-CTR-*` to declare the actual error responses (401/403/422/500 …). |
 | O-2 | FE-05 says schemas are "imported from `@temuunair/contracts`", but the package exposes no `exports`/`main` and its `src/*` deep paths trip TS5097 under the root configs. Follow-up: `TMU-CTR-*`/`TMU-OPS-*` to add an `exports` map (plus, if needed, `allowImportingTsExtensions` in the ops-lane tsconfigs) so frontend code can statically import shared schemas; until then D-1 + parity test hold the line. |
 | O-3 | No root exports for `ReportCreate`/`CategoryMeta` names (same as FE-002 O-1 for `Me`) — consumed via `components["schemas"][...]` and `.pick(...)`. |
+| O-4 | `API-UPL-02` allows `status: PENDING` but `use-upload.ts` maps every non-`READY` complete response to `phase:"rejected"`, and the FE contract has no PENDING state (review n-1 — latent only: today's server completes synchronously). Needs a `TMU-CTR-*` (drop `PENDING` from the complete response, or specify an FE poll per BE-10). |
+| O-5 | `BE-10` defines `rejectionReason` and FE-03/FE-06 promise `rejected(reason)`, but the server omits it and the client discards it — two-sided gap (review n-2). Follow-up: BE/`TMU-CTR-*` then FE-004 wiring; users currently see only the generic rejection string. |
+| O-6 | FE-03 prop/event drift vs the implementation (review n-8): `WizardShell.onSaveDraft` (draft saves from `report-wizard` instead), `PhotoUploader.onError` (absent) + `value: UploadState[]` vs local `PhotoEntry[]`, `CategoryPicker` as "icon grid" vs text grid. Behaviour covered; shapes need an FE-03 `TMU-CTR-*` decision (FE-004 is the natural point). |
 
 ## Deferrals (out of scope, tracked above)
 
 Wizard steps 3–5 + review/submit (TMU-FE-004) ✗ real report submission from the wizard ✗
 analytics (FE-10, not in refs) ✗ contract exports map / error-response declarations
-(O-1, O-2 → `TMU-CTR-*`) ✗.
+(O-1, O-2 → `TMU-CTR-*`) ✗ FE-11 `RATE_LIMITED` toast with `Retry-After` countdown —
+no `ToastProvider` exists yet; inline `error.RATE_LIMITED` is shown (review n-3) → FE-004 ✗
+FE-05 #5 / FE-01:55 leave-guard confirm dialog on draft exit (review n-4; draft autosaves
+on step change, so no data loss) → FE-004 ✗ PENDING-complete mapping (O-4) ✗
+`rejectionReason` plumbing (O-5) ✗ FE-03 prop/event shapes (O-6) ✗ hand-written MSW
+success/error shapes in meta tests — prefer the generated `mswHandlers` pattern used by
+the upload tests (review n-6; mitigated today by the parity lock) → FE-004 ✗ systemic
+≥44 px touch targets beyond this wizard's buttons (review n-7; wizard controls fixed,
+FE-002's identical `py-2` buttons need a design/token pass) ✗.
 
 ## Progress log
 
@@ -124,26 +138,43 @@ analytics (FE-10, not in refs) ✗ contract exports map / error-response declara
 | 2026-10-05 | frontend-dev | 5 i18n | +48 keys per locale: `report.wizard.*` (26), `category.*` (19), `sensitive.notice.*` (3) — both `id` + `en`; `i18n:check passed (147 keys per locale)`. |
 | 2026-10-05 | frontend-dev | 6 GATE | Format + lint green. Full gate first failed at the live-DB step: session-scoped Render `DATABASE_URL` → 4 suites `57P01 terminating connection` (D-7) → re-ran with the local Docker URL: **`OK gate(quick) passed`** — lane/format/lint/typecheck/i18n, **73 files / 577 tests**, `contracts:check OK (1.1.0)`, `contracts:lint OK`, `db:check: ok`, ML `All checks passed!` + `7 passed`. |
 | 2026-10-05 | frontend-dev | 7 handoff | Task file updated, status → `REVIEW`, backlog/status regenerated, gate green; handing to `@reviewer`. |
+| 2026-10-05 | reviewer | 8 review cycle 1 | `REQUEST_CHANGES` (`reviews/TMU-FE-003.md`): **B-1** route `/report/new` vs FE-01 `/reports/new`, **M-1** four FE-09 component rows, minors n-1…n-9; parallel security review `PASS` (`reviews/TMU-FE-003-security.md`). |
+| 2026-10-05 | frontend-dev | 9 B-1 fix | `git mv app/(app)/report → reports` (renames the page to the contract path — also brings it under the middleware `APP_AUTH_MATCHER` `/reports` gate); task-file paths L50/L56 + TMU-FE-003 in TMU-FE-004 corrected. CI `build`/`e2e` additionally failed on an import off-by-one in 5 be-lane `route.ts` files (`../../server` vs `../../../server`) — human **authorized a lane exception** (question answered in session); recorded in `blockers/BLK-006.md`, the 5 explicit paths added to `.agent/lanes.json` fe, imports fixed; scanner `broken: 0`, `check-lane.sh` green. |
+| 2026-10-05 | frontend-dev | 10 M-1 + n-5 + n-7 fix | Tests first: updated/added 17 assertions (radios, roles, `aria-describedby`, touch targets, step-3 hint) → red **`17 failed / 44 passed`** (all failing on the old implementation) → implemented FE-09 rows: `WizardShell` step count `role="status"`; `CategoryPicker` native radio group in `fieldset` (arrow-key walk + `checked` announced, replaces `aria-pressed` buttons); `PhotoUploader` real `<button>` → file picker, status span `role="status"` (progress announced), rejection reason `aria-describedby`-linked, `min-h-11` controls; `SensitiveNotice` `role="note"`; steps ≥3 disabled Next now hints `report.wizard.step.pending` (n-5); wizard back/next + category retry ≥44 px (n-7) → focused green **9 files / 61 tests** (incl. 4 axe runs). |
 
 ## Evidence
 
 - **Red** (before implementation): `Test Files 9 failed (9)` — all nine failing while
-  resolving the not-yet-written modules (`report/new/page`, `wizard-shell`,
+  resolving the not-yet-written modules (`reports/new/page` (renamed in review cycle 1,
+  B-1), `wizard-shell`,
   `category-picker`, `photo-uploader`, `sensitive-notice`, `use-categories`, `draft`,
   `wizard-steps`, `use-upload`).
-- **Green** (after implementation): `Test Files 9 passed (9)`, `Tests 66 passed (66)`
-  FE-003-scoped (10 files incl. `contract-parity.test.ts`).
+- **Green** (after implementation): `Test Files 9 passed (9)` / `Tests 63 passed (63)` for
+  those nine files; FE-003-scoped suite `10 files / 66 tests` once
+  `contract-parity.test.ts` was added (review cycle 1 counted 10 files / 66 tests).
+- **Review-cycle-1 red** (FE-09 fixes): `Test Files 5 failed | 4 passed (9)`,
+  `Tests 17 failed | 44 passed (61)` — every failure an M-1/n-5/n-7 requirement
+  (radios, `role="status"`/`role="note"`, `aria-describedby`, `min-h-11`, step-3 hint)
+  against the old implementation; **green**: focused `9 files / 61 tests` (the path
+  filter omits `hooks/use-upload.test.tsx`) — full FE-003-scoped suite is
+  `10 files / 69 tests` (photo-uploader 14 → 17).
 - **Gate tail**: `Test Files 73 passed (73)` → `Tests 577 passed (577)` →
   `contracts:check OK (version 1.1.0)` → `contracts:lint OK` → `db:check: ok` → ML
   `All checks passed!` / `7 passed` → `OK gate(quick) passed` (local-Docker
   `DATABASE_URL`, D-7).
 - **i18n**: `i18n:check passed (147 keys per locale)` (+48 vs the 99 baseline).
 - **A11y**: 4 `axe(container)` runs (wizard-shell, category-picker, photo-uploader,
-  sensitive-notice) — all green in the gate run (FE-09).
+  sensitive-notice) — all green (FE-09), plus behavioural coverage of the rows axe cannot
+  check: `role="status"` step count + progress, radio-group arrow-key navigation with
+  selection, `role="note"`, `aria-describedby` reason link, `min-h-11` touch targets.
 - **Contract**: `API-META-01` exercised through the generated client + MSW (success parse
   and failure envelope); BE-10 handshake (`presign → PUT → complete → READY`) asserted
   with captured requests in `use-upload.test.tsx`; `API-REP-01Request` types the draft
   shape; mirrors locked by `contract-parity.test.ts` against
   `ReportCreate.pick(...)`/`CategoryMeta`.
-- **Review**: pending → `docs/08-project/reviews/TMU-FE-003.md`.
-- **PR**: pending (open-pr skill).
+- **Review**: cycle 1 `REQUEST_CHANGES` → `docs/08-project/reviews/TMU-FE-003.md`
+  (B-1 + M-1 + n-1…n-9 fixed or recorded: B-1 done, M-1/n-5/n-7 code + tests, n-3/n-4 in
+  Deferrals, n-1/n-2/n-8 as O-4/O-5/O-6, n-6/n-9 recorded; security PASS
+  `docs/08-project/reviews/TMU-FE-003-security.md`); cycle 2 requested.
+- **PR**: [#46](https://github.com/HanifIsya/temuUNAIR-v2/pull/46) (draft,
+  `agent/fe/TMU-FE-003-fe-wizard-photos`).

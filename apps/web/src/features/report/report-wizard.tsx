@@ -82,7 +82,7 @@ export function ReportWizard({ initialType }: ReportWizardProps) {
         ? t("report.wizard.photos.settled")
         : t("report.wizard.photos.required");
     }
-    return null;
+    return t("report.wizard.step.pending");
   };
   const nextHint = canProceed ? null : blockedHint();
 
