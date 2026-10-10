@@ -278,6 +278,90 @@
         "submitting": "Submitting report…",
         "success": "Report created successfully! We will notify you if matches are found."
       }
+    },
+    "status": {
+      "OPEN": "Open",
+      "MATCHED": "Matched",
+      "CLAIMED": "Claimed",
+      "RETURNED": "Returned",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled",
+      "REMOVED": "Removed",
+      "SUBMITTED": "Submitted",
+      "PENDING_REVIEW": "Pending review",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "DISPUTED": "Disputed",
+      "HANDOVER_PLANNED": "Handover planned"
+    },
+    "detail": {
+      "title": "Report Detail",
+      "back": "Back to reports",
+      "claim": "This is mine — Claim",
+      "flag": "Report this post",
+      "masked": "Photo masked to protect owner",
+      "custody": {
+        "held": "Held by finder",
+        "dropPoint": "At drop point: {name}"
+      },
+      "reporter": "Reported by {name}",
+      "occurredAt": "Occurred at",
+      "location": "Location",
+      "brand": "Brand",
+      "colors": "Colors",
+      "description": "Description",
+      "category": "Category",
+      "status": "Status",
+      "type": "Type",
+      "ownerPanel": {
+        "title": "Reporter Panel",
+        "matches": "View {count} matches",
+        "noMatches": "No matches yet",
+        "activeClaim": "Active claim in progress",
+        "hintsTitle": "Your verification questions:",
+        "expiresAt": "Expires on {date}",
+        "edit": "Edit report",
+        "cancel": "Cancel report"
+      },
+      "notFound": {
+        "title": "Report not found",
+        "desc": "This report may have been removed or is no longer available.",
+        "back": "Back to reports"
+      }
+    }
+  },
+  "browse": {
+    "title": "Browse Items",
+    "search": {
+      "placeholder": "Search items, brand, color…",
+      "submit": "Search",
+      "image": "Search with photo"
+    },
+    "filter": {
+      "all": "All",
+      "type": "Type",
+      "lost": "Lost items",
+      "found": "Found items",
+      "campus": "Campus",
+      "category": "Category",
+      "time": "Time",
+      "custody": "Custody",
+      "allCampuses": "All campuses",
+      "allCategories": "All categories",
+      "clear": "Clear filters"
+    },
+    "empty": {
+      "title": "No results found",
+      "desc": "Try adjusting your search terms or filters.",
+      "createReport": "Create report"
+    },
+    "loadMore": "Load more",
+    "loadingMore": "Loading more…",
+    "resultCount": "{count, plural, =0 {0 reports found} other {# reports found}}",
+    "sort": {
+      "label": "Sort by",
+      "newest": "Newest",
+      "oldest": "Oldest"
     }
   },
   "category": {

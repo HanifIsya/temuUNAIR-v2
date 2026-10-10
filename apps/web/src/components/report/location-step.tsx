@@ -74,9 +74,22 @@ export function LocationStep({
   const t = useTranslations();
 
   const handleQuickChip = (daysAgo: number) => {
-    const d = new Date();
+    const now = new Date();
+    const d = new Date(now);
     d.setDate(d.getDate() - daysAgo);
-    d.setHours(8, 0, 0, 0);
+    if (daysAgo === 0) {
+      // OccurredAt cannot be in the future (BE-01, TC-REP-007).
+      // If 08:00 today is in the future relative to current time, use 1 hour ago.
+      const eightAm = new Date(now);
+      eightAm.setHours(8, 0, 0, 0);
+      if (eightAm.getTime() > now.getTime()) {
+        d.setTime(now.getTime() - 60 * 60 * 1000);
+      } else {
+        d.setHours(8, 0, 0, 0);
+      }
+    } else {
+      d.setHours(8, 0, 0, 0);
+    }
     onChangeOccurredFrom(d.toISOString());
   };
 

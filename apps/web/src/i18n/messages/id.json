@@ -278,6 +278,90 @@
         "submitting": "Mengirim laporan…",
         "success": "Laporan berhasil dibuat! Kami akan memberi tahu jika ada kecocokan."
       }
+    },
+    "status": {
+      "OPEN": "Aktif",
+      "MATCHED": "Cocok",
+      "CLAIMED": "Diklaim",
+      "RETURNED": "Dikembalikan",
+      "EXPIRED": "Kedaluwarsa",
+      "CANCELLED": "Dibatalkan",
+      "REMOVED": "Dihapus",
+      "SUBMITTED": "Diajukan",
+      "PENDING_REVIEW": "Menunggu tinjauan",
+      "APPROVED": "Disetujui",
+      "REJECTED": "Ditolak",
+      "DISPUTED": "Disengketakan",
+      "HANDOVER_PLANNED": "Serah terima dijadwalkan"
+    },
+    "detail": {
+      "title": "Detail Laporan",
+      "back": "Kembali ke daftar laporan",
+      "claim": "Ini barang saya — Klaim",
+      "flag": "Laporkan laporan ini",
+      "masked": "Foto disamarkan untuk melindungi pemilik",
+      "custody": {
+        "held": "Dititipkan penemu",
+        "dropPoint": "Di titik penitipan: {name}"
+      },
+      "reporter": "Dilaporkan oleh {name}",
+      "occurredAt": "Waktu kejadian",
+      "location": "Lokasi",
+      "brand": "Merek",
+      "colors": "Warna",
+      "description": "Deskripsi",
+      "category": "Kategori",
+      "status": "Status",
+      "type": "Jenis",
+      "ownerPanel": {
+        "title": "Panel Pelapor",
+        "matches": "Lihat {count} kecocokan",
+        "noMatches": "Belum ada kecocokan",
+        "activeClaim": "Ada klaim aktif",
+        "hintsTitle": "Pertanyaan verifikasi yang kamu buat:",
+        "expiresAt": "Kedaluwarsa pada {date}",
+        "edit": "Ubah laporan",
+        "cancel": "Batalkan laporan"
+      },
+      "notFound": {
+        "title": "Laporan tidak ditemukan",
+        "desc": "Laporan mungkin sudah dihapus atau tidak tersedia.",
+        "back": "Kembali ke daftar laporan"
+      }
+    }
+  },
+  "browse": {
+    "title": "Cari Barang",
+    "search": {
+      "placeholder": "Cari barang, merek, warna…",
+      "submit": "Cari",
+      "image": "Cari dengan foto"
+    },
+    "filter": {
+      "all": "Semua",
+      "type": "Jenis",
+      "lost": "Barang hilang",
+      "found": "Barang temuan",
+      "campus": "Kampus",
+      "category": "Kategori",
+      "time": "Waktu",
+      "custody": "Penitipan",
+      "allCampuses": "Semua kampus",
+      "allCategories": "Semua kategori",
+      "clear": "Hapus filter"
+    },
+    "empty": {
+      "title": "Tidak ada hasil",
+      "desc": "Coba ubah kata kunci atau filter pencarianmu.",
+      "createReport": "Buat laporan"
+    },
+    "loadMore": "Muat lebih banyak",
+    "loadingMore": "Memuat lebih banyak…",
+    "resultCount": "{count, plural, =0 {0 laporan ditemukan} other {# laporan ditemukan}}",
+    "sort": {
+      "label": "Urutkan",
+      "newest": "Terbaru",
+      "oldest": "Terlama"
     }
   },
   "category": {
