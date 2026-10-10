@@ -391,5 +391,45 @@
       "body": "Foto akan disamarkan untuk melindungi data pribadi.",
       "dropPoint": "Serahkan ke drop point resmi bila memungkinkan."
     }
+  },
+  "home": {
+    "greeting": "Halo, {name}",
+    "cta": {
+      "lost": "Saya Kehilangan",
+      "lostDesc": "Buat laporan barang hilang",
+      "found": "Saya Menemukan",
+      "foundDesc": "Laporkan barang yang kamu temukan"
+    },
+    "myReports": "Laporan saya",
+    "viewAll": "Lihat semua",
+    "matches": "Kecocokan terbaru",
+    "empty": {
+      "reports": "Belum ada laporan",
+      "reportsDesc": "Laporkan barang hilang atau temuan pertamamu.",
+      "matches": "Belum ada kecocokan",
+      "matchesDesc": "Kami terus mencari kecocokan untuk laporan aktifmu."
+    },
+    "onboarding": {
+      "title": "Selamat datang di TemuUNAIR!",
+      "desc": "Platform barang hilang dan temuan resmi Universitas Airlangga. Laporkan barang hilang atau temukan pemilik barang dengan mudah dan aman.",
+      "dismiss": "Mengerti"
+    },
+    "renew": "Perpanjang",
+    "renewFailed": "Gagal memperpanjang laporan. Coba lagi.",
+    "expiringSoon": "Segera kedaluwarsa"
+  },
+  "match": {
+    "dismissItem": "Abaikan kecocokan {title}",
+    "band": {
+      "STRONG": "Kecocokan Kuat",
+      "POSSIBLE": "Kecocokan Mungkin"
+    },
+    "reason": {
+      "IMAGE_SIMILAR": "Foto mirip",
+      "SAME_BUILDING": "Gedung sama",
+      "SAME_CAMPUS": "Kampus sama",
+      "TIME_CLOSE": "Waktu berdekatan",
+      "TEXT_SIMILAR": "Ciri-ciri mirip"
+    }
   }
 }
