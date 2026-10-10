@@ -18,6 +18,10 @@ export function reportsMineKey(filters?: unknown): unknown[] {
   return filters === undefined ? ["reports", "mine"] : ["reports", "mine", filters];
 }
 
+export function matchesKey(reportId: string): unknown[] {
+  return ["matches", reportId];
+}
+
 export function challengeKey(reportId: string): unknown[] {
   return ["challenge", reportId];
 }

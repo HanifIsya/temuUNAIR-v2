@@ -391,5 +391,45 @@
       "body": "Photos will be masked to protect personal data.",
       "dropPoint": "Hand it in at an official drop point when possible."
     }
+  },
+  "home": {
+    "greeting": "Hello, {name}",
+    "cta": {
+      "lost": "I Lost Something",
+      "lostDesc": "Create a lost item report",
+      "found": "I Found Something",
+      "foundDesc": "Report an item you found"
+    },
+    "myReports": "My reports",
+    "viewAll": "View all",
+    "matches": "Recent matches",
+    "empty": {
+      "reports": "No reports yet",
+      "reportsDesc": "Create your first lost or found item report.",
+      "matches": "No matches yet",
+      "matchesDesc": "We are continuously searching for matches for your active reports."
+    },
+    "onboarding": {
+      "title": "Welcome to TemuUNAIR!",
+      "desc": "The official lost-and-found platform of Universitas Airlangga. Easily and safely report lost items or return found items.",
+      "dismiss": "Got it"
+    },
+    "renew": "Renew",
+    "renewFailed": "Failed to renew report. Please try again.",
+    "expiringSoon": "Expiring soon"
+  },
+  "match": {
+    "dismissItem": "Dismiss match for {title}",
+    "band": {
+      "STRONG": "Strong Match",
+      "POSSIBLE": "Possible Match"
+    },
+    "reason": {
+      "IMAGE_SIMILAR": "Similar image",
+      "SAME_BUILDING": "Same building",
+      "SAME_CAMPUS": "Same campus",
+      "TIME_CLOSE": "Close time window",
+      "TEXT_SIMILAR": "Similar description"
+    }
   }
 }
