@@ -18,7 +18,7 @@
     "@temuunair/contracts": "workspace:*",
     "@temuunair/db": "workspace:*",
     "drizzle-orm": "^0.45.3",
-    "next": "^15.5.27",
+    "next": "^16.4.0",
     "next-auth": "5.0.0-beta.29",
     "next-intl": "^3.26.5",
     "pg": "^8.23.1",
