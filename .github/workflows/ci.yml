@@ -21,7 +21,7 @@ jobs:
   lint-typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
@@ -34,7 +34,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
@@ -44,7 +44,7 @@ jobs:
   unit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
@@ -54,7 +54,7 @@ jobs:
   contracts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { fetch-depth: 0 }
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
@@ -78,7 +78,7 @@ jobs:
           --health-cmd "pg_isready -U temuunair" --health-interval 5s
           --health-timeout 5s --health-retries 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
@@ -93,7 +93,7 @@ jobs:
       # services/ml is built in TMU-OPS-006. Until its pyproject.toml exists there is nothing to
       # sync, lint or test, so the job reports a skip instead of a red build. Mirrors the
       # `-f services/ml/pyproject.toml` guard in scripts/gate.sh.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: present
         run: echo "exists=$([ -f services/ml/pyproject.toml ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
       - if: steps.present.outputs.exists == 'yes'
@@ -113,7 +113,7 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
@@ -123,7 +123,7 @@ jobs:
   contract-fuzz:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
@@ -140,7 +140,7 @@ jobs:
       # apps/web guard (TMU-OPS-003) flipped the job on before a shell or scenarios could run, and
       # Playwright installs through @temuunair/e2e-tests (TMU-OPS-017) because the workspace root
       # has no `playwright` dependency, so a root `pnpm exec playwright` cannot resolve the binary.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: present
         run: echo "exists=$([ -f tests/e2e/package.json ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
       - if: steps.present.outputs.exists == 'yes'
@@ -160,7 +160,7 @@ jobs:
   secret-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { fetch-depth: 0 }
       - uses: gitleaks/gitleaks-action@v2
         env:
@@ -170,7 +170,7 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true # advisory at first (Blueprint §7.10)
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with: { node-version: "${{ env.NODE_VERSION }}", cache: pnpm }
@@ -182,5 +182,5 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - run: docker build -f infra/docker/web.Dockerfile .
