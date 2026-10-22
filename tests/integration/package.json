@@ -7,7 +7,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "testcontainers": "^10.18.0"
+    "testcontainers": "^12.2.0"
   },
   "devDependencies": {
     "@temuunair/config": "workspace:*",
